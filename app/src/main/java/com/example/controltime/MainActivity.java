@@ -52,13 +52,8 @@ public class MainActivity extends AppCompatActivity {
             Txtmensaje.setText( mensaje);
         }
 
-
     }
-
-
     public boolean AbreConexion(String mensajeError) throws ClassNotFoundException {
-
-
         boolean estadoConexion=false;
         mensajeError="2 . HA ENTRADO";
         try {
