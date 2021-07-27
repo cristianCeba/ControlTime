@@ -12,11 +12,11 @@ import java.sql.SQLException;
 
 public class MainActivity extends AppCompatActivity {
 
-    String servidor;
-    String usuario;
-    String pass;
-    String bbdd;
-    int puerto;
+    String servidor="db4free.net";
+    String usuario="bbddprueba";
+    String pass="bbddprueba";
+    String bbdd="bbddprueba";
+    int puerto=3306;
     String driver="com.mysql.jdbc.Driver";
     String cadenaConexion;
     Connection conexion;
