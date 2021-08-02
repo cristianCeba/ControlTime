@@ -1,83 +1,88 @@
 package com.example.controltime;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class MainActivity extends AppCompatActivity {
 
-    String servidor="db4free.net";
-    String usuario="bbddprueba";
-    String pass="bbddprueba";
-    String bbdd="bbddprueba";
-    int puerto=3306;
-    String driver="com.mysql.jdbc.Driver";
-    String cadenaConexion;
-    Connection conexion;
-    EditText Txtmensaje;
+
+    public Button btnIniciarSesion;
+    private DatabaseReference mDataBase;
+    private FirebaseAuth mAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Txtmensaje=(EditText) findViewById(R.id.txtMensaje);
+        mDataBase = FirebaseDatabase.getInstance().getReference();
+        btnIniciarSesion = findViewById(R.id.btnIniciarSesion);
+        mAuth = FirebaseAuth.getInstance();
+
+        btnIniciarSesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BuscarUsuario();
+            }
+        });
+
+        mAuth.signInWithEmailAndPassword("Cristian_Ceballos1@hotmail.com", "holass")
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Toast.makeText(MainActivity.this, "Usuario encontrado",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(MainActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
     }
     public void conecta(View view) {
-        Txtmensaje.setText("CONECTANDO.....");
+        System.out.println("Entramos...");
+        User use = new User ("Cristian_ceballos1@hotmail.com","holass");
+        mDataBase.child("users").child("Cri").setValue(use);
 
-        String mensaje="";
-        String MensajeError="";
-
-        try {
-            //  ClsAccesoDatos con = new ClsAccesoDatos("db4free.net","bbddprueba","bbddprueba","bbddprueba",3306);
-
-            mensaje="1 ENTRA EN TRY....";
-            if (AbreConexion( MensajeError)){
-
-                mensaje = mensaje   + "  " + MensajeError;
-            }else{
-
-                mensaje = mensaje   + "  " + MensajeError;
-            }
-        } catch (ClassNotFoundException e) {
-
-            mensaje=mensaje + e.getMessage();
-        }finally {
-            Txtmensaje.setText( mensaje);
-        }
 
     }
-    public boolean AbreConexion(String mensajeError) throws ClassNotFoundException {
-        boolean estadoConexion=false;
-        mensajeError="2 . HA ENTRADO";
-        try {
 
-            cadenaConexion="jdbc:mysql://" + servidor + ":" + puerto + "/";
-
-            //   Class.forName(driver).newInstance();
-            Class.forName("com.mysql.jdbc.Driver").newInstance ();
-            //conexion     = DriverManager.getConnection("jdbc:mysql://" + servidor + ":" + puerto + "/" + bbdd, usuario,pass);
-
-
-            conexion= DriverManager.getConnection(cadenaConexion + bbdd ,usuario,pass);
-            if(!conexion.isClosed()){
-                estadoConexion=true;
-            }
-        } catch (IllegalAccessException e) {
-            mensajeError= e.getMessage();
-        } catch (InstantiationException e) {
-            mensajeError= e.getMessage();
-        } catch (SQLException e) {
-            mensajeError="Error en la cadena de conexión " +  e.getMessage();
-
-
+    public void BuscarUsuario() {
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            currentUser.reload();
+        }else {
+            Toast.makeText(this,"Usuario no encontrado",Toast.LENGTH_SHORT).show();
         }
-        return estadoConexion;
     }
+
 }
