@@ -29,11 +29,8 @@ import java.sql.Statement;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    public Button btnIniciarSesion;
     private DatabaseReference mDataBase;
     private FirebaseAuth mAuth;
-    String nombre;
 
 
     @Override
@@ -41,15 +38,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mDataBase = FirebaseDatabase.getInstance().getReference();
-        btnIniciarSesion = findViewById(R.id.btnIniciarSesion);
         mAuth = FirebaseAuth.getInstance();
 
-        btnIniciarSesion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BuscarUsuario();
-            }
-        });
 
         mAuth.signInWithEmailAndPassword("Cristian_Ceballos1@hotmail.com", "holass")
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
