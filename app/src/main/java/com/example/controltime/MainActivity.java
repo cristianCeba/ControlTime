@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     public Button btnIniciarSesion;
     private DatabaseReference mDataBase;
     private FirebaseAuth mAuth;
+    String nombre;
 
 
     @Override
