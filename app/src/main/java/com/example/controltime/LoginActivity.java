@@ -3,11 +3,13 @@ package com.example.controltime;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.QuickContactBadge;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,17 +31,26 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     public String correo;
     public String contraseña;
+    public Button btnInsertarUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        btnInsertarUser = findViewById(R.id.btnRegistro);
         btnIniciarSesion = findViewById(R.id.btnIniciarSesion);
         editTextContraseña = findViewById(R.id.editTextTextPassword);
         editTextCorreo = findViewById(R.id.editTextTextCorreo);
         textContraseña = findViewById(R.id.textViewContraseña);
         textCorreo = findViewById(R.id.textViewCorreo);
+
+        btnInsertarUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),InsertUserActivity.class);
+                startActivity(intent);
+            }
+        });
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -57,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                 }else if (contraseña.isEmpty()) {
                     textCorreo.setText("");
                     textContraseña.setText("Por favor, introduce una contraseña");
-                } else if (!validarContraseña(contraseña)){
+                } else if (validarContraseña(contraseña)){
                     textCorreo.setText("");
                     textContraseña.setText("Contraseña incorrecta");
                 }else{
@@ -75,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(LoginActivity.this, "Usuario encontrado",
