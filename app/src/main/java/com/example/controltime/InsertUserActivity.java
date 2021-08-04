@@ -59,8 +59,8 @@ private DatabaseReference mDataBase;
         Toast.makeText(this, "USUARIO: " + usuario, Toast.LENGTH_SHORT).show();
 
         User use = new User  (txtPass.getText().toString(),txtNombre.getText().toString(),txtApe1.getText().toString(),txtEmail.getText().toString(),txtMovil.getText().toString());
-       // mDataBase.child("users").child(usuario).setValue(use);
-         mDataBase.child("users").child("ggggg").setValue(use);
+        mDataBase.child("users").child(usuario).setValue(use);
+        // mDataBase.child("users").child("ggggg").setValue(use);
 
 
 
