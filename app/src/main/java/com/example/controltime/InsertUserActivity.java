@@ -55,7 +55,7 @@ private DatabaseReference mDataBase;
 
 
     public void Inserta(View view) {
-        String usuario="" + txtNombre.getText() + "." + txtApe1.getText();
+        String usuario="" + txtNombre.getText(); //+ "." + txtApe1.getText();
         Toast.makeText(this, "USUARIO: " + usuario, Toast.LENGTH_SHORT).show();
 
         User use = new User  (txtPass.getText().toString(),txtNombre.getText().toString(),txtApe1.getText().toString(),txtEmail.getText().toString(),txtMovil.getText().toString());

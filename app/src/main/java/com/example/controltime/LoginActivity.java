@@ -29,12 +29,13 @@ public class LoginActivity extends AppCompatActivity {
     public EditText editTextContraseña;
     public EditText editTextCorreo;
     public ImageButton btnInfo;
-    public TextView textCorreo;
-    public TextView textContraseña;
+    public TextView textCorreo,textContraseña,resetPassword;
     private FirebaseAuth mAuth;
     public String correo;
     public String contraseña;
     public Button btnInsertarUser;
+    Utils utils;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +47,8 @@ public class LoginActivity extends AppCompatActivity {
         textContraseña = findViewById(R.id.textViewContraseña);
         textCorreo = findViewById(R.id.textViewCorreo);
         btnInfo = findViewById(R.id.btnInfo);
+        resetPassword = findViewById(R.id.textResetPassword);
+        utils = new Utils();
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -66,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                 contraseña = editTextContraseña.getText().toString();
                 if (correo.isEmpty()){
                     textCorreo.setText("Por favor, introduce un email");
-                } else if (!validarEmail(correo)) {
+                } else if (!utils.validarEmail(correo)) {
                     textCorreo.setText("Introduzca un email correcto");
                 }else if (contraseña.isEmpty()) {
                     textContraseña.setText("Por favor, introduce una contraseña");
@@ -92,6 +95,13 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
                 alertInfo.show();
+            }
+        });
+
+        resetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetearContraseña();
             }
         });
 
@@ -126,13 +136,8 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    private boolean validarEmail(String email) {
-        Pattern pattern = Patterns.EMAIL_ADDRESS;
-        return pattern.matcher(email).matches();
-    }
-
-    private boolean validarContraseña (String password) {
-        String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
-        return password.matches(pattern);
+    private void resetearContraseña () {
+        Intent intent = new Intent(getApplicationContext(),ResetPasswordActivity.class);
+        startActivity(intent);
     }
 }
