@@ -1,13 +1,16 @@
 package com.example.controltime;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     public Button btnIniciarSesion;
     public EditText editTextContraseña;
     public EditText editTextCorreo;
+    public ImageButton btnInfo;
     public TextView textCorreo;
     public TextView textContraseña;
     private FirebaseAuth mAuth;
@@ -40,34 +44,49 @@ public class LoginActivity extends AppCompatActivity {
         editTextCorreo = findViewById(R.id.editTextTextCorreo);
         textContraseña = findViewById(R.id.textViewContraseña);
         textCorreo = findViewById(R.id.textViewCorreo);
+        btnInfo = findViewById(R.id.btnInfo);
 
         mAuth = FirebaseAuth.getInstance();
 
         btnIniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                textContraseña.setText("");
+                textCorreo.setText("");
                 correo = editTextCorreo.getText().toString();
                 contraseña = editTextContraseña.getText().toString();
                 if (correo.isEmpty()){
-                    textContraseña.setText("");
                     textCorreo.setText("Por favor, introduce un email");
                 } else if (!validarEmail(correo)) {
-                    textContraseña.setText("");
                     textCorreo.setText("Introduzca un email correcto");
                 }else if (contraseña.isEmpty()) {
-                    textCorreo.setText("");
                     textContraseña.setText("Por favor, introduce una contraseña");
-                } else if (!validarContraseña(contraseña)){
-                    textCorreo.setText("");
-                    textContraseña.setText("Contraseña incorrecta");
                 }else{
-                    textContraseña.setText("");
-                    textCorreo.setText("");
                     RevisarLogin();
                 }
 
             }
         });
+
+        btnInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final CharSequence[] opciones = {"\n1. Un caracter en minúscula","\n2. Un caracter en mayúscula","\n3. Un caracter especial","\n4. Un número","\n5. Sin espacios entre los caracteres de la contraseña","\n6. Mínimo 8 caracteres"};
+                final AlertDialog.Builder alertInfo = new AlertDialog.Builder(LoginActivity.this);
+
+                alertInfo.setTitle("La contraseña debe de contener al menos : ");
+
+                alertInfo.setItems(opciones, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                alertInfo.show();
+            }
+        });
+
+
     }
 
     public void RevisarLogin (){
@@ -81,8 +100,18 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            final CharSequence[] opciones = {"Ususario o contraseña invalida"};
+                            final AlertDialog.Builder alertInfo = new AlertDialog.Builder(LoginActivity.this);
+
+                            alertInfo.setTitle("Advertencia");
+
+                            alertInfo.setItems(opciones, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+                            alertInfo.show();
                         }
                     }
                 });
