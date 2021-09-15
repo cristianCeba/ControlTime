@@ -3,6 +3,7 @@ package com.example.controltime;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -142,7 +143,10 @@ public class InsertUserActivity extends AppCompatActivity {
                                                                         @Override
                                                                         public void onComplete(@NonNull Task<Void> task2) {
                                                                             if (task2.isSuccessful()) {
-                                                                                Utils.MostrarMensajes(InsertUserActivity.this, "USUARIO GRABADO  CORRECTAMENTE", "GRABA USUARIO");
+                                                                               Toast.makeText(InsertUserActivity.this,"Usuario grabado correctamente",Toast.LENGTH_LONG).show();
+                                                                               // VOLVEMOS A LA PANTALLA DE LOGIN
+                                                                                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                                                                                startActivity(intent);
                                                                             } else {
 
                                                                                 Utils.MostrarMensajes(InsertUserActivity.this, "NO SE HA PODIDO GRABAR EL USUARIO ", "GRABA USUARIO");
