@@ -112,25 +112,7 @@ public class InsertUserActivity extends AppCompatActivity {
                     txtMensajePass.setText("la contraseña es diferente");
                     txtPass2.requestFocus();
                 }else {
-                    // COMPRUEBOP SI YA EXITE EN LA TABLA USERS, lo busco por correo
-                    //   user.BuscaUsuario(InsertUserActivity.this,Email.replace(".", "_").trim()) ;
-                    // Utils.MostrarMensajes(InsertUserActivity.this, "EXISTE????" + user.isExiste(), "USU");
-                    // if(!user.isExiste()){
-                    // user.RegistrarUsuario(InsertUserActivity.this, txtPass.getText().toString(), txtEmail.getText().toString());
-                    // if(user.isRegistrado() ){
-                    //     user.GrabaUsuario(InsertUserActivity.this,txtNombre.getText().toString(),txtApe1.getText().toString(),txtEmail.getText().toString());
-                    //     if(user.isRegistrado() ){
-                    //         Utils.MostrarMensajes(InsertUserActivity.this, "EL USUARIO   SE HA   REGISTRADO CORRECTAMENTE", "REGISTRO");
-                    //      }else{
-                    //no se ha grabado el usuario en users, habria que eliminar en authentication
-                    //         Utils.MostrarMensajes(InsertUserActivity.this, "EL USUARIO NO SE HA PODIDO REGISTRAR", "REGISTRO");
-                    //     }
-                    //  }else{
-                    //           Utils.MostrarMensajes(InsertUserActivity.this, "EL USUARIO NO SE HA PODIDO REGISTRAR", "REGISTRO");
-                    //   }
-                    // }else{
-                    //     Utils.MostrarMensajes(InsertUserActivity.this, "USUARIO YA EXISTE", "USUARIO");
-                    //  }
+
                     Query query=mDataBase.child("users");
                     query.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -145,20 +127,22 @@ public class InsertUserActivity extends AppCompatActivity {
                                             if(snapshot2.exists()){
                                                 Utils.MostrarMensajes(InsertUserActivity.this, "EL USUARIO EXISTE"  , " USUARIO");
                                             }else{
+                                               // Utils.MostrarMensajes(InsertUserActivity.this, "NOOO USUARIO EXISTE"  , " USUARIO");
                                                 //INSERTO EL USUARIO EN AUTHENTICATION
                                                 mAuth.createUserWithEmailAndPassword(Email, Pass)
                                                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                                             @Override
                                                             public void onComplete(@NonNull Task<AuthResult> task) {
                                                                 if (task.isSuccessful()) {
+                                                                  //  Utils.MostrarMensajes(InsertUserActivity.this, " USUARIO GRABADO EN AUTHENTICATION"  , " USUARIO");
                                                                     // GRABAMOS EN USERS
-                                                                    User use = new User(Nombre, Ape, Email );
+                                                                   User use = new User(Nombre, Ape, Email );
                                                                     String email = Email.replace(".", "_");
                                                                     mDataBase.child("users").child(email).setValue(use).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                         @Override
                                                                         public void onComplete(@NonNull Task<Void> task2) {
                                                                             if (task2.isSuccessful()) {
-                                                                                Utils.MostrarMensajes(InsertUserActivity.this, "USUARIO GRABADO CORRECTAMENTE", "GRABA USUARIO");
+                                                                                Utils.MostrarMensajes(InsertUserActivity.this, "USUARIO GRABADO  CORRECTAMENTE", "GRABA USUARIO");
                                                                             } else {
 
                                                                                 Utils.MostrarMensajes(InsertUserActivity.this, "NO SE HA PODIDO GRABAR EL USUARIO ", "GRABA USUARIO");
