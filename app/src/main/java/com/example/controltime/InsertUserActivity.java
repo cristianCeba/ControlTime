@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +35,7 @@ public class InsertUserActivity extends AppCompatActivity {
     TextView txtMensajeNombre;
     TextView txtMensajeApe;
     TextView txtMensajeEmail;
+    Spinner spnTipoUsuario;
     ImageButton btnInfo;
 
     String Nombre;
@@ -40,7 +43,7 @@ public class InsertUserActivity extends AppCompatActivity {
     String Email;
     String Pass;
     String Pass2;
-
+    long TipoUsuario;
     Button btnInsert;
     Conexion conexion;
     Utils utils;
@@ -56,6 +59,8 @@ public class InsertUserActivity extends AppCompatActivity {
         txtMensajeNombre=(TextView) findViewById(R.id.textMensajeNombre);
         txtApe1 = (EditText) findViewById(R.id.editTextApe);
         txtMensajeApe=(TextView) findViewById(R.id.textMensajeApe);
+        spnTipoUsuario=(Spinner)findViewById(R.id.spnTipo);
+
         txtEmail = (EditText) findViewById(R.id.editTextEmail);
         txtMensajeEmail=(TextView) findViewById(R.id.textMensajeEmail);
         txtPass = (EditText) findViewById(R.id.editTextPass);
@@ -65,6 +70,19 @@ public class InsertUserActivity extends AppCompatActivity {
         btnInfo = findViewById(R.id.btnInfo);
         mDataBase = FirebaseDatabase.getInstance().getReference();
         mAuth=FirebaseAuth.getInstance();
+        spnTipoUsuario.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //Toast.makeText(parent.getContext(),(String) parent.getItemAtPosition(position),Toast.LENGTH_LONG ).show();
+               // Toast.makeText(parent.getContext(),"" + id,Toast.LENGTH_LONG ).show();
+                TipoUsuario=id;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         btnInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,7 +155,7 @@ public class InsertUserActivity extends AppCompatActivity {
                                                                 if (task.isSuccessful()) {
                                                                   //  Utils.MostrarMensajes(InsertUserActivity.this, " USUARIO GRABADO EN AUTHENTICATION"  , " USUARIO");
                                                                     // GRABAMOS EN USERS
-                                                                   User use = new User(Nombre, Ape, Email );
+                                                                   User use = new User(Nombre, Ape, Email,TipoUsuario );
                                                                     String email = Email.replace(".", "_");
                                                                     mDataBase.child("users").child(email).setValue(use).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                         @Override

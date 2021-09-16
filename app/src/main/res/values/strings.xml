@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">ControlTime</string>
+
+
+    <string name="tituloTipoUsuario">Tipo usuario</string>
+    <string-array name="valorTipoUsuario">
+        <item>Administrador</item>
+        <item>Usuario</item>
+
+    </string-array>
 </resources>

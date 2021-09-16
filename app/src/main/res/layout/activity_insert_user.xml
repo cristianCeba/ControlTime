@@ -46,7 +46,6 @@
         android:textColor="#F70C0C"
         android:layout_marginLeft="35dp"/>
 
-
     <EditText
         android:id="@+id/editTextEmail"
         android:layout_width="wrap_content"
@@ -141,13 +140,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#F70C0C"/>
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tipo usuario"
+        android:layout_marginLeft="35dp"/>
+    <Spinner
+        android:id="@+id/spnTipo"
+        android:layout_width="312dp"
+        android:layout_height="47dp"
+        android:entries="@array/valorTipoUsuario"
+        android:prompt="@string/tituloTipoUsuario"
+        android:layout_marginLeft="35dp"/>
 
     <Button
         android:id="@+id/btnRegistro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#F7DA38"
-        android:text="INSERTAR"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp" />
+        android:layout_marginRight="15dp"
+        android:backgroundTint="#F7DA38"
+        android:text="INSERTAR" />
+
+
 </LinearLayout>

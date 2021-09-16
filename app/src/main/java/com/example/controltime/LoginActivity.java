@@ -40,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         btnInsertarUser = findViewById(R.id.btnRegistro);
         btnIniciarSesion = findViewById(R.id.btnIniciarSesion);
         editTextContraseña = findViewById(R.id.editTextTextPassword);
@@ -117,6 +118,8 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(LoginActivity.this, "Usuario encontrado",
                                     Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(),MenuPrincipalActivity.class);
+                            startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
                             final CharSequence[] opciones = {"Ususario o contraseña invalida"};

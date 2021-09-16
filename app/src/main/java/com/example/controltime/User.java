@@ -22,6 +22,7 @@ public class User {
     public String contraseña;
     public String Nombre;
     public String Ape;
+    public long TipoUsuario;
 
     /*CONSTRUCTOR , INICIALIZAMOS LA CLASE*/
     public User() {
@@ -29,6 +30,7 @@ public class User {
         this.Nombre = "";
         this.Ape = "";
         this.correoElectronico = "";
+        this.TipoUsuario=0;
     }
 
     public User(String coreo, String contraseña) {
@@ -37,12 +39,13 @@ public class User {
     }
 
     /*CONSTRUCTOR DE LA CLASE*/
-    public User( String Nombre, String Ape, String correo ) {
+    public User( String Nombre, String Ape, String correo,long TipoUsuario ) {
 
         this.contraseña = contraseña;
         this.Nombre = Nombre;
         this.Ape = Ape;
         this.correoElectronico = correo;
+        this.TipoUsuario=TipoUsuario;
 
 
     }
