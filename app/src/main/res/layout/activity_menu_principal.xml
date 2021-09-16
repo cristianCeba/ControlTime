@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="50dp"
     android:layout_marginBottom="100dp"
-    android:background="@drawable/fondo2"
+    android:background="@drawable/fondo4"
     android:orientation="vertical"
     tools:context=".MenuPrincipalActivity">
 
@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="100dp">
+        android:paddingTop="130dp">
 
         <ImageButton
             android:id="@+id/btnPermiso"
