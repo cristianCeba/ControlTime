@@ -26,6 +26,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
     String emailEscrito;
     Utils utils;
 
+ 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
