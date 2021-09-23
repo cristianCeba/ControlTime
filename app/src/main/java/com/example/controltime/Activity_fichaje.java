@@ -37,7 +37,7 @@ public class Activity_fichaje extends AppCompatActivity {
         btnFinFichaje = findViewById(R.id.btnFinFichaje);
         textMostHora = findViewById(R.id.textHora);
         textMostDia = findViewById(R.id.textDia);
-
+        //Fecha que usamos para guardar en la base de datos ejemplo --> 22:09:2021
         String date = new SimpleDateFormat("dd:MM:yyyy").format(new Date());
 
 
@@ -48,8 +48,10 @@ public class Activity_fichaje extends AppCompatActivity {
         btnIniFichaje.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fichaje fichaje = new Fichaje (date,textMostHora.getText().toString(),"1");
-                mDataBase.child("fichaje").child(fichaje.id).child("23:09:2021").setValue(fichaje);
+                //Fecha que usamos para guardar en la base de datos ejemplo --> 22:09:2021
+                String date = new SimpleDateFormat("dd:MM:yyyy").format(new Date());
+                Fichaje fichaje = new Fichaje (textMostHora.getText().toString());
+                mDataBase.child("fichaje").child("1").child(date).setValue(fichaje);
             }
         });
 

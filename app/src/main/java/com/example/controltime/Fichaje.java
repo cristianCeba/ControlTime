@@ -2,13 +2,19 @@ package com.example.controltime;
 
 public class Fichaje {
 
-    public String dia;
-    public String fechaIni;
-    public String id;
+    public String horaIni;
+    public String horaFin;
+    public String horaIniDescanso;
+    public String horaFinDescanso;
 
-    public Fichaje (String diaFichaje,String fecha, String idUser){
-        this.fechaIni = fecha;
-        this.id = idUser;
-        this.dia = diaFichaje;
+    public Fichaje (String horaInicio, String horaFinal, String horaInicioDescanso, String horaFinalDescanso){
+        this.horaIni = horaInicio;
+        this.horaFin = horaFinal;
+        this.horaIniDescanso  = horaInicioDescanso;
+        this.horaFinDescanso = horaFinalDescanso;
+    }
+
+    public Fichaje (String horaInicio){
+        this.horaIni = horaInicio;
     }
 }
