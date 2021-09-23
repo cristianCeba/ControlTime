@@ -131,7 +131,7 @@ public class InsertUserActivity extends AppCompatActivity {
                     txtMensajePass.setText("la contraseña es diferente");
                     txtPass2.requestFocus();
                 }else {
-
+                //ENTRO EN LA TABLA USER
                     Query query=mDataBase.child("users");
                     query.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -143,18 +143,17 @@ public class InsertUserActivity extends AppCompatActivity {
                                     query1.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull   DataSnapshot snapshot2) {
-                                            if(snapshot2.exists()){
+                                            if(snapshot2.exists()){// si el usuario existe no ppodemos continuar
                                                 Utils.MostrarMensajes(InsertUserActivity.this, "EL USUARIO EXISTE"  , " USUARIO");
                                             }else{
-                                               // Utils.MostrarMensajes(InsertUserActivity.this, "NOOO USUARIO EXISTE"  , " USUARIO");
+                                               // SI NO EXISTE PODEMOS GRABAR EL NUEVO
                                                 //INSERTO EL USUARIO EN AUTHENTICATION
                                                 mAuth.createUserWithEmailAndPassword(Email, Pass)
                                                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                                             @Override
                                                             public void onComplete(@NonNull Task<AuthResult> task) {
                                                                 if (task.isSuccessful()) {
-                                                                  //  Utils.MostrarMensajes(InsertUserActivity.this, " USUARIO GRABADO EN AUTHENTICATION"  , " USUARIO");
-                                                                    // GRABAMOS EN USERS
+                                                                   // GRABAMOS EN USERS
                                                                    User use = new User(Nombre, Ape, Email,TipoUsuario );
                                                                     String email = Email.replace(".", "_");
                                                                     mDataBase.child("users").child(email).setValue(use).addOnCompleteListener(new OnCompleteListener<Void>() {

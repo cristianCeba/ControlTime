@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     public Button btnInsertarUser;
     Utils utils;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,6 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(LoginActivity.this, "Usuario encontrado",
                                     Toast.LENGTH_SHORT).show();
+                            User.UsuarioPreferencesApp(correo,getApplicationContext());
                             Intent intent = new Intent(getApplicationContext(),MenuPrincipalActivity.class);
                             startActivity(intent);
                         } else {

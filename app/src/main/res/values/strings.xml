@@ -8,4 +8,17 @@
         <item>Usuario</item>
 
     </string-array>
+
+
+    <string name="tituloTipoPermisos">Seleccione el permiso </string>
+    <string-array name="valorTipoPermiso">
+        <item value="0">Vacaciones</item>
+        <item value="1">Médico</item>
+        <item value="2">Boda Familiar</item>
+        <item value="3">Boda</item>
+        <item value="4">Ingreso Familiar</item>
+
+    </string-array>
+
+
 </resources>

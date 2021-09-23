@@ -2,6 +2,8 @@ package com.example.controltime;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -49,7 +51,18 @@ public class User {
 
 
     }
+public static void UsuarioPreferencesApp(String usuario,Context contex){
+    SharedPreferences prefe = contex.getSharedPreferences("usuarioApp",Context.MODE_PRIVATE);
+    SharedPreferences.Editor editor =prefe.edit();
+    editor.putString("usuario",usuario .toString());
 
+    editor.commit();
+    }
+
+public static String UsuarioConectadoApp(Context contex){
+    SharedPreferences preferencias = contex.getSharedPreferences("usuarioApp", Context.MODE_PRIVATE);
+    return preferencias.getString("usuario","No hay usuario conectado");
+}
 
 }
 

@@ -5,16 +5,31 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
 public class MenuPrincipalActivity extends AppCompatActivity {
 
     ImageButton btnFichaje;
+    ImageButton btnPermiso;
+    EditText usuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_principal);
-        getSupportActionBar().hide();
+        getSupportActionBar().hide();// quito la barra de arriba
+        usuario=(EditText)findViewById(R.id.edtUsuarioApp);
+
+        usuario.setText(User.UsuarioConectadoApp(getApplicationContext()));
+        btnPermiso=(ImageButton) findViewById(R.id.btnPermiso);
+        btnPermiso.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),PermisoActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         btnFichaje = findViewById(R.id.btnFichaje);
 

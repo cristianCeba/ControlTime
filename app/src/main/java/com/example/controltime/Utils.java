@@ -1,14 +1,30 @@
 package com.example.controltime;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
+import android.os.Bundle;
 import android.util.Patterns;
+import android.widget.DatePicker;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Pattern;
 
-public class  Utils {
+public class  Utils extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+
 
     public static boolean validarEmail (String email){
         Pattern pattern = Patterns.EMAIL_ADDRESS;
@@ -31,5 +47,48 @@ public class  Utils {
             }
         });
         alertInfo.show();
+    }
+/* TRABAJAR CON FECHAS DATEPicker*/
+
+    private DatePickerDialog.OnDateSetListener listener;
+
+    public  static Utils newInstance(DatePickerDialog.OnDateSetListener listener){
+        Utils fragment = new Utils();
+        fragment.setListener(listener);
+        return fragment;
+    }
+
+    private void setListener(DatePickerDialog.OnDateSetListener listener) {
+        this.listener=listener;
+    }
+
+
+    @Override
+    public Dialog onCreateDialog( Bundle savedInstanceState) {
+        final Calendar calendario= Calendar.getInstance();
+        int year=calendario.get(Calendar.YEAR);
+        int month=calendario.get(Calendar.MONTH);
+        int day=calendario.get(Calendar.DAY_OF_MONTH);
+
+        return new DatePickerDialog(getActivity(),listener,year,month,day);
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+    }
+    /*FIN  TRABAJAR CON FECHAS DATEPicker*/
+
+
+
+    public static double SumaDias(String Fechadesde, String FechaHasta) throws ParseException {
+        double dias=0.0;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date fechaInicial=dateFormat.parse(Fechadesde);
+        Date fechaFinal=dateFormat.parse(FechaHasta);
+        dias=(int) ((fechaFinal.getTime()-fechaInicial.getTime())/86400000);
+
+      return dias;
+
     }
 }
