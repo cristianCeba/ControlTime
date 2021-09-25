@@ -30,7 +30,7 @@ public class Activity_fichaje extends AppCompatActivity {
     Button btnIniFichaje,btnFinFichaje;
     //textMostHora --> Muestra por pantalla la hora actualizada
     //textMostDia --> Muestra por pantalla el dia y el mes actualizado
-    TextView textMostHora, textMostDia;
+    TextView textMostHora, textMostDia, textMostrarInicioHora, textMostrarFinHora, textMostrarInicioDescanso, textMostrarFinDescanso;
     private DatabaseReference mDataBase;
     Date hora;
     String dia;
@@ -46,9 +46,14 @@ public class Activity_fichaje extends AppCompatActivity {
         btnFinFichaje = findViewById(R.id.btnFinFichaje);
         textMostHora = findViewById(R.id.textHora);
         textMostDia = findViewById(R.id.textDia);
+        textMostrarInicioHora = findViewById(R.id.textMostrarInicioFichaje);
+        textMostrarFinHora = findViewById(R.id.textMostrarFinFichaje);
+        textMostrarInicioDescanso = findViewById(R.id.textMostrarInicioDescanso);
+        textMostrarFinDescanso = findViewById(R.id.textMostrarFinDescanso);
         usuarioAplicacion = User.UsuarioConectadoApp(getApplicationContext()).replace(".", "_").trim();
         //Fecha que usamos para guardar en la base de datos ejemplo --> 22:09:2021
         dia = new SimpleDateFormat("dd:MM:yyyy").format(new Date());
+
 
 
         //Recuperamos los datos del usuario del día.
@@ -56,27 +61,37 @@ public class Activity_fichaje extends AppCompatActivity {
         System.out.println("Usuario --> " +
                 usuarioAplicacion);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                 @Override
-                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                                                     for(DataSnapshot ds: snapshot.getChildren()){
-                                                         Fichaje fichajeUsuario = ds.getValue(Fichaje.class);
-                                                         System.out.println("ds.getKey() --> " + ds.getKey());
-                                                         System.out.println("dia --> " + dia);
-                                                         if (ds.getKey().equals(dia)){
-                                                             btnIniFichaje.setEnabled(false);
-                                                         }
-                                                     }
-
-
-
-                                                 }
-
-                                                 @Override
-                                                 public void onCancelled(@NonNull DatabaseError error) {
-
-                                                 }
-                                             });
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //Buscamos todos los fichajes del usuario y si ya ha fichado hoy, dehsabilitamos el botón de iniciar fichaje
+                btnIniFichaje.setEnabled(false);
+                btnIniFichaje.setEnabled(true);
+                for(DataSnapshot ds: snapshot.getChildren()){
+                    Fichaje fichajeUsuario = ds.getValue(Fichaje.class);
+                    System.out.println("ds.getKey() --> " + ds.getKey());
+                    System.out.println("dia --> " + dia);
+                    if (ds.getKey().equals(dia)){
+                        btnIniFichaje.setEnabled(false);
+                        if (!fichajeUsuario.horaIni.equals("0")){
+                            System.out.println("fichajeUsuario.horaIni --> " + fichajeUsuario.horaIni);
+                            textMostrarInicioHora.setText(fichajeUsuario.horaIni.toString());
+                        }
+                        if(!fichajeUsuario.horaFin.equals("0")){
+                            textMostrarFinHora.setText(fichajeUsuario.horaFin);
+                        }
+                        if(!fichajeUsuario.horaIniDescanso.equals("0")){
+                            textMostrarInicioDescanso.setText(fichajeUsuario.horaIniDescanso);
+                        }
+                        if(!fichajeUsuario.horaFinDescanso.equals("0")){
+                            textMostrarFinDescanso.setText(fichajeUsuario.horaFinDescanso);
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
 
         // textView is the TextView view that should display it
 
@@ -86,9 +101,10 @@ public class Activity_fichaje extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Fecha que usamos para guardar en la base de datos ejemplo --> 22:09:2021
-                Fichaje fichaje = new Fichaje (textMostHora.getText().toString());
+                Fichaje fichaje = new Fichaje (textMostHora.getText().toString(),"0","0","0");
                 mDataBase.child("fichaje").child(usuarioAplicacion).child(dia).setValue(fichaje);
                 btnIniFichaje.setEnabled(false);
+                textMostrarInicioHora.setText(fichaje.horaIni.toString());
             }
         });
 
@@ -121,7 +137,6 @@ public class Activity_fichaje extends AppCompatActivity {
                     System.out.println("error");
                     this.run();
                 }
-                System.out.println("Empieza el timer --> " + textMostHora.getText().toString());
             }
         }, 0, 1000);
 
