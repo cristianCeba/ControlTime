@@ -172,7 +172,8 @@ public class PermisoActivity extends AppCompatActivity {
                 //EL ESTADO VA A SER 0=PENDIENTE
                 try {
 
-                    Id=UltimoId();
+                    //Id=UltimoId();
+                    Id="6";
                     if (esMedioDia){
                         edtFechaHasta.setText(edtFechaDesde.getText().toString());
                      }else{
@@ -235,7 +236,7 @@ public class PermisoActivity extends AppCompatActivity {
 
 private String UltimoId(){
     int num;
-  //  ArrayId.add("6");
+
   //  Toast.makeText(PermisoActivity.this,Usuario,Toast.LENGTH_LONG).show();
 
    Query query =mDataBase.child("Permisos").child(Usuario);
