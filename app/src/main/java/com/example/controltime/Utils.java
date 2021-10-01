@@ -22,7 +22,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Pattern;
-
 public class  Utils extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
 
@@ -48,7 +47,7 @@ public class  Utils extends DialogFragment implements DatePickerDialog.OnDateSet
         });
         alertInfo.show();
     }
-/* TRABAJAR CON FECHAS DATEPicker*/
+    /* TRABAJAR CON FECHAS DATEPicker*/
 
     private DatePickerDialog.OnDateSetListener listener;
 
@@ -81,14 +80,17 @@ public class  Utils extends DialogFragment implements DatePickerDialog.OnDateSet
 
 
 
-    public static double SumaDias(String Fechadesde, String FechaHasta) throws ParseException {
+    public static double getDiasSolicitados(String Fechadesde, String FechaHasta) throws ParseException {
         double dias=0.0;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date fechaInicial=dateFormat.parse(Fechadesde);
-        Date fechaFinal=dateFormat.parse(FechaHasta);
-        dias=(int) ((fechaFinal.getTime()-fechaInicial.getTime())/86400000);
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        Date dataDesde = formato.parse(Fechadesde);
+        Date dataHasta = formato.parse(FechaHasta);
+        dias=( (dataHasta.getTime() - dataDesde.getTime()) / (1000 * 60 * 60 * 24));
 
-      return dias;
-
+        return dias;
     }
+
+
+
+
 }
