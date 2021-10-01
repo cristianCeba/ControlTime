@@ -27,7 +27,7 @@ public class Activity_fichaje extends AppCompatActivity {
 
     //btnIniFichaje --> Botón que inicia el fichaje.
     //btnFinFichaje --> Botón que finaliza el fichaje.
-    Button btnIniFichaje,btnFinFichaje;
+    Button btnIniFichaje,btnFinFichaje,btnIniDescanso,btnFinDescanso;
     //textMostHora --> Muestra por pantalla la hora actualizada
     //textMostDia --> Muestra por pantalla el dia y el mes actualizado
     TextView textMostHora, textMostDia, textMostrarInicioHora, textMostrarFinHora, textMostrarInicioDescanso, textMostrarFinDescanso;
@@ -41,9 +41,12 @@ public class Activity_fichaje extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fichaje);
 
+        Fichaje fichajeUsuario;
         mDataBase = FirebaseDatabase.getInstance().getReference();
         btnIniFichaje = findViewById(R.id.btnInicioFichaje);
         btnFinFichaje = findViewById(R.id.btnFinFichaje);
+        btnIniDescanso = findViewById(R.id.btnInicioDescanso);
+        btnFinDescanso = findViewById(R.id.btnFinDescanso);
         textMostHora = findViewById(R.id.textHora);
         textMostDia = findViewById(R.id.textDia);
         textMostrarInicioHora = findViewById(R.id.textMostrarInicioFichaje);
@@ -54,10 +57,8 @@ public class Activity_fichaje extends AppCompatActivity {
         //Fecha que usamos para guardar en la base de datos ejemplo --> 22:09:2021
         dia = new SimpleDateFormat("dd:MM:yyyy").format(new Date());
 
-
-
-        //Recuperamos los datos del usuario del día.
         Query query=mDataBase.child("fichaje").child(usuarioAplicacion);
+        System.out.println("0");
         System.out.println("Usuario --> " +
                 usuarioAplicacion);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -70,6 +71,7 @@ public class Activity_fichaje extends AppCompatActivity {
                     Fichaje fichajeUsuario = ds.getValue(Fichaje.class);
                     System.out.println("ds.getKey() --> " + ds.getKey());
                     System.out.println("dia --> " + dia);
+                    User.guardarFichajeUsuario(fichajeUsuario);
                     if (ds.getKey().equals(dia)){
                         btnIniFichaje.setEnabled(false);
                         if (!fichajeUsuario.horaIni.equals("0")){
@@ -78,25 +80,35 @@ public class Activity_fichaje extends AppCompatActivity {
                         }
                         if(!fichajeUsuario.horaFin.equals("0")){
                             textMostrarFinHora.setText(fichajeUsuario.horaFin);
+                            btnFinFichaje.setEnabled(false);
                         }
                         if(!fichajeUsuario.horaIniDescanso.equals("0")){
                             textMostrarInicioDescanso.setText(fichajeUsuario.horaIniDescanso);
+                            btnIniDescanso.setEnabled(false);
                         }
                         if(!fichajeUsuario.horaFinDescanso.equals("0")){
                             textMostrarFinDescanso.setText(fichajeUsuario.horaFinDescanso);
+                            btnFinDescanso.setEnabled(false);
                         }
+                    } else {
+                        //Solo dejamos habiitado el botón de iniciar fichaje
+                        btnIniDescanso.setEnabled(false);
+                        btnFinDescanso.setEnabled(false);
+                        btnFinFichaje.setEnabled(false);
                     }
                 }
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("4");
             }
         });
 
-        // textView is the TextView view that should display it
-
+        //Mostramos la hora por pantalla
         textMostDia.setText(dia);
 
+        //Botón inicio de fichaje, deshabilitamos el botón cuando se pulsa y se muestra la hora de inicio de fichaje.
         btnIniFichaje.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,16 +117,49 @@ public class Activity_fichaje extends AppCompatActivity {
                 mDataBase.child("fichaje").child(usuarioAplicacion).child(dia).setValue(fichaje);
                 btnIniFichaje.setEnabled(false);
                 textMostrarInicioHora.setText(fichaje.horaIni.toString());
+                btnIniDescanso.setEnabled(true);
+                btnFinDescanso.setEnabled(true);
             }
         });
 
+        //Botón fin de fichaje, ponemos el botón deshabilitado y mostramos la hora del fin de fichaje.
+        btnFinFichaje.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fichaje fichaje = User.DevolverFichajeUsuario();
+                fichaje.horaFin = textMostHora.getText().toString();
+                mDataBase.child("fichaje").child(usuarioAplicacion).child(dia).setValue(fichaje);
+                textMostrarFinHora.setText(fichaje.horaFin.toString());
+                btnFinFichaje.setEnabled(false);
+            }
+        });
 
+        btnIniDescanso.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fichaje fichaje = User.DevolverFichajeUsuario();
+                fichaje.horaIniDescanso = textMostHora.getText().toString();
+                mDataBase.child("fichaje").child(usuarioAplicacion).child(dia).setValue(fichaje);
+                textMostrarInicioDescanso.setText(fichaje.horaIniDescanso.toString());
+                btnIniDescanso.setEnabled(false);
+            }
+        });
 
-        //HiloHora hilo = new HiloHora(textMostHora);
-        //hilo.start();
+        btnFinDescanso.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fichaje fichaje = User.DevolverFichajeUsuario();
+                fichaje.horaFinDescanso = textMostHora.getText().toString();
+                mDataBase.child("fichaje").child(usuarioAplicacion).child(dia).setValue(fichaje);
+                textMostrarFinDescanso.setText(fichaje.horaFinDescanso.toString());
+                btnFinDescanso.setEnabled(false);
+                btnFinFichaje.setEnabled(true);
+            }
+        });
 
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
+        //Ponemos un timer para mostar cada segundo la hora y mostrarla.
         Timer timer = new Timer();
         try {
             Date hora = new Date();
@@ -122,7 +167,6 @@ public class Activity_fichaje extends AppCompatActivity {
         }catch (Exception e){
             System.out.println("error");
         }
-
 
         timer.schedule(new TimerTask() {
 
@@ -142,7 +186,6 @@ public class Activity_fichaje extends AppCompatActivity {
 
     }
 
-
-
-
 }
+
+

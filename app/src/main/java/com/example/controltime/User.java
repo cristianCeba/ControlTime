@@ -25,6 +25,7 @@ public class User {
     public String Nombre;
     public String Ape;
     public long TipoUsuario;
+    static Fichaje fichajeUsuario;
 
     /*CONSTRUCTOR , INICIALIZAMOS LA CLASE*/
     public User() {
@@ -62,6 +63,14 @@ public static void UsuarioPreferencesApp(String usuario,Context contex){
 public static String UsuarioConectadoApp(Context contex){
     SharedPreferences preferencias = contex.getSharedPreferences("usuarioApp", Context.MODE_PRIVATE);
     return preferencias.getString("usuario","No hay usuario conectado");
+}
+
+public static void guardarFichajeUsuario (Fichaje fichaje){
+        fichajeUsuario = fichaje;
+}
+
+public static Fichaje DevolverFichajeUsuario (){
+        return fichajeUsuario;
 }
 
 }
