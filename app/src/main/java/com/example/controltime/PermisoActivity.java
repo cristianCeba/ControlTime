@@ -58,6 +58,8 @@ public class PermisoActivity extends AppCompatActivity {
     String FechaHasta;
     String Id;
     long RowId;
+    int num;
+    int suma;
 
     ArrayList<String> ArrayId= new ArrayList<String>();
     double Dias;
@@ -68,7 +70,7 @@ public class PermisoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_permiso);
         getSupportActionBar().hide();// quito la barra de arriba
         textTipoPer=(TextView) findViewById(R.id.textTipoPer);
-
+        mDataBase = FirebaseDatabase.getInstance().getReference();
 
         /*MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
         edtUsuarioApp=(TextView) findViewById(R.id.edtUsuarioApp);
@@ -116,7 +118,7 @@ public class PermisoActivity extends AppCompatActivity {
         });
         /*FIN SELECCION DE MEDIO DIA*/
 
-        /*Spinner Tipo Permisos        */
+        /*Spinner Tipo Permisos*/
         spnTipoPermiso=(Spinner) findViewById(R.id.spnTipoPermiso);
         spnTipoPermiso.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -154,6 +156,7 @@ public class PermisoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 OcultarMostrarControles(false);
+
             }
         });
         /*FIN  BOTON CONSULTAR PERMISOS*/
@@ -171,26 +174,47 @@ public class PermisoActivity extends AppCompatActivity {
 
                 //EL ESTADO VA A SER 0=PENDIENTE
                 try {
-
-                    //Id=UltimoId();
-                    Id="6";
                     if (esMedioDia){
                         edtFechaHasta.setText(edtFechaDesde.getText().toString());
                      }else{
                         Dias=Utils.getDiasSolicitados(edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
                     }
-                        ClsPermisos per = new ClsPermisos(Usuario + " " ,Dias,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),TipoPermiso,0,9 );
-                        mDataBase = FirebaseDatabase.getInstance().getReference().child("Permisos").child (Usuario).child(Id);
-                        mDataBase.setValue (per).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task2) {
-                                if (task2.isSuccessful()) {
-                                    Toast.makeText(PermisoActivity.this,"Permiso grabado correctamente , dias:" + Dias,Toast.LENGTH_LONG).show();
-                                } else {
-                                    Utils.MostrarMensajes(PermisoActivity.this, "NO SE HA PODIDO GRABAR EL PERMISO ", "GRABA USUARIO");
+                    /*COMPROBAR ULTIMO ID*/
+                   Query query =mDataBase.child("Permisos").child(Usuario);
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull  DataSnapshot snapshot) {
+                            if(snapshot.exists()){
+                                Toast.makeText(PermisoActivity.this,"Existe",Toast.LENGTH_LONG).show();
+                                for(DataSnapshot ds:snapshot.getChildren()){
+                                    ArrayId.add(ds.getKey());
                                 }
+                                RowId=Integer.valueOf(ArrayId.get(ArrayId.size()-1))+1 ;
+                                Id=String.valueOf(RowId);
+                               // Toast.makeText(PermisoActivity.this," ID:" + Id,Toast.LENGTH_LONG).show();
+                                ClsPermisos per = new ClsPermisos(Usuario + " " ,Dias,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),TipoPermiso,0,RowId );
+                                mDataBase = FirebaseDatabase.getInstance().getReference().child("Permisos").child (Usuario).child(Id);
+                                mDataBase.setValue (per).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task2) {
+                                        if (task2.isSuccessful()) {
+                                            Toast.makeText(PermisoActivity.this,"Permiso grabado correctamente , dias:" + Dias,Toast.LENGTH_LONG).show();
+                                        } else {
+                                            Utils.MostrarMensajes(PermisoActivity.this, "NO SE HA PODIDO GRABAR EL PERMISO ", "GRABA USUARIO");
+                                        }
+                                    }
+                                });
                             }
-                        });
+
+                        }
+                        @Override
+                        public void onCancelled(@NonNull   DatabaseError error) {
+
+                        }
+                    });  /*FIN ID*/
+
+
+
                } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -234,28 +258,33 @@ public class PermisoActivity extends AppCompatActivity {
 
     }
 
-private String UltimoId(){
-    int num;
+   /* public void UltimoId(){
+       // int num;
+      suma=0;
+     //  Toast.makeText(PermisoActivity.this,Usuario,Toast.LENGTH_LONG).show();
+        mDataBase = FirebaseDatabase.getInstance().getReference();
+       Query query =mDataBase.child("Permisos").child(Usuario);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+           @Override
+           public void onDataChange(@NonNull  DataSnapshot snapshot) {
+               if(snapshot.exists()){
+                   Toast.makeText(PermisoActivity.this,"Existe",Toast.LENGTH_LONG).show();
+                   for(DataSnapshot ds:snapshot.getChildren()){
+                      ArrayId.add(ds.getKey());
+                   }
+                   RowId=Integer.valueOf(ArrayId.get(ArrayId.size()-1))+1 ;
+                   Id=String.valueOf(RowId);
+                 //  Toast.makeText(PermisoActivity.this,"ID: " + RowId,Toast.LENGTH_LONG).show();
+               }
 
-  //  Toast.makeText(PermisoActivity.this,Usuario,Toast.LENGTH_LONG).show();
-
-   Query query =mDataBase.child("Permisos").child(Usuario);
-   query.addListenerForSingleValueEvent(new ValueEventListener() {
-       @Override
-       public void onDataChange(@NonNull  DataSnapshot snapshot) {
-           for(DataSnapshot ds:snapshot.getChildren()){
-              ArrayId.add(ds.getKey());
            }
-       }
+         @Override
+           public void onCancelled(@NonNull   DatabaseError error) {
 
-       @Override
-       public void onCancelled(@NonNull   DatabaseError error) {
+           }
+       });
 
-       }
-   });
-    num=Integer.valueOf(Collections.max(ArrayId))+1 ;
-    return String.valueOf(num);
-}
+    }*/
 
 }
 
