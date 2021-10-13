@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.text.TextPaint;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -34,9 +35,12 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 public class PermisoActivity extends AppCompatActivity {
     TextView edtUsuarioApp;
@@ -47,8 +51,13 @@ public class PermisoActivity extends AppCompatActivity {
     ImageButton btnPermiso;
     ImageButton btnConsulta;
     ImageButton btnValidar;
+    ImageButton btnValidarLista;
 
     private DatabaseReference mDataBase;
+    private ListView listDatos;
+    private ArrayList<String> datos;
+    private ArrayList<HashMap> datosPer;
+
     TextView textTipoPer;
     long TipoPermiso;
     boolean esMedioDia;
@@ -60,8 +69,11 @@ public class PermisoActivity extends AppCompatActivity {
     long RowId;
     int num;
     int suma;
-
+    boolean existeFecha;
+    boolean esta ;
     ArrayList<String> ArrayId= new ArrayList<String>();
+    ArrayAdapter<String> adapter;
+    ClsPermisos objPermisos ;
     double Dias;
     String valor="";
     @Override
@@ -72,34 +84,56 @@ public class PermisoActivity extends AppCompatActivity {
         textTipoPer=(TextView) findViewById(R.id.textTipoPer);
         mDataBase = FirebaseDatabase.getInstance().getReference();
 
+        java.util.Date fecha = new Date();
+
         /*MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
         edtUsuarioApp=(TextView) findViewById(R.id.edtUsuarioApp);
         edtUsuarioApp.setText(User.UsuarioConectadoApp(getApplication()));
         Usuario=edtUsuarioApp.getText().toString().replace(".", "_").trim();
         /*FIN MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
 
+        /*Comprobamos el ultimo id metido para el usuario registrado*/
+        RowId=UltimoId() ;
+        Id=String.valueOf(RowId);
+        /*FIN Comprobamos el ultimo id metido para el usuario registrado*/
+
         /* FECHAS */
+
+        String date = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+
         edtFechaDesde=(EditText) findViewById(R.id.edtFechaDesde);
+        edtFechaDesde.setText(date);
         edtFechaDesde.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getFechaSeleccionada(edtFechaDesde);
                 edtFechaDesde.setText(edtFechaDesde.getText());
+
             }
         });
 
 
         edtFechaHasta=(EditText) findViewById(R.id.edtFechaHasta);
+        edtFechaHasta.setText(date);
         edtFechaHasta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getFechaSeleccionada(edtFechaHasta);
                 edtFechaHasta.setText( edtFechaHasta.getText());
+
+
             }
         });
         FechaDesde=edtFechaDesde.getText().toString();
         FechaHasta=edtFechaHasta.getText().toString();
+
+
+
+       int valor=ComprobarFechas(edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
+
         /* FIN FECHAS */
+
+
 
         /*SELECCION DE MEDIO DIA*/
         chkMedioDia=(CheckBox) findViewById(R.id.chkMedioDia);
@@ -133,7 +167,8 @@ public class PermisoActivity extends AppCompatActivity {
         /*FIN Spinner Tipo Permisos        */
 
 
-        /*BOTON SOLICITAR PERMISOS*
+        /**
+         * BOTON SOLICITAR PERMISOS*
          * Ocultamos los controles de la consulta
          *
          * */
@@ -142,29 +177,52 @@ public class PermisoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 OcultarMostrarControles(true);
+
             }
         });
         /* FIN BOTON SOLICITAR PERMISOS*/
 
-        /* BOTON CONSULTAR PERMISOS*/
+        /**
+         * BOTON CONSULTAR PERMISOS
         /*
          * Ocultamos los controles de solicitar permisos
          *
          * */
+        listDatos = (ListView) findViewById(R.id.listaDatos);
+
         btnConsulta=(ImageButton)findViewById(R.id.btnConsulta);
         btnConsulta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 OcultarMostrarControles(false);
+                LLenarLista(listDatos,Usuario);
+
+               /* datosPer= new ArrayList<HashMap>();
+                HashMap dato=new HashMap();
+                dato.put("ID",1);
+                dato.put("FECHA_DESDE","02/10/2021");
+                datosPer.add(dato);
+               AdapterListView adapter = new AdapterListView(PermisoActivity.this, datosPer);
+               listDatos.setAdapter(adapter);*/
 
             }
         });
         /*FIN  BOTON CONSULTAR PERMISOS*/
 
+/**
+* BOTON VALIDAR LISTA
+* */
+        btnValidarLista =(ImageButton) findViewById(R.id.btnValidarLista);
+        btnValidarLista.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
 
+/* FIN BOTON VALIDAR LISTA*/
         /**
-         *  *BOTON VALIDAR
+         *  *BOTON VALIDAR graba el permiso solicitado
          * Grabamos el permiso solicitado
          * */
         btnValidar=(ImageButton) findViewById(R.id.btnValidar);
@@ -179,42 +237,19 @@ public class PermisoActivity extends AppCompatActivity {
                      }else{
                         Dias=Utils.getDiasSolicitados(edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
                     }
-                    /*COMPROBAR ULTIMO ID*/
-                   Query query =mDataBase.child("Permisos").child(Usuario);
-                    query.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull  DataSnapshot snapshot) {
-                            if(snapshot.exists()){
-                                Toast.makeText(PermisoActivity.this,"Existe",Toast.LENGTH_LONG).show();
-                                for(DataSnapshot ds:snapshot.getChildren()){
-                                    ArrayId.add(ds.getKey());
+                        Toast.makeText(PermisoActivity.this," ID:" + Id,Toast.LENGTH_LONG).show();
+                        ClsPermisos per = new ClsPermisos(Usuario   ,Dias,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),TipoPermiso,0,RowId );
+                        mDataBase = FirebaseDatabase.getInstance().getReference().child("Permisos").child (Usuario).child(Id);
+                        mDataBase.setValue (per).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task2) {
+                                if (task2.isSuccessful()) {
+                                    Toast.makeText(PermisoActivity.this,"Permiso grabado correctamente , dias:" + Dias,Toast.LENGTH_LONG).show();
+                                } else {
+                                    Utils.MostrarMensajes(PermisoActivity.this, "NO SE HA PODIDO GRABAR EL PERMISO ", "GRABA USUARIO");
                                 }
-                                RowId=Integer.valueOf(ArrayId.get(ArrayId.size()-1))+1 ;
-                                Id=String.valueOf(RowId);
-                               // Toast.makeText(PermisoActivity.this," ID:" + Id,Toast.LENGTH_LONG).show();
-                                ClsPermisos per = new ClsPermisos(Usuario + " " ,Dias,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),TipoPermiso,0,RowId );
-                                mDataBase = FirebaseDatabase.getInstance().getReference().child("Permisos").child (Usuario).child(Id);
-                                mDataBase.setValue (per).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task2) {
-                                        if (task2.isSuccessful()) {
-                                            Toast.makeText(PermisoActivity.this,"Permiso grabado correctamente , dias:" + Dias,Toast.LENGTH_LONG).show();
-                                        } else {
-                                            Utils.MostrarMensajes(PermisoActivity.this, "NO SE HA PODIDO GRABAR EL PERMISO ", "GRABA USUARIO");
-                                        }
-                                    }
-                                });
                             }
-
-                        }
-                        @Override
-                        public void onCancelled(@NonNull   DatabaseError error) {
-
-                        }
-                    });  /*FIN ID*/
-
-
-
+                        });
                } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -248,33 +283,125 @@ public class PermisoActivity extends AppCompatActivity {
             textTipoPer.setVisibility(View.VISIBLE);
             spnTipoPermiso.setVisibility(View.VISIBLE);
             btnValidar.setVisibility(View.VISIBLE);
-
+            listDatos.setVisibility(View.INVISIBLE);
+            btnValidarLista.setVisibility(View.INVISIBLE);
         }else{
             chkMedioDia.setVisibility(View.INVISIBLE);
             textTipoPer.setVisibility(View.INVISIBLE);
             spnTipoPermiso.setVisibility(View.INVISIBLE);
             btnValidar.setVisibility(View.INVISIBLE);
+            listDatos.setVisibility(View.VISIBLE);
+            btnValidarLista.setVisibility(View.VISIBLE);
         }
 
     }
 
-   /* public void UltimoId(){
-       // int num;
-      suma=0;
-     //  Toast.makeText(PermisoActivity.this,Usuario,Toast.LENGTH_LONG).show();
+    public void LLenarLista(ListView lista, String Usuario){
+
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        mDataBase = FirebaseDatabase.getInstance().getReference();
+        Query query =mDataBase.child("Permisos").child(Usuario);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull  DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    int cant=0;
+                 for(DataSnapshot ds:snapshot.getChildren()){
+                        ClsPermisos objPer = ds.getValue(ClsPermisos.class);
+
+                       datos = new ArrayList<String>();
+                        datos.add(String.valueOf(objPer.RowId));
+                        datos.add(objPer.FechaDesde);
+                        datos.add(objPer.FechaHasta);
+                        datos.add(String.valueOf(objPer.dias));
+                        adapter = new ArrayAdapter<String>(PermisoActivity.this,R.layout.support_simple_spinner_dropdown_item,datos);
+                        listDatos.setAdapter(adapter);
+
+/*
+                     datosPer= new ArrayList<HashMap>();
+                     HashMap dato=new HashMap();
+                     dato.put("ID",objPer.RowId);
+                     dato.put("Fecha_Desde",objPer.FechaDesde);
+                     datosPer.add(dato);
+                     AdapterListView adapte = new AdapterListView(PermisoActivity.this, datosPer);
+                     listDatos.setAdapter(adapte);*/
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull   DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    public int ComprobarFechas(String FechaIni,String FechaFin){
+      //  existeFecha=false;
+
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        mDataBase = FirebaseDatabase.getInstance().getReference();
+        Query query =mDataBase.child("Permisos").child(Usuario);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull  DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    int cant=0;
+                    for(DataSnapshot ds:snapshot.getChildren()){
+                        ClsPermisos objPer = ds.getValue(ClsPermisos.class);
+                        try {
+                            Date dataDesde = formato.parse(objPer.FechaDesde );
+                            Date dataHasta = formato.parse(objPer.FechaHasta);
+
+                            Date Desde = formato.parse(FechaIni );
+                            Date  Hasta = formato.parse(FechaFin);
+
+                          if(  (dataDesde.compareTo(Desde) >= 0 && dataDesde.compareTo(Hasta) <= 0) ||(dataHasta.compareTo(Desde) >= 0 && dataHasta.compareTo(Hasta) <= 0)){
+                              //existeFecha=true;
+                              cant++;
+                             // Toast.makeText(PermisoActivity.this,existeFecha +  " -- Fecha desde esta dentro de rango: " + objPer.RowId,Toast.LENGTH_LONG).show();
+                          }
+
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    suma=cant;
+                //    Toast.makeText(PermisoActivity.this,"SUMA: "+  suma,Toast.LENGTH_LONG).show();
+                }
+            /*    if(suma>0){
+                    existeFecha=true;
+                }else{
+                    existeFecha=false;
+                }*/
+                //esta=existeFecha;
+            }
+            @Override
+            public void onCancelled(@NonNull   DatabaseError error) {
+
+            }
+        });
+        return suma;
+    }
+
+    /**
+     * Metdo que devuelve el   id para insertar
+     * @return     ID
+     */
+   public Long UltimoId(){
         mDataBase = FirebaseDatabase.getInstance().getReference();
        Query query =mDataBase.child("Permisos").child(Usuario);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
            @Override
            public void onDataChange(@NonNull  DataSnapshot snapshot) {
                if(snapshot.exists()){
-                   Toast.makeText(PermisoActivity.this,"Existe",Toast.LENGTH_LONG).show();
+              //     Toast.makeText(PermisoActivity.this,"Existe",Toast.LENGTH_LONG).show();
                    for(DataSnapshot ds:snapshot.getChildren()){
                       ArrayId.add(ds.getKey());
                    }
                    RowId=Integer.valueOf(ArrayId.get(ArrayId.size()-1))+1 ;
                    Id=String.valueOf(RowId);
-                 //  Toast.makeText(PermisoActivity.this,"ID: " + RowId,Toast.LENGTH_LONG).show();
+                //   Toast.makeText(PermisoActivity.this,"ID: " + RowId,Toast.LENGTH_LONG).show();
                }
 
            }
@@ -283,8 +410,8 @@ public class PermisoActivity extends AppCompatActivity {
 
            }
        });
-
-    }*/
+        return RowId;
+    }
 
 }
 
