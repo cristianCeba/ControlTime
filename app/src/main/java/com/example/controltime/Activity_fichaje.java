@@ -58,9 +58,6 @@ public class Activity_fichaje extends AppCompatActivity {
         dia = new SimpleDateFormat("dd:MM:yyyy").format(new Date());
 
         Query query=mDataBase.child("fichaje").child(usuarioAplicacion);
-        System.out.println("0");
-        System.out.println("Usuario --> " +
-                usuarioAplicacion);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

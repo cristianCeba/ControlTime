@@ -52,6 +52,32 @@
             android:paddingRight="0dp"
             android:paddingBottom="0dp"
             android:src="@drawable/boton_fichaje" />
+
+
+
+
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp"
+        android:paddingRight="0dp">
+
+        <ImageButton
+        android:id="@+id/btnVerFichaje"
+        android:layout_width="200dp"
+        android:layout_height="52dp"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
+        android:src="@drawable/btnverfichajes"/>
+
+    </LinearLayout>
+
 
 </LinearLayout>

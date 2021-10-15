@@ -12,6 +12,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
 
     ImageButton btnFichaje;
     ImageButton btnPermiso;
+    ImageButton btnVerFichaje;
     EditText usuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
 
         usuario.setText(User.UsuarioConectadoApp(getApplicationContext()));
         btnPermiso=(ImageButton) findViewById(R.id.btnPermiso);
+        btnVerFichaje=(ImageButton) findViewById(R.id.btnVerFichaje);
         btnPermiso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -37,6 +39,14 @@ public class MenuPrincipalActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),Activity_fichaje.class);
+                startActivity(intent);
+            }
+        });
+
+        btnVerFichaje.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),VerFichajeActivity.class);
                 startActivity(intent);
             }
         });
