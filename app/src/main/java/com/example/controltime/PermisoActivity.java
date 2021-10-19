@@ -282,6 +282,11 @@ public class PermisoActivity extends AppCompatActivity {
                     int color=Color.GRAY;
 
                      try {
+                         if(objPer.TipoPermiso==0){
+                             color=Color.YELLOW;
+                         }else if(objPer.TipoPermiso==1) {
+                             color = Color.MAGENTA;
+                         }
                         Calendar cal=Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));;
                         cal.setTime(formato.parse( objPer.FechaDesde));
                          int year = cal.get(Calendar.YEAR);
@@ -295,18 +300,11 @@ public class PermisoActivity extends AppCompatActivity {
                              for (int m =month;m<= monthF;m++){
                                  for (int d =day;d<= dayF;d++){
                                     // Toast.makeText(PermisoActivity.this,"" + d + "/"+ m+"/"+y , Toast.LENGTH_SHORT).show();
-                                    calendarView.markDate(y,m,d).setMarkedStyle(1,color);
 
-                                     if(objPer.TipoPermiso==0){
-                                         color=Color.YELLOW;
-                                     }else if(objPer.TipoPermiso==1) {
-                                         color = Color.MAGENTA;
-                                     }
+                                    calendarView.markDate(y,m,d).setMarkedStyle(1,color);
                                  }
                              }
                          }
-
-
                      } catch (ParseException e) {
                          e.printStackTrace();
                      }
