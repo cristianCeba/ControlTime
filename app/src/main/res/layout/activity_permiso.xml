@@ -55,6 +55,11 @@
             </ImageButton>
 
         </LinearLayout>
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="@color/colorEditTextNormal"></LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -86,11 +91,6 @@
             </EditText>
         </LinearLayout>
 
-        <LinearLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:background="@color/colorEditTextNormal"></LinearLayout>
 
         <LinearLayout
             android:id="@+id/lySolicitar"
@@ -170,14 +170,7 @@
 
         </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/btnConsulta"
-            android:layout_width="157dp"
-            android:layout_height="38dp"
-            android:background="@drawable/verpermisos"
-            android:visibility="invisible">
 
-        </ImageButton>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -206,6 +199,7 @@
         </LinearLayout>
 
         <sun.bob.mcalendarview.MCalendarView
+
             android:id="@+id/calendar"
             android:layout_width="443dp"
             android:layout_height="419dp"></sun.bob.mcalendarview.MCalendarView>

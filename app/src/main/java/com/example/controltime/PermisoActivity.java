@@ -176,13 +176,15 @@ public class PermisoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
               //  OcultarMostrarControles(true);
+                LLenarLista(Usuario);
+
 
             }
         });
  /** FIN BOTON SOLICITAR PERMISOS*/
 
  /**  * BOTON CONSULTAR PERMISOS
-        /*  * Ocultamos los controles de solicitar permisos   *   * */
+        /*  * Ocultamos los controles de solicitar permisos   *   *
           btnConsulta=(ImageButton)findViewById(R.id.btnConsulta);
         btnConsulta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,7 +192,7 @@ public class PermisoActivity extends AppCompatActivity {
              //   OcultarMostrarControles(false);
                 LLenarLista(Usuario);
             }
-        });
+        });*/
 /**FIN  BOTON CONSULTAR PERMISOS*/
 
 
@@ -217,6 +219,7 @@ public class PermisoActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task2) {
                                 if (task2.isSuccessful()) {
                                     Toast.makeText(PermisoActivity.this,"Permiso grabado correctamente , dias:" + Dias,Toast.LENGTH_LONG).show();
+                                    LLenarLista(Usuario);
                                 } else {
                                     Utils.MostrarMensajes(PermisoActivity.this, "NO SE HA PODIDO GRABAR EL PERMISO ", "GRABA USUARIO");
                                 }
@@ -276,13 +279,7 @@ public class PermisoActivity extends AppCompatActivity {
                     int cant=0;
                  for(DataSnapshot ds:snapshot.getChildren()){
                      ClsPermisos objPer = ds.getValue(ClsPermisos.class);
-                    int color=Color.BLUE;
-                     if(objPer.TipoPermiso==0){
-                         color=Color.YELLOW;
-                     }else if(objPer.TipoPermiso==1) {
-                         color = Color.MAGENTA;
-                     }
-
+                    int color=Color.GRAY;
 
                      try {
                         Calendar cal=Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));;
@@ -299,6 +296,12 @@ public class PermisoActivity extends AppCompatActivity {
                                  for (int d =day;d<= dayF;d++){
                                     // Toast.makeText(PermisoActivity.this,"" + d + "/"+ m+"/"+y , Toast.LENGTH_SHORT).show();
                                     calendarView.markDate(y,m,d).setMarkedStyle(1,color);
+
+                                     if(objPer.TipoPermiso==0){
+                                         color=Color.YELLOW;
+                                     }else if(objPer.TipoPermiso==1) {
+                                         color = Color.MAGENTA;
+                                     }
                                  }
                              }
                          }
@@ -307,12 +310,6 @@ public class PermisoActivity extends AppCompatActivity {
                      } catch (ParseException e) {
                          e.printStackTrace();
                      }
-
-                     //calendarView.markDate(2021,10,15);
-
-                    // calendarView.markDate(2021,10,14);
-
-                     //calendarView.markDate(2021,10,13);
 
 
                     }
