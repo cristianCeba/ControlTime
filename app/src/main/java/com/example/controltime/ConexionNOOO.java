@@ -13,12 +13,12 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.concurrent.Executor;
 
-public class Conexion {
+public class ConexionNOOO {
     private DatabaseReference mDataBase;
     private FirebaseAuth mAuth;
     boolean conecta=false  ;
 
-public Conexion(){
+public ConexionNOOO(){
     mDataBase = FirebaseDatabase.getInstance().getReference();
     mAuth = FirebaseAuth.getInstance();
 

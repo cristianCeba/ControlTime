@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ControlTime">
         <activity android:name=".VerFichajeActivity"></activity>
-        <activity android:name=".AdapterListView" />
+        <activity android:name=".AdapterListViewNOOOO" />
         <activity android:name=".PermisoActivity" />
         <activity android:name=".Activity_fichaje" />
         <activity android:name=".MenuPrincipalActivity" />

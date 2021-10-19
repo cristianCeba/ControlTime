@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.hardware.camera2.TotalCaptureResult;
 import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
@@ -36,11 +37,17 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Year;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
+
+import sun.bob.mcalendarview.MCalendarView;
 
 public class PermisoActivity extends AppCompatActivity {
     TextView edtUsuarioApp;
@@ -51,13 +58,9 @@ public class PermisoActivity extends AppCompatActivity {
     ImageButton btnPermiso;
     ImageButton btnConsulta;
     ImageButton btnValidar;
-    ImageButton btnValidarLista;
 
+    MCalendarView calendarView;
     private DatabaseReference mDataBase;
-    private ListView listDatos;
-    private ArrayList<String> datos;
-    private ArrayList<HashMap> datosPer;
-
     TextView textTipoPer;
     long TipoPermiso;
     boolean esMedioDia;
@@ -72,7 +75,6 @@ public class PermisoActivity extends AppCompatActivity {
     boolean existeFecha;
     boolean esta ;
     ArrayList<String> ArrayId= new ArrayList<String>();
-    ArrayAdapter<String> adapter;
     ClsPermisos objPermisos ;
     double Dias;
     String valor="";
@@ -86,18 +88,18 @@ public class PermisoActivity extends AppCompatActivity {
 
         java.util.Date fecha = new Date();
 
-        /*MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
+/*** * MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
         edtUsuarioApp=(TextView) findViewById(R.id.edtUsuarioApp);
         edtUsuarioApp.setText(User.UsuarioConectadoApp(getApplication()));
         Usuario=edtUsuarioApp.getText().toString().replace(".", "_").trim();
         /*FIN MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
-
-        /*Comprobamos el ultimo id metido para el usuario registrado*/
+        LLenarLista(Usuario);
+/***  * Comprobamos el ultimo id metido para el usuario registrado*/
         RowId=UltimoId() ;
         Id=String.valueOf(RowId);
         /*FIN Comprobamos el ultimo id metido para el usuario registrado*/
 
-        /* FECHAS */
+/*** *  FECHAS */
 
         String date = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 
@@ -127,15 +129,15 @@ public class PermisoActivity extends AppCompatActivity {
         FechaDesde=edtFechaDesde.getText().toString();
         FechaHasta=edtFechaHasta.getText().toString();
 
-
-
        int valor=ComprobarFechas(edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
+/***FIN FECHAS */
 
-        /* FIN FECHAS */
+/*** * CALENDARIO */
+     calendarView=(MCalendarView) findViewById(R.id.calendar);
 
+/*** * FIN CALENDARIO     */
 
-
-        /*SELECCION DE MEDIO DIA*/
+ /***SELECCION DE MEDIO DIA*/
         chkMedioDia=(CheckBox) findViewById(R.id.chkMedioDia);
         chkMedioDia.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -150,9 +152,9 @@ public class PermisoActivity extends AppCompatActivity {
                 }
             }
         });
-        /*FIN SELECCION DE MEDIO DIA*/
+ /***FIN SELECCION DE MEDIO DIA*/
 
-        /*Spinner Tipo Permisos*/
+/***Spinner Tipo Permisos*/
         spnTipoPermiso=(Spinner) findViewById(R.id.spnTipoPermiso);
         spnTipoPermiso.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -164,67 +166,37 @@ public class PermisoActivity extends AppCompatActivity {
 
             }
         });
-        /*FIN Spinner Tipo Permisos        */
+/***FIN Spinner Tipo Permisos        */
 
 
-        /**
-         * BOTON SOLICITAR PERMISOS*
-         * Ocultamos los controles de la consulta
-         *
-         * */
+ /*** BOTON SOLICITAR PERMISOS*
+         * Ocultamos los controles de la consulta         *         * */
         btnPermiso=(ImageButton) findViewById(R.id.btnPermiso);
         btnPermiso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OcultarMostrarControles(true);
+              //  OcultarMostrarControles(true);
 
             }
         });
-        /* FIN BOTON SOLICITAR PERMISOS*/
+ /** FIN BOTON SOLICITAR PERMISOS*/
 
-        /**
-         * BOTON CONSULTAR PERMISOS
-        /*
-         * Ocultamos los controles de solicitar permisos
-         *
-         * */
-        listDatos = (ListView) findViewById(R.id.listaDatos);
-
-        btnConsulta=(ImageButton)findViewById(R.id.btnConsulta);
+ /**  * BOTON CONSULTAR PERMISOS
+        /*  * Ocultamos los controles de solicitar permisos   *   * */
+          btnConsulta=(ImageButton)findViewById(R.id.btnConsulta);
         btnConsulta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OcultarMostrarControles(false);
-                LLenarLista(listDatos,Usuario);
-
-               /* datosPer= new ArrayList<HashMap>();
-                HashMap dato=new HashMap();
-                dato.put("ID",1);
-                dato.put("FECHA_DESDE","02/10/2021");
-                datosPer.add(dato);
-               AdapterListView adapter = new AdapterListView(PermisoActivity.this, datosPer);
-               listDatos.setAdapter(adapter);*/
-
+             //   OcultarMostrarControles(false);
+                LLenarLista(Usuario);
             }
         });
-        /*FIN  BOTON CONSULTAR PERMISOS*/
+/**FIN  BOTON CONSULTAR PERMISOS*/
 
-/**
-* BOTON VALIDAR LISTA
-* */
-        btnValidarLista =(ImageButton) findViewById(R.id.btnValidarLista);
-        btnValidarLista.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
 
-/* FIN BOTON VALIDAR LISTA*/
-        /**
-         *  *BOTON VALIDAR graba el permiso solicitado
-         * Grabamos el permiso solicitado
-         * */
+/** *  *BOTON VALIDAR graba el permiso solicitado
+         * Grabamos el permiso solicitado    * */
         btnValidar=(ImageButton) findViewById(R.id.btnValidar);
         btnValidar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -256,12 +228,10 @@ public class PermisoActivity extends AppCompatActivity {
             }
         });
 
-        /*FIN BOTON VALIDAR*/
+ /***FIN BOTON VALIDAR*/
     }
 
-    /****
-     * Metodo que muestra el calendario y se le asigna el valor al editText
-     */
+/**** * Metodo que muestra el calendario y se le asigna el valor al editText  */
     private  void getFechaSeleccionada(EditText fecha){
 
         Utils fragment =Utils.newInstance(new DatePickerDialog.OnDateSetListener() {
@@ -272,33 +242,31 @@ public class PermisoActivity extends AppCompatActivity {
         });
         fragment.show(getSupportFragmentManager(),"datePicker");
     }
-    /***
-     * Metodo para Mostrar/Ocultar conrtoles
-     * @param EsVisible 0 =VISIBLE
-     *                     4=INVISIBLE
-     */
+ /***  * Metodo para Mostrar/Ocultar conrtoles
+
+
     private void OcultarMostrarControles( boolean EsVisible){
         if(EsVisible){
             chkMedioDia.setVisibility(View.VISIBLE);
             textTipoPer.setVisibility(View.VISIBLE);
             spnTipoPermiso.setVisibility(View.VISIBLE);
             btnValidar.setVisibility(View.VISIBLE);
-            listDatos.setVisibility(View.INVISIBLE);
-            btnValidarLista.setVisibility(View.INVISIBLE);
+
         }else{
             chkMedioDia.setVisibility(View.INVISIBLE);
             textTipoPer.setVisibility(View.INVISIBLE);
             spnTipoPermiso.setVisibility(View.INVISIBLE);
             btnValidar.setVisibility(View.INVISIBLE);
-            listDatos.setVisibility(View.VISIBLE);
-            btnValidarLista.setVisibility(View.VISIBLE);
+
         }
 
-    }
+    }*/
 
-    public void LLenarLista(ListView lista, String Usuario){
+    public void LLenarLista( String Usuario)   {
 
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+
+
         mDataBase = FirebaseDatabase.getInstance().getReference();
         Query query =mDataBase.child("Permisos").child(Usuario);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -307,24 +275,46 @@ public class PermisoActivity extends AppCompatActivity {
                 if(snapshot.exists()){
                     int cant=0;
                  for(DataSnapshot ds:snapshot.getChildren()){
-                        ClsPermisos objPer = ds.getValue(ClsPermisos.class);
+                     ClsPermisos objPer = ds.getValue(ClsPermisos.class);
+                    int color=Color.BLUE;
+                     if(objPer.TipoPermiso==0){
+                         color=Color.YELLOW;
+                     }else if(objPer.TipoPermiso==1) {
+                         color = Color.MAGENTA;
+                     }
 
-                       datos = new ArrayList<String>();
-                        datos.add(String.valueOf(objPer.RowId));
-                        datos.add(objPer.FechaDesde);
-                        datos.add(objPer.FechaHasta);
-                        datos.add(String.valueOf(objPer.dias));
-                        adapter = new ArrayAdapter<String>(PermisoActivity.this,R.layout.support_simple_spinner_dropdown_item,datos);
-                        listDatos.setAdapter(adapter);
 
-/*
-                     datosPer= new ArrayList<HashMap>();
-                     HashMap dato=new HashMap();
-                     dato.put("ID",objPer.RowId);
-                     dato.put("Fecha_Desde",objPer.FechaDesde);
-                     datosPer.add(dato);
-                     AdapterListView adapte = new AdapterListView(PermisoActivity.this, datosPer);
-                     listDatos.setAdapter(adapte);*/
+                     try {
+                        Calendar cal=Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));;
+                        cal.setTime(formato.parse( objPer.FechaDesde));
+                         int year = cal.get(Calendar.YEAR);
+                         int month = cal.get(Calendar.MONTH)+1;
+                         int day = cal.get(Calendar.DAY_OF_MONTH);
+                         cal.setTime(formato.parse( objPer.FechaHasta));
+                         int yearF = cal.get(Calendar.YEAR);
+                         int monthF = cal.get(Calendar.MONTH)+1;
+                         int dayF= cal.get(Calendar.DAY_OF_MONTH);
+                         for (int y =year;y<= yearF;y++){
+                             for (int m =month;m<= monthF;m++){
+                                 for (int d =day;d<= dayF;d++){
+                                    // Toast.makeText(PermisoActivity.this,"" + d + "/"+ m+"/"+y , Toast.LENGTH_SHORT).show();
+                                    calendarView.markDate(y,m,d).setMarkedStyle(1,color);
+                                 }
+                             }
+                         }
+
+
+                     } catch (ParseException e) {
+                         e.printStackTrace();
+                     }
+
+                     //calendarView.markDate(2021,10,15);
+
+                    // calendarView.markDate(2021,10,14);
+
+                     //calendarView.markDate(2021,10,13);
+
+
                     }
                 }
             }
@@ -336,8 +326,13 @@ public class PermisoActivity extends AppCompatActivity {
 
     }
 
+    /***METODO QUE MIRA SI LAS FECHAS INTRODUCIDAS ESTAN YA PEDIDAS
+     *
+     * @param FechaIni Fecha comienzo
+     * @param FechaFin fecja fin
+     * @return
+     */
     public int ComprobarFechas(String FechaIni,String FechaFin){
-      //  existeFecha=false;
 
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         mDataBase = FirebaseDatabase.getInstance().getReference();
@@ -357,9 +352,7 @@ public class PermisoActivity extends AppCompatActivity {
                             Date  Hasta = formato.parse(FechaFin);
 
                           if(  (dataDesde.compareTo(Desde) >= 0 && dataDesde.compareTo(Hasta) <= 0) ||(dataHasta.compareTo(Desde) >= 0 && dataHasta.compareTo(Hasta) <= 0)){
-                              //existeFecha=true;
                               cant++;
-                             // Toast.makeText(PermisoActivity.this,existeFecha +  " -- Fecha desde esta dentro de rango: " + objPer.RowId,Toast.LENGTH_LONG).show();
                           }
 
                         } catch (ParseException e) {
@@ -367,14 +360,7 @@ public class PermisoActivity extends AppCompatActivity {
                         }
                     }
                     suma=cant;
-                //    Toast.makeText(PermisoActivity.this,"SUMA: "+  suma,Toast.LENGTH_LONG).show();
                 }
-            /*    if(suma>0){
-                    existeFecha=true;
-                }else{
-                    existeFecha=false;
-                }*/
-                //esta=existeFecha;
             }
             @Override
             public void onCancelled(@NonNull   DatabaseError error) {
@@ -384,8 +370,7 @@ public class PermisoActivity extends AppCompatActivity {
         return suma;
     }
 
-    /**
-     * Metdo que devuelve el   id para insertar
+  /** * Metdo que devuelve el   id + 1 para insertar
      * @return     ID
      */
    public Long UltimoId(){
@@ -395,13 +380,11 @@ public class PermisoActivity extends AppCompatActivity {
            @Override
            public void onDataChange(@NonNull  DataSnapshot snapshot) {
                if(snapshot.exists()){
-              //     Toast.makeText(PermisoActivity.this,"Existe",Toast.LENGTH_LONG).show();
                    for(DataSnapshot ds:snapshot.getChildren()){
                       ArrayId.add(ds.getKey());
                    }
                    RowId=Integer.valueOf(ArrayId.get(ArrayId.size()-1))+1 ;
                    Id=String.valueOf(RowId);
-                //   Toast.makeText(PermisoActivity.this,"ID: " + RowId,Toast.LENGTH_LONG).show();
                }
 
            }

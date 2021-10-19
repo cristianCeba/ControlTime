@@ -46,7 +46,7 @@
         <ImageButton
             android:id="@+id/btnFichaje"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="76dp"
             android:paddingLeft="0dp"
             android:paddingTop="0dp"
             android:paddingRight="0dp"
@@ -59,7 +59,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="213dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
 
@@ -68,14 +68,14 @@
         android:paddingRight="0dp">
 
         <ImageButton
-        android:id="@+id/btnVerFichaje"
-        android:layout_width="200dp"
-        android:layout_height="52dp"
-        android:paddingLeft="0dp"
-        android:paddingTop="0dp"
-        android:paddingRight="0dp"
-        android:paddingBottom="0dp"
-        android:src="@drawable/btnverfichajes"/>
+            android:id="@+id/btnVerFichaje"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:paddingLeft="0dp"
+            android:paddingTop="0dp"
+            android:paddingRight="0dp"
+            android:paddingBottom="0dp"
+            android:src="@drawable/btnverfichajes" />
 
     </LinearLayout>
 

@@ -45,19 +45,12 @@
             android:orientation="horizontal"
             android:textAlignment="center">
 
-            <ImageButton
-                android:id="@+id/btnConsulta"
-                android:layout_width="147dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/btnconsultaper">
-
-            </ImageButton>
 
             <ImageButton
                 android:id="@+id/btnPermiso"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btnsolicitarper">
+                android:layout_width="157dp"
+                android:layout_height="38dp"
+                android:background="@drawable/permiso">
 
             </ImageButton>
 
@@ -94,6 +87,7 @@
         </LinearLayout>
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="10dp"
             android:background="@color/colorEditTextNormal"></LinearLayout>
@@ -115,7 +109,7 @@
                 android:background="@color/white"
                 android:text="Medio día"
                 android:textSize="14sp"
-                android:visibility="invisible"></CheckBox>
+                ></CheckBox>
 
             <LinearLayout
 
@@ -135,14 +129,15 @@
                     android:layout_marginLeft="5dp"
                     android:text="Tipo permiso"
                     android:textSize="14sp"
-                    android:visibility="invisible" />
+                     />
 
                 <Spinner
                     android:id="@+id/spnTipoPermiso"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:entries="@array/valorTipoPermiso"
-                    android:visibility="invisible"></Spinner>
+
+                    ></Spinner>
 
 
             </LinearLayout>
@@ -153,36 +148,73 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/btnvalida"
-                android:visibility="invisible">
+                >
 
 
             </ImageButton>
         </LinearLayout>
 
         <LinearLayout
+
             android:id="@+id/lyConsulta"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical" />
 
-        <ListView
-            android:id="@+id/listaDatos"
+        <LinearLayout
+
             android:layout_width="match_parent"
-            android:layout_height="425dp"></ListView>
+            android:layout_height="10dp"
+            android:background="@color/colorEditTextNormal">
+
+
+        </LinearLayout>
 
         <ImageButton
-            android:id="@+id/btnValidarLista"
-            android:layout_width="51dp"
-            android:layout_height="43dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/btnvalida">
-
+            android:id="@+id/btnConsulta"
+            android:layout_width="157dp"
+            android:layout_height="38dp"
+            android:background="@drawable/verpermisos"
+            android:visibility="invisible">
 
         </ImageButton>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:backgroundTint="#F7DA38"
+                android:layout_width="30dp"
+                android:layout_height="30dp"></Button>
+
+            <TextView
+                android:layout_width="98dp"
+                android:layout_height="30dp"
+                android:text="VACACIONES"></TextView>
+
+            <Button
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:backgroundTint="#B027A9"></Button>
+
+            <TextView
+                android:layout_width="125dp"
+                android:layout_height="30dp"
+                android:text="MEDICO"></TextView>
+        </LinearLayout>
+
+        <sun.bob.mcalendarview.MCalendarView
+            android:id="@+id/calendar"
+            android:layout_width="443dp"
+            android:layout_height="419dp"></sun.bob.mcalendarview.MCalendarView>
+
+
+
+
+
     </LinearLayout>
-
-
 
 
 

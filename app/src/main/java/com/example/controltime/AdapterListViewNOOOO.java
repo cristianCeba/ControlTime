@@ -14,14 +14,14 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class AdapterListView extends BaseAdapter {
+public class AdapterListViewNOOOO extends BaseAdapter {
 
 
     public ArrayList<HashMap> list;
     private LayoutInflater inflater;
     private Activity activity;
 
-    AdapterListView(Activity activity, ArrayList<HashMap> list) {
+    AdapterListViewNOOOO(Activity activity, ArrayList<HashMap> list) {
         super();
         this.activity = activity;
         this.list = list;

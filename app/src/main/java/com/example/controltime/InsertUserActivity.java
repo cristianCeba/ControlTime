@@ -45,7 +45,7 @@ public class InsertUserActivity extends AppCompatActivity {
     String Pass2;
     long TipoUsuario;
     Button btnInsert;
-    Conexion conexion;
+    ConexionNOOO conexion;
     Utils utils;
 
     private DatabaseReference mDataBase;
