@@ -5,14 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
 public class MenuPrincipalActivity extends AppCompatActivity {
 
-    ImageButton btnFichaje;
-    ImageButton btnPermiso;
-    ImageButton btnVerFichaje;
+    Button btnFichaje,btnPermiso,btnVerFichaje;
     EditText usuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +21,8 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         usuario=(EditText)findViewById(R.id.edtUsuarioApp);
 
         usuario.setText(User.UsuarioConectadoApp(getApplicationContext()));
-        btnPermiso=(ImageButton) findViewById(R.id.btnPermiso);
-        btnVerFichaje=(ImageButton) findViewById(R.id.btnVerFichaje);
+        btnPermiso=(Button) findViewById(R.id.btnPermiso);
+        btnVerFichaje=(Button) findViewById(R.id.btnVerFichaje);
         btnPermiso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
