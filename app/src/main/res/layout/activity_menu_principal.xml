@@ -21,47 +21,51 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="130dp">
+        android:paddingTop="120dp">
 
-        <ImageButton
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingBottom="5dp">
+
+        <Button
             android:id="@+id/btnPermiso"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="0dp"
-            android:paddingTop="0dp"
-            android:paddingRight="0dp"
-            android:paddingBottom="0dp"
-            android:src="@drawable/btnpermisos" />
+            android:layout_width="179dp"
+            android:layout_height="35dp"
+            android:text="PERMISOS"
+            android:background="@drawable/custonbutton"
+            app:backgroundTint="@null"
+           />
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingBottom="5dp">
 
-        android:paddingLeft="0dp"
-        android:paddingTop="0dp"
-        android:paddingRight="0dp">
-
-        <ImageButton
+        <Button
             android:id="@+id/btnFichaje"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="0dp"
-            android:paddingTop="0dp"
-            android:paddingRight="0dp"
-            android:paddingBottom="0dp"
-            android:src="@drawable/boton_fichaje" />
-
-
-
+            android:layout_width="179dp"
+            android:layout_height="35dp"
+            android:text="FICHAJE"
+            android:background="@drawable/custonbutton"
+            app:backgroundTint="@null"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="10dp">
+        android:paddingLeft="10dp"
+        android:paddingBottom="5dp">
 
         <Button
             android:id="@+id/btnVerFichaje"
@@ -71,7 +75,39 @@
             android:background="@drawable/custonbutton"
             android:src="@drawable/btnverfichajes"
             app:backgroundTint="@null" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingBottom="5dp">
+
+        <Button
+            android:id="@+id/btnSolicitarCambio"
+            android:layout_width="179dp"
+            android:layout_height="35dp"
+            android:text="CAMBIAR FICHAJE"
+            android:background="@drawable/custonbutton"
+            android:src="@drawable/btnverfichajes"
+            app:backgroundTint="@null" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="10dp">
+
+        <Button
+            android:id="@+id/btnConfiguración"
+            android:layout_width="179dp"
+            android:layout_height="35dp"
+            android:text="CONFIGURACIÓN"
+            android:background="@drawable/custonbutton"
+            android:src="@drawable/btnverfichajes"
+            app:backgroundTint="@null" />
     </LinearLayout>
 
 
