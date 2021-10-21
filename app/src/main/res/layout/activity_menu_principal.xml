@@ -36,11 +36,10 @@
         <Button
             android:id="@+id/btnPermiso"
             android:layout_width="179dp"
-            android:layout_height="35dp"
-            android:text="PERMISOS"
+            android:layout_height="40dp"
             android:background="@drawable/custonbutton"
-            app:backgroundTint="@null"
-           />
+            android:text="PERMISOS"
+            app:backgroundTint="@null" />
 
     </LinearLayout>
 
@@ -54,10 +53,10 @@
         <Button
             android:id="@+id/btnFichaje"
             android:layout_width="179dp"
-            android:layout_height="35dp"
-            android:text="FICHAJE"
+            android:layout_height="40dp"
             android:background="@drawable/custonbutton"
-            app:backgroundTint="@null"/>
+            android:text="FICHAJE"
+            app:backgroundTint="@null" />
     </LinearLayout>
 
     <LinearLayout
@@ -70,10 +69,10 @@
         <Button
             android:id="@+id/btnVerFichaje"
             android:layout_width="179dp"
-            android:layout_height="35dp"
-            android:text="VER FICHAJE"
+            android:layout_height="40dp"
             android:background="@drawable/custonbutton"
             android:src="@drawable/btnverfichajes"
+            android:text="VER FICHAJE"
             app:backgroundTint="@null" />
     </LinearLayout>
 
@@ -87,10 +86,10 @@
         <Button
             android:id="@+id/btnSolicitarCambio"
             android:layout_width="179dp"
-            android:layout_height="35dp"
-            android:text="CAMBIAR FICHAJE"
+            android:layout_height="40dp"
             android:background="@drawable/custonbutton"
             android:src="@drawable/btnverfichajes"
+            android:text="CAMBIAR FICHAJE"
             app:backgroundTint="@null" />
     </LinearLayout>
 
@@ -103,10 +102,10 @@
         <Button
             android:id="@+id/btnConfiguración"
             android:layout_width="179dp"
-            android:layout_height="35dp"
-            android:text="CONFIGURACIÓN"
+            android:layout_height="40dp"
             android:background="@drawable/custonbutton"
             android:src="@drawable/btnverfichajes"
+            android:text="CONFIGURACIÓN"
             app:backgroundTint="@null" />
     </LinearLayout>
 

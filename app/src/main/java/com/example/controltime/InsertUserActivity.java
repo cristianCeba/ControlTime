@@ -36,6 +36,7 @@ public class InsertUserActivity extends AppCompatActivity {
     TextView txtMensajeApe;
     TextView txtMensajeEmail;
     Spinner spnTipoUsuario;
+    Spinner spnGrupo;
     ImageButton btnInfo;
 
     String Nombre;
@@ -44,6 +45,7 @@ public class InsertUserActivity extends AppCompatActivity {
     String Pass;
     String Pass2;
     long TipoUsuario;
+    long Grupo;
     Button btnInsert;
     ConexionNOOO conexion;
     Utils utils;
@@ -60,6 +62,8 @@ public class InsertUserActivity extends AppCompatActivity {
         txtApe1 = (EditText) findViewById(R.id.editTextApe);
         txtMensajeApe=(TextView) findViewById(R.id.textMensajeApe);
         spnTipoUsuario=(Spinner)findViewById(R.id.spnTipo);
+        spnGrupo=(Spinner)findViewById(R.id.spnGrupo);
+
 
         txtEmail = (EditText) findViewById(R.id.editTextEmail);
         txtMensajeEmail=(TextView) findViewById(R.id.textMensajeEmail);
@@ -76,6 +80,20 @@ public class InsertUserActivity extends AppCompatActivity {
                 //Toast.makeText(parent.getContext(),(String) parent.getItemAtPosition(position),Toast.LENGTH_LONG ).show();
                // Toast.makeText(parent.getContext(),"" + id,Toast.LENGTH_LONG ).show();
                 TipoUsuario=id;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spnGrupo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(parent.getContext(), "" + id,Toast.LENGTH_LONG ).show();
+                Grupo=id;
+
             }
 
             @Override
@@ -154,7 +172,7 @@ public class InsertUserActivity extends AppCompatActivity {
                                                             public void onComplete(@NonNull Task<AuthResult> task) {
                                                                 if (task.isSuccessful()) {
                                                                    // GRABAMOS EN USERS
-                                                                   User use = new User(Nombre, Ape, Email,TipoUsuario );
+                                                                   User use = new User(Nombre, Ape, Email,TipoUsuario ,Grupo);
                                                                     String email = Email.replace(".", "_");
                                                                     mDataBase.child("users").child(email).setValue(use).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                         @Override

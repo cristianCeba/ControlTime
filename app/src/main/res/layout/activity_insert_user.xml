@@ -153,6 +153,19 @@
         android:entries="@array/valorTipoUsuario"
         android:prompt="@string/tituloTipoUsuario"
         android:layout_marginLeft="35dp"/>
+    <TextView
+        android:id="@+id/textGrupo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Grupo"
+        android:layout_marginLeft="35dp"/>
+    <Spinner
+        android:id="@+id/spnGrupo"
+        android:layout_width="312dp"
+        android:layout_height="47dp"
+        android:entries="@array/valorGrupo"
+        android:prompt="@string/tituloGrupo"
+        android:layout_marginLeft="35dp"/>
 
     <Button
         android:id="@+id/btnRegistro"

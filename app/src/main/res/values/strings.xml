@@ -6,9 +6,13 @@
     <string-array name="valorTipoUsuario">
         <item>Administrador</item>
         <item>Usuario</item>
-
     </string-array>
 
+    <string name="tituloGrupo">Grupos</string>
+    <string-array name="valorGrupo">
+        <item value="1000"> GRUPO 1</item>
+        <item value="1001"> GRUPO 2</item>
+    </string-array>
 
     <string name="tituloTipoPermisos">Seleccione el permiso </string>
     <string-array name="valorTipoPermiso">
