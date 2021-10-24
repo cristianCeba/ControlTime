@@ -144,8 +144,6 @@
                     android:id="@+id/spnTipoPermiso"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:entries="@array/valorTipoPermiso"
-
                     ></Spinner>
 
 
@@ -185,43 +183,110 @@
         </LinearLayout>
 
 
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="38dp"
+            android:layout_height="45dp"
             android:orientation="horizontal">
 
             <Button
-                android:backgroundTint="#F7DA38"
                 android:layout_width="30dp"
-                android:layout_height="30dp"></Button>
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="#F7DA38"></Button>
+
+            <TextView
+                android:layout_width="87dp"
+                android:layout_height="30dp"
+                android:text="Vacaciones"></TextView>
+
+            <Button
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="#B027A9"></Button>
+
+            <TextView
+                android:layout_width="87dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="0dp"
+                android:text="Enfermedad"></TextView>
+
+            <Button
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="#2759B0"></Button>
+
+            <TextView
+                android:layout_width="98dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="0dp"
+                android:text="Fallecimiento F."></TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="#FF5722"></Button>
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="30dp"
+                android:text="Hospitalización F."></TextView>
+
+            <Button
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="#4CAF50"></Button>
+
+            <TextView
+                android:layout_width="65dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="0dp"
+                android:text="Boda"></TextView>
+
+            <Button
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="#B07227"></Button>
 
             <TextView
                 android:layout_width="98dp"
                 android:layout_height="30dp"
-                android:text="VACACIONES"></TextView>
-
-            <Button
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:backgroundTint="#B027A9"></Button>
-
-            <TextView
-                android:layout_width="125dp"
-                android:layout_height="30dp"
-                android:text="MEDICO"></TextView>
+                android:layout_marginTop="0dp"
+                android:text="Boda F."></TextView>
         </LinearLayout>
 
         <sun.bob.mcalendarview.MCalendarView
 
             android:id="@+id/calendar"
-            android:layout_width="443dp"
-            android:layout_height="419dp"></sun.bob.mcalendarview.MCalendarView>
+            style="@style/CardView"
+            android:layout_width="371dp"
+            android:layout_height="383dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"></sun.bob.mcalendarview.MCalendarView>
 
 
+        <!--  <CalendarView
+             android:id="@+id/calendar"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             app:layout_constraintBottom_toBottomOf="parent"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintHorizontal_bias="0.491"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintTop_toTopOf="parent"
+             app:layout_constraintVertical_bias="0.134" />
 
-
-
+ -->
     </LinearLayout>
 
 

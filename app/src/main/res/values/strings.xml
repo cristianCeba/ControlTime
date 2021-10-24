@@ -2,27 +2,11 @@
     <string name="app_name">ControlTime</string>
 
 
-    <string name="tituloTipoUsuario">Tipo usuario</string>
-    <string-array name="valorTipoUsuario">
-        <item>Administrador</item>
-        <item>Usuario</item>
-    </string-array>
 
-    <string name="tituloGrupo">Grupos</string>
-    <string-array name="valorGrupo">
-        <item value="1000"> GRUPO 1</item>
-        <item value="1001"> GRUPO 2</item>
-    </string-array>
 
-    <string name="tituloTipoPermisos">Seleccione el permiso </string>
-    <string-array name="valorTipoPermiso">
-        <item value="0">Vacaciones</item>
-        <item value="1">Médico</item>
-        <item value="2">Boda Familiar</item>
-        <item value="3">Boda</item>
-        <item value="4">Ingreso Familiar</item>
 
-    </string-array>
+
+
 
 
 </resources>

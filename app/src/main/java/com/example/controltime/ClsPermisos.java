@@ -23,9 +23,8 @@ public class ClsPermisos {
     public double dias;
     public String FechaDesde;
     public String FechaHasta;
-    public long TipoPermiso;
+    public String TipoPermiso;
     public long Estado;
-
 
 
 
@@ -35,7 +34,7 @@ public class ClsPermisos {
         this.dias = 0.0;
         this.FechaDesde ="";
         this.FechaHasta = "";
-        this.TipoPermiso=0;
+        this.TipoPermiso="";
 
         this.RowId=0;
     }
@@ -43,7 +42,7 @@ public class ClsPermisos {
 
     /*CONSTRUCTOR DE LA CLASE*/
     public ClsPermisos( String Usuario, double dias,String FechaDesde,String FechaHasta,
-                        long TipoPermiso,long Estado,long Id ) {
+                        String TipoPermiso,long Estado,long Id ) {
 
         this.Usuario = Usuario;
         this.dias = dias;

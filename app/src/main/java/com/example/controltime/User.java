@@ -24,8 +24,8 @@ public class User {
     public String contraseña;
     public String Nombre;
     public String Ape;
-    public long TipoUsuario;
-    public long Grupo;
+    public String TipoUsuario;
+    public String Grupo;
     static Fichaje fichajeUsuario;
 
     /*CONSTRUCTOR , INICIALIZAMOS LA CLASE*/
@@ -34,8 +34,8 @@ public class User {
         this.Nombre = "";
         this.Ape = "";
         this.correoElectronico = "";
-        this.TipoUsuario=0;
-        this.Grupo=0;
+        this.TipoUsuario="";
+        this.Grupo="";
     }
 
     public User(String coreo, String contraseña) {
@@ -44,7 +44,7 @@ public class User {
     }
 
     /*CONSTRUCTOR DE LA CLASE*/
-    public User( String Nombre, String Ape, String correo,long TipoUsuario,long Grupo ) {
+    public User( String Nombre, String Ape, String correo,String TipoUsuario,String Grupo ) {
 
         this.contraseña = contraseña;
         this.Nombre = Nombre;

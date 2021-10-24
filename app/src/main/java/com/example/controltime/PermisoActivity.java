@@ -1,30 +1,21 @@
 package com.example.controltime;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.hardware.camera2.TotalCaptureResult;
-import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
-import android.text.TextPaint;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,14 +28,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.TimeZone;
 
 import sun.bob.mcalendarview.MCalendarView;
@@ -58,11 +44,11 @@ public class PermisoActivity extends AppCompatActivity {
     ImageButton btnPermiso;
     ImageButton btnConsulta;
     ImageButton btnValidar;
-
+    int colorDia;
     MCalendarView calendarView;
     private DatabaseReference mDataBase;
     TextView textTipoPer;
-    long TipoPermiso;
+    String TipoPermiso;
     boolean esMedioDia;
 
     String Usuario;
@@ -70,14 +56,16 @@ public class PermisoActivity extends AppCompatActivity {
     String FechaHasta;
     String Id;
     long RowId;
+    ArrayList<String> ArrayId= new ArrayList<String>();
     int num;
     int suma;
     boolean existeFecha;
     boolean esta ;
-    ArrayList<String> ArrayId= new ArrayList<String>();
+
     ClsPermisos objPermisos ;
     double Dias;
     String valor="";
+    com.example.controltime.TipoPermiso objtipoPermiso;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +81,7 @@ public class PermisoActivity extends AppCompatActivity {
         edtUsuarioApp.setText(User.UsuarioConectadoApp(getApplication()));
         Usuario=edtUsuarioApp.getText().toString().replace(".", "_").trim();
         /*FIN MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
-        LLenarLista(Usuario);
+       //LLenarLista(Usuario,calendarView);
 /***  * Comprobamos el ultimo id metido para el usuario registrado*/
         RowId=UltimoId() ;
         Id=String.valueOf(RowId);
@@ -129,7 +117,7 @@ public class PermisoActivity extends AppCompatActivity {
         FechaDesde=edtFechaDesde.getText().toString();
         FechaHasta=edtFechaHasta.getText().toString();
 
-       int valor=ComprobarFechas(edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
+       int valor=0;//ComprobarFechas(edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
 /***FIN FECHAS */
 
 /*** * CALENDARIO */
@@ -156,10 +144,13 @@ public class PermisoActivity extends AppCompatActivity {
 
 /***Spinner Tipo Permisos*/
         spnTipoPermiso=(Spinner) findViewById(R.id.spnTipoPermiso);
+        objtipoPermiso=new TipoPermiso();
+       objtipoPermiso.CargarTipoPermisos(mDataBase,spnTipoPermiso,PermisoActivity.this);
         spnTipoPermiso.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                TipoPermiso=id;
+                TipoPermiso=parent.getItemAtPosition(position).toString();
+                objtipoPermiso=new  TipoPermiso(String.valueOf(id),parent.getItemAtPosition(position).toString());
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -176,7 +167,7 @@ public class PermisoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
               //  OcultarMostrarControles(true);
-                LLenarLista(Usuario);
+                LLenarLista(Usuario,calendarView);
 
 
             }
@@ -209,17 +200,22 @@ public class PermisoActivity extends AppCompatActivity {
                     if (esMedioDia){
                         edtFechaHasta.setText(edtFechaDesde.getText().toString());
                      }else{
-                        Dias=Utils.getDiasSolicitados(edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
+                        Dias=1+Utils.getDiasSolicitados(edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
                     }
                         Toast.makeText(PermisoActivity.this," ID:" + Id,Toast.LENGTH_LONG).show();
-                        ClsPermisos per = new ClsPermisos(Usuario   ,Dias,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),TipoPermiso,0,RowId );
+                        //ClsPermisos per = new ClsPermisos(edtUsuarioApp.getText().toString()   ,Dias,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),TipoPermiso,0,RowId );
+                        ClsPermisos per = new ClsPermisos(edtUsuarioApp.getText().toString()   ,Dias,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),objtipoPermiso.id,0,RowId );
                         mDataBase = FirebaseDatabase.getInstance().getReference().child("Permisos").child (Usuario).child(Id);
                         mDataBase.setValue (per).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task2) {
                                 if (task2.isSuccessful()) {
                                     Toast.makeText(PermisoActivity.this,"Permiso grabado correctamente , dias:" + Dias,Toast.LENGTH_LONG).show();
-                                    LLenarLista(Usuario);
+                                    LLenarLista(Usuario,calendarView);
+                                    /***  * Comprobamos el ultimo id metido para el usuario registrado*/
+                                    RowId=UltimoId() ;
+                                    Id=String.valueOf(RowId);
+                                    /*FIN Comprobamos el ultimo id metido para el usuario registrado*/
                                 } else {
                                     Utils.MostrarMensajes(PermisoActivity.this, "NO SE HA PODIDO GRABAR EL PERMISO ", "GRABA USUARIO");
                                 }
@@ -265,7 +261,7 @@ public class PermisoActivity extends AppCompatActivity {
 
     }*/
 
-    public void LLenarLista( String Usuario)   {
+    public void LLenarLista( String Usuario,MCalendarView calendario)   {
 
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -279,14 +275,37 @@ public class PermisoActivity extends AppCompatActivity {
                     int cant=0;
                  for(DataSnapshot ds:snapshot.getChildren()){
                      ClsPermisos objPer = ds.getValue(ClsPermisos.class);
-                    int color=Color.GRAY;
+
 
                      try {
-                         if(objPer.TipoPermiso==0){
-                             color=Color.YELLOW;
-                         }else if(objPer.TipoPermiso==1) {
-                             color = Color.MAGENTA;
+                         switch (objPer.TipoPermiso){
+                             case "0":
+                                 colorDia=Color.rgb(247,218,56);
+                                 break;
+                             case "1":
+                                 colorDia=Color.rgb(2,2,1);
+                                 break;
+                             case "2":
+                                 colorDia=Color.rgb(176,39,169);
+                                 break;
+                             case "3":
+                                 colorDia=Color.rgb(39,89,176);
+                                 break;
+                             case "4":
+                                 colorDia=Color.rgb(255,87,34);
+                                 break;
+                             case "5":
+                                 colorDia=Color.rgb(76,175,80);
+                                 break;
+                             case "6":
+                                 colorDia=Color.rgb(176,114,39);
+
+                                 break;
                          }
+
+
+
+
                         Calendar cal=Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));;
                         cal.setTime(formato.parse( objPer.FechaDesde));
                          int year = cal.get(Calendar.YEAR);
@@ -299,9 +318,10 @@ public class PermisoActivity extends AppCompatActivity {
                          for (int y =year;y<= yearF;y++){
                              for (int m =month;m<= monthF;m++){
                                  for (int d =day;d<= dayF;d++){
-                                    // Toast.makeText(PermisoActivity.this,"" + d + "/"+ m+"/"+y , Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(PermisoActivity.this,"" + d + "/"+ m+"/"+y , Toast.LENGTH_SHORT).show();
 
-                                    calendarView.markDate(y,m,d).setMarkedStyle(1,color);
+                                    calendario.markDate(y,m,d).setMarkedStyle(1,colorDia);
+
                                  }
                              }
                          }

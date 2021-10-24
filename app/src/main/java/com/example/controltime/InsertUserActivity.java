@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -24,6 +25,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class InsertUserActivity extends AppCompatActivity {
     EditText txtNombre;
@@ -44,14 +48,18 @@ public class InsertUserActivity extends AppCompatActivity {
     String Email;
     String Pass;
     String Pass2;
-    long TipoUsuario;
-    long Grupo;
+    String TipoUsuario;
+    String Grupo;
     Button btnInsert;
     ConexionNOOO conexion;
     Utils utils;
-
+    TipoUsuario objTipoUsuario;
+    Grupos objGrupos;
     private DatabaseReference mDataBase;
     private FirebaseAuth mAuth;
+    String Id;
+    long RowId;
+    ArrayList<String> ArrayId= new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +82,14 @@ public class InsertUserActivity extends AppCompatActivity {
         btnInfo = findViewById(R.id.btnInfo);
         mDataBase = FirebaseDatabase.getInstance().getReference();
         mAuth=FirebaseAuth.getInstance();
+
+        objTipoUsuario=new TipoUsuario();
+        objTipoUsuario.CargarTipoUsuario(mDataBase,spnTipoUsuario,InsertUserActivity.this);
         spnTipoUsuario.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //Toast.makeText(parent.getContext(),(String) parent.getItemAtPosition(position),Toast.LENGTH_LONG ).show();
-               // Toast.makeText(parent.getContext(),"" + id,Toast.LENGTH_LONG ).show();
-                TipoUsuario=id;
+                TipoUsuario=parent.getItemAtPosition(position).toString();
+                objTipoUsuario=new TipoUsuario(String.valueOf(id),TipoUsuario);
             }
 
             @Override
@@ -87,13 +97,13 @@ public class InsertUserActivity extends AppCompatActivity {
 
             }
         });
-
+        objGrupos= new Grupos();
+        objGrupos. CargarGrupo(mDataBase,spnGrupo,InsertUserActivity.this);
         spnGrupo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(parent.getContext(), "" + id,Toast.LENGTH_LONG ).show();
-                Grupo=id;
-
+               Grupo= parent.getItemAtPosition(position).toString();
+               objGrupos=new Grupos(String.valueOf(id),Grupo);
             }
 
             @Override
@@ -172,16 +182,32 @@ public class InsertUserActivity extends AppCompatActivity {
                                                             public void onComplete(@NonNull Task<AuthResult> task) {
                                                                 if (task.isSuccessful()) {
                                                                    // GRABAMOS EN USERS
-                                                                   User use = new User(Nombre, Ape, Email,TipoUsuario ,Grupo);
+                                                                   User use = new User(Nombre, Ape, Email,objTipoUsuario.id ,objGrupos.id);
                                                                     String email = Email.replace(".", "_");
                                                                     mDataBase.child("users").child(email).setValue(use).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                         @Override
                                                                         public void onComplete(@NonNull Task<Void> task2) {
                                                                             if (task2.isSuccessful()) {
-                                                                               Toast.makeText(InsertUserActivity.this,"Usuario grabado correctamente",Toast.LENGTH_LONG).show();
+                                                                                //  grabamos en GrupoXUsuarios
+                                                                                RowId=UltimoId() ;Id=String.valueOf(RowId);
+                                                                                GrupoXUsuarios GrupoUsuario=new GrupoXUsuarios(Id,Email,objGrupos.id,objTipoUsuario.id);
+                                                                                mDataBase.child("GruposXUsuarios").child(Id).setValue(GrupoUsuario).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                    @Override
+                                                                                    public void onComplete(@NonNull  Task<Void> task) {
+                                                                                        if(task.isSuccessful()){
+                                                                                            Toast.makeText(InsertUserActivity.this,"Usuario grabado correctamente",Toast.LENGTH_LONG).show();
+                                                                                            // VOLVEMOS A LA PANTALLA DE LOGIN
+                                                                                            Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                                                                                            startActivity(intent);
+                                                                                        }
+                                                                                    }
+                                                                                });
+
+
+                                                                            /*   Toast.makeText(InsertUserActivity.this,"Usuario grabado correctamente",Toast.LENGTH_LONG).show();
                                                                                // VOLVEMOS A LA PANTALLA DE LOGIN
                                                                                 Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
-                                                                                startActivity(intent);
+                                                                                startActivity(intent);*/
                                                                             } else {
 
                                                                                 Utils.MostrarMensajes(InsertUserActivity.this, "NO SE HA PODIDO GRABAR EL USUARIO ", "GRABA USUARIO");
@@ -211,17 +237,33 @@ public class InsertUserActivity extends AppCompatActivity {
                         }
                     });
 
-
-
-
-
-
                 }
             }
         });
     }
 
+    public Long UltimoId(){
+        mDataBase = FirebaseDatabase.getInstance().getReference();
+        Query query =mDataBase.child("GruposXUsuarios");
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull  DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot ds:snapshot.getChildren()){
+                        ArrayId.add(ds.getKey());
+                    }
+                    RowId=Integer.valueOf(ArrayId.get(ArrayId.size()-1))+1 ;
+                    Id=String.valueOf(RowId);
+                }
 
+            }
+            @Override
+            public void onCancelled(@NonNull   DatabaseError error) {
+
+            }
+        });
+        return RowId;
+    }
 
 
 }
