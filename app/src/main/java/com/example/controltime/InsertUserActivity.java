@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.RowId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,8 +41,10 @@ public class InsertUserActivity extends AppCompatActivity {
     TextView txtMensajeNombre;
     TextView txtMensajeApe;
     TextView txtMensajeEmail;
+    TextView txtIdGrupo;
     Spinner spnTipoUsuario;
     Spinner spnGrupo;
+    Spinner spnIdGrupo;
     ImageButton btnInfo;
 
     String Nombre;
@@ -55,6 +59,7 @@ public class InsertUserActivity extends AppCompatActivity {
     Utils utils;
     TipoUsuario objTipoUsuario;
     Grupos objGrupos;
+    GrupoXUsuarios objGXU;
     private DatabaseReference mDataBase;
     private FirebaseAuth mAuth;
     String Id;
@@ -65,12 +70,15 @@ public class InsertUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insert_user);
+        mDataBase = FirebaseDatabase.getInstance().getReference();
+        mAuth=FirebaseAuth.getInstance();
         txtNombre = (EditText) findViewById(R.id.editTextName);
         txtMensajeNombre=(TextView) findViewById(R.id.textMensajeNombre);
         txtApe1 = (EditText) findViewById(R.id.editTextApe);
         txtMensajeApe=(TextView) findViewById(R.id.textMensajeApe);
         spnTipoUsuario=(Spinner)findViewById(R.id.spnTipo);
         spnGrupo=(Spinner)findViewById(R.id.spnGrupo);
+        spnIdGrupo=(Spinner)findViewById(R.id.spnIdGrupo);
 
 
         txtEmail = (EditText) findViewById(R.id.editTextEmail);
@@ -80,8 +88,21 @@ public class InsertUserActivity extends AppCompatActivity {
         btnInsert = (Button) findViewById(R.id.btnRegistro);
         txtPass2 = (EditText) findViewById(R.id.editTextPass2);
         btnInfo = findViewById(R.id.btnInfo);
-        mDataBase = FirebaseDatabase.getInstance().getReference();
-        mAuth=FirebaseAuth.getInstance();
+
+        objGXU=new GrupoXUsuarios();
+        objGXU.CargarGrupoXUsuario(mDataBase,spnIdGrupo,InsertUserActivity.this);
+
+        spnIdGrupo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                RowId=Integer.valueOf(objGXU.getId())+1;
+                Id= String.valueOf(RowId);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         objTipoUsuario=new TipoUsuario();
         objTipoUsuario.CargarTipoUsuario(mDataBase,spnTipoUsuario,InsertUserActivity.this);
@@ -189,7 +210,6 @@ public class InsertUserActivity extends AppCompatActivity {
                                                                         public void onComplete(@NonNull Task<Void> task2) {
                                                                             if (task2.isSuccessful()) {
                                                                                 //  grabamos en GrupoXUsuarios
-                                                                                RowId=UltimoId() ;Id=String.valueOf(RowId);
                                                                                 GrupoXUsuarios GrupoUsuario=new GrupoXUsuarios(Id,Email,objGrupos.id,objTipoUsuario.id);
                                                                                 mDataBase.child("GruposXUsuarios").child(Id).setValue(GrupoUsuario).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                     @Override
@@ -242,28 +262,7 @@ public class InsertUserActivity extends AppCompatActivity {
         });
     }
 
-    public Long UltimoId(){
-        mDataBase = FirebaseDatabase.getInstance().getReference();
-        Query query =mDataBase.child("GruposXUsuarios");
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull  DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    for(DataSnapshot ds:snapshot.getChildren()){
-                        ArrayId.add(ds.getKey());
-                    }
-                    RowId=Integer.valueOf(ArrayId.get(ArrayId.size()-1))+1 ;
-                    Id=String.valueOf(RowId);
-                }
 
-            }
-            @Override
-            public void onCancelled(@NonNull   DatabaseError error) {
-
-            }
-        });
-        return RowId;
-    }
 
 
 }

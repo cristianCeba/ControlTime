@@ -163,6 +163,13 @@
         android:layout_height="47dp"
         android:layout_marginLeft="35dp"/>
 
+
+    <Spinner
+        android:id="@+id/spnIdGrupo"
+        android:layout_width="7dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="35dp" />
+
     <Button
         android:id="@+id/btnRegistro"
         android:layout_width="match_parent"
