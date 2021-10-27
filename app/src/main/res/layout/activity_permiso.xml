@@ -46,28 +46,23 @@
             android:textAlignment="center">
 
 
-            <ImageButton
-                android:id="@+id/btnPermiso"
-                android:layout_width="157dp"
-                android:layout_height="38dp"
-                android:background="@drawable/permiso">
 
-            </ImageButton>
 
         </LinearLayout>
 
         <LinearLayout
 
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorEditTextNormal"
+            android:layout_height="10dp"
+            android:background="#11688E"
             android:gravity="center">
 
-            <TextView
+          <!--  <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="PETICION"
                 android:textColor="@color/white"></TextView>
+       -->
         </LinearLayout>
 
         <LinearLayout
@@ -84,7 +79,7 @@
                 android:clickable="true"
                 android:hint="01/01/2021"
                 android:inputType="date"
-                android:textSize="14sp">
+                android:textSize="12sp">
 
             </EditText>
 
@@ -95,7 +90,7 @@
                 android:clickable="true"
                 android:hint="31/12/2021"
                 android:inputType="date"
-                android:textSize="14sp">
+                android:textSize="12sp">
 
             </EditText>
         </LinearLayout>
@@ -117,8 +112,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@color/white"
                 android:text="Medio día"
-                android:textSize="14sp"
-                ></CheckBox>
+                android:textSize="12sp"></CheckBox>
 
             <LinearLayout
 
@@ -137,8 +131,7 @@
                     android:layout_marginStart="5dp"
                     android:layout_marginLeft="5dp"
                     android:text="Tipo permiso"
-                    android:textSize="14sp"
-                     />
+                    android:textSize="12sp" />
 
                 <Spinner
                     android:id="@+id/spnTipoPermiso"
@@ -164,28 +157,38 @@
         <LinearLayout
 
             android:id="@+id/lyConsulta"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical" />
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:orientation="vertical"
+            android:background="#11688E"
+            />
 
         <LinearLayout
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorEditTextNormal"
-            android:gravity="center">
+            android:gravity="center"
+            android:paddingTop="5dp">
 
-            <TextView
+            <Button
+                android:id="@+id/btnPermiso"
+                android:layout_width="179dp"
+                android:layout_height="40dp"
+                android:background="@drawable/custonbutton"
+                android:text="VER PERMISOS"
+                app:backgroundTint="@null" />
+            <!--  <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="CONSULTA"
                 android:textColor="@color/white"></TextView>
+        -->
         </LinearLayout>
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="36dp"
             android:orientation="horizontal">
 
             <Button
@@ -197,7 +200,8 @@
             <TextView
                 android:layout_width="87dp"
                 android:layout_height="30dp"
-                android:text="Vacaciones"></TextView>
+                android:text="Vacaciones"
+                android:textSize="12dp"></TextView>
 
             <Button
                 android:layout_width="30dp"
@@ -209,7 +213,8 @@
                 android:layout_width="87dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="0dp"
-                android:text="Enfermedad"></TextView>
+                android:text="Enfermedad"
+                android:textSize="12dp"></TextView>
 
             <Button
                 android:layout_width="30dp"
@@ -221,12 +226,13 @@
                 android:layout_width="98dp"
                 android:layout_height="35dp"
                 android:layout_marginTop="0dp"
-                android:text="Fallecimiento F."></TextView>
+                android:text="Fallecimiento F."
+                android:textSize="12dp"></TextView>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="42dp"
+            android:layout_height="34dp"
             android:orientation="horizontal">
 
             <Button
@@ -236,9 +242,10 @@
                 android:backgroundTint="#FF5722"></Button>
 
             <TextView
-                android:layout_width="130dp"
+                android:layout_width="105dp"
                 android:layout_height="30dp"
-                android:text="Hospitalización F."></TextView>
+                android:text="Hospitalización F."
+                android:textSize="12dp"></TextView>
 
             <Button
                 android:layout_width="30dp"
@@ -247,10 +254,11 @@
                 android:backgroundTint="#4CAF50"></Button>
 
             <TextView
-                android:layout_width="65dp"
+                android:layout_width="45dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="0dp"
-                android:text="Boda"></TextView>
+                android:text="Boda"
+                android:textSize="12dp"></TextView>
 
             <Button
                 android:layout_width="30dp"
@@ -259,10 +267,24 @@
                 android:backgroundTint="#B07227"></Button>
 
             <TextView
-                android:layout_width="98dp"
+                android:layout_width="49dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="0dp"
-                android:text="Boda F."></TextView>
+                android:text="Boda F."
+                android:textSize="12dp"></TextView>
+
+            <Button
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="#7F817F"></Button>
+
+            <TextView
+                android:layout_width="55dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="0dp"
+                android:text="Baja"
+                android:textSize="12dp"></TextView>
         </LinearLayout>
 
         <sun.bob.mcalendarview.MCalendarView

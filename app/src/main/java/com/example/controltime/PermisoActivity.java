@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -41,7 +42,8 @@ public class PermisoActivity extends AppCompatActivity {
     EditText edtFechaHasta;
     Spinner spnTipoPermiso;
     CheckBox chkMedioDia;
-    ImageButton btnPermiso;
+
+    Button btnPermiso;
     ImageButton btnConsulta;
     ImageButton btnValidar;
     int colorDia;
@@ -162,7 +164,7 @@ public class PermisoActivity extends AppCompatActivity {
 
  /*** BOTON SOLICITAR PERMISOS*
          * Ocultamos los controles de la consulta         *         * */
-        btnPermiso=(ImageButton) findViewById(R.id.btnPermiso);
+        btnPermiso=(Button) findViewById(R.id.btnPermiso);
         btnPermiso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -283,7 +285,7 @@ public class PermisoActivity extends AppCompatActivity {
                                  colorDia=Color.rgb(247,218,56);
                                  break;
                              case "1":
-                                 colorDia=Color.rgb(2,2,1);
+                                 colorDia=Color.rgb(125,129,127);
                                  break;
                              case "2":
                                  colorDia=Color.rgb(176,39,169);
