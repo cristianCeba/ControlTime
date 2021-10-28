@@ -42,6 +42,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
+
         btnInsertarUser = findViewById(R.id.btnRegistro);
         btnIniciarSesion = findViewById(R.id.btnIniciarSesion);
         editTextContraseña = findViewById(R.id.editTextTextPassword);
@@ -53,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         utils = new Utils();
 
         mAuth = FirebaseAuth.getInstance();
+        sesionGuardada();
 
         btnInsertarUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(LoginActivity.this, "Usuario encontrado",
                                     Toast.LENGTH_SHORT).show();
-                            User.UsuarioPreferencesApp(correo,getApplicationContext());
+                            User.UsuarioPreferencesApp(correo,contraseña,getApplicationContext());
                             Intent intent = new Intent(getApplicationContext(),MenuPrincipalActivity.class);
                             startActivity(intent);
                         } else {
@@ -144,5 +147,21 @@ public class LoginActivity extends AppCompatActivity {
     private void resetearContraseña () {
         Intent intent = new Intent(getApplicationContext(),ResetPasswordActivity.class);
         startActivity(intent);
+    }
+
+    private void sesionGuardada (){
+        String correo = User.UsuarioConectadoApp(getApplicationContext());
+        String contrasena = User.UsuarioContrasenaConectadoApp(getApplicationContext());
+
+        mAuth.signInWithEmailAndPassword(correo, contrasena)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Intent intent = new Intent(getApplicationContext(),MenuPrincipalActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+                });
     }
 }

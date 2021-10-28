@@ -90,7 +90,4 @@ public class  Utils extends DialogFragment implements DatePickerDialog.OnDateSet
         return dias;
     }
 
-
-
-
 }

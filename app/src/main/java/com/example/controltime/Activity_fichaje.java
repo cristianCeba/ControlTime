@@ -64,19 +64,28 @@ public class Activity_fichaje extends AppCompatActivity {
         Query query=mDataBase.child("fichaje").child(usuarioAplicacion);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
+            /**
+             * Buscamos en base de datos si el usuario ha registrado algún fichaje del día, y dependiendo de lo que el usuario ha registrado
+             * habilitamos y deshabilitamos los botones de fichajes.
+             */
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                //Buscamos todos los fichajes del usuario y si ya ha fichado hoy, dehsabilitamos el botón de iniciar fichaje
+
                 btnIniFichaje.setEnabled(false);
                 btnIniFichaje.setEnabled(true);
                 for(DataSnapshot ds: snapshot.getChildren()){
                     Fichaje fichajeUsuario = ds.getValue(Fichaje.class);
                     System.out.println("ds.getKey() --> " + ds.getKey());
                     System.out.println("dia --> " + dia);
+                    /**
+                     * Revisamos todos los fichajes del usuario para ver si ya ha fichado en el día.
+                     */
                     if (ds.getKey().equals(dia) && !fichajeEncontrado){
                         User.guardarFichajeUsuario(fichajeUsuario);
                         fichajeEncontrado = true;
                         btnIniFichaje.setEnabled(false);
-
+                        /**
+                         * Revisamos si solo ha registrado la hora de inicio de fichaje.
+                         */
                         if(!fichajeUsuario.horaIni.equals("0") && fichajeUsuario.horaFinDescanso.equals("0") && fichajeUsuario.horaIniDescanso.equals("0")){
                             btnIniFichaje.setEnabled(false);
                             btnFinFichaje.setEnabled(false);
@@ -84,6 +93,9 @@ public class Activity_fichaje extends AppCompatActivity {
                             btnFinDescanso.setEnabled(false);
                             textMostMensaje.setText("TRABAJANDO");
                             textMostrarInicioHora.setText(fichajeUsuario.horaIni.toString());
+                            /**
+                             * Revisamos si ha registrado el inicio del fichaje y el inicio del descanso
+                             */
                         } else if (!fichajeUsuario.horaIni.equals("0") && !fichajeUsuario.horaIniDescanso.equals("0") && fichajeUsuario.horaFinDescanso.equals("0")){
                             btnIniFichaje.setEnabled(false);
                             btnFinFichaje.setEnabled(false);
@@ -92,6 +104,9 @@ public class Activity_fichaje extends AppCompatActivity {
                             textMostMensaje.setText("DESCANSANDO");
                             textMostrarInicioHora.setText(fichajeUsuario.horaIni.toString());
                             textMostrarInicioDescanso.setText(fichajeUsuario.horaIniDescanso);
+                            /**
+                             * Revisamos si ha registrado el inicio del fichaje el inicio del descanso y el fin del descanso
+                             */
                         } else if (!fichajeUsuario.horaIni.equals("0") && !fichajeUsuario.horaIniDescanso.equals("0") && !fichajeUsuario.horaFinDescanso.equals("0") && fichajeUsuario.horaFin.equals("0")) {
                             btnIniFichaje.setEnabled(false);
                             btnFinFichaje.setEnabled(true);
@@ -101,6 +116,9 @@ public class Activity_fichaje extends AppCompatActivity {
                             textMostrarInicioHora.setText(fichajeUsuario.horaIni.toString());
                             textMostrarInicioDescanso.setText(fichajeUsuario.horaIniDescanso);
                             textMostrarFinDescanso.setText(fichajeUsuario.horaFinDescanso);
+                            /**
+                             * Solo quedaría finalizar el fichaje
+                             */
                         } else {
                             btnIniFichaje.setEnabled(false);
                             btnFinFichaje.setEnabled(false);
@@ -115,7 +133,9 @@ public class Activity_fichaje extends AppCompatActivity {
                     }
 
                 }
-
+                /**
+                 * Si no encontramos fichajes del día del usuario dejamos solo habilitado el botón de iniciar fichaje.
+                 */
                 if (!fichajeEncontrado){
                     btnIniDescanso.setEnabled(false);
                     btnFinDescanso.setEnabled(false);
@@ -132,7 +152,7 @@ public class Activity_fichaje extends AppCompatActivity {
         //Mostramos la hora por pantalla
         textMostDia.setText(diaMostrar);
 
-        //Botón inicio de fichaje, deshabilitamos el botón cuando se pulsa y se muestra la hora de inicio de fichaje.
+        //Botón inicio de fichaje, deshabilitamos el botón y habilitamos el botón de inicio de fichaje
         btnIniFichaje.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,7 +167,7 @@ public class Activity_fichaje extends AppCompatActivity {
             }
         });
 
-        //Botón fin de fichaje, ponemos el botón deshabilitado y mostramos la hora del fin de fichaje.
+        //Botón fin de fichaje, ponemos el botón deshabilitado.
         btnFinFichaje.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,7 +179,7 @@ public class Activity_fichaje extends AppCompatActivity {
                 btnFinFichaje.setEnabled(false);
             }
         });
-
+        //Botón inicio de descanso, ponemos el botón deshabilitado y habilitamos el botón de fin de descanso.
         btnIniDescanso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,7 +192,7 @@ public class Activity_fichaje extends AppCompatActivity {
                 btnFinDescanso.setEnabled(true);
             }
         });
-
+        //Botón fin de descanso, ponemos el botón deshabilitado y habilitamos el botón de fin de fichaje.
         btnFinDescanso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,15 +209,16 @@ public class Activity_fichaje extends AppCompatActivity {
 
     }
 
-
+    /**
+     * Método que devuelve la hora actual.
+     * @return String con la hora actual.
+     */
     public String sacarHora (){
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
         cal = Calendar.getInstance();
         cal.setTime(new Date());
 
-        //Desplegamos la fecha
-        System.out.println("Fecha actual: " + hora);
 
         //Le cambiamos la hora y minutos
         cal.set(Calendar.HOUR, cal.get(Calendar.HOUR)+ 2);

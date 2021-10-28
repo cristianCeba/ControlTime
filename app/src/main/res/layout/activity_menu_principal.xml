@@ -97,15 +97,34 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="10dp">
+        android:paddingLeft="10dp"
+        android:paddingBottom="5dp">>
 
         <Button
-            android:id="@+id/btnConfiguración"
+            android:id="@+id/btnConfiguracion"
             android:layout_width="179dp"
             android:layout_height="40dp"
             android:background="@drawable/custonbutton"
             android:src="@drawable/btnverfichajes"
             android:text="CONFIGURACIÓN"
+            app:backgroundTint="@null" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingBottom="5dp">/>
+
+
+        <Button
+            android:id="@+id/btnCerrarSesion"
+            android:layout_width="179dp"
+            android:layout_height="40dp"
+            android:background="@drawable/custonbutton"
+            android:src="@drawable/btnverfichajes"
+            android:text="CERRAR SESION"
             app:backgroundTint="@null" />
     </LinearLayout>
 

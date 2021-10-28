@@ -18,6 +18,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.EventListener;
+
 public class User {
 
     public String correoElectronico;
@@ -53,12 +55,13 @@ public class User {
         this.TipoUsuario=TipoUsuario;
         this.Grupo=Grupo;
 
-
     }
-public static void UsuarioPreferencesApp(String usuario,Context contex){
+
+public static void UsuarioPreferencesApp(String usuario,String contrasena,Context contex){
     SharedPreferences prefe = contex.getSharedPreferences("usuarioApp",Context.MODE_PRIVATE);
     SharedPreferences.Editor editor =prefe.edit();
     editor.putString("usuario",usuario .toString());
+    editor.putString("contraseña",contrasena .toString());
 
     editor.commit();
     }
@@ -66,6 +69,20 @@ public static void UsuarioPreferencesApp(String usuario,Context contex){
 public static String UsuarioConectadoApp(Context contex){
     SharedPreferences preferencias = contex.getSharedPreferences("usuarioApp", Context.MODE_PRIVATE);
     return preferencias.getString("usuario","No hay usuario conectado");
+}
+
+public static String UsuarioContrasenaConectadoApp(Context contex){
+    SharedPreferences preferencias = contex.getSharedPreferences("usuarioApp", Context.MODE_PRIVATE);
+    return preferencias.getString("contraseña","No hay contraseña");
+}
+
+public static void CerrarSesion(Context contex){
+    SharedPreferences preferencias = contex.getSharedPreferences("usuarioApp", Context.MODE_PRIVATE);
+    SharedPreferences.Editor editor =preferencias.edit();
+    editor.putString("usuario",null);
+    editor.putString("contraseña",null);
+
+    editor.commit();
 }
 
 public static void guardarFichajeUsuario (Fichaje fichaje){

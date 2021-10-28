@@ -11,7 +11,7 @@ import android.widget.ImageButton;
 
 public class MenuPrincipalActivity extends AppCompatActivity {
 
-    Button btnFichaje,btnPermiso,btnVerFichaje;
+    Button btnFichaje,btnPermiso,btnVerFichaje,btnCambiarHorario,btnConfiguración,btnCerrarSesion;
     EditText usuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +23,9 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         usuario.setText(User.UsuarioConectadoApp(getApplicationContext()));
         btnPermiso=(Button) findViewById(R.id.btnPermiso);
         btnVerFichaje=(Button) findViewById(R.id.btnVerFichaje);
+        btnCambiarHorario = findViewById(R.id.btnSolicitarCambio);
+        btnConfiguración = findViewById(R.id.btnConfiguracion);
+        btnCerrarSesion = findViewById(R.id.btnCerrarSesion);
         btnPermiso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,6 +49,31 @@ public class MenuPrincipalActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),VerFichajeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnCambiarHorario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),Activity_ModificarFichaje.class);
+                startActivity(intent);
+            }
+        });
+
+        btnConfiguración.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),Activity_Configuracion.class);
+                startActivity(intent);
+            }
+        });
+
+        btnCerrarSesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                User.CerrarSesion(getApplicationContext());
+                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                 startActivity(intent);
             }
         });
