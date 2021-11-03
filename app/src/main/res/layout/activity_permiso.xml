@@ -198,7 +198,7 @@
                 android:backgroundTint="#F7DA38"></Button>
 
             <TextView
-                android:layout_width="87dp"
+                android:layout_width="105dp"
                 android:layout_height="30dp"
                 android:text="Vacaciones"
                 android:textSize="12dp"></TextView>
@@ -210,7 +210,7 @@
                 android:backgroundTint="#B027A9"></Button>
 
             <TextView
-                android:layout_width="87dp"
+                android:layout_width="80dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="0dp"
                 android:text="Enfermedad"
@@ -254,7 +254,7 @@
                 android:backgroundTint="#4CAF50"></Button>
 
             <TextView
-                android:layout_width="45dp"
+                android:layout_width="80dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="0dp"
                 android:text="Boda"
@@ -273,6 +273,13 @@
                 android:text="Boda F."
                 android:textSize="12dp"></TextView>
 
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="34dp"
+            android:orientation="horizontal">
             <Button
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -291,9 +298,8 @@
 
             android:id="@+id/calendar"
             style="@style/CardView"
-            android:layout_width="371dp"
+            android:layout_width="match_parent"
             android:layout_height="383dp"
-            android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"></sun.bob.mcalendarview.MCalendarView>
 
 

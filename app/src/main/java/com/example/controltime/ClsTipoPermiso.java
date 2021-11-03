@@ -14,16 +14,16 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TipoPermiso {
+public class ClsTipoPermiso {
     String id;
     String Tipo;
 
-    public TipoPermiso(String id, String tipoPermisos) {
+    public ClsTipoPermiso(String id, String tipoPermisos) {
         this.id=id;
         this.Tipo=tipoPermisos;
     }
 
-    public TipoPermiso() {
+    public ClsTipoPermiso() {
         this.id="";
         this.Tipo="tipoPermisos";
     }
@@ -51,7 +51,7 @@ public class TipoPermiso {
 
 
     public void CargarTipoPermisos(DatabaseReference mDataBase, Spinner spnTipoPermisos, Context context){
-     final   List<TipoPermiso> tipoPermisos=new ArrayList<>();
+     final   List<ClsTipoPermiso> tipoPermisos=new ArrayList<>();
      mDataBase.child("TipoPermisos").addListenerForSingleValueEvent(new ValueEventListener() {
          @Override
          public void onDataChange(@NonNull   DataSnapshot snapshot) {
@@ -59,9 +59,9 @@ public class TipoPermiso {
                  for (DataSnapshot ds:snapshot.getChildren()){
                      String id =ds.getKey();
                      String tipoPer=ds.child("tipo").getValue().toString();
-                     tipoPermisos.add(new TipoPermiso(id,tipoPer));
+                     tipoPermisos.add(new ClsTipoPermiso(id,tipoPer));
                  }
-                 ArrayAdapter<TipoPermiso> adapter=new ArrayAdapter<>(context, android.R.layout.simple_dropdown_item_1line,tipoPermisos);
+                 ArrayAdapter<ClsTipoPermiso> adapter=new ArrayAdapter<>(context, android.R.layout.simple_dropdown_item_1line,tipoPermisos);
                  spnTipoPermisos.setAdapter(adapter);
              }
          }

@@ -67,7 +67,7 @@ public class PermisoActivity extends AppCompatActivity {
     ClsPermisos objPermisos ;
     double Dias;
     String valor="";
-    com.example.controltime.TipoPermiso objtipoPermiso;
+    com.example.controltime.ClsTipoPermiso objtipoPermiso;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,13 +146,13 @@ public class PermisoActivity extends AppCompatActivity {
 
 /***Spinner Tipo Permisos*/
         spnTipoPermiso=(Spinner) findViewById(R.id.spnTipoPermiso);
-        objtipoPermiso=new TipoPermiso();
+        objtipoPermiso=new ClsTipoPermiso();
        objtipoPermiso.CargarTipoPermisos(mDataBase,spnTipoPermiso,PermisoActivity.this);
         spnTipoPermiso.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TipoPermiso=parent.getItemAtPosition(position).toString();
-                objtipoPermiso=new  TipoPermiso(String.valueOf(id),parent.getItemAtPosition(position).toString());
+                objtipoPermiso=new  ClsTipoPermiso(String.valueOf(id),parent.getItemAtPosition(position).toString());
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {

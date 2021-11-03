@@ -57,9 +57,9 @@ public class InsertUserActivity extends AppCompatActivity {
     Button btnInsert;
     ConexionNOOO conexion;
     Utils utils;
-    TipoUsuario objTipoUsuario;
-    Grupos objGrupos;
-    GrupoXUsuarios objGXU;
+    ClsTipoUsuario objTipoUsuario;
+    ClsGrupos objGrupos;
+    ClsGrupoXUsuarios objGXU;
     private DatabaseReference mDataBase;
     private FirebaseAuth mAuth;
     String Id;
@@ -89,7 +89,7 @@ public class InsertUserActivity extends AppCompatActivity {
         txtPass2 = (EditText) findViewById(R.id.editTextPass2);
         btnInfo = findViewById(R.id.btnInfo);
 
-        objGXU=new GrupoXUsuarios();
+        objGXU=new ClsGrupoXUsuarios();
         objGXU.CargarGrupoXUsuario(mDataBase,spnIdGrupo,InsertUserActivity.this);
 
         spnIdGrupo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -104,13 +104,13 @@ public class InsertUserActivity extends AppCompatActivity {
             }
         });
 
-        objTipoUsuario=new TipoUsuario();
+        objTipoUsuario=new ClsTipoUsuario();
         objTipoUsuario.CargarTipoUsuario(mDataBase,spnTipoUsuario,InsertUserActivity.this);
         spnTipoUsuario.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TipoUsuario=parent.getItemAtPosition(position).toString();
-                objTipoUsuario=new TipoUsuario(String.valueOf(id),TipoUsuario);
+                objTipoUsuario=new ClsTipoUsuario(String.valueOf(id),TipoUsuario);
             }
 
             @Override
@@ -118,13 +118,13 @@ public class InsertUserActivity extends AppCompatActivity {
 
             }
         });
-        objGrupos= new Grupos();
+        objGrupos= new ClsGrupos();
         objGrupos. CargarGrupo(mDataBase,spnGrupo,InsertUserActivity.this);
         spnGrupo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                Grupo= parent.getItemAtPosition(position).toString();
-               objGrupos=new Grupos(String.valueOf(id),Grupo);
+               objGrupos=new ClsGrupos(String.valueOf(id),Grupo);
             }
 
             @Override
@@ -210,7 +210,7 @@ public class InsertUserActivity extends AppCompatActivity {
                                                                         public void onComplete(@NonNull Task<Void> task2) {
                                                                             if (task2.isSuccessful()) {
                                                                                 //  grabamos en GrupoXUsuarios
-                                                                                GrupoXUsuarios GrupoUsuario=new GrupoXUsuarios(Id,Email,objGrupos.id,objTipoUsuario.id);
+                                                                                ClsGrupoXUsuarios GrupoUsuario=new ClsGrupoXUsuarios(Id,Email,objGrupos.id,objTipoUsuario.id);
                                                                                 mDataBase.child("GruposXUsuarios").child(Id).setValue(GrupoUsuario).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                     @Override
                                                                                     public void onComplete(@NonNull  Task<Void> task) {

@@ -17,21 +17,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class GrupoXUsuarios {
-    List<GrupoXUsuarios> GrupoUsu;
+public class ClsGrupoXUsuarios {
+    List<ClsGrupoXUsuarios> GrupoUsu;
     String id;
     String Usuario;
     String Grupo;
     String TiposUsuario;
     String valor;
-    public GrupoXUsuarios(String id, String Usuario, String grupo, String tiposUsuario) {
+    public ClsGrupoXUsuarios(String id, String Usuario, String grupo, String tiposUsuario) {
         this.id = id;
         this.Usuario = Usuario;
         this.Grupo = grupo;
         this.TiposUsuario = tiposUsuario;
     }
 
-    public GrupoXUsuarios() {
+    public ClsGrupoXUsuarios() {
         this.id = "";
         Usuario = "";
         Grupo = "";
@@ -76,7 +76,7 @@ public class GrupoXUsuarios {
     }
 
     public void CargarGrupoXUsuario(DatabaseReference mDataBase, Spinner spnId, Context context) {
-       List<GrupoXUsuarios> GrupoUsu=new ArrayList<>();
+       List<ClsGrupoXUsuarios> GrupoUsu=new ArrayList<>();
        List<Integer>Listid= new ArrayList<>();
         mDataBase.child("GruposXUsuarios").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -89,7 +89,7 @@ public class GrupoXUsuarios {
                         String Grupo = ds.child("grupo").getValue().toString();
                         String TiposUsuario = ds.child("tiposUsuario").getValue().toString();
                         String id = ds.child("id").getValue().toString();
-                        GrupoUsu.add(new GrupoXUsuarios(id,Usuario,Grupo,TiposUsuario));
+                        GrupoUsu.add(new ClsGrupoXUsuarios(id,Usuario,Grupo,TiposUsuario));
                         Listid.add(Integer.valueOf(idGrupo));
 
                     }

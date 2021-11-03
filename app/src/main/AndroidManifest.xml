@@ -9,6 +9,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.ControlTime">
+        <activity android:name=".Activity_Informe"></activity>
         <activity android:name=".Activity_ModificarFichaje" />
         <activity android:name=".Activity_Configuracion" />
         <activity android:name=".VerFichajeActivity" />

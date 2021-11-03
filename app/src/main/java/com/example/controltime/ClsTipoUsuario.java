@@ -14,50 +14,56 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Grupos {
+public class ClsTipoUsuario {
     String id;
-    String Grupo;
+    String Tipo;
 
-    public Grupos(String id, String grupo) {
-        this.Grupo=grupo;
+    public ClsTipoUsuario(String id, String tipo) {
         this.id=id;
+        this.Tipo=tipo;
 
     }
-    public Grupos() {
-        this.Grupo="";
+    public ClsTipoUsuario() {
         this.id="";
+        this.Tipo="";
 
     }
-    public String getGrupo() {
-        return Grupo;
+    public String getId() {
+        return id;
+    }
+
+    public String getTipo() {
+        return Tipo;
     }
 
     public void setId(String id) {
         this.id = id;
     }
 
-    public void setGrupo(String grupo) {
-        Grupo = grupo;
+    public void setTipo(String tipo) {
+        Tipo = tipo;
     }
 
     @Override
     public String toString() {
-        return  Grupo ;
+        return  Tipo ;
     }
-    public void CargarGrupo(DatabaseReference mDataBase, Spinner spnGrupo, Context context){
-        List<Grupos> grupos=new ArrayList<>();
-        mDataBase.child("Grupos").addListenerForSingleValueEvent(new ValueEventListener() {
+
+
+    public void CargarTipoUsuario(DatabaseReference mDataBase, Spinner spnTipoUsuario, Context context){
+        List<ClsTipoUsuario> tipo=new ArrayList<>();
+        mDataBase.child("TipoUsuario").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     for(DataSnapshot ds: snapshot.getChildren()){
                         String id=ds.getKey();
-                        String grupo=ds.child("Grupo").getValue().toString();
-                        grupos.add(new Grupos(id,grupo));
+                        String TipoUsuario=ds.child("Tipo").getValue().toString();
+                        tipo.add(new ClsTipoUsuario(id,TipoUsuario));
                     }
 
-                    ArrayAdapter<Grupos> arrayAdapter= new ArrayAdapter<>(context, android.R.layout.simple_dropdown_item_1line,grupos);
-                    spnGrupo.setAdapter(arrayAdapter);
+                    ArrayAdapter<ClsTipoUsuario> arrayAdapter= new ArrayAdapter<>(context, android.R.layout.simple_dropdown_item_1line,tipo);
+                    spnTipoUsuario.setAdapter(arrayAdapter);
 
                 }
             }

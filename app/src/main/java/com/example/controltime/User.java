@@ -3,6 +3,8 @@ package com.example.controltime;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,7 +20,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.EventListener;
+import java.util.List;
 
 public class User {
 
@@ -29,6 +33,14 @@ public class User {
     public String TipoUsuario;
     public String Grupo;
     static Fichaje fichajeUsuario;
+
+    public String getGrupo() {
+        return Grupo;
+    }
+
+    public void setGrupo(String grupo) {
+        Grupo = grupo;
+    }
 
     /*CONSTRUCTOR , INICIALIZAMOS LA CLASE*/
     public User() {
@@ -84,6 +96,64 @@ public static void CerrarSesion(Context contex){
 
     editor.commit();
 }
+    public void GrupoUsuario(DatabaseReference mDataBase ,String Usuario){
+        List<User> usuario=new ArrayList<>();
+        mDataBase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot ds: snapshot.getChildren()){
+
+                       if(ds.getKey()==Usuario){
+                           String correo=ds.getKey();
+                           String nombre=ds.child("Nombre").getValue().toString();
+                           String apellido=ds.child("Ape").getValue().toString();
+                           String grupoUsuario=ds.child("Grupo").getValue().toString();
+                           String tipoUsuario=ds.child("TipoUsuario").getValue().toString();
+                           setGrupo(grupoUsuario);
+                       }
+
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void CargarUsuariosPorGrupo(DatabaseReference mDataBase, Spinner spnUsuario, Context context,String grupo){
+        List<User> usuario=new ArrayList<>();
+        mDataBase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot ds: snapshot.getChildren()){
+                        String correo=ds.getKey();
+                        String nombre=ds.child("Nombre").getValue().toString();
+                        String apellido=ds.child("Ape").getValue().toString();
+                        String grupoUsuario=ds.child("Grupo").getValue().toString();
+                        String tipoUsuario=ds.child("TipoUsuario").getValue().toString();
+                        if (grupoUsuario==grupo){
+                            usuario.add(new User(nombre,apellido,correo,tipoUsuario,grupoUsuario));
+                        }
+
+                    }
+
+                    ArrayAdapter<User> arrayAdapter= new ArrayAdapter<>(context, android.R.layout.simple_dropdown_item_1line,usuario);
+                    spnUsuario.setAdapter(arrayAdapter);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
 public static void guardarFichajeUsuario (Fichaje fichaje){
         fichajeUsuario = fichaje;
@@ -93,5 +163,9 @@ public static Fichaje DevolverFichajeUsuario (){
         return fichajeUsuario;
 }
 
+
+
 }
+
+
 

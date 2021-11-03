@@ -11,7 +11,7 @@ import android.widget.ImageButton;
 
 public class MenuPrincipalActivity extends AppCompatActivity {
 
-    Button btnFichaje,btnPermiso,btnVerFichaje,btnCambiarHorario,btnConfiguración,btnCerrarSesion;
+    Button btnInforme, btnFichaje,btnPermiso,btnVerFichaje,btnCambiarHorario,btnConfiguración,btnCerrarSesion;
     EditText usuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +26,15 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         btnCambiarHorario = findViewById(R.id.btnSolicitarCambio);
         btnConfiguración = findViewById(R.id.btnConfiguracion);
         btnCerrarSesion = findViewById(R.id.btnCerrarSesion);
+        btnInforme=findViewById(R.id.btnInforme);
+        btnInforme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),Activity_Informe.class);
+                startActivity(intent);
+            }
+        });
+
         btnPermiso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
