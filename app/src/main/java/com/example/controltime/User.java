@@ -1,27 +1,18 @@
 package com.example.controltime;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.List;
 
 public class User {
@@ -31,7 +22,7 @@ public class User {
     public String Nombre;
     public String Ape;
     public String TipoUsuario;
-    public String Grupo;
+    private String Grupo;
     static Fichaje fichajeUsuario;
 
     public String getGrupo() {
@@ -49,7 +40,7 @@ public class User {
         this.Ape = "";
         this.correoElectronico = "";
         this.TipoUsuario="";
-        this.Grupo="";
+        this.Grupo ="";
     }
 
     public User(String coreo, String contraseña) {
@@ -60,12 +51,11 @@ public class User {
     /*CONSTRUCTOR DE LA CLASE*/
     public User( String Nombre, String Ape, String correo,String TipoUsuario,String Grupo ) {
 
-        this.contraseña = contraseña;
         this.Nombre = Nombre;
         this.Ape = Ape;
         this.correoElectronico = correo;
         this.TipoUsuario=TipoUsuario;
-        this.Grupo=Grupo;
+        this.Grupo =Grupo;
 
     }
 

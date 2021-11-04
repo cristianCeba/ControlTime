@@ -21,4 +21,36 @@ public class Fichaje {
     public Fichaje (){
 
     }
+
+    public String getHoraIni() {
+        return horaIni;
+    }
+
+    public void setHoraIni(String horaIni) {
+        this.horaIni = horaIni;
+    }
+
+    public String getHoraFin() {
+        return horaFin;
+    }
+
+    public void setHoraFin(String horaFin) {
+        this.horaFin = horaFin;
+    }
+
+    public String getHoraIniDescanso() {
+        return horaIniDescanso;
+    }
+
+    public void setHoraIniDescanso(String horaIniDescanso) {
+        this.horaIniDescanso = horaIniDescanso;
+    }
+
+    public String getHoraFinDescanso() {
+        return horaFinDescanso;
+    }
+
+    public void setHoraFinDescanso(String horaFinDescanso) {
+        this.horaFinDescanso = horaFinDescanso;
+    }
 }

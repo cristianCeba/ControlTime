@@ -19,7 +19,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.regex.Pattern;
 
@@ -41,8 +46,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-
 
         btnInsertarUser = findViewById(R.id.btnRegistro);
         btnIniciarSesion = findViewById(R.id.btnIniciarSesion);
@@ -119,9 +122,6 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Toast.makeText(LoginActivity.this, "Usuario encontrado",
-                                    Toast.LENGTH_SHORT).show();
                             User.UsuarioPreferencesApp(correo,contraseña,getApplicationContext());
                             Intent intent = new Intent(getApplicationContext(),MenuPrincipalActivity.class);
                             startActivity(intent);
@@ -164,4 +164,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+
+
 }

@@ -11,7 +11,7 @@ import android.widget.ImageButton;
 
 public class MenuPrincipalActivity extends AppCompatActivity {
 
-    Button btnInforme, btnFichaje,btnPermiso,btnVerFichaje,btnCambiarHorario,btnConfiguración,btnCerrarSesion;
+    Button btnInforme, btnFichaje,btnPermiso,btnVerFichaje,btnCambiarHorario,btnConfiguración,btnCerrarSesion,btnValidar;
     EditText usuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +27,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         btnConfiguración = findViewById(R.id.btnConfiguracion);
         btnCerrarSesion = findViewById(R.id.btnCerrarSesion);
         btnInforme=findViewById(R.id.btnInforme);
+        btnValidar = findViewById(R.id.btnValidar);
         btnInforme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,6 +84,14 @@ public class MenuPrincipalActivity extends AppCompatActivity {
             public void onClick(View v) {
                 User.CerrarSesion(getApplicationContext());
                 Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnValidar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),ValidarActivity.class);
                 startActivity(intent);
             }
         });

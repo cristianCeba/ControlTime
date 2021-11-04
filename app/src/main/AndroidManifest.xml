@@ -11,6 +11,7 @@
         android:theme="@style/Theme.ControlTime">
         <activity android:name=".Activity_Informe"></activity>
         <activity android:name=".Activity_ModificarFichaje" />
+        <activity android:name=".ValidarActivity" />
         <activity android:name=".Activity_Configuracion" />
         <activity android:name=".VerFichajeActivity" />
         <activity android:name=".PermisoActivity" />
