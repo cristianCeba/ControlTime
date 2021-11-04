@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -20,8 +19,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.Serializable;
-import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -150,7 +147,7 @@ public class Activity_ModificarFichaje extends AppCompatActivity {
     public void incluirHorario (User usuario) {
 
         if(diaMarcado){
-            String grupo = String.valueOf(usuario.Grupo);
+            String grupo = String.valueOf(usuario.getGrupo());
             Fichaje fichaje = new Fichaje(inicioJornada.getText().toString(),finJornada.getText().toString(),inicioDescanso.getText().toString(),finDescanso.getText().toString());
             mDataBase.child("FichajesSolicitados").child(grupo).child(dia).child(usuarioAplicacion).setValue(fichaje);
             Toast.makeText(Activity_ModificarFichaje.this, "Horario enviado al supervisor",

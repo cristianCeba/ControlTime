@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="65dp">
+        android:paddingTop="120dp">
 
 
     </LinearLayout>
@@ -84,7 +84,7 @@
         android:paddingBottom="5dp">
 
         <Button
-            android:id="@+id/btnValidar"
+            android:id="@+id/btnSolicitarCambio"
             android:layout_width="179dp"
             android:layout_height="40dp"
             android:background="@drawable/custonbutton"
@@ -93,55 +93,6 @@
             app:backgroundTint="@null" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="10dp"
-        android:paddingBottom="5dp">
-
-        <Button
-            android:id="@+id/btnSolicitarCambio"
-            android:layout_width="179dp"
-            android:layout_height="40dp"
-            android:background="@drawable/custonbutton"
-            android:src="@drawable/btnverfichajes"
-            android:text="SOLICITAR FICHAJE"
-            app:backgroundTint="@null" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="10dp"
-        android:paddingBottom="5dp">
-
-        <Button
-            android:id="@+id/btnEmpleados"
-            android:layout_width="179dp"
-            android:layout_height="40dp"
-            android:background="@drawable/custonbutton"
-            android:src="@drawable/btnverfichajes"
-            android:text="EMPLEADOS"
-            app:backgroundTint="@null" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="10dp"
-        android:paddingBottom="5dp">>
-
-        <Button
-            android:id="@+id/btnInforme"
-            android:layout_width="179dp"
-            android:layout_height="40dp"
-            android:background="@drawable/custonbutton"
-            android:src="@drawable/btnverfichajes"
-            android:text="INFORME"
-            app:backgroundTint="@null" />
-    </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
