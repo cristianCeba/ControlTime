@@ -30,7 +30,7 @@ public class Activity_Configuracion extends AppCompatActivity {
     EditText nombre;
     Button cambiarContrasena;
     String usuarioAplicacion;
-    User usuario;
+    ClsUser usuario;
     private DatabaseReference mDataBase;
     private FirebaseAuth mAuth;
 
@@ -42,7 +42,7 @@ public class Activity_Configuracion extends AppCompatActivity {
         correoElectronico = findViewById(R.id.TextViewMostrarCorreo);
         nombre = findViewById(R.id.EditTextNombre);
         cambiarContrasena = findViewById(R.id.BtnCambiarContrasena);
-        usuarioAplicacion = User.UsuarioConectadoApp(getApplicationContext()).replace(".", "_").trim();
+        usuarioAplicacion = ClsUser.UsuarioConectadoApp(getApplicationContext()).replace(".", "_").trim();
         mDataBase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
 
@@ -57,7 +57,7 @@ public class Activity_Configuracion extends AppCompatActivity {
 
                 for (DataSnapshot ds : snapshot.getChildren()) {
 
-                    User user = ds.getValue(User.class);
+                    ClsUser user = ds.getValue(ClsUser.class);
 
                     if (ds.getKey().equals(usuarioAplicacion)) {
                         usuario = user;

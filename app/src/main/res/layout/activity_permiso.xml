@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".PermisoActivity">
+    tools:context=".Activity_Permiso">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,11 +15,11 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:orientation="vertical"
 
-            android:textAlignment="center">
+            >
 
             <TextView
                 android:id="@+id/edtUsuarioApp"
@@ -33,48 +33,68 @@
                 android:textSize="14sp">
 
             </TextView>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:textAlignment="center">
-
-
-
-
-        </LinearLayout>
-
-        <LinearLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:background="#11688E"
-            android:gravity="center">
-
-          <!--  <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="PETICION"
-                android:textColor="@color/white"></TextView>
-       -->
+                android:gravity="left"
+                android:orientation="horizontal"
+
+                >
+
+                <TextView
+                    android:id="@+id/edtGrupoApp"
+                    android:layout_width="224dp"
+                    android:layout_height="wrap_content"
+
+
+                    android:background="@color/colorEditTextNormal"
+                    android:textColor="@color/white"
+                    android:textSize="14sp">
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/edtTipoUsuarioApp"
+                    android:layout_width="186dp"
+                    android:layout_height="wrap_content"
+
+
+                    android:background="@color/colorEditTextNormal"
+                    android:textColor="@color/white"
+                    android:textSize="14sp">
+
+                </TextView>
+            </LinearLayout>
         </LinearLayout>
 
+
+
+
+
+        <!--  <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="PETICION"
+              android:textColor="@color/white"></TextView>
+     -->
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:background="@drawable/bordeslayout">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
+            android:layout_marginLeft="5dp"
             android:textAlignment="center">
 
             <EditText
                 android:id="@+id/edtFechaDesde"
-                android:layout_width="150dp"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:hint="01/01/2021"
@@ -85,7 +105,7 @@
 
             <EditText
                 android:id="@+id/edtFechaHasta"
-                android:layout_width="150dp"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:hint="31/12/2021"
@@ -93,41 +113,41 @@
                 android:textSize="12sp">
 
             </EditText>
+            <CheckBox
+                android:id="@+id/chkMedioDia"
+                android:layout_width="90dp"
+                android:layout_height="20dp"
+
+                android:layout_marginLeft="5dp"
+                android:background="@color/white"
+                android:text="Medio día"
+                android:textSize="12sp"></CheckBox>
         </LinearLayout>
 
 
         <LinearLayout
             android:id="@+id/lySolicitar"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
-            android:layout_height="77dp"
+            android:layout_height="wrap_content"
 
             android:orientation="horizontal">
 
-            <CheckBox
-                android:id="@+id/chkMedioDia"
-                android:layout_width="110dp"
-                android:layout_height="63dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/white"
-                android:text="Medio día"
-                android:textSize="12sp"></CheckBox>
 
             <LinearLayout
 
-                android:layout_width="164dp"
-                android:layout_height="63dp"
+                android:layout_width="match_parent"
+                android:layout_height="37dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
                 android:background="@color/white"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/textTipoPer"
-                    android:layout_width="107dp"
-                    android:layout_height="34dp"
+                    android:layout_width="80dp"
+                    android:layout_height="26dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginLeft="5dp"
                     android:text="Tipo permiso"
@@ -135,33 +155,30 @@
 
                 <Spinner
                     android:id="@+id/spnTipoPermiso"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    ></Spinner>
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"></Spinner>
 
-
+                <Button
+                    android:id="@+id/btnValidar"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:background="@drawable/custonbutton"
+                    android:text="V"
+                    app:backgroundTint="@null" />
             </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/btnValidar"
-                android:layout_width="49dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/btnvalida"
-                >
 
-
-            </ImageButton>
         </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="25dp"
+        android:layout_marginLeft="5dp"
+        android:background="@drawable/bordeslayout"
+        >
 
-        <LinearLayout
-
-            android:id="@+id/lyConsulta"
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:orientation="vertical"
-            android:background="#11688E"
-            />
 
         <LinearLayout
 
@@ -185,10 +202,11 @@
         -->
         </LinearLayout>
 
-
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="36dp"
+            android:layout_marginLeft="5dp"
             android:orientation="horizontal">
 
             <Button
@@ -233,6 +251,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="34dp"
+            android:layout_marginLeft="5dp"
             android:orientation="horizontal">
 
             <Button
@@ -279,6 +298,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="34dp"
+            android:layout_marginLeft="5dp"
             android:orientation="horizontal">
             <Button
                 android:layout_width="30dp"
@@ -298,23 +318,20 @@
 
             android:id="@+id/calendar"
             style="@style/CardView"
+
             android:layout_width="match_parent"
-            android:layout_height="383dp"
-            android:layout_marginBottom="20dp"></sun.bob.mcalendarview.MCalendarView>
+            android:layout_height="400dp"
+            android:layout_marginBottom="20dp"
+            ></sun.bob.mcalendarview.MCalendarView>
 
 
-        <!--  <CalendarView
-             android:id="@+id/calendar"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             app:layout_constraintBottom_toBottomOf="parent"
-             app:layout_constraintEnd_toEndOf="parent"
-             app:layout_constraintHorizontal_bias="0.491"
-             app:layout_constraintStart_toStartOf="parent"
-             app:layout_constraintTop_toTopOf="parent"
-             app:layout_constraintVertical_bias="0.134" />
+       <!-- <CalendarView
+            android:id="@+id/calendar2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />-->
 
- -->
+
     </LinearLayout>
 
 

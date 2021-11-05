@@ -3,7 +3,6 @@ package com.example.controltime;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,13 +15,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.EventListener;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Activity_fichaje extends AppCompatActivity {
 
@@ -43,7 +38,7 @@ public class Activity_fichaje extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fichaje);
 
-        Fichaje fichajeUsuario;
+        ClsFichaje fichajeUsuario;
         mDataBase = FirebaseDatabase.getInstance().getReference();
         btnIniFichaje = findViewById(R.id.btnInicioFichaje);
         btnFinFichaje = findViewById(R.id.btnFinFichaje);
@@ -55,7 +50,7 @@ public class Activity_fichaje extends AppCompatActivity {
         textMostrarFinHora = findViewById(R.id.textMostrarFinFichaje);
         textMostrarInicioDescanso = findViewById(R.id.textMostrarInicioDescanso);
         textMostrarFinDescanso = findViewById(R.id.textMostrarFinDescanso);
-        usuarioAplicacion = User.UsuarioConectadoApp(getApplicationContext()).replace(".", "_").trim();
+        usuarioAplicacion = ClsUser.UsuarioConectadoApp(getApplicationContext()).replace(".", "_").trim();
         //Fecha que usamos para guardar en la base de datos ejemplo --> 22:09:2021
         dia = new SimpleDateFormat("dd:MM:yyyy").format(new Date());
         diaMostrar = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
@@ -73,14 +68,14 @@ public class Activity_fichaje extends AppCompatActivity {
                 btnIniFichaje.setEnabled(false);
                 btnIniFichaje.setEnabled(true);
                 for(DataSnapshot ds: snapshot.getChildren()){
-                    Fichaje fichajeUsuario = ds.getValue(Fichaje.class);
+                    ClsFichaje fichajeUsuario = ds.getValue(ClsFichaje.class);
                     System.out.println("ds.getKey() --> " + ds.getKey());
                     System.out.println("dia --> " + dia);
                     /**
                      * Revisamos todos los fichajes del usuario para ver si ya ha fichado en el día.
                      */
                     if (ds.getKey().equals(dia) && !fichajeEncontrado){
-                        User.guardarFichajeUsuario(fichajeUsuario);
+                        ClsUser.guardarFichajeUsuario(fichajeUsuario);
                         fichajeEncontrado = true;
                         btnIniFichaje.setEnabled(false);
                         /**
@@ -158,12 +153,12 @@ public class Activity_fichaje extends AppCompatActivity {
             public void onClick(View v) {
                 textMostMensaje.setText("TRABAJANDO");
                 //Fecha que usamos para guardar en la base de datos ejemplo --> 22:09:2021
-                Fichaje fichaje = new Fichaje (sacarHora(),"0","0","0");
+                ClsFichaje fichaje = new ClsFichaje(sacarHora(),"0","0","0");
                 mDataBase.child("fichaje").child(usuarioAplicacion).child(dia).setValue(fichaje);
                 btnIniFichaje.setEnabled(false);
                 textMostrarInicioHora.setText(fichaje.horaIni.toString());
                 btnIniDescanso.setEnabled(true);
-                User.guardarFichajeUsuario(fichaje);
+                ClsUser.guardarFichajeUsuario(fichaje);
             }
         });
 
@@ -172,7 +167,7 @@ public class Activity_fichaje extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 textMostMensaje.setText("JORNADA FINALIZADA");
-                Fichaje fichaje = User.DevolverFichajeUsuario();
+                ClsFichaje fichaje = ClsUser.DevolverFichajeUsuario();
                 fichaje.horaFin = sacarHora();
                 mDataBase.child("fichaje").child(usuarioAplicacion).child(dia).setValue(fichaje);
                 textMostrarFinHora.setText(fichaje.horaFin.toString());
@@ -184,7 +179,7 @@ public class Activity_fichaje extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 textMostMensaje.setText("DESCANSANDO");
-                Fichaje fichaje = User.DevolverFichajeUsuario();
+                ClsFichaje fichaje = ClsUser.DevolverFichajeUsuario();
                 fichaje.horaIniDescanso = sacarHora();
                 mDataBase.child("fichaje").child(usuarioAplicacion).child(dia).setValue(fichaje);
                 textMostrarInicioDescanso.setText(fichaje.horaIniDescanso.toString());
@@ -197,7 +192,7 @@ public class Activity_fichaje extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 textMostMensaje.setText("TRABAJANDO");
-                Fichaje fichaje = User.DevolverFichajeUsuario();
+                ClsFichaje fichaje = ClsUser.DevolverFichajeUsuario();
                 fichaje.horaFinDescanso = sacarHora();
                 mDataBase.child("fichaje").child(usuarioAplicacion).child(dia).setValue(fichaje);
                 textMostrarFinDescanso.setText(fichaje.horaFinDescanso.toString());

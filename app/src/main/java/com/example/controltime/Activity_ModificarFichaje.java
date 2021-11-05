@@ -51,7 +51,7 @@ public class Activity_ModificarFichaje extends AppCompatActivity {
         btnEnviarJornada =findViewById(R.id.btnEnviarJornada);
         calendario = findViewById(R.id.calendarView2);
         pat = Pattern.compile("[0-9]{2}:[0-9]{2}");
-        usuarioAplicacion = User.UsuarioConectadoApp(getApplicationContext()).replace(".", "_").trim();
+        usuarioAplicacion = ClsUser.UsuarioConectadoApp(getApplicationContext()).replace(".", "_").trim();
         mDataBase = FirebaseDatabase.getInstance().getReference();
 
         diaMarcado = false;
@@ -104,7 +104,7 @@ public class Activity_ModificarFichaje extends AppCompatActivity {
 
                             for(DataSnapshot ds: snapshot.getChildren()) {
 
-                                User usuario = ds.getValue(User.class);
+                                ClsUser usuario = ds.getValue(ClsUser.class);
 
                                 if (ds.getKey().equals(usuarioAplicacion)) {
                                     if (validarHoras()){
@@ -144,11 +144,11 @@ public class Activity_ModificarFichaje extends AppCompatActivity {
     }
 
     // Método que revisa si el usuario ha marcado un día en el calendarío, sino mostramos un error.
-    public void incluirHorario (User usuario) {
+    public void incluirHorario (ClsUser usuario) {
 
         if(diaMarcado){
             String grupo = String.valueOf(usuario.getGrupo());
-            Fichaje fichaje = new Fichaje(inicioJornada.getText().toString(),finJornada.getText().toString(),inicioDescanso.getText().toString(),finDescanso.getText().toString());
+            ClsFichaje fichaje = new ClsFichaje(inicioJornada.getText().toString(),finJornada.getText().toString(),inicioDescanso.getText().toString(),finDescanso.getText().toString());
             mDataBase.child("FichajesSolicitados").child(grupo).child(dia).child(usuarioAplicacion).setValue(fichaje);
             Toast.makeText(Activity_ModificarFichaje.this, "Horario enviado al supervisor",
                     Toast.LENGTH_SHORT).show();

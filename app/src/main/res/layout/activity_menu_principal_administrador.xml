@@ -8,7 +8,7 @@
     android:layout_marginBottom="100dp"
     android:background="@drawable/fondo4"
     android:orientation="vertical"
-    tools:context=".MenuPrincipalActivity">
+    tools:context=".Activity_MenuPrincipal">
 
     <EditText
         android:id="@+id/edtUsuarioApp"

@@ -4,24 +4,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="50dp"
+
     android:layout_marginBottom="100dp"
     android:background="@drawable/fondo4"
     android:orientation="vertical"
-    tools:context=".MenuPrincipalActivity">
+    tools:context=".Activity_MenuPrincipal">
 
-    <EditText
-        android:id="@+id/edtUsuarioApp"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="0dp">
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:orientation="vertical"
 
-    </EditText>
+        >
+
+        <TextView
+            android:id="@+id/edtUsuarioApp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+
+            android:background="@color/colorEditTextNormal"
+            android:text="usuario"
+            android:textColor="@color/white"
+            android:textSize="14sp">
+
+        </TextView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:orientation="horizontal"
+
+            >
+
+            <TextView
+                android:id="@+id/edtGrupoApp"
+                android:layout_width="224dp"
+                android:layout_height="wrap_content"
+
+
+                android:background="@color/colorEditTextNormal"
+                android:textColor="@color/white"
+                android:textSize="14sp">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/edtTipoUsuarioApp"
+                android:layout_width="186dp"
+                android:layout_height="wrap_content"
+
+
+                android:background="@color/colorEditTextNormal"
+                android:textColor="@color/white"
+                android:textSize="14sp">
+
+            </TextView>
+        </LinearLayout>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="65dp">
+        android:paddingTop="105dp">
 
 
     </LinearLayout>
@@ -133,14 +179,7 @@
         android:paddingLeft="10dp"
         android:paddingBottom="5dp">>
 
-        <Button
-            android:id="@+id/btnInforme"
-            android:layout_width="179dp"
-            android:layout_height="40dp"
-            android:background="@drawable/custonbutton"
-            android:src="@drawable/btnverfichajes"
-            android:text="INFORME"
-            app:backgroundTint="@null" />
+
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"

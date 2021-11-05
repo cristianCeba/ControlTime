@@ -17,14 +17,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class ResetPasswordActivity extends AppCompatActivity {
+public class Activity_ResetPassword extends AppCompatActivity {
 
     public Button btnReset,btnVolver;
     public EditText email;
     public TextView errorEmail;
     private FirebaseAuth mAuth;
     String emailEscrito;
-    Utils utils;
+    ClsUtils utils;
 
  
     @Override
@@ -32,7 +32,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
 
-        utils = new Utils();
+        utils = new ClsUtils();
         btnReset = findViewById(R.id.btnReset);
         btnVolver = findViewById(R.id.btnVolver);
         mAuth = FirebaseAuth.getInstance();
@@ -54,7 +54,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()){
                                 final CharSequence[] opciones = {"Hemos enviado un correo a su correo electronico"};
-                                final AlertDialog.Builder alertInfo = new AlertDialog.Builder(ResetPasswordActivity.this);
+                                final AlertDialog.Builder alertInfo = new AlertDialog.Builder(Activity_ResetPassword.this);
 
                                 alertInfo.setTitle("Advertencia");
 
@@ -66,7 +66,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                                 });
                                 alertInfo.show();
                             } else{
-                                Toast.makeText(ResetPasswordActivity.this,"El correo no se ha podido enviar correctamente",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Activity_ResetPassword.this,"El correo no se ha podido enviar correctamente",Toast.LENGTH_SHORT).show();
                             }
 
                         }
@@ -79,7 +79,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         btnVolver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                Intent intent = new Intent(getApplicationContext(), Activity_Login.class);
                 startActivity(intent);
             }
         });
