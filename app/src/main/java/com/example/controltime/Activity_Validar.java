@@ -1,24 +1,14 @@
 package com.example.controltime;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.Layout;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
-import android.widget.TextView;
 
-public class ValidarActivity extends AppCompatActivity {
+public class Activity_Validar extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +20,7 @@ public class ValidarActivity extends AppCompatActivity {
 
         FragmentTransaction transaction=fragmentManager.beginTransaction();
 
-        Fragment fragmento =new FragmentoPermisos();
+        Fragment fragmento =new ClsFragmentoPermisos();
 
         transaction.add(R.id.LinearLayoutContenedorDeFragments, fragmento);
 
@@ -42,13 +32,13 @@ public class ValidarActivity extends AppCompatActivity {
         Fragment fragmento;
         System.out.println("Entran en cambiar fragmento");
         if (view == findViewById(R.id.btnMostrarHorarios)) {
-            fragmento = new FragmentoHorario();
+            fragmento = new ClsFragmentoHorario();
             System.out.println("Entran en fragmento 1");
         } else if (view == findViewById(R.id.btnMostrarPermisos)){
-            fragmento = new FragmentoPermisos();
+            fragmento = new ClsFragmentoPermisos();
             System.out.println("Entran en fragmento 2");
         } else {
-            fragmento = new FragmentoHorario();
+            fragmento = new ClsFragmentoHorario();
             System.out.println("Entran en else");
         }
 

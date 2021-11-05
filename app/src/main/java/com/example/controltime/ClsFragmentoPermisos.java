@@ -14,18 +14,18 @@ import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FragmentoPermisos#newInstance} factory method to
+ * Use the {@link ClsFragmentoPermisos#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentoPermisos extends Fragment {
+public class ClsFragmentoPermisos extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    ArrayList<UsuarioHorario> usuarios = new ArrayList<>();
+    ArrayList<ClsUsuarioHorario> usuarios = new ArrayList<>();
     private ListView listView;
-    private AdaptadorHorarios adaptador;
+    private ClsAdaptadorHorarios adaptador;
     ListView listaDeUsuarios;
     String [] nombres;
     String [] horaInicioJornada;
@@ -37,7 +37,7 @@ public class FragmentoPermisos extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public FragmentoPermisos() {
+    public ClsFragmentoPermisos() {
         // Required empty public constructor
     }
 
@@ -50,8 +50,8 @@ public class FragmentoPermisos extends Fragment {
      * @return A new instance of fragment FragmentoPermisos.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentoPermisos newInstance(String param1, String param2) {
-        FragmentoPermisos fragment = new FragmentoPermisos();
+    public static ClsFragmentoPermisos newInstance(String param1, String param2) {
+        ClsFragmentoPermisos fragment = new ClsFragmentoPermisos();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -79,7 +79,7 @@ public class FragmentoPermisos extends Fragment {
         listaDeUsuarios = vista.findViewById(R.id.listusuariohorario);
 
         System.out.println("2");
-        UsuarioHorario persona5 = new UsuarioHorario();
+        ClsUsuarioHorario persona5 = new ClsUsuarioHorario();
 
         persona5.setNombre("Ramona");
         persona5.sethoraInicioJornada("121");
@@ -87,7 +87,7 @@ public class FragmentoPermisos extends Fragment {
         persona5.sethoraInicioDescanso("1");
         persona5.sethoraFinDescanso("2");
         System.out.println("3");
-        UsuarioHorario persona6 = new UsuarioHorario();
+        ClsUsuarioHorario persona6 = new ClsUsuarioHorario();
 
         persona6.setNombre("Josefa");
         persona6.sethoraInicioJornada("121");
@@ -98,7 +98,7 @@ public class FragmentoPermisos extends Fragment {
         usuarios.add(persona5);
         usuarios.add(persona6);
 
-        adaptador = new AdaptadorHorarios(getActivity(),usuarios);
+        adaptador = new ClsAdaptadorHorarios(getActivity(),usuarios);
         System.out.println("4");
         listaDeUsuarios.setAdapter(adaptador);
         System.out.println("5");

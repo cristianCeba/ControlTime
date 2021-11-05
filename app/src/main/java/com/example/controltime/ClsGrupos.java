@@ -3,12 +3,14 @@ package com.example.controltime;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -44,6 +46,32 @@ public class ClsGrupos {
     public String toString() {
         return  Grupo ;
     }
+
+    public void GetNombreGrupo( String Id){
+        DatabaseReference mDataBase;
+        mDataBase = FirebaseDatabase.getInstance().getReference();
+        mDataBase.child("Grupos").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull  DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot ds: snapshot.getChildren()){
+                        if(ds.getKey().equals(Id)){
+                           setGrupo(ds.child("Grupo").getValue().toString());
+
+                        }
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull   DatabaseError error) {
+
+            }
+        });
+    }
+
     public void CargarGrupo(DatabaseReference mDataBase, Spinner spnGrupo, Context context){
         List<ClsGrupos> grupos=new ArrayList<>();
         mDataBase.child("Grupos").addListenerForSingleValueEvent(new ValueEventListener() {

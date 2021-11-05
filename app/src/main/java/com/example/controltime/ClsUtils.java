@@ -4,25 +4,19 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.widget.DatePicker;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Pattern;
-public class  Utils extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+public class ClsUtils extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
 
     public static boolean validarEmail (String email){
@@ -51,8 +45,8 @@ public class  Utils extends DialogFragment implements DatePickerDialog.OnDateSet
 
     private DatePickerDialog.OnDateSetListener listener;
 
-    public  static Utils newInstance(DatePickerDialog.OnDateSetListener listener){
-        Utils fragment = new Utils();
+    public  static ClsUtils newInstance(DatePickerDialog.OnDateSetListener listener){
+        ClsUtils fragment = new ClsUtils();
         fragment.setListener(listener);
         return fragment;
     }

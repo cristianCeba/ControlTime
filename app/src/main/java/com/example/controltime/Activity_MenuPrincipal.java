@@ -7,20 +7,30 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.TextView;
 
-public class MenuPrincipalActivity extends AppCompatActivity {
+public class Activity_MenuPrincipal extends AppCompatActivity {
 
     Button btnInforme, btnFichaje,btnPermiso,btnVerFichaje,btnCambiarHorario,btnConfiguración,btnCerrarSesion,btnValidar;
-    EditText usuario;
+  //  EditText usuario;
+    TextView edtGrupoApp;
+    TextView edtTipoUsuarioApp;
+    TextView edtUsuarioApp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_principal);
         getSupportActionBar().hide();// quito la barra de arriba
-        usuario=(EditText)findViewById(R.id.edtUsuarioApp);
 
-        usuario.setText(User.UsuarioConectadoApp(getApplicationContext()));
+/*** * MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
+        edtGrupoApp=(TextView) findViewById(R.id.edtGrupoApp);
+        edtTipoUsuarioApp=(TextView)findViewById(R.id.edtTipoUsuarioApp);
+        edtUsuarioApp=(TextView) findViewById(R.id.edtUsuarioApp);
+        edtUsuarioApp.setText(ClsUser.UsuarioConectadoApp(getApplication()));
+
+        edtTipoUsuarioApp.setText("TIPO: " + ClsUser.TipoUsuarioConectadoApp(getApplication()));
+        edtGrupoApp.setText("DEPARTAMENTO: " + ClsUser.GruposuarioConectadoApp(getApplication()));
+        /***FIN MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
         btnPermiso=(Button) findViewById(R.id.btnPermiso);
         btnVerFichaje=(Button) findViewById(R.id.btnVerFichaje);
         btnCambiarHorario = findViewById(R.id.btnSolicitarCambio);
@@ -39,7 +49,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         btnPermiso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),PermisoActivity.class);
+                Intent intent = new Intent(getApplicationContext(), Activity_Permiso.class);
                 startActivity(intent);
             }
         });
@@ -58,7 +68,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         btnVerFichaje.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),VerFichajeActivity.class);
+                Intent intent = new Intent(getApplicationContext(), Activity_VerFichaje.class);
                 startActivity(intent);
             }
         });
@@ -82,8 +92,8 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         btnCerrarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                User.CerrarSesion(getApplicationContext());
-                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                ClsUser.CerrarSesion(getApplicationContext());
+                Intent intent = new Intent(getApplicationContext(), Activity_Login.class);
                 startActivity(intent);
             }
         });
@@ -91,7 +101,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         btnValidar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),Activity_ValidarHorario.class);
+                Intent intent = new Intent(getApplicationContext(), Activity_Validar.class);
                 startActivity(intent);
             }
         });

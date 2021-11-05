@@ -14,7 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-public class VerFichajeActivity extends AppCompatActivity {
+public class Activity_VerFichaje extends AppCompatActivity {
 
     CalendarView calendario;
     TextView mostrarInicio,mostrarFin,mostrarInicioDesc,mostrarFinDesc,mostrarMensaje;
@@ -35,7 +35,7 @@ public class VerFichajeActivity extends AppCompatActivity {
         mostrarInicioDesc = findViewById(R.id.textMostrarHoraIniDesc);
         mostrarFinDesc = findViewById(R.id.textMostrarHoraFinDesc);
         mostrarMensaje = findViewById(R.id.textMostrarError);
-        usuarioAplicacion = User.UsuarioConectadoApp(getApplicationContext()).replace(".", "_").trim();
+        usuarioAplicacion = ClsUser.UsuarioConectadoApp(getApplicationContext()).replace(".", "_").trim();
 
 
         calendario.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -56,7 +56,7 @@ public class VerFichajeActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         //Buscamos todos los fichajes del usuario y si ya ha fichado hoy, dehsabilitamos el botón de iniciar fichaje
                         for(DataSnapshot ds: snapshot.getChildren()){
-                            Fichaje fichajeUsuario = ds.getValue(Fichaje.class);
+                            ClsFichaje fichajeUsuario = ds.getValue(ClsFichaje.class);
 
                             
                             //User.guardarFichajeUsuario(fichajeUsuario);

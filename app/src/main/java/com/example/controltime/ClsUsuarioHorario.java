@@ -4,7 +4,7 @@ import android.widget.Switch;
 
 import java.io.Serializable;
 
-public class UsuarioHorario implements Serializable {
+public class ClsUsuarioHorario implements Serializable {
 
     String nombre;
     String fecha;
@@ -15,7 +15,7 @@ public class UsuarioHorario implements Serializable {
     String correo;
     int codigo;
 
-    public UsuarioHorario(){
+    public ClsUsuarioHorario(){
 
     }
 

@@ -1,24 +1,24 @@
 package com.example.controltime;
 
-public class Fichaje {
+public class ClsFichaje {
 
     public String horaIni;
     public String horaFin;
     public String horaIniDescanso;
     public String horaFinDescanso;
 
-    public Fichaje (String horaInicio, String horaFinal, String horaInicioDescanso, String horaFinalDescanso){
+    public ClsFichaje(String horaInicio, String horaFinal, String horaInicioDescanso, String horaFinalDescanso){
         this.horaIni = horaInicio;
         this.horaFin = horaFinal;
         this.horaIniDescanso  = horaInicioDescanso;
         this.horaFinDescanso = horaFinalDescanso;
     }
 
-    public Fichaje (String horaInicio){
+    public ClsFichaje(String horaInicio){
         this.horaIni = horaInicio;
     }
 
-    public Fichaje (){
+    public ClsFichaje(){
 
     }
 

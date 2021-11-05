@@ -15,16 +15,16 @@
             android:theme="@style/Theme.ControlTime.NoActionBar"></activity>
         <activity android:name=".Activity_Informe" />
         <activity android:name=".Activity_ModificarFichaje" />
-        <activity android:name=".ValidarActivity" />
+        <activity android:name=".Activity_Validar" />
         <activity android:name=".Activity_Configuracion" />
-        <activity android:name=".VerFichajeActivity" />
-        <activity android:name=".PermisoActivity" />
+        <activity android:name=".Activity_VerFichaje" />
+        <activity android:name=".Activity_Permiso" />
         <activity android:name=".Activity_fichaje" />
-        <activity android:name=".MenuPrincipalActivity" />
-        <activity android:name=".ResetPasswordActivity" />
-        <activity android:name=".InsertUserActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".Activity_MenuPrincipal" />
+        <activity android:name=".Activity_ResetPassword" />
+        <activity android:name=".Activity_InsertUser" />
+        <activity android:name=".Activity_Main" />
+        <activity android:name=".Activity_Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

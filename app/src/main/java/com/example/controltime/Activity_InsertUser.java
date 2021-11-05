@@ -5,10 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -27,11 +25,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.sql.RowId;
 import java.util.ArrayList;
-import java.util.List;
 
-public class InsertUserActivity extends AppCompatActivity {
+public class Activity_InsertUser extends AppCompatActivity {
     EditText txtNombre;
     EditText txtApe1;
     EditText txtEmail;
@@ -55,8 +51,8 @@ public class InsertUserActivity extends AppCompatActivity {
     String TipoUsuario;
     String Grupo;
     Button btnInsert;
-    ConexionNOOO conexion;
-    Utils utils;
+
+    ClsUtils utils;
     ClsTipoUsuario objTipoUsuario;
     ClsGrupos objGrupos;
     ClsGrupoXUsuarios objGXU;
@@ -90,7 +86,7 @@ public class InsertUserActivity extends AppCompatActivity {
         btnInfo = findViewById(R.id.btnInfo);
 
         objGXU=new ClsGrupoXUsuarios();
-        objGXU.CargarGrupoXUsuario(mDataBase,spnIdGrupo,InsertUserActivity.this);
+        objGXU.CargarGrupoXUsuario(mDataBase,spnIdGrupo, Activity_InsertUser.this);
 
         spnIdGrupo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -105,7 +101,7 @@ public class InsertUserActivity extends AppCompatActivity {
         });
 
         objTipoUsuario=new ClsTipoUsuario();
-        objTipoUsuario.CargarTipoUsuario(mDataBase,spnTipoUsuario,InsertUserActivity.this);
+        objTipoUsuario.CargarTipoUsuario(mDataBase,spnTipoUsuario, Activity_InsertUser.this);
         spnTipoUsuario.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -119,7 +115,7 @@ public class InsertUserActivity extends AppCompatActivity {
             }
         });
         objGrupos= new ClsGrupos();
-        objGrupos. CargarGrupo(mDataBase,spnGrupo,InsertUserActivity.this);
+        objGrupos. CargarGrupo(mDataBase,spnGrupo, Activity_InsertUser.this);
         spnGrupo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -136,7 +132,7 @@ public class InsertUserActivity extends AppCompatActivity {
         btnInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.MostrarMensajes(InsertUserActivity.this,"\n1. Un caracter en minúscula \n2. Un caracter en mayúscula \n3. Un caracter especial \n4. Un número \n5. Sin espacios entre los caracteres de la contraseña,\n6. Mínimo 8 caracteres","La contraseña debe de contener al menos : ");
+                ClsUtils.MostrarMensajes(Activity_InsertUser.this,"\n1. Un caracter en minúscula \n2. Un caracter en mayúscula \n3. Un caracter especial \n4. Un número \n5. Sin espacios entre los caracteres de la contraseña,\n6. Mínimo 8 caracteres","La contraseña debe de contener al menos : ");
             }
         });
 
@@ -147,7 +143,7 @@ public class InsertUserActivity extends AppCompatActivity {
                 txtMensajeEmail.setText("");
                 txtMensajeApe.setText("");
                 txtMensajeNombre.setText("");
-                User user=new User();
+                ClsUser user=new ClsUser();
                 Nombre=txtNombre.getText().toString();
                 Ape=txtApe1.getText().toString();
                 Email=txtEmail.getText().toString();
@@ -193,7 +189,7 @@ public class InsertUserActivity extends AppCompatActivity {
                                         @Override
                                         public void onDataChange(@NonNull   DataSnapshot snapshot2) {
                                             if(snapshot2.exists()){// si el usuario existe no ppodemos continuar
-                                                Utils.MostrarMensajes(InsertUserActivity.this, "EL USUARIO EXISTE"  , " USUARIO");
+                                                ClsUtils.MostrarMensajes(Activity_InsertUser.this, "EL USUARIO EXISTE"  , " USUARIO");
                                             }else{
                                                // SI NO EXISTE PODEMOS GRABAR EL NUEVO
                                                 //INSERTO EL USUARIO EN AUTHENTICATION
@@ -203,7 +199,7 @@ public class InsertUserActivity extends AppCompatActivity {
                                                             public void onComplete(@NonNull Task<AuthResult> task) {
                                                                 if (task.isSuccessful()) {
                                                                    // GRABAMOS EN USERS
-                                                                   User use = new User(Nombre, Ape, Email,objTipoUsuario.id ,objGrupos.id);
+                                                                   ClsUser use = new ClsUser(Nombre, Ape, Email,objTipoUsuario.id ,objGrupos.id);
                                                                     String email = Email.replace(".", "_");
                                                                     mDataBase.child("users").child(email).setValue(use).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                         @Override
@@ -215,9 +211,9 @@ public class InsertUserActivity extends AppCompatActivity {
                                                                                     @Override
                                                                                     public void onComplete(@NonNull  Task<Void> task) {
                                                                                         if(task.isSuccessful()){
-                                                                                            Toast.makeText(InsertUserActivity.this,"Usuario grabado correctamente",Toast.LENGTH_LONG).show();
+                                                                                            Toast.makeText(Activity_InsertUser.this,"Usuario grabado correctamente",Toast.LENGTH_LONG).show();
                                                                                             // VOLVEMOS A LA PANTALLA DE LOGIN
-                                                                                            Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                                                                                            Intent intent = new Intent(getApplicationContext(), Activity_Login.class);
                                                                                             startActivity(intent);
                                                                                         }
                                                                                     }
@@ -230,7 +226,7 @@ public class InsertUserActivity extends AppCompatActivity {
                                                                                 startActivity(intent);*/
                                                                             } else {
 
-                                                                                Utils.MostrarMensajes(InsertUserActivity.this, "NO SE HA PODIDO GRABAR EL USUARIO ", "GRABA USUARIO");
+                                                                                ClsUtils.MostrarMensajes(Activity_InsertUser.this, "NO SE HA PODIDO GRABAR EL USUARIO ", "GRABA USUARIO");
                                                                             }
                                                                         }
                                                                     });

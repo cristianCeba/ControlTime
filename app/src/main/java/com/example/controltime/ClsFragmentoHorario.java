@@ -28,7 +28,7 @@ import java.util.ArrayList;
 /**
  * A fragment representing a list of Items.
  */
-public class FragmentoHorario extends Fragment {
+public class ClsFragmentoHorario extends Fragment {
 
 
 
@@ -36,9 +36,9 @@ public class FragmentoHorario extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
-    ArrayList<UsuarioHorario> usuarios = new ArrayList<>();
+    ArrayList<ClsUsuarioHorario> usuarios = new ArrayList<>();
     private ListView listView;
-    private AdaptadorHorarios adaptador;
+    private ClsAdaptadorHorarios adaptador;
     String usuarioAplicacion,idGrupo,nombre;
     ListView listaDeUsuarios;
     private DatabaseReference mDataBase;
@@ -47,14 +47,14 @@ public class FragmentoHorario extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public FragmentoHorario() {
+    public ClsFragmentoHorario() {
 
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static FragmentoHorario newInstance(int columnCount) {
-        FragmentoHorario fragment = new FragmentoHorario();
+    public static ClsFragmentoHorario newInstance(int columnCount) {
+        ClsFragmentoHorario fragment = new ClsFragmentoHorario();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -78,7 +78,7 @@ public class FragmentoHorario extends Fragment {
         View view = inflater.inflate(R.layout.fragment_fragmento_horario, container, false);
 
         mDataBase = FirebaseDatabase.getInstance().getReference();
-        usuarioAplicacion = User.UsuarioConectadoApp(getActivity()).replace(".", "_").trim();
+        usuarioAplicacion = ClsUser.UsuarioConectadoApp(getActivity()).replace(".", "_").trim();
 
         listaDeUsuarios = view.findViewById(R.id.listusuariohorario);
 
@@ -91,7 +91,7 @@ public class FragmentoHorario extends Fragment {
              */
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()) {
-                    User user = ds.getValue(User.class);
+                    ClsUser user = ds.getValue(ClsUser.class);
                     if (ds.getKey().equals(usuarioAplicacion)) {
                         idGrupo = user.getGrupo();
                         nombre = user.Nombre + " " + user.Ape;
@@ -134,9 +134,9 @@ public class FragmentoHorario extends Fragment {
 
                         String correo = ds1.getKey().toString();
                         System.out.println(correo);
-                        Fichaje fichaje = ds1.getValue(Fichaje.class);
+                        ClsFichaje fichaje = ds1.getValue(ClsFichaje.class);
                         cogerIdGrupo(ds1.getKey().toString());
-                        UsuarioHorario usuario = new UsuarioHorario();
+                        ClsUsuarioHorario usuario = new ClsUsuarioHorario();
                         System.out.println("nombre --> " + nombre);
                         usuario.setNombre(nombre);
                         usuario.sethoraInicioJornada(fichaje.horaIni);
@@ -152,7 +152,7 @@ public class FragmentoHorario extends Fragment {
 
                 }
 
-                adaptador = new AdaptadorHorarios(getActivity(),usuarios);
+                adaptador = new ClsAdaptadorHorarios(getActivity(),usuarios);
                 listaDeUsuarios.setAdapter(adaptador);
                 /*
                     Cada vez que se pulsa un fichaje preguntamos si quiere validarlo y si acepta se valida el fichaje.
@@ -166,14 +166,13 @@ public class FragmentoHorario extends Fragment {
                                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        System.out.println("Posició --> " + position);
-                                        System.out.println("usuarios.getsize --> " + usuarios.size());
-                                        Fichaje fichaje = new Fichaje();
+                                        ClsFichaje fichaje = new ClsFichaje();
                                         fichaje.horaIni = usuarios.get(position).horaInicioJornada;
                                         fichaje.horaFin = usuarios.get(position).horaFinJornada;
                                         fichaje.horaIniDescanso = usuarios.get(position).horaInicioDescanso;
                                         fichaje.horaFinDescanso = usuarios.get(position).horaFinDescanso;
                                         validarUsuario(fichaje, usuarios.get(position).getCorreo(),usuarios.get(position).getFecha().replace("/",":"));
+                                        usuarios.remove(position);
                                     }
                                 }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                             @Override
@@ -207,7 +206,7 @@ public class FragmentoHorario extends Fragment {
 
                 for (DataSnapshot ds : snapshot.getChildren()) {
 
-                    User user = ds.getValue(User.class);
+                    ClsUser user = ds.getValue(ClsUser.class);
 
                     if (ds.getKey().equals(usuario)) {
 
@@ -230,7 +229,7 @@ public class FragmentoHorario extends Fragment {
         el fichaje lo agregamos en la tabla de fichajes y lo borramos de la tabla FichajesSolicitados
         Borramos todos los usuarios en el array list de usuarios para rellenarlo de nuevo quitando el fichaje que hemos validado ya.
      */
-    public void validarUsuario (Fichaje fichaje,String correo, String dia){
+    public void validarUsuario (ClsFichaje fichaje, String correo, String dia){
 
         mDataBase.child("FichajesSolicitados").child(idGrupo).child(dia.trim()).child(correo).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
