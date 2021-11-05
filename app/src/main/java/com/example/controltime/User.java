@@ -94,7 +94,7 @@ public static void CerrarSesion(Context contex){
                 if(snapshot.exists()){
                     for(DataSnapshot ds: snapshot.getChildren()){
 
-                       if(ds.getKey()==Usuario){
+                       if(ds.getKey()== Usuario){
                            String correo=ds.getKey();
                            String nombre=ds.child("Nombre").getValue().toString();
                            String apellido=ds.child("Ape").getValue().toString();

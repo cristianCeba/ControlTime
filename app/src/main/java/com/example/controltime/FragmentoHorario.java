@@ -166,13 +166,14 @@ public class FragmentoHorario extends Fragment {
                                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
+                                        System.out.println("Posició --> " + position);
+                                        System.out.println("usuarios.getsize --> " + usuarios.size());
                                         Fichaje fichaje = new Fichaje();
                                         fichaje.horaIni = usuarios.get(position).horaInicioJornada;
                                         fichaje.horaFin = usuarios.get(position).horaFinJornada;
                                         fichaje.horaIniDescanso = usuarios.get(position).horaInicioDescanso;
                                         fichaje.horaFinDescanso = usuarios.get(position).horaFinDescanso;
                                         validarUsuario(fichaje, usuarios.get(position).getCorreo(),usuarios.get(position).getFecha().replace("/",":"));
-                                        usuarios.remove(position);
                                     }
                                 }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                             @Override
