@@ -5,7 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
 
-    android:layout_marginBottom="100dp"
+    android:layout_marginBottom="80dp"
     android:background="@drawable/fondo4"
     android:orientation="vertical"
     tools:context=".Activity_MenuPrincipal">
@@ -25,7 +25,7 @@
 
 
             android:background="@color/colorEditTextNormal"
-            android:text="usuario"
+            android:text=""
             android:textColor="@color/white"
             android:textSize="14sp">
 
@@ -203,7 +203,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingLeft="10dp"
-        android:paddingBottom="5dp">>
+        android:paddingBottom="5dp">/>
+
 
         <Button
             android:id="@+id/btnInforme"

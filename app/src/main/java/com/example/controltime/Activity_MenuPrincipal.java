@@ -38,6 +38,8 @@ public class Activity_MenuPrincipal extends AppCompatActivity {
         btnCerrarSesion = findViewById(R.id.btnCerrarSesion);
         btnInforme=findViewById(R.id.btnInforme);
         btnValidar = findViewById(R.id.btnValidar);
+        btnFichaje = findViewById(R.id.btnFichaje);
+
         btnInforme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,9 +55,6 @@ public class Activity_MenuPrincipal extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-        btnFichaje = findViewById(R.id.btnFichaje);
 
         btnFichaje.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,7 +100,7 @@ public class Activity_MenuPrincipal extends AppCompatActivity {
         btnValidar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Activity_Validar.class);
+                Intent intent = new Intent(getApplicationContext(), Activity_ValidarHorario.class);
                 startActivity(intent);
             }
         });

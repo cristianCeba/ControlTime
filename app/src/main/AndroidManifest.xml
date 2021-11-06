@@ -9,7 +9,11 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.ControlTime">
-        <activity android:name=".Activity_Informe"></activity>
+        <activity
+            android:name=".Activity_ValidarHorario"
+            android:label="@string/title_activity__validar_horario"
+            android:theme="@style/Theme.ControlTime.NoActionBar"></activity>
+        <activity android:name=".Activity_Informe" />
         <activity android:name=".Activity_ModificarFichaje" />
         <activity android:name=".Activity_Validar" />
         <activity android:name=".Activity_Configuracion" />

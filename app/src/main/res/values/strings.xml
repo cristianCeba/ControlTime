@@ -2,6 +2,9 @@
     <string name="app_name">ControlTime</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
-
+    <string name="title_activity__validar_horarios_y_permisos">Activity_ValidarHorariosYPermisos
+    </string>
+    <string name="title_activity__validar_horario">Activity_ValidarHorario</string>
+    <string name="tab_text_1">Horarios</string>
+    <string name="tab_text_2">Permisos</string>
 </resources>
