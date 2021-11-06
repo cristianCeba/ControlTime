@@ -39,14 +39,6 @@ public class ClsUser {
         Grupo = grupo;
     }
 
-    public String getTipoUsuario() {
-        return TipoUsuario;
-    }
-
-    public void setTipoUsuario(String tipoUsuario) {
-        TipoUsuario = tipoUsuario;
-    }
-
     @Override
     public String toString() {
         return   correoElectronico  ;
