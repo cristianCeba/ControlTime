@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class Activity_MenuPrincipal extends AppCompatActivity {
 
     Button btnInforme, btnFichaje,btnPermiso,btnVerFichaje,btnCambiarHorario,btnConfiguración,btnCerrarSesion,btnValidar;
@@ -16,21 +19,23 @@ public class Activity_MenuPrincipal extends AppCompatActivity {
     TextView edtGrupoApp;
     TextView edtTipoUsuarioApp;
     TextView edtUsuarioApp;
+    DatabaseReference mDataBase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_principal);
         getSupportActionBar().hide();// quito la barra de arriba
-
-/*** * MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
-        edtGrupoApp=(TextView) findViewById(R.id.edtGrupoApp);
-        edtTipoUsuarioApp=(TextView)findViewById(R.id.edtTipoUsuarioApp);
+        mDataBase = FirebaseDatabase.getInstance().getReference();
+        /*** * MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
         edtUsuarioApp=(TextView) findViewById(R.id.edtUsuarioApp);
-        edtUsuarioApp.setText(ClsUser.UsuarioConectadoApp(getApplication()));
-
-        edtTipoUsuarioApp.setText("TIPO: " + ClsUser.TipoUsuarioConectadoApp(getApplication()));
-        edtGrupoApp.setText("DEPARTAMENTO: " + ClsUser.GruposuarioConectadoApp(getApplication()));
-        /***FIN MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
+        edtUsuarioApp.setText(ClsUser.UsuarioConectadoApp(getApplication()) );
+        ClsGrupos objGrupo= new ClsGrupos();
+        ClsTipoUsuario objTipo = new ClsTipoUsuario();
+        edtTipoUsuarioApp=(TextView)findViewById(R.id.edtTipoUsuarioApp);
+        edtGrupoApp=(TextView) findViewById(R.id.edtGrupoApp);
+        objGrupo.GetNombreGrupoXId(mDataBase, edtGrupoApp,ClsUser.GruposuarioConectadoApp(getApplication()));
+        objTipo.GetTipoXId(mDataBase,edtTipoUsuarioApp,ClsUser.TipoUsuarioConectadoApp(getApplication()));
+        /**FIN MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
         btnPermiso=(Button) findViewById(R.id.btnPermiso);
         btnVerFichaje=(Button) findViewById(R.id.btnVerFichaje);
         btnCambiarHorario = findViewById(R.id.btnSolicitarCambio);

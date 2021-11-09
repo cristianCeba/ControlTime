@@ -14,6 +14,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -35,8 +36,8 @@ public class ClsUser {
         return Grupo;
     }
 
-    public void setGrupo(String grupo) {
-        Grupo = grupo;
+    public void setGrupo(String Grupo) {
+        Grupo = Grupo;
     }
 
     @Override
@@ -76,7 +77,7 @@ public static void UsuarioPreferencesApp(String usuario,String contrasena,String
     editor.putString("usuario",usuario .toString());
     editor.putString("contraseña",contrasena .toString());
 
-  //  ClsUser.CargarUsuario(usuario.replace(".", "_").trim(),contex);
+
    editor.putString("Tipousuario",tipo .toString());
     editor.putString("Grupo",grupo .toString());
 
@@ -109,9 +110,10 @@ public static void CerrarSesion(Context contex){
 
     editor.commit();
 }
-/*
-public static void CargarUsuario(String Usuario, Context context){
-    List<ClsUser> usuario=new ArrayList<>();
+
+    /**METODO QUE CARGA todos los USUARIOS */
+public ArrayList<ClsUser> ListaUsuarios(Context context ){
+    List<ClsUser>    Arrayusuario=new ArrayList<>();
     DatabaseReference mDataBase;
     mDataBase = FirebaseDatabase.getInstance().getReference();
     mDataBase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -119,39 +121,31 @@ public static void CargarUsuario(String Usuario, Context context){
         public void onDataChange(@NonNull DataSnapshot snapshot) {
             if(snapshot.exists()){
                 for(DataSnapshot ds: snapshot.getChildren()){
-                    if (ds.getKey().equals(Usuario)){
+                    if(ds.getKey().equals(ClsUser.UsuarioConectadoApp(context).replace(".", "_").trim())){
+                        //Toast.makeText(context,ds.getKey(),Toast.LENGTH_LONG).show();
+                    }else{
                         String correo=ds.getKey();
                         String nombre=ds.child("Nombre").getValue().toString();
                         String apellido=ds.child("Ape").getValue().toString();
                         String grupoUsuario=ds.child("Grupo").getValue().toString();
                         String tipoUsuario=ds.child("TipoUsuario").getValue().toString();
-                        usuario.add(new ClsUser(nombre,apellido,correo,tipoUsuario,grupoUsuario));
+                        Arrayusuario.add(new ClsUser(nombre,apellido,correo,tipoUsuario,grupoUsuario));
                     }
-                }
-               for(int i=0;i<=usuario.size()-1;i++){
-                   Toast.makeText(context,"GRUPO: " + usuario.get(i).Grupo + "  TIPO: " +  usuario.get(i).TipoUsuario,Toast.LENGTH_LONG).show();
-                   SharedPreferences prefe = context.getSharedPreferences("usuarioApp",Context.MODE_PRIVATE);
-                   SharedPreferences.Editor editor =prefe.edit();
-
-                   editor.putString("Tipousuario",usuario.get(i).TipoUsuario .toString());
-                   editor.putString("Grupo",usuario.get(i).Grupo .toString());
                }
-
-
-
             }
         }
-
         @Override
         public void onCancelled(@NonNull DatabaseError error) {
 
         }
     });
-}*/
+    return (ArrayList<ClsUser>) Arrayusuario;
+}
 
-
-    public void CargarUsuariosPorGrupo( Spinner spnUsuario, Context context,String grupoS){
-        List<ClsUser> usuario=new ArrayList<>();
+    /**METODO QUE CARGA LOS USUARIOS POR GRUPO AL QUE PERTENECE*/
+    public ArrayList<ClsUser> ListaUsuariosPorGrupoYTipo(    Context context,String grupoS,String Tipo){
+        List<ClsUser>    Arrayusuario=new ArrayList<>();
+      //  usuario=new ArrayList<>();
         DatabaseReference mDataBase;
         mDataBase = FirebaseDatabase.getInstance().getReference();
         mDataBase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -159,25 +153,28 @@ public static void CargarUsuario(String Usuario, Context context){
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     for(DataSnapshot ds: snapshot.getChildren()){
-                        if (ds.child("Grupo").getValue().toString().equals(grupoS)){
-                            String correo=ds.getKey();
-                            String nombre=ds.child("Nombre").getValue().toString();
-                            String apellido=ds.child("Ape").getValue().toString();
-                            String grupoUsuario=ds.child("Grupo").getValue().toString();
-                            String tipoUsuario=ds.child("TipoUsuario").getValue().toString();
-                            usuario.add(new ClsUser(nombre,apellido,correo,tipoUsuario,grupoUsuario));
+                        if(ds.child("Grupo").getValue().toString().equals(grupoS) && ds.child("TipoUsuario").getValue().toString().equals(Tipo)){
+                            {
+                                String correo=ds.getKey();
+                                String nombre=ds.child("Nombre").getValue().toString();
+                                String apellido=ds.child("Ape").getValue().toString();
+                                String grupoUsuario=ds.child("Grupo").getValue().toString();
+                                String tipoUsuario=ds.child("TipoUsuario").getValue().toString();
+                                Arrayusuario.add(new ClsUser(nombre,apellido,correo,tipoUsuario,grupoUsuario));
+                            }
                         }
+
                     }
-                    ArrayAdapter<ClsUser> arrayAdapter= new ArrayAdapter<>(context, android.R.layout.simple_dropdown_item_1line,usuario);
-                    spnUsuario.setAdapter(arrayAdapter);
+
+
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+        return (ArrayList<ClsUser>) Arrayusuario;
     }
 public static void guardarFichajeUsuario (ClsFichaje fichaje){
         fichajeUsuario = fichaje;

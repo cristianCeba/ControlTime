@@ -3,6 +3,7 @@ package com.example.controltime;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -49,6 +50,23 @@ public class ClsTipoUsuario {
         return  Tipo ;
     }
 
+    public void GetTipoXId(DatabaseReference mDataBase, TextView Nombre, String Id){
+        mDataBase.child("TipoUsuario").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull  DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot ds: snapshot.getChildren()){
+                        if(ds.getKey().equals(Id)){
+                            Nombre.setText(ds.child("Tipo").getValue().toString());
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull   DatabaseError error) {
+            }
+        });
+    }
 
     public void CargarTipoUsuario(DatabaseReference mDataBase, Spinner spnTipoUsuario, Context context){
         List<ClsTipoUsuario> tipo=new ArrayList<>();

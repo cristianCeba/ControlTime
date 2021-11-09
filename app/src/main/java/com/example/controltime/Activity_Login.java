@@ -138,7 +138,6 @@ public class Activity_Login extends AppCompatActivity {
                                                 String nombre=ds.child("Nombre").getValue().toString();
                                                 String apellido=ds.child("Ape").getValue().toString();
                                                 String grupoUsuario=ds.child("Grupo").getValue().toString();
-
                                                 String tipoUsuario=ds.child("TipoUsuario").getValue().toString();
                                                 usuario.add(new ClsUser(nombre,apellido,correo,tipoUsuario,grupoUsuario));
                                             }

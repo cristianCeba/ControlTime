@@ -82,16 +82,17 @@ public class Activity_Permiso extends AppCompatActivity {
         mDataBase = FirebaseDatabase.getInstance().getReference();
 
         Date fecha = new Date();
-
-/*** * MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
-        edtGrupoApp=(TextView) findViewById(R.id.edtGrupoApp);
-        edtTipoUsuarioApp=(TextView)findViewById(R.id.edtTipoUsuarioApp);
+        /*** * MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
         edtUsuarioApp=(TextView) findViewById(R.id.edtUsuarioApp);
-        edtUsuarioApp.setText(ClsUser.UsuarioConectadoApp(getApplication()));
+        edtUsuarioApp.setText(ClsUser.UsuarioConectadoApp(getApplication()) );
         Usuario=edtUsuarioApp.getText().toString().replace(".", "_").trim();
-        edtTipoUsuarioApp.setText("TIPO: " + ClsUser.TipoUsuarioConectadoApp(getApplication()));
-        edtGrupoApp.setText("DEPARTAMENTO: " + ClsUser.GruposuarioConectadoApp(getApplication()));
-        /*FIN MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
+        ClsGrupos objGrupo= new ClsGrupos();
+        ClsTipoUsuario objTipo = new ClsTipoUsuario();
+        edtTipoUsuarioApp=(TextView)findViewById(R.id.edtTipoUsuarioApp);
+        edtGrupoApp=(TextView) findViewById(R.id.edtGrupoApp);
+        objGrupo.GetNombreGrupoXId(mDataBase, edtGrupoApp,ClsUser.GruposuarioConectadoApp(getApplication()));
+        objTipo.GetTipoXId(mDataBase,edtTipoUsuarioApp,ClsUser.TipoUsuarioConectadoApp(getApplication()));
+        /**FIN MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
         //LLenarLista(Usuario,calendarView);
 /***  * Comprobamos el ultimo id metido para el usuario registrado*/
         RowId=UltimoId() ;
