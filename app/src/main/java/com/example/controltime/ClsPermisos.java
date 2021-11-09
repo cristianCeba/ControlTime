@@ -12,8 +12,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class ClsPermisos {
 
@@ -39,6 +42,15 @@ public class ClsPermisos {
         this.RowId=0;
     }
 
+    @Override
+    public String  toString() {
+        return "FechaDesde='" + FechaDesde + '\'' +
+                " FechaHasta='" + FechaHasta + '\'' +
+                " Total dias=" + dias +
+                " TipoPermiso='" + TipoPermiso + '\'' +
+                " Estado=" + Estado ;
+
+    }
 
     /*CONSTRUCTOR DE LA CLASE*/
     public ClsPermisos( String Usuario, double dias,String FechaDesde,String FechaHasta,
@@ -56,5 +68,27 @@ public class ClsPermisos {
     }
 
 
+
+    public ArrayList<ClsPermisos> ListaPermisosPorUsuario(Context context,String UsuarioApp){
+        List<ClsPermisos> ArrayPermisos= new ArrayList<>();
+        DatabaseReference mDataBase;
+        mDataBase=FirebaseDatabase.getInstance().getReference();
+        Query query = mDataBase.child("Permisos").child(UsuarioApp);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot ds:snapshot.getChildren()){
+                        ClsPermisos objPer = ds.getValue(ClsPermisos.class);
+                        ArrayPermisos.add(new ClsPermisos(objPer.Usuario,objPer.dias, objPer.FechaDesde, objPer.FechaHasta,objPer.TipoPermiso, objPer.Estado, objPer.RowId ));
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+            }
+        });
+        return (ArrayList<ClsPermisos>) ArrayPermisos;
+    }
 
 }

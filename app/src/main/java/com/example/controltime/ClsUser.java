@@ -176,6 +176,28 @@ public ArrayList<ClsUser> ListaUsuarios(Context context ){
         });
         return (ArrayList<ClsUser>) Arrayusuario;
     }
+
+    public String[] GetNombreYApellido(DatabaseReference mDataBase,   String UsuarioApp){
+        String[] Nombre = {null};
+        mDataBase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull  DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot ds: snapshot.getChildren()){
+                        if(ds.getKey().equals(UsuarioApp)){
+                            Nombre[0] =ds.child("Nombre").getValue().toString() + " " + ds.child("Ape").getValue().toString();
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull   DatabaseError error) {
+            }
+        });
+        return  Nombre;
+    }
+
+
 public static void guardarFichajeUsuario (ClsFichaje fichaje){
         fichajeUsuario = fichaje;
 }

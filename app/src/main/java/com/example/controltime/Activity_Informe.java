@@ -50,7 +50,7 @@ public class Activity_Informe extends AppCompatActivity {
         objTipo.GetTipoXId(mDataBase,edtTipoUsuarioApp,ClsUser.TipoUsuarioConectadoApp(getApplication()));
         /**FIN MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
 
-
+        // cargar el spinner por usuario tipo y grupos**********************
         usuario=new ClsUser();
         List<ClsUser> Arrayusuario=new ArrayList<>();
         if(ClsUser.TipoUsuarioConectadoApp(getApplication()).equals("0") || ClsUser.TipoUsuarioConectadoApp(getApplication()).equals("3")){

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.CheckBox;
@@ -28,11 +29,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 import sun.bob.mcalendarview.MCalendarView;
@@ -64,12 +68,14 @@ public class Activity_Permiso extends AppCompatActivity {
     String Id;
     long RowId;
     ArrayList<String> ArrayId= new ArrayList<String>();
+    List<ClsPermisos> ArrayPermisos;
     int num;
     int suma;
     boolean existeFecha;
     boolean esta ;
 
     ClsPermisos objPermisos ;
+    ClsUser objUser;
     double Dias;
     String valor="";
     com.example.controltime.ClsTipoPermiso objtipoPermiso;
@@ -98,6 +104,15 @@ public class Activity_Permiso extends AppCompatActivity {
         RowId=UltimoId() ;
         Id=String.valueOf(RowId);
         /*FIN Comprobamos el ultimo id metido para el usuario registrado*/
+
+        objUser=new ClsUser();
+        String[] nombreCompleto;
+        nombreCompleto=  objUser.GetNombreYApellido(mDataBase,Usuario);
+
+         objPermisos=new ClsPermisos();
+        ArrayPermisos=new ArrayList<>();
+        ArrayPermisos= objPermisos.ListaPermisosPorUsuario(Activity_Permiso.this,Usuario);
+        ClsUtils.MostrarMensajes(Activity_Permiso.this, "cantidad: " + ArrayPermisos.size(), "TOTAL PERMISOS POR USUARIO ");
 
 /*** *  FECHAS */
 
@@ -180,7 +195,12 @@ public class Activity_Permiso extends AppCompatActivity {
         btnPermiso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LLenarLista(Usuario,calendarView);
+                //ClsPermisos objPermisos=new ClsPermisos();
+                ArrayPermisos=new ArrayList<>();
+                ArrayPermisos= objPermisos.ListaPermisosPorUsuario(Activity_Permiso.this,Usuario);
+                //ClsUtils.MostrarMensajes(Activity_Permiso.this, "cantidad: " + ArrayPermisos.size(), "TOTAL PERMISOS POR USUARIO ");
+                //ArrayAdapter<ClsPermisos> arrayAdapter= new ArrayAdapter<>(Activity_Permiso.this, android.R.layout.simple_dropdown_item_1line,ArrayPermisos);
+                //spnTipoPermiso.setAdapter(arrayAdapter);
             }
         });
         /** FIN BOTON SOLICITAR PERMISOS*/
@@ -191,7 +211,6 @@ public class Activity_Permiso extends AppCompatActivity {
         btnValidar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {// GRABAMOS LOS DATOS DE LA SOLICITUD DE LOS PERMISOS
-
                 //EL ESTADO VA A SER 0=PENDIENTE
                 try {
                     if (esMedioDia){
@@ -200,9 +219,8 @@ public class Activity_Permiso extends AppCompatActivity {
                         Dias=1+ClsUtils.getDiasSolicitados(edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
                     }
                     Toast.makeText(Activity_Permiso.this," ID:" + Id,Toast.LENGTH_LONG).show();
-                    ClsPermisos per = new ClsPermisos(edtUsuarioApp.getText().toString()   ,Dias,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),objtipoPermiso.id,0,RowId );
-
-
+                    //ClsPermisos per = new ClsPermisos(edtUsuarioApp.getText().toString()   ,Dias,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),objtipoPermiso.Tipo,0,RowId );
+                    ClsPermisos per = new ClsPermisos(nombreCompleto[0],Dias,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),objtipoPermiso.Tipo,0,RowId );
 
                     mDataBase = FirebaseDatabase.getInstance().getReference().child("Permisos").child (Usuario).child(Id);
                     mDataBase.setValue (per).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -210,7 +228,7 @@ public class Activity_Permiso extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task2) {
                             if (task2.isSuccessful()) {
                                 Toast.makeText(Activity_Permiso.this,"Permiso grabado correctamente , dias:" + Dias,Toast.LENGTH_LONG).show();
-                                LLenarLista(Usuario,calendarView);
+
                                 /***  * Comprobamos el ultimo id metido para el usuario registrado*/
                                 RowId=UltimoId() ;
                                 Id=String.valueOf(RowId);
@@ -240,6 +258,7 @@ public class Activity_Permiso extends AppCompatActivity {
         });
         fragment.show(getSupportFragmentManager(),"datePicker");
     }
+
 
     //, CalendarView calendario2
     public void LLenarLista(String Usuario, MCalendarView calendario)   {
@@ -280,10 +299,6 @@ public class Activity_Permiso extends AppCompatActivity {
 
                                     break;
                             }
-
-
-
-
                             Calendar cal=Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));;
                             cal.setTime(formato.parse( objPer.FechaDesde));
                             int year = cal.get(Calendar.YEAR);
@@ -296,12 +311,7 @@ public class Activity_Permiso extends AppCompatActivity {
                             for (int y =year;y<= yearF;y++){
                                 for (int m =month;m<= monthF;m++){
                                     for (int d =day;d<= dayF;d++){
-                                        // Toast.makeText(PermisoActivity.this,"" + d + "/"+ m+"/"+y , Toast.LENGTH_SHORT).show();
-
                                         calendario.markDate(y,m,d).setMarkedStyle(1,colorDia);
-                                        //calendario2.setFirstDayOfWeek(d);
-                                        // calendario2.getCu;
-                                        //  Toast.makeText(PermisoActivity.this, calendario2.setMinDate(d) , Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             }
