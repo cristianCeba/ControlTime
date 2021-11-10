@@ -1,9 +1,25 @@
 # ControlTime
 
-1.0.0-beta  #06/11/2021#
+1.3.0-beta #10/11/2021#
+
+- Función en el botón Validar para que muestre tanto los datos de los horarios y permisos solicitados.
+
+- Modificación de la clase ClsUser para que al crear los usuarios el campo grupo de cree con la G en mayúscula.
+
+------------------------------------------------------------------------------------------------------------------------
+
+1.2.0-beta
+
+1.- Metodo en la claseUser para que nos devuelva el nombre del usuario
+2.- Metodo en la clase TipoPermisos para que nos devuleva los permisos por usuario
+
+------------------------------------------------------------------------------------------------------------------------
+
+1.0.1-beta  #06/11/2021#
 
 1.- Arreglado el error en la actividad validar horarios, cuando solo había un horario que aprobar la aplicación daba error.
 
+------------------------------------------------------------------------------------------------------------------------
 
 1.0.0-beta  #05/11/2021#
 
