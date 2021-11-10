@@ -14,7 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class Activity_MenuPrincipal extends AppCompatActivity {
 
-    Button btnInforme, btnFichaje,btnPermiso,btnVerFichaje,btnCambiarHorario,btnConfiguración,btnCerrarSesion,btnValidar;
+    Button btnInforme, btnFichaje,btnPermiso,btnVerFichaje,btnCambiarHorario,btnConfiguración,btnCerrarSesion,btnValidar,btnEmpleado;
   //  EditText usuario;
     TextView edtGrupoApp;
     TextView edtTipoUsuarioApp;
@@ -44,6 +44,32 @@ public class Activity_MenuPrincipal extends AppCompatActivity {
         btnInforme=findViewById(R.id.btnInforme);
         btnValidar = findViewById(R.id.btnValidar);
         btnFichaje = findViewById(R.id.btnFichaje);
+        btnEmpleado = findViewById(R.id.btnEmpleados);
+
+        /*
+                0 - Administrador
+                1 - Usuario estandar
+                2 - Jefe de equipo
+                3 - Director
+         */
+        if (ClsUser.TipoUsuarioConectadoApp(getApplicationContext()).equals("0")){
+            btnPermiso.setEnabled(false);
+            btnFichaje.setEnabled(false);
+            btnVerFichaje.setEnabled(false);
+            btnCambiarHorario.setEnabled(false);
+        } else if (ClsUser.TipoUsuarioConectadoApp(getApplicationContext()).equals("1")) {
+            btnValidar.setEnabled(false);
+            btnInforme.setEnabled(false);
+            btnEmpleado.setEnabled(false);
+        } else if (ClsUser.TipoUsuarioConectadoApp(getApplicationContext()).equals("2")){
+            btnEmpleado.setEnabled(false);
+        } else {
+            btnPermiso.setEnabled(false);
+            btnFichaje.setEnabled(false);
+            btnVerFichaje.setEnabled(false);
+            btnCambiarHorario.setEnabled(false);
+            btnEmpleado.setEnabled(false);
+        }
 
         btnInforme.setOnClickListener(new View.OnClickListener() {
             @Override
