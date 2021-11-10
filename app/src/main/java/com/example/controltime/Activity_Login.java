@@ -146,7 +146,7 @@ public class Activity_Login extends AppCompatActivity {
 
                                         for(int i=0;i<=usuario.size()-1;i++){
 
-                                            ClsUser.UsuarioPreferencesApp(correo,contraseña,usuario.get(i).TipoUsuario,usuario.get(i).getGrupo(),getApplicationContext());
+                                            ClsUser.UsuarioPreferencesApp(correo,contraseña,usuario.get(i).TipoUsuario,usuario.get(i).Grupo,getApplicationContext());
                                         }
                                         Intent intent = new Intent(getApplicationContext(), Activity_MenuPrincipal.class);
                                         startActivity(intent);

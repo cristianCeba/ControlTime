@@ -221,9 +221,11 @@ public class Activity_Permiso extends AppCompatActivity {
                     Toast.makeText(Activity_Permiso.this," ID:" + Id,Toast.LENGTH_LONG).show();
                     //ClsPermisos per = new ClsPermisos(edtUsuarioApp.getText().toString()   ,Dias,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),objtipoPermiso.Tipo,0,RowId );
                     ClsPermisos per = new ClsPermisos(nombreCompleto[0],Dias,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),objtipoPermiso.Tipo,0,RowId );
+                    per.TipoUsuario = ClsUser.TipoUsuarioConectadoApp(getApplicationContext());
+                    per.GrupoUsuario = ClsUser.GruposuarioConectadoApp(getApplicationContext());
 
                     mDataBase = FirebaseDatabase.getInstance().getReference().child("Permisos").child (Usuario).child(Id);
-                    mDataBase.setValue (per).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    mDataBase.setValue(per).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task2) {
                             if (task2.isSuccessful()) {

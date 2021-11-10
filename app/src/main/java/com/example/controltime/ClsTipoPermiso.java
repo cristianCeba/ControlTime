@@ -73,9 +73,6 @@ public class ClsTipoPermiso {
          }
      });
 
-
-
-
     }
 
     public void GetNombrePermisoXId(DatabaseReference mDataBase, TextView Nombre, String Id){
@@ -95,4 +92,5 @@ public class ClsTipoPermiso {
             }
         });
     }
+
 }

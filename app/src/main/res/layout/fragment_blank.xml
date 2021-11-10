@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FragmentoPermisos">
+    tools:context=".ClsFragmentoPermisos">
 
 
     <ListView
-        android:id="@+id/listusuariohorario"
+        android:id="@+id/listusuariopermiso"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

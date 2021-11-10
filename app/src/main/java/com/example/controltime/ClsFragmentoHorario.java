@@ -37,7 +37,6 @@ public class ClsFragmentoHorario extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     ArrayList<ClsUsuarioHorario> usuarios = new ArrayList<>();
-    private ListView listView;
     private ClsAdaptadorHorarios adaptador;
     String usuarioAplicacion,idGrupo,nombre;
     ListView listaDeUsuarios;
@@ -76,36 +75,13 @@ public class ClsFragmentoHorario extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_fragmento_horario, container, false);
-
         mDataBase = FirebaseDatabase.getInstance().getReference();
         usuarioAplicacion = ClsUser.UsuarioConectadoApp(getActivity()).replace(".", "_").trim();
+        idGrupo = ClsUser.GruposuarioConectadoApp(getContext());
 
         listaDeUsuarios = view.findViewById(R.id.listusuariohorario);
 
-        Query query = mDataBase.child("users");
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            /**
-             * Buscamos en base de datos si el usuario ha registrado algún fichaje del día, y dependiendo de lo que el usuario ha registrado
-             * habilitamos y deshabilitamos los botones de fichajes.
-             */
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    ClsUser user = ds.getValue(ClsUser.class);
-                    if (ds.getKey().equals(usuarioAplicacion)) {
-                        idGrupo = user.getGrupo();
-                        nombre = user.Nombre + " " + user.Ape;
-                        RellenarHorarios();
-                    }
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                System.out.println("4 --");
-            }
-        });
+        RellenarHorarios();
 
         return view;
     }
@@ -135,19 +111,13 @@ public class ClsFragmentoHorario extends Fragment {
                         String correo = ds1.getKey().toString();
                         System.out.println(correo);
                         ClsFichaje fichaje = ds1.getValue(ClsFichaje.class);
-                        cogerIdGrupo(ds1.getKey().toString());
-                        ClsUsuarioHorario usuario = new ClsUsuarioHorario();
-                        System.out.println("nombre --> " + nombre);
-                        usuario.setNombre(nombre);
-                        usuario.sethoraInicioJornada(fichaje.horaIni);
-                        System.out.println("horaIni --> " + fichaje.horaIni);
-                        usuario.sethoraFinJornada(fichaje.horaFin);
-                        usuario.sethoraInicioDescanso(fichaje.horaIniDescanso);
-                        usuario.sethoraFinDescanso(fichaje.horaFinDescanso);
-                        usuario.setCorreo(correo);
-                        usuario.setFecha("  " + fecha.replace(":","/"));
 
-                        usuarios.add(usuario);
+                        if (ClsUser.TipoUsuarioConectadoApp(getContext()).equals("2") && !fichaje.tipoUsuario.equals("2")){
+                            crearUsuario(fichaje,correo,fecha);
+                        } else if (ClsUser.TipoUsuarioConectadoApp(getContext()).equals("1")){
+                            crearUsuario(fichaje,correo,fecha);
+                        }
+
                     }
 
                 }
@@ -194,36 +164,6 @@ public class ClsFragmentoHorario extends Fragment {
 
     }
 
-    public void cogerIdGrupo (String usuario){
-        System.out.println("1.1");
-        Query query = mDataBase.child("users");
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            /**
-             * Buscamos al usuario para sacar el grupo en el que está en la aplicación.
-             */
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                for (DataSnapshot ds : snapshot.getChildren()) {
-
-                    ClsUser user = ds.getValue(ClsUser.class);
-
-                    if (ds.getKey().equals(usuario)) {
-
-                        idGrupo = user.getGrupo();
-                        nombre = user.Nombre + " " + user.Ape;
-                    }
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                System.out.println("4");
-            }
-        });
-    }
-
     /*
         Validamos el fichaje del usuario marcado.
         el fichaje lo agregamos en la tabla de fichajes y lo borramos de la tabla FichajesSolicitados
@@ -246,6 +186,22 @@ public class ClsFragmentoHorario extends Fragment {
             usuarios.remove(i);
         }
         RellenarHorarios();
+    }
+
+    public void crearUsuario (ClsFichaje fichaje, String correo, String fecha){
+        ClsUsuarioHorario usuario = new ClsUsuarioHorario();
+        System.out.println("nombre --> " + nombre);
+        usuario.setNombre(nombre);
+        usuario.sethoraInicioJornada(fichaje.horaIni);
+        System.out.println("horaIni --> " + fichaje.horaIni);
+        usuario.sethoraFinJornada(fichaje.horaFin);
+        usuario.sethoraInicioDescanso(fichaje.horaIniDescanso);
+        usuario.sethoraFinDescanso(fichaje.horaFinDescanso);
+        usuario.setCorreo(correo);
+        usuario.setFecha("  " + fecha.replace(":","/"));
+        usuario.setNombre(fichaje.nombre);
+
+        usuarios.add(usuario);
     }
 
 }

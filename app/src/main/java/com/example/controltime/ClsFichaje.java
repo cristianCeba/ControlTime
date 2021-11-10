@@ -6,6 +6,8 @@ public class ClsFichaje {
     public String horaFin;
     public String horaIniDescanso;
     public String horaFinDescanso;
+    public String nombre;
+    public String tipoUsuario;
 
     public ClsFichaje(String horaInicio, String horaFinal, String horaInicioDescanso, String horaFinalDescanso){
         this.horaIni = horaInicio;
@@ -52,5 +54,21 @@ public class ClsFichaje {
 
     public void setHoraFinDescanso(String horaFinDescanso) {
         this.horaFinDescanso = horaFinDescanso;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
     }
 }

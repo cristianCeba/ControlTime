@@ -27,18 +27,11 @@ public class ClsUser {
     public String Nombre;
     public String Ape;
     public String TipoUsuario;
-    private String Grupo;
+    public String Grupo;
     static ClsFichaje fichajeUsuario;
     private ClsUser objUser;
 
 
-    public String getGrupo() {
-        return Grupo;
-    }
-
-    public void setGrupo(String Grupo) {
-        Grupo = Grupo;
-    }
 
     @Override
     public String toString() {

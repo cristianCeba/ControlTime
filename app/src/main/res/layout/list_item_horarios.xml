@@ -8,24 +8,24 @@
     android:orientation="horizontal">
 
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:padding="3dp">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/textUsuario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="3dp">
-
-    <TextView
-        android:id="@+id/textUsuario"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=" "
-        android:textColor="@color/cardview_dark_background"
-        android:textStyle="bold"/>
+                android:text=" "
+                android:textColor="@color/cardview_dark_background"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/textFecha"
@@ -34,86 +34,86 @@
                 android:text=" "
                 android:textColor="@color/cardview_dark_background"
                 android:textStyle="bold"/>
-            </LinearLayout>
+        </LinearLayout>
 
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="3dp">
-
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Inicio Jornada: "
-            android:textColor="@color/cardview_dark_background"/>
+            android:orientation="horizontal"
+            android:padding="3dp">
 
-        <TextView
-            android:id="@+id/textMostrarInicioJornada"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textColor="@color/cardview_dark_background"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Inicio Jornada: "
+                android:textColor="@color/cardview_dark_background"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" Fin Jornada: "
-            android:textColor="@color/cardview_dark_background"/>
+            <TextView
+                android:id="@+id/textMostrarInicioJornada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/cardview_dark_background"/>
 
-        <TextView
-            android:id="@+id/textMostrarFinJornada"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textColor="@color/cardview_dark_background"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Fin Jornada: "
+                android:textColor="@color/cardview_dark_background"/>
 
-    </LinearLayout>
-
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="3dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Inicio Descanso: "
-            android:textColor="@color/cardview_dark_background"/>
-
-        <TextView
-            android:id="@+id/textMostrarInicioDescanso"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textColor="@color/cardview_dark_background"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" Fin Descanso: "
-            android:textColor="@color/cardview_dark_background"/>
-
-        <TextView
-            android:id="@+id/textFinInicioDescanso"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textColor="@color/cardview_dark_background"/>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </LinearLayout>
+            <TextView
+                android:id="@+id/textMostrarFinJornada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/cardview_dark_background"/>
 
         </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="3dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Inicio Descanso: "
+                android:textColor="@color/cardview_dark_background"/>
+
+            <TextView
+                android:id="@+id/textMostrarInicioDescanso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/cardview_dark_background"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Fin Descanso: "
+                android:textColor="@color/cardview_dark_background"/>
+
+            <TextView
+                android:id="@+id/textFinInicioDescanso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/cardview_dark_background"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 
 </LinearLayout>

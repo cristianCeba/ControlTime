@@ -21,15 +21,15 @@ import java.util.List;
 public class ClsPermisos {
 
     public  long RowId;
-
     public String Usuario;
     public double dias;
     public String FechaDesde;
     public String FechaHasta;
     public String TipoPermiso;
+    public String TipoUsuario;
+    public String GrupoUsuario;
+    public String correo;
     public long Estado;
-
-
 
     /*CONSTRUCTOR , INICIALIZAMOS LA CLASE*/
     public ClsPermisos() {
