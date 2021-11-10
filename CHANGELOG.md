@@ -1,5 +1,11 @@
 # ControlTime
 
+1.3.1-beta #10/11/2021#
+
+- Bloqueo de botones dependiendo del usuario que accede a la aplicación.
+
+------------------------------------------------------------------------------------------------------------------------
+
 1.3.0-beta #10/11/2021#
 
 - Función en el botón Validar para que muestre tanto los datos de los horarios y permisos solicitados.
@@ -8,7 +14,7 @@
 
 ------------------------------------------------------------------------------------------------------------------------
 
-1.2.0-beta
+1.2.0-beta #09/11/2021#
 
 1.- Metodo en la claseUser para que nos devuelva el nombre del usuario
 2.- Metodo en la clase TipoPermisos para que nos devuleva los permisos por usuario
