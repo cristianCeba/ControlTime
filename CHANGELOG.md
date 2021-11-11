@@ -1,5 +1,11 @@
 # ControlTime
 
+1.4.0-beta
+
+- En la opción de Configuración se añade la opción al usuario de poder añadir una imagen de perfil.
+
+------------------------------------------------------------------------------------------------------------------------
+
 1.3.1-beta #10/11/2021#
 
 - Bloqueo de botones dependiendo del usuario que accede a la aplicación.
