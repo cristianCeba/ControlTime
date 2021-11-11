@@ -28,6 +28,7 @@ public class ClsUser {
     public String Ape;
     public String TipoUsuario;
     public String Grupo;
+    public String idImagen;
     static ClsFichaje fichajeUsuario;
     private ClsUser objUser;
 
@@ -189,6 +190,7 @@ public ArrayList<ClsUser> ListaUsuarios(Context context ){
         });
         return  Nombre;
     }
+
 
 
 public static void guardarFichajeUsuario (ClsFichaje fichaje){

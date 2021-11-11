@@ -75,7 +75,7 @@ public class ClsTipoPermiso {
 
     }
 
-    public void GetNombrePermisoXId(DatabaseReference mDataBase, TextView Nombre, String Id){
+    public static void GetNombrePermisoXId(DatabaseReference mDataBase, TextView Nombre, String Id){
         mDataBase.child("TipoPermisos").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull  DataSnapshot snapshot) {

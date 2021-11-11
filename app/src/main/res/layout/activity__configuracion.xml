@@ -15,6 +15,7 @@
         app:cardCornerRadius="160dp">
 
         <ImageView
+            android:id="@+id/imagenUsuario"
             android:layout_width="275dp"
             android:layout_height="275dp"
             android:src="@drawable/usuario" />
@@ -67,9 +68,6 @@
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:backgroundTint="#D7D7D7"/>
-
-
-
 
 
 </LinearLayout>
