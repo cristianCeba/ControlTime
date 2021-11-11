@@ -1,6 +1,12 @@
 # ControlTime
 
-1.4.0-beta
+1.4.1-beta #11/11/2021#
+
+- La imagen de perfil del usuario se ha redondeado y puesto borde.
+
+------------------------------------------------------------------------------------------------------------------------
+
+1.4.0-beta #11/11/2021#
 
 - En la opción de Configuración se añade la opción al usuario de poder añadir una imagen de perfil.
 
