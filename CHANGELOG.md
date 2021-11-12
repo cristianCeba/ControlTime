@@ -1,5 +1,11 @@
 # ControlTime
 
+1.4.2 -beta #11/11/2021#
+
+- Al validar los horarios, se muestran las imagenes de los usuarios.
+
+------------------------------------------------------------------------------------------------------------------------
+
 1.4.1-beta #11/11/2021#
 
 - La imagen de perfil del usuario se ha redondeado y puesto borde.
