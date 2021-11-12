@@ -85,7 +85,7 @@ public class Activity_InsertUser extends AppCompatActivity {
         txtPass2 = (EditText) findViewById(R.id.editTextPass2);
         btnInfo = findViewById(R.id.btnInfo);
 
-        objGXU=new ClsGrupoXUsuarios();
+      /*  objGXU=new ClsGrupoXUsuarios();
         objGXU.CargarGrupoXUsuario(mDataBase,spnIdGrupo, Activity_InsertUser.this);
 
         spnIdGrupo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -98,7 +98,7 @@ public class Activity_InsertUser extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
 
         objTipoUsuario=new ClsTipoUsuario();
         objTipoUsuario.CargarTipoUsuario(mDataBase,spnTipoUsuario, Activity_InsertUser.this);
@@ -206,18 +206,18 @@ public class Activity_InsertUser extends AppCompatActivity {
                                                                         public void onComplete(@NonNull Task<Void> task2) {
                                                                             if (task2.isSuccessful()) {
                                                                                 //  grabamos en GrupoXUsuarios
-                                                                                ClsGrupoXUsuarios GrupoUsuario=new ClsGrupoXUsuarios(Id,Email,objGrupos.id,objTipoUsuario.id);
-                                                                                mDataBase.child("GruposXUsuarios").child(Id).setValue(GrupoUsuario).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                                    @Override
-                                                                                    public void onComplete(@NonNull  Task<Void> task) {
-                                                                                        if(task.isSuccessful()){
+                                                                              //  ClsGrupoXUsuarios GrupoUsuario=new ClsGrupoXUsuarios(Id,Email,objGrupos.id,objTipoUsuario.id);
+                                                                              //  mDataBase.child("GruposXUsuarios").child(Id).setValue(GrupoUsuario).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                              //      @Override
+                                                                               //     public void onComplete(@NonNull  Task<Void> task) {
+                                                                               //         if(task.isSuccessful()){
                                                                                             Toast.makeText(Activity_InsertUser.this,"Usuario grabado correctamente",Toast.LENGTH_LONG).show();
                                                                                             // VOLVEMOS A LA PANTALLA DE LOGIN
                                                                                             Intent intent = new Intent(getApplicationContext(), Activity_Login.class);
                                                                                             startActivity(intent);
-                                                                                        }
-                                                                                    }
-                                                                                });
+                                                                                //        }
+                                                                                //    }
+                                                                             //   });
 
 
                                                                             /*   Toast.makeText(InsertUserActivity.this,"Usuario grabado correctamente",Toast.LENGTH_LONG).show();
