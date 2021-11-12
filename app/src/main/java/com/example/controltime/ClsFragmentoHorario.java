@@ -37,6 +37,8 @@ public class ClsFragmentoHorario extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     ArrayList<ClsUsuarioHorario> usuarios = new ArrayList<>();
+    ArrayList<ClsUser> grupoUsuarios = new ArrayList<>();
+    ClsUser u = new ClsUser();
     private ClsAdaptadorHorarios adaptador;
     String usuarioAplicacion,idGrupo,nombre;
     ListView listaDeUsuarios;
@@ -78,9 +80,8 @@ public class ClsFragmentoHorario extends Fragment {
         mDataBase = FirebaseDatabase.getInstance().getReference();
         usuarioAplicacion = ClsUser.UsuarioConectadoApp(getActivity()).replace(".", "_").trim();
         idGrupo = ClsUser.GruposuarioConectadoApp(getContext());
-
+        grupoUsuarios = u.ListaUsuariosPorGrupoYTipo(getContext(),ClsUser.GruposuarioConectadoApp(getContext()),ClsUser.TipoUsuarioConectadoApp(getContext()));
         listaDeUsuarios = view.findViewById(R.id.listusuariohorario);
-
         RellenarHorarios();
 
         return view;
@@ -94,7 +95,7 @@ public class ClsFragmentoHorario extends Fragment {
 
     public void RellenarHorarios (){
         Query query = mDataBase.child("FichajesSolicitados").child(idGrupo);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             /**
              * Buscamos en base de datos los fichajes pendientes de aprobar por el administrador del grupo.
@@ -105,25 +106,27 @@ public class ClsFragmentoHorario extends Fragment {
                 for (DataSnapshot ds : snapshot.getChildren()) {
 
                     fecha = ds.getKey().toString();
-
+                    System.out.println("Fichajes solicitados 1");
                     for (DataSnapshot ds1 : ds.getChildren()){
-
                         String correo = ds1.getKey().toString();
                         System.out.println(correo);
                         ClsFichaje fichaje = ds1.getValue(ClsFichaje.class);
-
+                        System.out.println("Fichajes solicitados 2");
                         if (ClsUser.TipoUsuarioConectadoApp(getContext()).equals("2") && !fichaje.tipoUsuario.equals("2")){
                             crearUsuario(fichaje,correo,fecha);
-                        } else if (ClsUser.TipoUsuarioConectadoApp(getContext()).equals("1")){
+                        } else if (ClsUser.TipoUsuarioConectadoApp(getContext()).equals("0")){
                             crearUsuario(fichaje,correo,fecha);
                         }
 
                     }
 
                 }
-
+                System.out.println("Empieza coger imagen");
+                cogerIdImagen();
+                System.out.println("Termina coger imagen");
                 adaptador = new ClsAdaptadorHorarios(getActivity(),usuarios);
                 listaDeUsuarios.setAdapter(adaptador);
+
                 /*
                     Cada vez que se pulsa un fichaje preguntamos si quiere validarlo y si acepta se valida el fichaje.
                  */
@@ -162,6 +165,8 @@ public class ClsFragmentoHorario extends Fragment {
             }
         });
 
+
+
     }
 
     /*
@@ -190,10 +195,8 @@ public class ClsFragmentoHorario extends Fragment {
 
     public void crearUsuario (ClsFichaje fichaje, String correo, String fecha){
         ClsUsuarioHorario usuario = new ClsUsuarioHorario();
-        System.out.println("nombre --> " + nombre);
         usuario.setNombre(nombre);
         usuario.sethoraInicioJornada(fichaje.horaIni);
-        System.out.println("horaIni --> " + fichaje.horaIni);
         usuario.sethoraFinJornada(fichaje.horaFin);
         usuario.sethoraInicioDescanso(fichaje.horaIniDescanso);
         usuario.sethoraFinDescanso(fichaje.horaFinDescanso);
@@ -202,6 +205,18 @@ public class ClsFragmentoHorario extends Fragment {
         usuario.setNombre(fichaje.nombre);
 
         usuarios.add(usuario);
+    }
+
+    // Recorremos todos los usuarios guardados y si tienen imagen se lo agregamos
+    public void cogerIdImagen (){
+
+        for (int i = 0; grupoUsuarios.size() > i ; i++){
+            for (int j = 0; usuarios.size() > j ; j++){
+                if (grupoUsuarios.get(i).correoElectronico.equals(usuarios.get(j).correo.replace("_","."))){
+                    usuarios.get(j).idImagen = grupoUsuarios.get(i).idImagen;
+                }
+            }
+        }
     }
 
 }

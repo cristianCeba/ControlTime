@@ -149,12 +149,15 @@ public ArrayList<ClsUser> ListaUsuarios(Context context ){
                     for(DataSnapshot ds: snapshot.getChildren()){
                         if(ds.child("Grupo").getValue().toString().equals(grupoS) && ds.child("TipoUsuario").getValue().toString().equals(Tipo)){
                             {
+                                ClsUser user = ds.getValue(ClsUser.class);
+                                /*
                                 String correo=ds.getKey();
                                 String nombre=ds.child("Nombre").getValue().toString();
                                 String apellido=ds.child("Ape").getValue().toString();
                                 String grupoUsuario=ds.child("Grupo").getValue().toString();
                                 String tipoUsuario=ds.child("TipoUsuario").getValue().toString();
-                                Arrayusuario.add(new ClsUser(nombre,apellido,correo,tipoUsuario,grupoUsuario));
+                                Arrayusuario.add(new ClsUser(nombre,apellido,correo,tipoUsuario,grupoUsuario));*/
+                                Arrayusuario.add(user);
                             }
                         }
 

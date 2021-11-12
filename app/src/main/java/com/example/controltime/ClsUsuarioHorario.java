@@ -28,6 +28,7 @@ public class ClsUsuarioHorario implements Serializable {
     String horaInicioDescanso;
     String horaFinDescanso;
     String correo;
+    String idImagen;
     int codigo;
 
     public ClsUsuarioHorario(){
@@ -98,4 +99,11 @@ public class ClsUsuarioHorario implements Serializable {
         this.correo = correo;
     }
 
+    public String getIdImagen() {
+        return idImagen;
+    }
+
+    public void setIdImagen(String idImagen) {
+        this.idImagen = idImagen;
+    }
 }

@@ -1,17 +1,26 @@
 package com.example.controltime;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
 public class ClsAdaptadorHorarios extends BaseAdapter {
 
     private Context miContexto;
+
+    private StorageReference storage;
 
     private ArrayList<ClsUsuarioHorario> miArrayList;
 
@@ -55,6 +64,8 @@ public class ClsAdaptadorHorarios extends BaseAdapter {
 
         TextView fecha =(TextView)view.findViewById(R.id.textFecha);
 
+        ImageView imagen = view.findViewById(R.id.imagenUsuario);
+
 
         nombre.setText(miArrayList.get(position).getNombre());
 
@@ -67,6 +78,24 @@ public class ClsAdaptadorHorarios extends BaseAdapter {
         horaFinDescanso.setText((miArrayList.get(position).gethoraFinDescanso()));
 
         fecha.setText((miArrayList.get(position).getFecha()));
+
+        if (miArrayList.get(position).getIdImagen() != null){
+            String correo = miArrayList.get(position).getCorreo();
+            String idImagen = miArrayList.get(position).getIdImagen();
+            System.out.println("correo --> " + correo);
+            System.out.println("idImagen --> " + idImagen);
+            storage = FirebaseStorage.getInstance().getReference();
+
+            StorageReference pathReference = storage.child("imagenes").child(correo.replace("_",".")).child(idImagen);
+
+            pathReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    Bitmap bitMap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                    imagen.setImageBitmap(bitMap);
+                }
+            });
+        }
 
         return view;
     }
