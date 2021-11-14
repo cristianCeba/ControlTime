@@ -129,7 +129,7 @@ public class Activity_Informe extends AppCompatActivity {
         GenerarPDFFichaje.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    String Nombre= UsurioSeleccionado +"_"+ edtFechaDesde.getText() +"_" + edtFechaHasta.getText() + ".pdf";
+                String Nombre= UsurioSeleccionado + edtFechaDesde.getText().toString().replace("/","") +"_" + edtFechaHasta.getText().toString().replace("/","") + ".pdf";
                     objPDF=new ClsFicheroPDF(CARPETA_PDF_fichajes,Nombre);
                     objPDF.generarPDF(Activity_Informe.this,ArrayPermisos);
             }
