@@ -114,13 +114,13 @@ public class Activity_Informe extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    String Nombre=UsurioSeleccionado +"_"+ edtFechaDesde.getText() +"_" + edtFechaHasta.getText();
+                    String Nombre="per";//UsurioSeleccionado +"_"+ edtFechaDesde.getText() +"_" + edtFechaHasta.getText();
                     objPDF=new ClsFicheroPDF(CARPETA_PDF_fichajes,Nombre);
-                    objPDF.generarPDF();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (DocumentException e) {
-                    e.printStackTrace();
+                    objPDF.generarPDF(Activity_Informe.this);
+                } catch (IOException  e) {
+                    ClsUtils.MostrarMensajes(Activity_Informe.this, "ERROR " + e.getMessage(), "ERROR");
+                }catch ( DocumentException e) {
+                    ClsUtils.MostrarMensajes(Activity_Informe.this, "ERROR " + e.getMessage(), "ERROR");
                 }
             }
         });
@@ -128,18 +128,16 @@ public class Activity_Informe extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    String Nombre=UsurioSeleccionado +"_"+ edtFechaDesde.getText() +"_" + edtFechaHasta.getText();
+                    String Nombre="fich";//UsurioSeleccionado +"_"+ edtFechaDesde.getText() +"_" + edtFechaHasta.getText();
                     objPDF=new ClsFicheroPDF(CARPETA_PDF_fichajes,Nombre);
-                    objPDF.generarPDF();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (DocumentException e) {
-                    e.printStackTrace();
+                    objPDF.generarPDF(Activity_Informe.this);
+                } catch (IOException  e) {
+                    ClsUtils.MostrarMensajes(Activity_Informe.this, "ERROR " + e.getMessage(), "ERROR");
+                }catch ( DocumentException e) {
+                    ClsUtils.MostrarMensajes(Activity_Informe.this, "ERROR " + e.getMessage(), "ERROR");
                 }
             }
         });
         /***FIN GENERAR PDF*******/
-
-
     }
 }

@@ -1,5 +1,6 @@
 package com.example.controltime;
 
+import android.content.Context;
 import android.os.Environment;
 
 import com.lowagie.text.Document;
@@ -30,13 +31,13 @@ String Nombre;
         Ruta = "";
         Nombre = "";
     }
-    public void generarPDF( ) throws IOException, DocumentException {
+    public void generarPDF(Context context) throws IOException, DocumentException {
         Document doc = new Document();
-
+        ClsUtils.MostrarMensajes(context, "ENTRA", "generarPDF");
        // String NombreFich= this.Nombre;
 
         File fichero= crearFichero(this.Nombre,this.Ruta );
-
+        ClsUtils.MostrarMensajes(context, fichero.getAbsolutePath(), "generarPDF");
         //salida
         FileOutputStream ficheroPDF= new FileOutputStream(fichero.getAbsolutePath());
         PdfWriter writer=PdfWriter.getInstance(doc,ficheroPDF);
@@ -82,8 +83,8 @@ String Nombre;
                         "androfast.com", font), 297.5f, 421,
                 writer.getPageNumber() % 2 == 1 ? 45 : -45);
 */
-
-      //  Toast.makeText(this, "PDF generado", Toast.LENGTH_SHORT).show();
+        ClsUtils.MostrarMensajes(context, "CERRAMOS", "generarPDF");
+        doc.close();
     }
     public static File crearFichero(String nombreFichero,String Ruta) throws IOException {
         File ruta = getRuta(Ruta);
@@ -102,17 +103,14 @@ String Nombre;
         // El fichero sera almacenado en un directorio dentro del directorio
         // Descargas
         File ruta = null;
-        if (Environment.MEDIA_MOUNTED.equals(Environment
-                .getExternalStorageState())) {
-            ruta = new File(
-                    Environment
-                            .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+            ruta = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
                     Ruta);
 
             if (ruta != null) {
                 if (!ruta.mkdirs()) {
                     if (!ruta.exists()) {
-                        return null;
+                         return null;
                     }
                 }
             }
