@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,8 +19,14 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,15 +37,19 @@ public class Activity_Informe extends AppCompatActivity {
     TextView edtGrupoApp;
     TextView edtTipoUsuarioApp;
     DatabaseReference mDataBase;
-    ClsUser usuario;
-    Spinner spnUsuario;
+
+
+    Spinner spnUsuarios;
     String Grupo;
     EditText edtFechaDesde;
     EditText edtFechaHasta;
     String UsurioSeleccionado;
     Button GenerarPDFPermisos;
     Button GenerarPDFFichaje;
+    ClsUser objUsuario;
     ClsFicheroPDF objPDF;
+    ClsPermisos objPermisos;
+    List<ClsPermisos>ArrayPermisos;
     private final static String CARPETA_PDF_PERMISOS = "PDF_Permisos";
     private final static String CARPETA_PDF_fichajes = "PDF_Fichajes";
 
@@ -48,12 +60,15 @@ public class Activity_Informe extends AppCompatActivity {
         mDataBase = FirebaseDatabase.getInstance().getReference();
         edtFechaDesde=(EditText)findViewById(R.id.edtFechaDesde);
         edtFechaHasta=(EditText)findViewById(R.id.edtFechaHasta);
-        spnUsuario=(Spinner) findViewById(R.id.spnUsaurio);
+
+        spnUsuarios=(Spinner) findViewById(R.id.spnUsuarios);
         GenerarPDFPermisos=(Button) findViewById(R.id.btnGenerarPer);
         GenerarPDFFichaje=(Button) findViewById(R.id.btnGenerarFich);
         objPDF=new ClsFicheroPDF();
 
-        usuario=new ClsUser();
+        objUsuario=new ClsUser();
+        objPermisos=new ClsPermisos();
+        ArrayPermisos=new ArrayList<>();
         List<ClsUser> Arrayusuario=new ArrayList<>();
 
         /*** * MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
@@ -69,32 +84,23 @@ public class Activity_Informe extends AppCompatActivity {
         /**FIN MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
 
 
-        Arrayusuario=   usuario.ListaUsuarios(Activity_Informe.this );
-        ArrayAdapter<ClsUser> arrayAdapter= new ArrayAdapter<>(Activity_Informe.this, android.R.layout.simple_dropdown_item_1line,Arrayusuario);
-        spnUsuario.setAdapter(arrayAdapter);
-
-
         // cargar el spinner por usuario tipo y grupos**********************
-
         if(ClsUser.TipoUsuarioConectadoApp(getApplication()).equals("0") || ClsUser.TipoUsuarioConectadoApp(getApplication()).equals("3")){
             // administrador o director ,carga todos los usuarios
-            Arrayusuario=   usuario.ListaUsuarios(Activity_Informe.this );
-              arrayAdapter= new ArrayAdapter<>(Activity_Informe.this, android.R.layout.simple_dropdown_item_1line,Arrayusuario);
-            spnUsuario.setAdapter(arrayAdapter);
+            objUsuario.ListaUsuarios(Activity_Informe.this ,spnUsuarios);
         }else{
             // jefe , carga solo los de su grupo
             if(ClsUser.TipoUsuarioConectadoApp(getApplication()).equals("2")){
                 //carga por el grupo al que pertenece , con los usuarios de tipo 1
-                Arrayusuario=   usuario.ListaUsuariosPorGrupoYTipo(Activity_Informe.this,ClsUser.GruposuarioConectadoApp(getApplication()),"1");
-                 arrayAdapter= new ArrayAdapter<>(Activity_Informe.this, android.R.layout.simple_dropdown_item_1line,Arrayusuario);
-                spnUsuario.setAdapter(arrayAdapter);
+                objUsuario.ListaUsuariosPorGrupoYTipo(Activity_Informe.this,ClsUser.GruposuarioConectadoApp(getApplication()),"1",spnUsuarios);
             }
         }
-        spnUsuario.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spnUsuarios.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 UsurioSeleccionado=parent.getItemAtPosition(position).toString();
-                ClsUtils.MostrarMensajes(Activity_Informe.this  , "USUARIO : " + UsurioSeleccionado, "TOTAL PERMISOS POR USUARIO ");
+              //  ClsUtils.MostrarMensajes(Activity_Informe.this  , "USUARIO : " + UsurioSeleccionado, "TOTAL PERMISOS POR USUARIO ");
+                ArrayPermisos= objPermisos.ListaPermisosPorUsuario(Activity_Informe.this,UsurioSeleccionado.replace(".","_"));
             }
 
             @Override
@@ -102,42 +108,34 @@ public class Activity_Informe extends AppCompatActivity {
 
             }
         });
-        //FIN
+         //FIN
 
-        /***BOTONES GENERAR PDF*/
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE )!= PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,},1000);
-        }else{
-
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE )!=
+                        PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,},
+                    1000);
         }
+        /***BOTONES GENERAR PDF*/
         GenerarPDFPermisos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    String Nombre="per";//UsurioSeleccionado +"_"+ edtFechaDesde.getText() +"_" + edtFechaHasta.getText();
-                    objPDF=new ClsFicheroPDF(CARPETA_PDF_fichajes,Nombre);
-                    objPDF.generarPDF(Activity_Informe.this);
-                } catch (IOException  e) {
-                    ClsUtils.MostrarMensajes(Activity_Informe.this, "ERROR " + e.getMessage(), "ERROR");
-                }catch ( DocumentException e) {
-                    ClsUtils.MostrarMensajes(Activity_Informe.this, "ERROR " + e.getMessage(), "ERROR");
-                }
+                String Nombre= UsurioSeleccionado + edtFechaDesde.getText().toString().replace("/","") +"_" + edtFechaHasta.getText().toString().replace("/","") + ".pdf";
+                objPDF=new ClsFicheroPDF(CARPETA_PDF_PERMISOS,Nombre);
+                objPDF.generarPDF(Activity_Informe.this,ArrayPermisos);
             }
         });
         GenerarPDFFichaje.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    String Nombre="fich";//UsurioSeleccionado +"_"+ edtFechaDesde.getText() +"_" + edtFechaHasta.getText();
+                    String Nombre= UsurioSeleccionado +"_"+ edtFechaDesde.getText() +"_" + edtFechaHasta.getText() + ".pdf";
                     objPDF=new ClsFicheroPDF(CARPETA_PDF_fichajes,Nombre);
-                    objPDF.generarPDF(Activity_Informe.this);
-                } catch (IOException  e) {
-                    ClsUtils.MostrarMensajes(Activity_Informe.this, "ERROR " + e.getMessage(), "ERROR");
-                }catch ( DocumentException e) {
-                    ClsUtils.MostrarMensajes(Activity_Informe.this, "ERROR " + e.getMessage(), "ERROR");
-                }
+                    objPDF.generarPDF(Activity_Informe.this,ArrayPermisos);
             }
         });
         /***FIN GENERAR PDF*******/
     }
+
+
 }

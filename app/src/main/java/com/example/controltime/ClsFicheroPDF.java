@@ -16,6 +16,7 @@ import com.lowagie.text.pdf.PdfWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 import harmony.java.awt.Color;
 
@@ -31,66 +32,47 @@ String Nombre;
         Ruta = "";
         Nombre = "";
     }
-    public void generarPDF(Context context) throws IOException, DocumentException {
+    public void generarPDF(Context context, List<ClsPermisos>ArrayPermisos)  {
         Document doc = new Document();
         ClsUtils.MostrarMensajes(context, "ENTRA", "generarPDF");
-       // String NombreFich= this.Nombre;
 
-        File fichero= crearFichero(this.Nombre,this.Ruta );
-        ClsUtils.MostrarMensajes(context, fichero.getAbsolutePath(), "generarPDF");
-        //salida
-        FileOutputStream ficheroPDF= new FileOutputStream(fichero.getAbsolutePath());
-        PdfWriter writer=PdfWriter.getInstance(doc,ficheroPDF);
+        try{
+            File fichero= crearFichero(this.Nombre,this.Ruta );
+            ClsUtils.MostrarMensajes(context, fichero.getAbsolutePath(), "generarPDF");
+            //salida
+            FileOutputStream ficheroPDF= new FileOutputStream(fichero.getAbsolutePath());
+            PdfWriter writer=PdfWriter.getInstance(doc,ficheroPDF);
+            // Abrimos el documento.
+            doc.open();
+            doc.add(new Paragraph("PERMISOS PEDIDOS\n\n"));
 
-        // Incluimos el pie de pagina y una cabecera
-        HeaderFooter cabecera = new HeaderFooter(new Phrase("FECHA:     USUARIO: " ), false);
-        HeaderFooter pie = new HeaderFooter(new Phrase("FIN"), false);
+            // Insertamos una tabla.
+            PdfPTable tabla = new PdfPTable(5);
+            for (int i = 0; i < ArrayPermisos.size(); i++) {
+                    tabla.addCell( ArrayPermisos.get(i).Usuario);
+                    tabla.addCell( ArrayPermisos.get(i).FechaDesde);
+                    tabla.addCell( ArrayPermisos.get(i).FechaHasta);
+                    tabla.addCell(String.valueOf(ArrayPermisos.get(i).dias));
+                    tabla.addCell( ArrayPermisos.get(i).TipoPermiso);
 
-        doc.setHeader(cabecera);
-        doc.setFooter(pie);
-
-        // Abrimos el documento.
-        doc.open();
-
-        // Añadimos un titulo con la fuente por defecto.
-        doc.add(new Paragraph("LOS PERMISOSSSS"));
-
-        Font font = FontFactory.getFont(FontFactory.HELVETICA, 28,
-                Font.BOLD, Color.RED);
-        doc.add(new Paragraph("PERMISOS PEDIDOS", font));
-
-        // Insertamos una imagen que se encuentra en los recursos de la
-        // aplicacion.
-  /*
-        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(),R.drawable.fondo4);//VER UN LOGO
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        Image imagen = Image.getInstance(stream.toByteArray());
-        doc.add(imagen);
-*/
-        // Insertamos una tabla.
-        PdfPTable tabla = new PdfPTable(5);
-        for (int i = 0; i < 15; i++) {
-            tabla.addCell("dato " + i);
+            }
+            doc.add(tabla);
+        }catch (DocumentException e){
+            ClsUtils.MostrarMensajes(context, e.getMessage(), "DocumentException");
+        }catch (IOException e){
+            ClsUtils.MostrarMensajes(context, e.getMessage(), "IOException");
+        }finally {
+            ClsUtils.MostrarMensajes(context, "CERRAMOS", "generarPDF");
+            doc.close();
         }
-        doc.add(tabla);
 
-        // Agregar marca de agua
- /*
-        font = FontFactory.getFont(FontFactory.HELVETICA, 42, Font.BOLD, Color.GRAY);
-        ColumnText.showTextAligned(writer.getDirectContentUnder(),
-                Element.ALIGN_CENTER, new Paragraph(
-                        "androfast.com", font), 297.5f, 421,
-                writer.getPageNumber() % 2 == 1 ? 45 : -45);
-*/
-        ClsUtils.MostrarMensajes(context, "CERRAMOS", "generarPDF");
-        doc.close();
     }
-    public static File crearFichero(String nombreFichero,String Ruta) throws IOException {
+    public   File crearFichero(String nombreFichero,String Ruta) throws IOException {
         File ruta = getRuta(Ruta);
         File fichero = null;
-        if (ruta != null)
+        if (ruta != null) {
             fichero = new File(ruta, nombreFichero);
+        }
         return fichero;
     }
     /**
@@ -98,14 +80,11 @@ String Nombre;
      *
      * @return
      */
-    public static File getRuta (String Ruta) {
-
-        // El fichero sera almacenado en un directorio dentro del directorio
-        // Descargas
+    public  File getRuta (String Ruta) {
+        // El fichero sera almacenado en un directorio dentro del directorio Descargas
         File ruta = null;
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            ruta = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-                    Ruta);
+            ruta = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), Ruta);
 
             if (ruta != null) {
                 if (!ruta.mkdirs()) {
@@ -114,7 +93,6 @@ String Nombre;
                     }
                 }
             }
-        } else {
         }
 
         return ruta;

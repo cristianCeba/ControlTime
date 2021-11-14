@@ -1,6 +1,8 @@
 package com.example.controltime;
 
 import android.content.Context;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -82,6 +84,32 @@ public class ClsPermisos {
                         ClsPermisos objPer = ds.getValue(ClsPermisos.class);
                         ArrayPermisos.add(new ClsPermisos(objPer.Usuario,objPer.dias, objPer.FechaDesde, objPer.FechaHasta,objPer.TipoPermiso, objPer.Estado, objPer.RowId ));
                     }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+            }
+        });
+        return (ArrayList<ClsPermisos>) ArrayPermisos;
+    }
+
+
+
+    public ArrayList<ClsPermisos> ListaPermisosPorUsuario(Context context, Spinner spnPermisos, String UsuarioApp){
+        List<ClsPermisos> ArrayPermisos= new ArrayList<>();
+        DatabaseReference mDataBase;
+        mDataBase=FirebaseDatabase.getInstance().getReference();
+        Query query = mDataBase.child("Permisos").child(UsuarioApp);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot ds:snapshot.getChildren()){
+                        ClsPermisos objPer = ds.getValue(ClsPermisos.class);
+                        ArrayPermisos.add(new ClsPermisos(objPer.Usuario,objPer.dias, objPer.FechaDesde, objPer.FechaHasta,objPer.TipoPermiso, objPer.Estado, objPer.RowId ));
+                    }
+                    ArrayAdapter<ClsPermisos> adapter=new ArrayAdapter<>(context, android.R.layout.simple_dropdown_item_1line,ArrayPermisos);
+                    spnPermisos.setAdapter(adapter);
                 }
             }
             @Override

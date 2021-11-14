@@ -118,12 +118,15 @@ public ArrayList<ClsUser> ListaUsuarios(Context context ){
                     if(ds.getKey().equals(ClsUser.UsuarioConectadoApp(context).replace(".", "_").trim())){
                         //Toast.makeText(context,ds.getKey(),Toast.LENGTH_LONG).show();
                     }else{
-                        String correo=ds.getKey();
+                        ClsUser user = ds.getValue(ClsUser.class);
+                        Arrayusuario.add(user);
+                       /* String correo=ds.getKey();
                         String nombre=ds.child("Nombre").getValue().toString();
                         String apellido=ds.child("Ape").getValue().toString();
                         String grupoUsuario=ds.child("Grupo").getValue().toString();
                         String tipoUsuario=ds.child("TipoUsuario").getValue().toString();
                         Arrayusuario.add(new ClsUser(nombre,apellido,correo,tipoUsuario,grupoUsuario));
+                   */
                     }
                }
             }
@@ -150,13 +153,6 @@ public ArrayList<ClsUser> ListaUsuarios(Context context ){
                         if(ds.child("Grupo").getValue().toString().equals(grupoS) && ds.child("TipoUsuario").getValue().toString().equals(Tipo)){
                             {
                                 ClsUser user = ds.getValue(ClsUser.class);
-                                /*
-                                String correo=ds.getKey();
-                                String nombre=ds.child("Nombre").getValue().toString();
-                                String apellido=ds.child("Ape").getValue().toString();
-                                String grupoUsuario=ds.child("Grupo").getValue().toString();
-                                String tipoUsuario=ds.child("TipoUsuario").getValue().toString();
-                                Arrayusuario.add(new ClsUser(nombre,apellido,correo,tipoUsuario,grupoUsuario));*/
                                 Arrayusuario.add(user);
                             }
                         }
@@ -174,6 +170,69 @@ public ArrayList<ClsUser> ListaUsuarios(Context context ){
         return (ArrayList<ClsUser>) Arrayusuario;
     }
 
+
+    /**METODO QUE CARGA LOS USUARIOS POR GRUPO AL QUE PERTENECE en una SPINNER*/
+    public  void ListaUsuariosPorGrupoYTipo(    Context context,String grupoS,String Tipo,Spinner spnUsuarios){
+        List<ClsUser>    Arrayusuario=new ArrayList<>();
+        //  usuario=new ArrayList<>();
+        DatabaseReference mDataBase;
+        mDataBase = FirebaseDatabase.getInstance().getReference();
+        mDataBase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot ds: snapshot.getChildren()){
+                        if(ds.child("Grupo").getValue().toString().equals(grupoS) && ds.child("TipoUsuario").getValue().toString().equals(Tipo)){
+                            {
+                                ClsUser user = ds.getValue(ClsUser.class);
+                                Arrayusuario.add(user);
+                            }
+                            ArrayAdapter<ClsUser> arrayAdapter= new ArrayAdapter<>(context, android.R.layout.simple_dropdown_item_1line,Arrayusuario);
+                            spnUsuarios.setAdapter(arrayAdapter);
+                        }
+
+                    }
+
+
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+    /**METODO QUE CARGA todos los USUARIOS  EN UN SPINNER*/
+    public void ListaUsuarios(Context context,Spinner spnUsuarios ){
+        List<ClsUser>    Arrayusuario=new ArrayList<>();
+        DatabaseReference mDataBase;
+        mDataBase = FirebaseDatabase.getInstance().getReference();
+        mDataBase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot ds: snapshot.getChildren()){
+                        if(ds.getKey().equals(ClsUser.UsuarioConectadoApp(context).replace(".", "_").trim())){
+                            //Toast.makeText(context,ds.getKey(),Toast.LENGTH_LONG).show();
+                        }else{
+                            ClsUser user = ds.getValue(ClsUser.class);
+                            Arrayusuario.add(user);
+
+                        }
+
+                    }
+                    ArrayAdapter<ClsUser> arrayAdapter= new ArrayAdapter<>(context, android.R.layout.simple_dropdown_item_1line,Arrayusuario);
+                    spnUsuarios.setAdapter(arrayAdapter);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
     public String[] GetNombreYApellido(DatabaseReference mDataBase,   String UsuarioApp){
         String[] Nombre = {null};
         mDataBase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
