@@ -70,6 +70,8 @@ public class ClsUtils extends DialogFragment implements DatePickerDialog.OnDateS
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
     }
+
+
     /*FIN  TRABAJAR CON FECHAS DATEPicker*/
 
 

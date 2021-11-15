@@ -16,6 +16,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -92,10 +94,83 @@ public class ClsPermisos {
         });
         return (ArrayList<ClsPermisos>) ArrayPermisos;
     }
+/* public int ComprobarFechas(String FechaIni,String FechaFin){
+
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        mDataBase = FirebaseDatabase.getInstance().getReference();
+        Query query =mDataBase.child("Permisos").child(Usuario);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull  DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    int cant=0;
+                    for(DataSnapshot ds:snapshot.getChildren()){
+                        ClsPermisos objPer = ds.getValue(ClsPermisos.class);
+                        try {
+                            Date dataDesde = formato.parse(objPer.FechaDesde );
+                            Date dataHasta = formato.parse(objPer.FechaHasta);
+
+                            Date Desde = formato.parse(FechaIni );
+                            Date  Hasta = formato.parse(FechaFin);
+
+                            if(  (dataDesde.compareTo(Desde) >= 0 && dataDesde.compareTo(Hasta) <= 0) ||(dataHasta.compareTo(Desde) >= 0 && dataHasta.compareTo(Hasta) <= 0)){
+                                cant++;
+                            }
+
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    suma=cant;
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull   DatabaseError error) {
+
+            }
+        });
+        return suma;
+    }*/
+    public ArrayList<ClsPermisos> ListaPermisosPorUsuarioYFechas(Context context,String UsuarioApp,String FechaIni,String FechaFin){
+        List<ClsPermisos> ArrayPermisos= new ArrayList<>();
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        DatabaseReference mDataBase;
+        mDataBase=FirebaseDatabase.getInstance().getReference();
+        Query query = mDataBase.child("Permisos").child(UsuarioApp);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot ds:snapshot.getChildren()){
+                        ClsPermisos objPer = ds.getValue(ClsPermisos.class);
+                        try {
+                            Date dataDesde = formato.parse(objPer.FechaDesde );
+                            Date dataHasta = formato.parse(objPer.FechaHasta);
+
+                            Date Desde = formato.parse(FechaIni );
+                            Date  Hasta = formato.parse(FechaFin);
+
+                            if(  (dataDesde.compareTo(Desde) >= 0 && dataDesde.compareTo(Hasta) <= 0) ||(dataHasta.compareTo(Desde) >= 0 && dataHasta.compareTo(Hasta) <= 0)){
+                                ArrayPermisos.add(new ClsPermisos(objPer.Usuario,objPer.dias, objPer.FechaDesde, objPer.FechaHasta,objPer.TipoPermiso, objPer.Estado, objPer.RowId ));
+                            }
+
+                        }  catch (ParseException e) {
+                            e.printStackTrace();
+                        }
 
 
 
-    public ArrayList<ClsPermisos> ListaPermisosPorUsuario(Context context, Spinner spnPermisos, String UsuarioApp){
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+            }
+        });
+        return (ArrayList<ClsPermisos>) ArrayPermisos;
+    }
+
+   /* public ArrayList<ClsPermisos> ListaPermisosPorUsuario(Context context, Spinner spnPermisos, String UsuarioApp){
         List<ClsPermisos> ArrayPermisos= new ArrayList<>();
         DatabaseReference mDataBase;
         mDataBase=FirebaseDatabase.getInstance().getReference();
@@ -117,6 +192,6 @@ public class ClsPermisos {
             }
         });
         return (ArrayList<ClsPermisos>) ArrayPermisos;
-    }
+    }*/
 
 }

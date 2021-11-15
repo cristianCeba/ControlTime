@@ -34,11 +34,11 @@ String Nombre;
     }
     public void generarPDF(Context context, List<ClsPermisos>ArrayPermisos)  {
         Document doc = new Document();
-        ClsUtils.MostrarMensajes(context, "ENTRA", "generarPDF");
+        ClsUtils.MostrarMensajes(context, "Generando pDF.....", "generarPDF");
 
         try{
             File fichero= crearFichero(this.Nombre,this.Ruta );
-            ClsUtils.MostrarMensajes(context, fichero.getAbsolutePath(), "generarPDF");
+
             //salida
             FileOutputStream ficheroPDF= new FileOutputStream(fichero.getAbsolutePath());
             PdfWriter writer=PdfWriter.getInstance(doc,ficheroPDF);
@@ -62,7 +62,7 @@ String Nombre;
         }catch (IOException e){
             ClsUtils.MostrarMensajes(context, e.getMessage(), "IOException");
         }finally {
-            ClsUtils.MostrarMensajes(context, "CERRAMOS", "generarPDF");
+            ClsUtils.MostrarMensajes(context, "CREADO ", "generarPDF");
             doc.close();
         }
 

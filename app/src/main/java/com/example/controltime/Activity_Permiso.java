@@ -99,7 +99,7 @@ public class Activity_Permiso extends AppCompatActivity {
         objGrupo.GetNombreGrupoXId(mDataBase, edtGrupoApp,ClsUser.GruposuarioConectadoApp(getApplication()));
         objTipo.GetTipoXId(mDataBase,edtTipoUsuarioApp,ClsUser.TipoUsuarioConectadoApp(getApplication()));
         /**FIN MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
-        //LLenarLista(Usuario,calendarView);
+       // LLenarLista(Usuario,calendarView);
 /***  * Comprobamos el ultimo id metido para el usuario registrado*/
         RowId=UltimoId() ;
         Id=String.valueOf(RowId);
@@ -112,7 +112,7 @@ public class Activity_Permiso extends AppCompatActivity {
          objPermisos=new ClsPermisos();
         ArrayPermisos=new ArrayList<>();
         ArrayPermisos= objPermisos.ListaPermisosPorUsuario(Activity_Permiso.this,Usuario);
-        ClsUtils.MostrarMensajes(Activity_Permiso.this, "cantidad: " + ArrayPermisos.size(), "TOTAL PERMISOS POR USUARIO ");
+       // ClsUtils.MostrarMensajes(Activity_Permiso.this, "cantidad: " + ArrayPermisos.size(), "TOTAL PERMISOS POR USUARIO ");
 
 /*** *  FECHAS */
 
@@ -195,9 +195,11 @@ public class Activity_Permiso extends AppCompatActivity {
         btnPermiso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LLenarLista(Usuario,calendarView);
+
                 //ClsPermisos objPermisos=new ClsPermisos();
-                ArrayPermisos=new ArrayList<>();
-                ArrayPermisos= objPermisos.ListaPermisosPorUsuario(Activity_Permiso.this,Usuario);
+             //   ArrayPermisos=new ArrayList<>();
+               // ArrayPermisos= objPermisos.ListaPermisosPorUsuario(Activity_Permiso.this,Usuario);
                 //ClsUtils.MostrarMensajes(Activity_Permiso.this, "cantidad: " + ArrayPermisos.size(), "TOTAL PERMISOS POR USUARIO ");
                 //ArrayAdapter<ClsPermisos> arrayAdapter= new ArrayAdapter<>(Activity_Permiso.this, android.R.layout.simple_dropdown_item_1line,ArrayPermisos);
                 //spnTipoPermiso.setAdapter(arrayAdapter);
@@ -278,25 +280,25 @@ public class Activity_Permiso extends AppCompatActivity {
 
                         try {
                             switch (objPer.TipoPermiso){
-                                case "0":
+                                case "Vacaciones"://""0":
                                     colorDia=Color.rgb(247,218,56);
                                     break;
-                                case "1":
+                                case "Baja Enf."://""1":
                                     colorDia=Color.rgb(125,129,127);
                                     break;
-                                case "2":
+                                case "Fallecimiento F."://"2":
                                     colorDia=Color.rgb(176,39,169);
                                     break;
-                                case "3":
+                                case "Hospitalización F."://"3":
                                     colorDia=Color.rgb(39,89,176);
                                     break;
-                                case "4":
+                                case "Boda"://"4":
                                     colorDia=Color.rgb(255,87,34);
                                     break;
-                                case "5":
+                                case "Boda F."://"5":
                                     colorDia=Color.rgb(76,175,80);
                                     break;
-                                case "6":
+                                case "Baja"://"6":
                                     colorDia=Color.rgb(176,114,39);
 
                                     break;
