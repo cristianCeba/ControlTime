@@ -148,9 +148,10 @@ public class Activity_Login extends AppCompatActivity {
 
                                             ClsUser.UsuarioPreferencesApp(correo,contraseña,usuario.get(i).TipoUsuario,usuario.get(i).Grupo,getApplicationContext());
                                         }
-                                        Intent intent = new Intent(getApplicationContext(), Activity_MenuPrincipal.class);
+                                        //Intent intent = new Intent(getApplicationContext(), Activity_MenuPrincipal.class);
+                                        //startActivity(intent);
+                                        Intent intent = new Intent(getApplicationContext(), Activity_Navegador.class);
                                         startActivity(intent);
-
                                     }
                                 }
 

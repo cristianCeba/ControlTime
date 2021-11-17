@@ -209,14 +209,17 @@ public class ClsFragmentoHorario extends Fragment {
 
     // Recorremos todos los usuarios guardados y si tienen imagen se lo agregamos
     public void cogerIdImagen (){
-
+        System.out.println("Cogemos imagen");
         for (int i = 0; grupoUsuarios.size() > i ; i++){
             for (int j = 0; usuarios.size() > j ; j++){
                 if (grupoUsuarios.get(i).correoElectronico.equals(usuarios.get(j).correo.replace("_","."))){
                     usuarios.get(j).idImagen = grupoUsuarios.get(i).idImagen;
+                    System.out.println("usuarios.get(j).idImagen --> " + usuarios.get(j).idImagen);
                 }
             }
         }
+
+        System.out.println("Termina Cogemos imagen");
     }
 
 }

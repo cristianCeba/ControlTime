@@ -12,9 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ControlTime">
         <activity
+            android:name=".Activity_Navegador"
+            android:label="@string/title_activity__navegador"
+            android:theme="@style/Theme.ControlTime.NoActionBar"></activity>
+        <activity
             android:name=".Activity_ValidarHorario"
             android:label="@string/title_activity__validar_horario"
-            android:theme="@style/Theme.ControlTime.NoActionBar"></activity>
+            android:theme="@style/Theme.ControlTime.NoActionBar" />
         <activity android:name=".Activity_Informe" />
         <activity android:name=".Activity_ModificarFichaje" />
         <activity android:name=".Activity_Validar" />

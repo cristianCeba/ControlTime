@@ -112,14 +112,12 @@ public class ClsFragmentoPermisos extends Fragment {
                             permisoUsuario.correo = correoUsuarioPidePermiso;
                             if (ClsUser.TipoUsuarioConectadoApp(getContext()).equals("2") && permisoUsuario.TipoUsuario.equals("1")){
                                 crearPermiso(permisoUsuario);
-                            } else if (ClsUser.TipoUsuarioConectadoApp(getContext()).equals("1")){
+                            } else if (ClsUser.TipoUsuarioConectadoApp(getContext()).equals("0")){
                                 crearPermiso(permisoUsuario);
                             }
                         }
                     }
-
-
-                        }
+                }
 
                         adaptador = new ClsAdaptadorPermisos(getActivity(), listaUsuariosPermisos);
                         listaDeUsuariosPermisos.setAdapter(adaptador);

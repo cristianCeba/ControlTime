@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_permisos"
+            android:icon="@drawable/permiso"
+            android:title="@string/menu_gallery"/>
+        <item
+            android:id="@+id/nav_fichaje"
+            android:icon="@android:drawable/ic_lock_idle_alarm"
+            android:title="@string/menu_home"/>
+        <item
+            android:id="@+id/nav_verFichaje"
+            android:icon="@drawable/verfichaje"
+            android:title="@string/menu_verFichaje"/>
+        <item
+            android:id="@+id/nav_solicitarFichaje2"
+            android:icon="@drawable/solicitarfichaje"
+            android:title="@string/menu_solicitarFichaje"/>
+        <item
+            android:id="@+id/nav_validar"
+            android:icon="@drawable/validar"
+            android:title="@string/menu_validar"/>
+        <item
+            android:id="@+id/nav_empleado"
+            android:icon="@drawable/empleado"
+            android:title="@string/menu_empleado"/>
+        <item
+            android:id="@+id/nav_configuracion"
+            android:icon="@drawable/configuracion"
+            android:title="@string/menu_configuracion"/>
+        <item
+            android:id="@+id/nav_informe"
+            android:icon="@drawable/informes"
+            android:title="@string/menu_informe"/>
+        <item
+            android:id="@+id/nav_cerrarSesion"
+            android:icon="@android:drawable/ic_lock_power_off"
+            android:title="@string/menu_cerrarSesion" />
+    </group>
+</menu>

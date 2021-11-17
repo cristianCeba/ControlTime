@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity_Informe"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:orientation="vertical"
+
+        >
+
+        <TextView
+            android:id="@+id/edtUsuarioApp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+
+            android:background="@color/colorEditTextNormal"
+            android:text="usuario"
+            android:textColor="@color/white"
+            android:textSize="14sp">
+
+        </TextView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:orientation="horizontal"
+
+            >
+
+            <TextView
+                android:id="@+id/edtGrupoApp"
+                android:layout_width="224dp"
+                android:layout_height="wrap_content"
+
+
+                android:background="@color/colorEditTextNormal"
+                android:textColor="@color/white"
+                android:textSize="14sp">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/edtTipoUsuarioApp"
+                android:layout_width="186dp"
+                android:layout_height="wrap_content"
+
+
+                android:background="@color/colorEditTextNormal"
+                android:textColor="@color/white"
+                android:textSize="14sp">
+
+            </TextView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bordeslayout"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textUsuarios"
+            android:layout_width="2dp"
+            android:layout_height="34dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:text="Usuarios"
+            android:textAppearance="@style/CardView.Light"
+            android:textSize="12sp" />
+
+        <Spinner
+            android:id="@+id/spnUsaurio"
+            android:layout_width="215dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"></Spinner>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Spinner
+            android:id="@+id/spnUsuarios"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"></Spinner>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="411dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bordeslayout"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edtFechaDesde"
+            android:layout_width="199dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:hint="01/01/2021"
+            android:inputType="date"
+            android:textSize="12sp">
+
+        </EditText>
+
+        <EditText
+            android:id="@+id/edtFechaHasta"
+            android:layout_width="199dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:hint="31/12/2021"
+            android:inputType="date"
+            android:textSize="12sp">
+
+        </EditText>
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="5dp">
+
+        <Button
+            android:id="@+id/btnGenerarPer"
+            android:layout_width="179dp"
+            android:layout_height="40dp"
+            android:background="@drawable/custonbutton"
+            android:text="PERMISOS"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/btnGenerarFich"
+            android:layout_width="179dp"
+            android:layout_height="40dp"
+            android:background="@drawable/custonbutton"
+            android:text="FICHAJES"
+            app:backgroundTint="@null" />
+
+    </LinearLayout>
+</LinearLayout>
