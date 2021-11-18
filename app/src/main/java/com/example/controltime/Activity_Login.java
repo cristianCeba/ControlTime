@@ -194,7 +194,7 @@ public class Activity_Login extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Intent intent = new Intent(getApplicationContext(), Activity_MenuPrincipal.class);
+                            Intent intent = new Intent(getApplicationContext(), Activity_Navegador.class);
                             startActivity(intent);
                         }
                     }
