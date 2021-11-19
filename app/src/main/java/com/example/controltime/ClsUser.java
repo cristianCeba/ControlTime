@@ -1,6 +1,7 @@
 package com.example.controltime;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -10,12 +11,23 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +43,7 @@ public class ClsUser {
     public String idImagen;
     static ClsFichaje fichajeUsuario;
     private ClsUser objUser;
-
+    RequestQueue requestQueue;
 
 
     @Override
@@ -65,6 +77,19 @@ public class ClsUser {
 
     }
 
+    public static void UsuarioPreferencesApp(String usuario,String contrasena,String usuarioId,Context contex){
+        SharedPreferences prefe = contex.getSharedPreferences("usuarioApp",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor =prefe.edit();
+        editor.putString("usuario",usuario .toString());
+        editor.putString("contraseña",contrasena .toString());
+
+        editor.putString("usuarioId",usuarioId .toString());
+
+
+        editor.commit();
+    }
+
+
 public static void UsuarioPreferencesApp(String usuario,String contrasena,String tipo,String grupo,Context contex){
     SharedPreferences prefe = contex.getSharedPreferences("usuarioApp",Context.MODE_PRIVATE);
     SharedPreferences.Editor editor =prefe.edit();
@@ -80,6 +105,10 @@ public static void UsuarioPreferencesApp(String usuario,String contrasena,String
     public static String TipoUsuarioConectadoApp(Context contex){
         SharedPreferences preferencias = contex.getSharedPreferences("usuarioApp", Context.MODE_PRIVATE);
         return preferencias.getString("Tipousuario","No hay Tipo usuario");
+    }
+    public static String UsuarioIdApp(Context contex){
+        SharedPreferences preferencias = contex.getSharedPreferences("usuarioApp", Context.MODE_PRIVATE);
+        return preferencias.getString("usuarioId","No hay ID usuario");
     }
 
     public static String GruposuarioConectadoApp(Context contex){
@@ -203,6 +232,47 @@ public ArrayList<ClsUser> ListaUsuarios(Context context ){
         });
 
     }
+
+
+    /**METODO QUE CARGA el USUARIOS POR EMAIL*/
+    public  ArrayList<ClsUser> ListaUsuariosXEmail(    Context context,  String Ruta){
+        List<ClsUser>    Arrayusuario=new ArrayList<>();
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Ruta,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        JSONObject jsonObject = null;
+                        for (int i = 0 ;i< response.length(); i++) {
+                            try{
+                                jsonObject=response.getJSONObject(i);
+                                String usuario=jsonObject.getString("usuarioId");
+                               // ClsUser.UsuarioPreferencesApp(correo,contraseña,usuario,context);
+                               // Intent intent = new Intent(context(), Activity_Navegador.class);
+                                //startActivity(intent);
+                            }catch (JSONException e){
+                                Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,error.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
+
+        requestQueue= Volley.newRequestQueue(context);
+        requestQueue.add(jsonArrayRequest);
+        return (ArrayList<ClsUser>) Arrayusuario;
+    }
+
+
+
+
+
+
+
     /**METODO QUE CARGA todos los USUARIOS  EN UN SPINNER*/
     public void ListaUsuarios(Context context,Spinner spnUsuarios ){
         List<ClsUser>    Arrayusuario=new ArrayList<>();

@@ -2,6 +2,7 @@ package com.example.controltime;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -23,7 +24,7 @@ public class Activity_Navegador extends AppCompatActivity {
         setContentView(R.layout.activity__navegador);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        Toast.makeText(Activity_Navegador.this, "ID_USUARIO: " + ClsUser.UsuarioIdApp(Activity_Navegador.this).toString(), Toast.LENGTH_SHORT).show();
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each

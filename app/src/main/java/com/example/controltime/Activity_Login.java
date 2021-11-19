@@ -16,6 +16,13 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -25,6 +32,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,13 +51,15 @@ public class Activity_Login extends AppCompatActivity {
     public String correo;
     public String contraseña;
     public Button btnInsertarUser;
+    RequestQueue requestQueue;
     ClsUtils utils;
     ClsUser objUse=new ClsUser();
-
+    private static  final String URL_RECUPERAR_DATOS_SOCIO_EMAIL="https://us-central1-controltime-b575f.cloudfunctions.net/GetUsuarioXEmail?email=";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
 
         btnInsertarUser = findViewById(R.id.btnRegistro);
         btnIniciarSesion = findViewById(R.id.btnIniciarSesion);
@@ -84,6 +97,9 @@ public class Activity_Login extends AppCompatActivity {
                     textContraseña.setText("Por favor, introduce una contraseña");
                 }else{
                     RevisarLogin();
+
+
+
                 }
 
             }
@@ -125,41 +141,36 @@ public class Activity_Login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // cargar objusuario
-                            List<ClsUser> usuario=new ArrayList<>();
-                            DatabaseReference mDataBase;
-                            mDataBase = FirebaseDatabase.getInstance().getReference();
-                            mDataBase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    if(snapshot.exists()){
-                                        for(DataSnapshot ds: snapshot.getChildren()){
-                                            if (ds.getKey().equals(correo.replace(".", "_").trim())){
-                                                String correo=ds.getKey();
-                                                String nombre=ds.child("Nombre").getValue().toString();
-                                                String apellido=ds.child("Ape").getValue().toString();
-                                                String grupoUsuario=ds.child("Grupo").getValue().toString();
-                                                String tipoUsuario=ds.child("TipoUsuario").getValue().toString();
-                                                usuario.add(new ClsUser(nombre,apellido,correo,tipoUsuario,grupoUsuario));
+                            List<ClsUser>  Arrayusuario=new ArrayList<>();
+                          //  URL_RECUPERAR_DATOS_SOCIO_EMAIL
+
+                            String Ruta =URL_RECUPERAR_DATOS_SOCIO_EMAIL  + correo;
+                            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Ruta,
+                                    new Response.Listener<JSONArray>() {
+                                        @Override
+                                        public void onResponse(JSONArray response) {
+                                            JSONObject jsonObject = null;
+                                            for (int i = 0 ;i< response.length(); i++) {
+                                                try{
+                                                    jsonObject=response.getJSONObject(i);
+                                                    String usuario=jsonObject.getString("usuarioId");
+                                                    ClsUser.UsuarioPreferencesApp(correo,contraseña,usuario,getApplicationContext());
+                                                    Intent intent = new Intent(getApplicationContext(), Activity_Navegador.class);
+                                                    startActivity(intent);
+                                                }catch (JSONException e){
+                                                    Toast.makeText(getBaseContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+                                                }
                                             }
                                         }
-                                        ClsGrupos objGrupo=new ClsGrupos();
-
-                                        for(int i=0;i<=usuario.size()-1;i++){
-
-                                            ClsUser.UsuarioPreferencesApp(correo,contraseña,usuario.get(i).TipoUsuario,usuario.get(i).Grupo,getApplicationContext());
-                                        }
-                                        //Intent intent = new Intent(getApplicationContext(), Activity_MenuPrincipal.class);
-                                        //startActivity(intent);
-                                        Intent intent = new Intent(getApplicationContext(), Activity_Navegador.class);
-                                        startActivity(intent);
-                                    }
-                                }
-
+                                    }, new Response.ErrorListener() {
                                 @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
+                                public void onErrorResponse(VolleyError error) {
+                                    Toast.makeText(getBaseContext(),error.getMessage(),Toast.LENGTH_LONG).show();
                                 }
-                            });// FIN carga obj
+                            });
+
+                            requestQueue= Volley.newRequestQueue(Activity_Login.this);
+                            requestQueue.add(jsonArrayRequest);
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -194,8 +205,8 @@ public class Activity_Login extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Intent intent = new Intent(getApplicationContext(), Activity_Navegador.class);
-                            startActivity(intent);
+                         //   Intent intent = new Intent(getApplicationContext(), Activity_Navegador.class);
+                          //  startActivity(intent);
                         }
                     }
                 });
