@@ -199,7 +199,7 @@ public class Activity_InsertUser extends AppCompatActivity {
                                                             public void onComplete(@NonNull Task<AuthResult> task) {
                                                                 if (task.isSuccessful()) {
                                                                    // GRABAMOS EN USERS
-                                                                   ClsUser use = new ClsUser(Nombre, Ape, Email,objTipoUsuario.id ,objGrupos.id);
+                                                                   ClsUser use = new ClsUser(Nombre, Ape, Email,Integer.valueOf(objTipoUsuario.id) ,Integer.valueOf(objGrupos.id));
                                                                     String email = Email.replace(".", "_");
                                                                     mDataBase.child("users").child(email).setValue(use).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                         @Override

@@ -142,35 +142,15 @@ public class Activity_Login extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // cargar objusuario
                             List<ClsUser>  Arrayusuario=new ArrayList<>();
-                          //  URL_RECUPERAR_DATOS_SOCIO_EMAIL
+                          //  URL_RECUPERAR_DATOS_SOCIO_EMAIL--------------------------------------
 
                             String Ruta =URL_RECUPERAR_DATOS_SOCIO_EMAIL  + correo;
-                            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Ruta,
-                                    new Response.Listener<JSONArray>() {
-                                        @Override
-                                        public void onResponse(JSONArray response) {
-                                            JSONObject jsonObject = null;
-                                            for (int i = 0 ;i< response.length(); i++) {
-                                                try{
-                                                    jsonObject=response.getJSONObject(i);
-                                                    String usuario=jsonObject.getString("usuarioId");
-                                                    ClsUser.UsuarioPreferencesApp(correo,contraseña,usuario,getApplicationContext());
-                                                    Intent intent = new Intent(getApplicationContext(), Activity_Navegador.class);
-                                                    startActivity(intent);
-                                                }catch (JSONException e){
-                                                    Toast.makeText(getBaseContext(),e.getMessage(),Toast.LENGTH_LONG).show();
-                                                }
-                                            }
-                                        }
-                                    }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Toast.makeText(getBaseContext(),error.getMessage(),Toast.LENGTH_LONG).show();
-                                }
-                            });
-
-                            requestQueue= Volley.newRequestQueue(Activity_Login.this);
-                            requestQueue.add(jsonArrayRequest);
+                            Arrayusuario=objUse.ListaUsuariosXEmail(Activity_Login.this,Ruta,requestQueue);
+                            for(int i=0;i<=Arrayusuario.size()-1;i++){
+                                ClsUser.UsuarioPreferencesApp(correo,contraseña,Arrayusuario.get(i).usuarioId,getApplicationContext());
+                            }
+                            Intent intent = new Intent(getApplicationContext(), Activity_Navegador.class);
+                            startActivity(intent);
 
                         } else {
                             // If sign in fails, display a message to the user.

@@ -150,7 +150,7 @@ public class Activity_ModificarFichaje extends AppCompatActivity {
             String grupo = String.valueOf(usuario.Grupo);
             ClsFichaje fichaje = new ClsFichaje(inicioJornada.getText().toString(),finJornada.getText().toString(),inicioDescanso.getText().toString(),finDescanso.getText().toString());
             fichaje.setNombre(usuario.Nombre + " " + usuario.Ape);
-            fichaje.setTipoUsuario(usuario.TipoUsuario);
+            fichaje.setTipoUsuario(String.valueOf(usuario.TipoUsuario));
             mDataBase.child("FichajesSolicitados").child(grupo).child(dia).child(usuarioAplicacion).setValue(fichaje);
             Toast.makeText(Activity_ModificarFichaje.this, "Horario enviado al supervisor",
                     Toast.LENGTH_SHORT).show();

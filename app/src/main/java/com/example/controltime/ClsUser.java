@@ -33,14 +33,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClsUser {
-
+    public int usuarioId;
     public String correoElectronico;
     public String contraseña;
     public String Nombre;
     public String Ape;
-    public String TipoUsuario;
-    public String Grupo;
+    public String Ape2;
+    public int TipoUsuario;
+    public int Grupo;//departamento
     public String idImagen;
+    public boolean bloqueado;
     static ClsFichaje fichajeUsuario;
     private ClsUser objUser;
     RequestQueue requestQueue;
@@ -57,8 +59,11 @@ public class ClsUser {
         this.Nombre = "";
         this.Ape = "";
         this.correoElectronico = "";
-        this.TipoUsuario="";
-        this.Grupo ="";
+        this.TipoUsuario=0;
+        this.Grupo =0;
+        this.usuarioId=0;
+        this.idImagen="";
+        this.bloqueado=false;
     }
 
     public ClsUser(String coreo, String contraseña) {
@@ -67,7 +72,7 @@ public class ClsUser {
     }
 
     /*CONSTRUCTOR DE LA CLASE*/
-    public ClsUser( String Nombre, String Ape, String correo,String TipoUsuario,String Grupo ) {
+    public ClsUser( String Nombre, String Ape, String correo,int TipoUsuario,int Grupo ) {
 
         this.Nombre = Nombre;
         this.Ape = Ape;
@@ -77,13 +82,27 @@ public class ClsUser {
 
     }
 
-    public static void UsuarioPreferencesApp(String usuario,String contrasena,String usuarioId,Context contex){
+    /*CONSTRUCTOR DE LA CLASE*/
+    public ClsUser(int usuarioId, String Nombre, String Ape, String Ape2, String correo,int TipoUsuario,int Grupo,String idImagen,boolean bloqueado ) {
+
+        this.Nombre = Nombre;
+        this.Ape = Ape;
+        this.Ape2 = Ape2;
+        this.correoElectronico = correo;
+        this.TipoUsuario=TipoUsuario;
+        this.Grupo =Grupo;
+        this.usuarioId=usuarioId;
+    this.idImagen=idImagen;
+        this.bloqueado=bloqueado;
+    }
+
+    public static void UsuarioPreferencesApp(String usuario,String contrasena,int usuarioId,Context contex){
         SharedPreferences prefe = contex.getSharedPreferences("usuarioApp",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor =prefe.edit();
         editor.putString("usuario",usuario .toString());
         editor.putString("contraseña",contrasena .toString());
 
-        editor.putString("usuarioId",usuarioId .toString());
+        editor.putString("usuarioId", String.valueOf(usuarioId));
 
 
         editor.commit();
@@ -235,7 +254,7 @@ public ArrayList<ClsUser> ListaUsuarios(Context context ){
 
 
     /**METODO QUE CARGA el USUARIOS POR EMAIL*/
-    public  ArrayList<ClsUser> ListaUsuariosXEmail(    Context context,  String Ruta){
+    public  ArrayList<ClsUser> ListaUsuariosXEmail(    Context context,  String Ruta, RequestQueue requestQueue){
         List<ClsUser>    Arrayusuario=new ArrayList<>();
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Ruta,
@@ -245,11 +264,21 @@ public ArrayList<ClsUser> ListaUsuarios(Context context ){
                         JSONObject jsonObject = null;
                         for (int i = 0 ;i< response.length(); i++) {
                             try{
+                                //[{"0":"1","usuarioId":"1","1":"olga","nombre":"olga","2":"sa","apellido1":"sa","3":
+                                // //"her","apellido2":"her","4":"olgasanche@gmail.com","email":"olgasanche@gmail.com",
+                                // //"5":"0","bloqueado":"0","6":"0","departamentoId":"0","7":"0","tipoUsuarioId":"0","8":"","imagenId":""}]
                                 jsonObject=response.getJSONObject(i);
-                                String usuario=jsonObject.getString("usuarioId");
-                               // ClsUser.UsuarioPreferencesApp(correo,contraseña,usuario,context);
-                               // Intent intent = new Intent(context(), Activity_Navegador.class);
-                                //startActivity(intent);
+                                int usuarioId= Integer.parseInt(jsonObject.getString("usuarioId"));
+                                String email=jsonObject.getString("email");
+                                String nombre=jsonObject.getString("usuarioId");
+                                String apellido1=jsonObject.getString("apellido1");
+                                String apellido2=jsonObject.getString("apellido2");
+                                int tipoUsuarioId= Integer.parseInt(jsonObject.getString("tipoUsuarioId"));
+                                int departamentoId= Integer.parseInt(jsonObject.getString("departamentoId"));
+                                boolean bloqueado= Boolean.parseBoolean(jsonObject.getString("bloqueado"));
+                                String imagenId=jsonObject.getString("imagenId");
+
+                                Arrayusuario.add(new ClsUser(usuarioId,nombre,apellido1,apellido2,email,tipoUsuarioId,departamentoId,imagenId,bloqueado));
                             }catch (JSONException e){
                                 Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
                             }
