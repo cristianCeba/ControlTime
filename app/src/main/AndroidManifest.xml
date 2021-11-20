@@ -10,7 +10,8 @@
         android:allowBackup="true"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ControlTime">
+        android:theme="@style/Theme.ControlTime"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".Activity_Navegador"
             android:label="@string/title_activity__navegador"
