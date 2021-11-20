@@ -60,21 +60,6 @@ public class DbConnection {
 
     }
 
-   /* public static ClsUser getUsuario (String correo){
-        ClsUser usuario = new ClsUser();
-        try {
-            statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("Select nombre,apellido1,imagenId from ct_usuarios where email = '"+correo+"'");
-            while (rs.next()) {
-                usuario.Nombre = (rs.getString("nombre"));
-                usuario.Ape = (rs.getString("apellido1"));
-                usuario.idImagen = (rs.getString("imagenId"));
-            }
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-        return usuario;
-    }*/
 
     public static void insertarFichaje (String dia,int idUsuario,String horaEntrada,int id,int estadoFichaje){
         try {

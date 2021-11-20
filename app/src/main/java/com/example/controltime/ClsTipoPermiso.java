@@ -12,24 +12,25 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ClsTipoPermiso {
-    String id;
+    int id;
     String Tipo;
 
-    public ClsTipoPermiso(String id, String tipoPermisos) {
+    public ClsTipoPermiso(int id, String tipoPermisos) {
         this.id=id;
         this.Tipo=tipoPermisos;
     }
 
     public ClsTipoPermiso() {
-        this.id="";
+        this.id=0;
         this.Tipo="tipoPermisos";
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -37,7 +38,7 @@ public class ClsTipoPermiso {
         return Tipo;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -50,6 +51,23 @@ public class ClsTipoPermiso {
         return  Tipo ;
     }
 
+
+    public static ArrayList<ClsTipoPermiso> getPermisos ( ){
+        List<ClsTipoPermiso> objPer = new ArrayList<>() ;
+
+        try {
+            DbConnection.statement = DbConnection.connection.createStatement();
+            ResultSet rs = DbConnection.statement.executeQuery("Select * from ct_tipopermisos");
+            while (rs.next()) {
+              int id= Integer.parseInt(rs.getString("tipoPermisosId"));
+              String descripcion=rs.getString("descripcion");
+                objPer.add(new ClsTipoPermiso( id,descripcion));
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return (ArrayList<ClsTipoPermiso>) objPer;
+    }
 
    /* public void CargarTipoPermisos(DatabaseReference mDataBase, Spinner spnTipoPermisos, Context context){
      final   List<ClsTipoPermiso> tipoPermisos=new ArrayList<>();

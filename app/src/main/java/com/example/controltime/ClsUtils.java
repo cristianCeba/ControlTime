@@ -13,8 +13,11 @@ import androidx.fragment.app.DialogFragment;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
 import java.util.regex.Pattern;
 public class ClsUtils extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
@@ -76,7 +79,7 @@ public class ClsUtils extends DialogFragment implements DatePickerDialog.OnDateS
 
 
 
-    public static double getDiasSolicitados(String Fechadesde, String FechaHasta) throws ParseException {
+ /*   public static double getDiasSolicitados(String Fechadesde, String FechaHasta) throws ParseException {
         double dias=0.0;
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         Date dataDesde = formato.parse(Fechadesde);
@@ -84,6 +87,68 @@ public class ClsUtils extends DialogFragment implements DatePickerDialog.OnDateS
         dias=( (dataHasta.getTime() - dataDesde.getTime()) / (1000 * 60 * 60 * 24));
 
         return dias;
+    }*/
+
+    public static double calculaDiasHabiles(Date Fechadesde, Date FechaHasta) throws ParseException {
+        //SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        double diffDays = 0.0;
+        boolean diaHabil = false;
+        List<Date>listaFechasNoLaborables=new ArrayList<>();
+       // Date dataDesde = formato.parse(String.valueOf(Fechadesde));
+        //Date dataHasta = formato.parse(String.valueOf(FechaHasta));
+
+        Calendar fechaInicial=Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
+        Calendar fechaFinal=Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
+        fechaInicial.setTime(Fechadesde);
+        listaFechasNoLaborables=listaFechasNoLaborables();
+        fechaFinal.setTime(FechaHasta);
+        while(fechaInicial.before(fechaFinal) || fechaInicial.equals(fechaFinal)){
+            if (!listaFechasNoLaborables.isEmpty()) {
+                for (Date date : listaFechasNoLaborables) {
+                    Date fechaNoLaborablecalendar = fechaInicial.getTime();
+                    //si el dia de la semana de la fecha minima es diferente de sabado o domingo
+                    if (fechaInicial.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && fechaInicial.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && !fechaNoLaborablecalendar.equals(date)) {
+                        //se aumentan los dias de diferencia entre min y max
+                        diaHabil = true;
+                    } else {
+                        diaHabil = false;
+                        break;
+                    }
+                }
+            } else {
+                if (fechaInicial.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && fechaInicial.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) {
+                    //se aumentan los dias de diferencia entre min y max
+                    diffDays++;
+                }
+            }
+            if (diaHabil == true) {
+                diffDays++;
+            }
+            //se suma 1 dia para hacer la validacion del siguiente dia.
+            fechaInicial.add(Calendar.DATE, 1);
+        }
+        return diffDays;
+
+    }
+    public static List<Date> listaFechasNoLaborables() throws ParseException {
+        List<Date> arrayFechas=new ArrayList<>();
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        arrayFechas.add( formato.parse("2021/01/01"));
+        arrayFechas.add( formato.parse("2021/01/06"));
+        arrayFechas.add( formato.parse("2021/03/19"));
+        arrayFechas.add( formato.parse("2021/05/01"));
+        arrayFechas.add( formato.parse("2021/05/02"));
+        arrayFechas.add( formato.parse("2021/05/15"));
+        arrayFechas.add( formato.parse("2021/08/15"));
+        arrayFechas.add( formato.parse("2021/10/12"));
+        arrayFechas.add( formato.parse("2021/11/01"));
+        arrayFechas.add( formato.parse("2021/12/06"));
+        arrayFechas.add( formato.parse("2021/12/08"));
+        arrayFechas.add( formato.parse("2021/12/25"));
+        return (ArrayList<Date>)arrayFechas;
+
+
+
     }
 
 }

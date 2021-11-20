@@ -49,11 +49,11 @@ String Nombre;
             // Insertamos una tabla.
             PdfPTable tabla = new PdfPTable(5);
             for (int i = 0; i < ArrayPermisos.size(); i++) {
-                    tabla.addCell( ArrayPermisos.get(i).Usuario);
+                    tabla.addCell(String.valueOf(ArrayPermisos.get(i).UsuarioId));
                     tabla.addCell( ArrayPermisos.get(i).FechaDesde);
                     tabla.addCell( ArrayPermisos.get(i).FechaHasta);
                     tabla.addCell(String.valueOf(ArrayPermisos.get(i).dias));
-                    tabla.addCell( ArrayPermisos.get(i).TipoPermiso);
+                    tabla.addCell(String.valueOf(ArrayPermisos.get(i).TipoPermiso));
 
             }
             doc.add(tabla);

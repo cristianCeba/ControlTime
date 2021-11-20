@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -47,42 +48,36 @@ import sun.bob.mcalendarview.MCalendarView;
  */
 public class ClsFragmentoPermiso extends Fragment {
 
-    TextView edtUsuarioApp;
-    TextView edtGrupoApp;
-    TextView edtTipoUsuarioApp;
 
     EditText edtFechaDesde;
     EditText edtFechaHasta;
     Spinner spnTipoPermiso;
     CheckBox chkMedioDia;
-
     Button btnPermiso;
-    ImageButton btnConsulta;
     Button btnValidar;
-    int colorDia;
-    MCalendarView calendarView;
-    // CalendarView calendarView2;
-    private DatabaseReference mDataBase;
-    TextView textTipoPer;
-    String TipoPermiso;
-    boolean esMedioDia;
 
-    String Usuario;
+    MCalendarView calendarView;
+    double Dias;
+    boolean esMedioDia;
+    //boolean existeFecha;
+    //boolean esta ;
+    int colorDia;
+    int TipoPermiso;
+    // int num;
+    //int suma;
+   // String Usuario;
     String FechaDesde;
     String FechaHasta;
     String Id;
-    long RowId;
-    ArrayList<String> ArrayId= new ArrayList<String>();
+    // String valor="";
+    //long RowId;
+    //ArrayList<String> ArrayId= new ArrayList<String>();
     List<ClsPermisos> ArrayPermisos;
-    int num;
-    int suma;
-    boolean existeFecha;
-    boolean esta ;
-
+    List<ClsTipoPermiso>arrayTiposPer= new ArrayList<>();
     ClsPermisos objPermisos ;
     ClsUser objUser;
-    double Dias;
-    String valor="";
+
+
     com.example.controltime.ClsTipoPermiso objtipoPermiso;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -129,35 +124,17 @@ public class ClsFragmentoPermiso extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_cls_fragmento_permiso, container, false);
-        textTipoPer=(TextView) vista.findViewById(R.id.textTipoPer);
-        mDataBase = FirebaseDatabase.getInstance().getReference();
 
-        Date fecha = new Date();
-        /*** * MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
-        edtUsuarioApp=(TextView) vista.findViewById(R.id.edtUsuarioApp);
-        edtUsuarioApp.setText(ClsUser.UsuarioConectadoApp(getContext()) );
-        Usuario=edtUsuarioApp.getText().toString().replace(".", "_").trim();
-        ClsGrupos objGrupo= new ClsGrupos();
-        ClsTipoUsuario objTipo = new ClsTipoUsuario();
-        edtTipoUsuarioApp=(TextView)vista.findViewById(R.id.edtTipoUsuarioApp);
-        edtGrupoApp=(TextView) vista.findViewById(R.id.edtGrupoApp);
-       // objGrupo.GetNombreGrupoXId(mDataBase, edtGrupoApp,ClsUser.GruposuarioConectadoApp(getContext()));
-        //objTipo.GetTipoXId(mDataBase,edtTipoUsuarioApp,ClsUser.TipoUsuarioConectadoApp(getContext()));
-        /**FIN MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
-        // LLenarLista(Usuario,calendarView);
-/***  * Comprobamos el ultimo id metido para el usuario registrado*/
-        RowId=UltimoId() ;
-        Id=String.valueOf(RowId);
-        /*FIN Comprobamos el ultimo id metido para el usuario registrado*/
+
+
+
 
         objUser=new ClsUser();
-        String[] nombreCompleto;
-       // nombreCompleto=  objUser.GetNombreYApellido(mDataBase,Usuario);
-
         objPermisos=new ClsPermisos();
         ArrayPermisos=new ArrayList<>();
-      //  ArrayPermisos= objPermisos.ListaPermisosPorUsuario(getContext(),Usuario);
-        // ClsUtils.MostrarMensajes(Activity_Permiso.this, "cantidad: " + ArrayPermisos.size(), "TOTAL PERMISOS POR USUARIO ");
+        arrayTiposPer=new ArrayList<>();
+
+
 
 /*** *  FECHAS */
 
@@ -194,9 +171,9 @@ public class ClsFragmentoPermiso extends Fragment {
 
 /*** * CALENDARIO */
         calendarView=(MCalendarView) vista.findViewById(R.id.calendar);
-        //calendarView2=(CalendarView)findViewById(R.id.calendar2);
-        //long diaSeleccionado=calendarView2.getDate();
-        //Toast.makeText(PermisoActivity.this,""+  calendarView.getMarkedDates(),Toast.LENGTH_LONG).show();
+
+
+
 /*** * FIN CALENDARIO     */
 
         /***SELECCION DE MEDIO DIA*/
@@ -218,13 +195,14 @@ public class ClsFragmentoPermiso extends Fragment {
 
 /***Spinner Tipo Permisos*/
         spnTipoPermiso=(Spinner) vista.findViewById(R.id.spnTipoPermiso);
-        objtipoPermiso=new ClsTipoPermiso();
-       // objtipoPermiso.CargarTipoPermisos(mDataBase,spnTipoPermiso,getContext());
+        cargaTiposDePermisos();
+        ArrayAdapter<ClsTipoPermiso> adapter=new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line,arrayTiposPer);
+        spnTipoPermiso.setAdapter(adapter);
+
         spnTipoPermiso.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                TipoPermiso=parent.getItemAtPosition(position).toString();
-                objtipoPermiso=new  ClsTipoPermiso(String.valueOf(id),parent.getItemAtPosition(position).toString());
+                TipoPermiso= (int) parent.getItemIdAtPosition(position);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -234,23 +212,68 @@ public class ClsFragmentoPermiso extends Fragment {
 /***FIN Spinner Tipo Permisos        */
 
 
-        /*** BOTON SOLICITAR PERMISOS*
+        /*** BOTON VER PERMISOS*
          * mostramos los dias que tienen permisos solicitados en el calendario         *         * */
         btnPermiso=(Button) vista.findViewById(R.id.btnPermiso);
         btnPermiso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LLenarLista(Usuario,calendarView);
+                cargaPermisos(objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
+                  for(int i=0;i<=ArrayPermisos.size()-1;i++){
+                    try {
+                      switch (ArrayPermisos.get(i).TipoPermiso){
+                          case 0://""0":
+                              colorDia=Color.rgb(247,218,56);
+                              break;
+                          case 1://""1":
+                              colorDia=Color.rgb(125,129,127);
+                              break;
+                          case 2://"2":
+                              colorDia=Color.rgb(176,39,169);
+                              break;
+                          case 3://"3":
+                              colorDia=Color.rgb(39,89,176);
+                              break;
+                          case 4://"4":
+                              colorDia=Color.rgb(255,87,34);
+                              break;
+                          case 5://"5":
+                              colorDia=Color.rgb(76,175,80);
+                              break;
+                          case 6://"6":
+                              colorDia=Color.rgb(176,114,39);
 
-                //ClsPermisos objPermisos=new ClsPermisos();
-                //   ArrayPermisos=new ArrayList<>();
-                // ArrayPermisos= objPermisos.ListaPermisosPorUsuario(Activity_Permiso.this,Usuario);
-                //ClsUtils.MostrarMensajes(Activity_Permiso.this, "cantidad: " + ArrayPermisos.size(), "TOTAL PERMISOS POR USUARIO ");
-                //ArrayAdapter<ClsPermisos> arrayAdapter= new ArrayAdapter<>(Activity_Permiso.this, android.R.layout.simple_dropdown_item_1line,ArrayPermisos);
-                //spnTipoPermiso.setAdapter(arrayAdapter);
+                              break;
+                      }
+                      String fechaIni= ArrayPermisos.get(i).FechaDesde.replace("-", "/") ;
+                      String fechaFin= ArrayPermisos.get(i).FechaHasta.replace("-", "/") ;
+                      SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+                      Calendar cal=Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));;
+                      cal.setTime(formato.parse( fechaIni));
+                      int year = cal.get(Calendar.YEAR);
+                      int month = cal.get(Calendar.MONTH)+1;
+                      int day = cal.get(Calendar.DAY_OF_MONTH);
+                      cal.setTime(formato.parse(fechaFin));
+                      int yearF = cal.get(Calendar.YEAR);
+                      int monthF = cal.get(Calendar.MONTH)+1;
+                      int dayF= cal.get(Calendar.DAY_OF_MONTH);
+                      for (int y =year;y<= yearF;y++){
+                          for (int m =month;m<= monthF;m++){
+                              for (int d =day;d<= dayF;d++){
+                                  calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
+                              }
+                          }
+                      }
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                  }
+
             }
         });
-        /** FIN BOTON SOLICITAR PERMISOS*/
+        /** FIN BOTON VER PERMISOS*/
 
 /** *  *BOTON VALIDAR graba el permiso solicitado
  * Grabamos el permiso solicitado    * */
@@ -259,36 +282,17 @@ public class ClsFragmentoPermiso extends Fragment {
             @Override
             public void onClick(View v) {// GRABAMOS LOS DATOS DE LA SOLICITUD DE LOS PERMISOS
                 //EL ESTADO VA A SER 0=PENDIENTE
-                try {
+
                     if (esMedioDia){
                         edtFechaHasta.setText(edtFechaDesde.getText().toString());
-                    }else{
-                        Dias=1+ClsUtils.getDiasSolicitados(edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
                     }
-                    Toast.makeText(getContext()," ID:" + Id,Toast.LENGTH_LONG).show();
-                    //ClsPermisos per = new ClsPermisos(edtUsuarioApp.getText().toString()   ,Dias,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),objtipoPermiso.Tipo,0,RowId );
-            //        ClsPermisos per = new ClsPermisos(nombreCompleto[0],Dias,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),objtipoPermiso.Tipo,0,RowId );
-                    //per.TipoUsuario = ClsUser.TipoUsuarioConectadoApp(getContext());
-                   // per.GrupoUsuario = ClsUser.GruposuarioConectadoApp(getContext());
+                    //COMPROBAMOS QUE NO HAYA UN PERMISO EN ESE INTERVALO DE FECHAS
+                    buscarUsuario (ClsUser.UsuarioConectadoApp(getContext()));
+                    if (!ClsPermisos.validaIntevalosFechas(objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString() )){
+                        insertar();
+                    }else{
+                        Toast.makeText(getContext(),"Ya tiene permisos solicitados en las fechas introducidas" ,Toast.LENGTH_LONG).show();
 
-                  /*  mDataBase = FirebaseDatabase.getInstance().getReference().child("Permisos").child (Usuario).child(Id);
-                    mDataBase.setValue(per).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task2) {
-                            if (task2.isSuccessful()) {
-                                Toast.makeText(getContext(),"Permiso grabado correctamente , dias:" + Dias,Toast.LENGTH_LONG).show();
-
-                                // Comprobamos el ultimo id metido para el usuario registrado
-                                RowId=UltimoId() ;
-                                Id=String.valueOf(RowId);
-                                //FIN Comprobamos el ultimo id metido para el usuario registrado
-                            } else {
-                                ClsUtils.MostrarMensajes(getContext(), "NO SE HA PODIDO GRABAR EL PERMISO ", "GRABA USUARIO");
-                            }
-                        }
-                    });*/
-                } catch (ParseException e) {
-                    e.printStackTrace();
                 }
             }
         });
@@ -296,8 +300,70 @@ public class ClsFragmentoPermiso extends Fragment {
         /***FIN BOTON VALIDAR*/
         return vista;
     }
+
+    public void cargaTiposDePermisos (){
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+               if(DbConnection.conectarBaseDeDatos()){
+                    arrayTiposPer=ClsTipoPermiso.getPermisos();
+                    DbConnection.cerrarConexion();
+               }
+            }
+        });
+        h1.start();
+        try {
+
+            h1.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void cargaPermisos (int usuarioId,String fechaIni,String fechaFin){
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(DbConnection.conectarBaseDeDatos()){
+                    ArrayPermisos=ClsPermisos.getPermisos(usuarioId,fechaIni,fechaFin);
+                    DbConnection.cerrarConexion();
+                }
+            }
+        });
+        h1.start();
+        try {
+
+            h1.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void buscarUsuario (String correo){
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(DbConnection.conectarBaseDeDatos()){
+                    objUser = ClsUser.getUsuario(correo);
+                    DbConnection.cerrarConexion();
+                }
+
+            }
+        });
+        h1.start();
+        try {
+
+            h1.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**** * Metodo que muestra el calendario y se le asigna el valor al editText  */
-    private  void getFechaSeleccionada(EditText fecha){
+   private  void getFechaSeleccionada(EditText fecha){
 
         ClsUtils fragment =ClsUtils.newInstance(new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -305,148 +371,30 @@ public class ClsFragmentoPermiso extends Fragment {
                 fecha.setText(dayOfMonth + "/" + (month+1) + "/" + year);
             }
         });
-        fragment.show(getFragmentManager(),"datePicker");
+        fragment.show(getChildFragmentManager(),"datePicker");
     }
 
+    public void insertar (){
 
-    //, CalendarView calendario2
-    public void LLenarLista(String Usuario, MCalendarView calendario)   {
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        mDataBase = FirebaseDatabase.getInstance().getReference();
-        Query query =mDataBase.child("Permisos").child(Usuario);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        Thread h1 = new Thread(new Runnable() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    int cant=0;
-                    for(DataSnapshot ds:snapshot.getChildren()){
-                        ClsPermisos objPer = ds.getValue(ClsPermisos.class);
+            public void run() {
 
-
-                        try {
-                            switch (objPer.TipoPermiso){
-                                case "Vacaciones"://""0":
-                                    colorDia= Color.rgb(247,218,56);
-                                    break;
-                                case "Baja Enf."://""1":
-                                    colorDia=Color.rgb(125,129,127);
-                                    break;
-                                case "Fallecimiento F."://"2":
-                                    colorDia=Color.rgb(176,39,169);
-                                    break;
-                                case "Hospitalización F."://"3":
-                                    colorDia=Color.rgb(39,89,176);
-                                    break;
-                                case "Boda"://"4":
-                                    colorDia=Color.rgb(255,87,34);
-                                    break;
-                                case "Boda F."://"5":
-                                    colorDia=Color.rgb(76,175,80);
-                                    break;
-                                case "Baja"://"6":
-                                    colorDia=Color.rgb(176,114,39);
-
-                                    break;
-                            }
-                            Calendar cal=Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));;
-                            cal.setTime(formato.parse( objPer.FechaDesde));
-                            int year = cal.get(Calendar.YEAR);
-                            int month = cal.get(Calendar.MONTH)+1;
-                            int day = cal.get(Calendar.DAY_OF_MONTH);
-                            cal.setTime(formato.parse( objPer.FechaHasta));
-                            int yearF = cal.get(Calendar.YEAR);
-                            int monthF = cal.get(Calendar.MONTH)+1;
-                            int dayF= cal.get(Calendar.DAY_OF_MONTH);
-                            for (int y =year;y<= yearF;y++){
-                                for (int m =month;m<= monthF;m++){
-                                    for (int d =day;d<= dayF;d++){
-                                        calendario.markDate(y,m,d).setMarkedStyle(1,colorDia);
-                                    }
-                                }
-                            }
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-
-
+                if(DbConnection.conectarBaseDeDatos()){
+                    if(!ClsPermisos.insertarPermiso(objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),TipoPermiso)){
+                        Toast.makeText(getContext(),"No se ha podido insertar el permiso" ,Toast.LENGTH_LONG).show();
                     }
+                    DbConnection.cerrarConexion();
                 }
             }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
         });
+        h1.start();
+        try {
 
-    }
+            h1.join();
 
-    /***METODO QUE MIRA SI LAS FECHAS INTRODUCIDAS ESTAN YA PEDIDAS
-     *
-     * @param FechaIni Fecha comienzo
-     * @param FechaFin fecja fin
-     * @return
-     */
-    public int ComprobarFechas(String FechaIni,String FechaFin){
-
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        mDataBase = FirebaseDatabase.getInstance().getReference();
-        Query query =mDataBase.child("Permisos").child(Usuario);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull  DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    int cant=0;
-                    for(DataSnapshot ds:snapshot.getChildren()){
-                        ClsPermisos objPer = ds.getValue(ClsPermisos.class);
-                        try {
-                            Date dataDesde = formato.parse(objPer.FechaDesde );
-                            Date dataHasta = formato.parse(objPer.FechaHasta);
-
-                            Date Desde = formato.parse(FechaIni );
-                            Date  Hasta = formato.parse(FechaFin);
-
-                            if(  (dataDesde.compareTo(Desde) >= 0 && dataDesde.compareTo(Hasta) <= 0) ||(dataHasta.compareTo(Desde) >= 0 && dataHasta.compareTo(Hasta) <= 0)){
-                                cant++;
-                            }
-
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    suma=cant;
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull   DatabaseError error) {
-
-            }
-        });
-        return suma;
-    }
-
-    /** * Metdo que devuelve el   id + 1 para insertar
-     * @return     ID
-     */
-    public Long UltimoId(){
-        mDataBase = FirebaseDatabase.getInstance().getReference();
-        Query query =mDataBase.child("Permisos").child(Usuario);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull  DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    for(DataSnapshot ds:snapshot.getChildren()){
-                        ArrayId.add(ds.getKey());
-                    }
-                    RowId=Integer.valueOf(ArrayId.get(ArrayId.size()-1))+1 ;
-                    Id=String.valueOf(RowId);
-                }
-
-            }
-            @Override
-            public void onCancelled(@NonNull   DatabaseError error) {
-
-            }
-        });
-        return RowId;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

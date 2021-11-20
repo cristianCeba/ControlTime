@@ -156,13 +156,18 @@ public static void CerrarSesion(Context contex){
 
     public static ClsUser getUsuario (String correo){
         ClsUser usuario = new ClsUser();
-        DbConnection objConexion;
+
         try {
             DbConnection.statement = DbConnection.connection.createStatement();
-            ResultSet rs = DbConnection.statement.executeQuery("Select nombre,apellido1,imagenId from ct_usuarios where email = '"+correo+"'");
+            ResultSet rs = DbConnection.statement.executeQuery("Select * from ct_usuarios where email = '"+correo+"'");
             while (rs.next()) {
                 usuario.Nombre = (rs.getString("nombre"));
                 usuario.Ape = (rs.getString("apellido1"));
+                usuario.Ape2= (rs.getString("apellido2"));
+                usuario.correoElectronico= (rs.getString("email"));
+                usuario.bloqueado= Boolean.parseBoolean((rs.getString("bloqueado")));
+                usuario.Grupo= Integer.parseInt((rs.getString("departamentoId")));
+                usuario.TipoUsuario= Integer.parseInt((rs.getString("tipoUsuarioId")));
                 usuario.idImagen = (rs.getString("imagenId"));
             }
         }catch (Exception e) {

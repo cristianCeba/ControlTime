@@ -108,14 +108,14 @@ public class ClsFragmentoPermisos extends Fragment {
 
                         ClsPermisos permisoUsuario = ds1.getValue(ClsPermisos.class);
 
-                        if (permisoUsuario.Estado == 0){
+                      /*  if (permisoUsuario.Estado == 0){
                             permisoUsuario.correo = correoUsuarioPidePermiso;
                             if (ClsUser.TipoUsuarioConectadoApp(getContext()).equals("2") && permisoUsuario.TipoUsuario.equals("1")){
                                 crearPermiso(permisoUsuario);
                             } else if (ClsUser.TipoUsuarioConectadoApp(getContext()).equals("0")){
                                 crearPermiso(permisoUsuario);
                             }
-                        }
+                        }*/
                     }
                 }
 
@@ -136,7 +136,7 @@ public class ClsFragmentoPermisos extends Fragment {
                                                 int aprobar = 1;
                                                 String rowId = String.valueOf(usuariosPermisos.get(position).RowId);
                                                 String correo = listaUsuariosPermisos.get(position).correo;
-                                                usuariosPermisos.get(position).correo = null;
+                                               // usuariosPermisos.get(position).correo = null;
                                                 usuariosPermisos.get(position).Estado = aprobar;
                                                 mDataBase.child("Permisos").child(correo).child(rowId).setValue(usuariosPermisos.get(position));
                                                 limpiarArrays();
@@ -171,8 +171,8 @@ public class ClsFragmentoPermisos extends Fragment {
         usuarioPermiso.setInicioPermiso(permisoUsuario.FechaDesde);
         usuarioPermiso.setFinPermiso(permisoUsuario.FechaHasta);
         usuarioPermiso.setTipoPemriso(" solicita permiso de " + permisoUsuario.TipoPermiso);
-        usuarioPermiso.setNombre(permisoUsuario.Usuario);
-        usuarioPermiso.setCorreo(permisoUsuario.correo);
+        usuarioPermiso.setNombre(String.valueOf(permisoUsuario.UsuarioId));
+        //usuarioPermiso.setCorreo(permisoUsuario.correo);
 
         usuariosPermisos.add(permisoUsuario);
         listaUsuariosPermisos.add(usuarioPermiso);

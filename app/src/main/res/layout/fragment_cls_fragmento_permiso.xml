@@ -21,50 +21,13 @@
 
             >
 
-            <TextView
-                android:id="@+id/edtUsuarioApp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-
-                android:background="@color/colorEditTextNormal"
-                android:text="usuario"
-                android:textColor="@color/white"
-                android:textSize="14sp">
-
-            </TextView>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:orientation="horizontal"
 
-                >
-
-                <TextView
-                    android:id="@+id/edtGrupoApp"
-                    android:layout_width="224dp"
-                    android:layout_height="wrap_content"
-
-
-                    android:background="@color/colorEditTextNormal"
-                    android:textColor="@color/white"
-                    android:textSize="14sp">
-
-                </TextView>
-
-                <TextView
-                    android:id="@+id/edtTipoUsuarioApp"
-                    android:layout_width="186dp"
-                    android:layout_height="wrap_content"
-
-
-                    android:background="@color/colorEditTextNormal"
-                    android:textColor="@color/white"
-                    android:textSize="14sp">
-
-                </TextView>
-            </LinearLayout>
+                />
         </LinearLayout>
 
 
@@ -84,12 +47,14 @@
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:background="@drawable/bordeslayout">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
-            android:layout_marginLeft="5dp"
             android:textAlignment="center">
 
             <EditText
@@ -113,6 +78,7 @@
                 android:textSize="12sp">
 
             </EditText>
+
             <CheckBox
                 android:id="@+id/chkMedioDia"
                 android:layout_width="90dp"
@@ -162,7 +128,15 @@
                     android:id="@+id/btnValidar"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
-                    android:background="@drawable/custonbutton"
+                    android:background="@android:drawable/ic_menu_save"
+                    android:text="V"
+                    app:backgroundTint="@null" />
+
+                <Button
+                    android:id="@+id/btnPermiso"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:background="@android:drawable/ic_menu_search"
                     android:text="V"
                     app:backgroundTint="@null" />
             </LinearLayout>
@@ -187,19 +161,14 @@
             android:gravity="center"
             android:paddingTop="5dp">
 
-            <Button
+          <!--  <Button
                 android:id="@+id/btnPermiso"
                 android:layout_width="179dp"
                 android:layout_height="40dp"
                 android:background="@drawable/custonbutton"
                 android:text="VER PERMISOS"
-                app:backgroundTint="@null" />
-            <!--  <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="CONSULTA"
-                android:textColor="@color/white"></TextView>
-        -->
+                app:backgroundTint="@null" />-->
+
         </LinearLayout>
 
         <LinearLayout

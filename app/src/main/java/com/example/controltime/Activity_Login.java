@@ -53,8 +53,8 @@ public class Activity_Login extends AppCompatActivity {
     public Button btnInsertarUser;
     RequestQueue requestQueue;
     ClsUtils utils;
-    ClsUser objUse=new ClsUser();
-    private static  final String URL_RECUPERAR_DATOS_SOCIO_EMAIL="https://us-central1-controltime-b575f.cloudfunctions.net/GetUsuarioXEmail?email=";
+    ClsUser usuario=new ClsUser();
+  //  private static  final String URL_RECUPERAR_DATOS_SOCIO_EMAIL="https://us-central1-controltime-b575f.cloudfunctions.net/GetUsuarioXEmail?email=";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +71,7 @@ public class Activity_Login extends AppCompatActivity {
         resetPassword = findViewById(R.id.textResetPassword);
         utils = new ClsUtils();
 
-        mAuth = FirebaseAuth.getInstance();
+       mAuth = FirebaseAuth.getInstance();
         sesionGuardada();
 
         btnInsertarUser.setOnClickListener(new View.OnClickListener() {
@@ -149,6 +149,9 @@ public class Activity_Login extends AppCompatActivity {
                             for(int i=0;i<=Arrayusuario.size()-1;i++){
                                 ClsUser.UsuarioPreferencesApp(correo,contraseña,Arrayusuario.get(i).usuarioId,getApplicationContext());
                             }*/
+
+                            buscarUsuario(correo);
+                            ClsUser.UsuarioPreferencesApp(correo,contraseña,usuario.usuarioId,getApplicationContext());
                             Intent intent = new Intent(getApplicationContext(), Activity_Navegador.class);
                             startActivity(intent);
 
@@ -185,12 +188,33 @@ public class Activity_Login extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                         //   Intent intent = new Intent(getApplicationContext(), Activity_Navegador.class);
-                          //  startActivity(intent);
+
+
+                           Intent intent = new Intent(getApplicationContext(), Activity_Navegador.class);
+                           startActivity(intent);
                         }
                     }
                 });
     }
+    public void buscarUsuario (String correo){
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(DbConnection.conectarBaseDeDatos()){
+                    usuario = ClsUser.getUsuario(correo);
+                    DbConnection.cerrarConexion();
+                }
 
+            }
+        });
+        h1.start();
+        try {
+
+            h1.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

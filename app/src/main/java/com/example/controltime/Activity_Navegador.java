@@ -52,6 +52,8 @@ public class Activity_Navegador extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
         correo = ClsUser.UsuarioConectadoApp(getApplicationContext()).replace("_",".");
         buscarUsuario(correo);
+
+
         TextView tNombreUsuario = navigationView.getHeaderView(0).findViewById(R.id.textNombre);
         tNombreUsuario.setText(usuario.Nombre + " " + usuario.Ape);
         TextView tCorreoUsuario =  navigationView.getHeaderView(0).findViewById(R.id.textCorreo);
