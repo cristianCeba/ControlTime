@@ -16,21 +16,7 @@
             android:name=".Activity_Navegador"
             android:label="@string/title_activity__navegador"
             android:theme="@style/Theme.ControlTime.NoActionBar"></activity>
-        <activity
-            android:name=".Activity_ValidarHorario"
-            android:label="@string/title_activity__validar_horario"
-            android:theme="@style/Theme.ControlTime.NoActionBar" />
-        <activity android:name=".Activity_Informe" />
-        <activity android:name=".Activity_ModificarFichaje" />
-        <activity android:name=".Activity_Validar" />
-        <activity android:name=".Activity_Configuracion" />
-        <activity android:name=".Activity_VerFichaje" />
-        <activity android:name=".Activity_Permiso" />
-        <activity android:name=".Activity_fichaje" />
-        <activity android:name=".Activity_MenuPrincipal" />
         <activity android:name=".Activity_ResetPassword" />
-        <activity android:name=".Activity_InsertUser" />
-        <activity android:name=".Activity_Main" />
         <activity android:name=".Activity_Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

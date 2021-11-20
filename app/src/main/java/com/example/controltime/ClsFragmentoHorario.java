@@ -80,7 +80,7 @@ public class ClsFragmentoHorario extends Fragment {
         mDataBase = FirebaseDatabase.getInstance().getReference();
         usuarioAplicacion = ClsUser.UsuarioConectadoApp(getActivity()).replace(".", "_").trim();
         idGrupo = ClsUser.GruposuarioConectadoApp(getContext());
-        grupoUsuarios = u.ListaUsuariosPorGrupoYTipo(getContext(),ClsUser.GruposuarioConectadoApp(getContext()),ClsUser.TipoUsuarioConectadoApp(getContext()));
+        //grupoUsuarios = u.ListaUsuariosPorGrupoYTipo(getContext(),ClsUser.GruposuarioConectadoApp(getContext()),ClsUser.TipoUsuarioConectadoApp(getContext()));
         listaDeUsuarios = view.findViewById(R.id.listusuariohorario);
         RellenarHorarios();
 

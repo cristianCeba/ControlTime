@@ -143,20 +143,20 @@ public class ClsFragmentoInforme extends Fragment {
         ClsTipoUsuario objTipo = new ClsTipoUsuario();
         edtTipoUsuarioApp=(TextView)vista.findViewById(R.id.edtTipoUsuarioApp);
         edtGrupoApp=(TextView) vista.findViewById(R.id.edtGrupoApp);
-        objGrupo.GetNombreGrupoXId(mDataBase, edtGrupoApp,ClsUser.GruposuarioConectadoApp(getContext()));
-        objTipo.GetTipoXId(mDataBase,edtTipoUsuarioApp,ClsUser.TipoUsuarioConectadoApp(getContext()));
+       // objGrupo.GetNombreGrupoXId(mDataBase, edtGrupoApp,ClsUser.GruposuarioConectadoApp(getContext()));
+       // objTipo.GetTipoXId(mDataBase,edtTipoUsuarioApp,ClsUser.TipoUsuarioConectadoApp(getContext()));
         /**FIN MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
 
 
         // cargar el spinner por usuario tipo y grupos**********************
         if(ClsUser.TipoUsuarioConectadoApp(getContext()).equals("0") || ClsUser.TipoUsuarioConectadoApp(getContext()).equals("3")){
             // administrador o director ,carga todos los usuarios
-            objUsuario.ListaUsuarios(getContext() ,spnUsuarios);
+           // objUsuario.ListaUsuarios(getContext() ,spnUsuarios);
         }else{
             // jefe , carga solo los de su grupo
             if(ClsUser.TipoUsuarioConectadoApp(getContext()).equals("2")){
                 //carga por el grupo al que pertenece , con los usuarios de tipo 1
-                objUsuario.ListaUsuariosPorGrupoYTipo(getContext(),ClsUser.GruposuarioConectadoApp(getContext()),"1",spnUsuarios);
+              //  objUsuario.ListaUsuariosPorGrupoYTipo(getContext(),ClsUser.GruposuarioConectadoApp(getContext()),"1",spnUsuarios);
             }
         }
         spnUsuarios.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -164,7 +164,7 @@ public class ClsFragmentoInforme extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 UsurioSeleccionado=parent.getItemAtPosition(position).toString();
                 //  ClsUtils.MostrarMensajes(Activity_Informe.this  , edtFechaDesde.getText().toString() + " _ " + edtFechaHasta.getText().toString(), "PERMISOS");
-                ArrayPermisos= objPermisos.ListaPermisosPorUsuario(getContext(),UsurioSeleccionado.replace(".","_"));
+              //  ArrayPermisos= objPermisos.ListaPermisosPorUsuario(getContext(),UsurioSeleccionado.replace(".","_"));
                 //ArrayPermisos=objPermisos.ListaPermisosPorUsuarioYFechas(Activity_Informe.this,UsurioSeleccionado.replace(".","_"),edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
             }
 

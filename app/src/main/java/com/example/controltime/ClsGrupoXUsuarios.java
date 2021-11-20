@@ -75,7 +75,7 @@ public class ClsGrupoXUsuarios {
         return id ;
     }
 
-    public void CargarGrupoXUsuario(DatabaseReference mDataBase, Spinner spnId, Context context) {
+   /* public void CargarGrupoXUsuario(DatabaseReference mDataBase, Spinner spnId, Context context) {
        List<ClsGrupoXUsuarios> GrupoUsu=new ArrayList<>();
        List<Integer>Listid= new ArrayList<>();
         mDataBase.child("GruposXUsuarios").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -111,5 +111,5 @@ public class ClsGrupoXUsuarios {
             }
         });
 
-    }
+    }*/
 }

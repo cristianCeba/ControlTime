@@ -77,8 +77,8 @@ public class Activity_Login extends AppCompatActivity {
         btnInsertarUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Activity_InsertUser.class);
-                startActivity(intent);
+             // Intent intent = new Intent(getApplicationContext(), Activity_InsertUser.class);
+               // startActivity(intent);
             }
         });
 
@@ -144,11 +144,11 @@ public class Activity_Login extends AppCompatActivity {
                             List<ClsUser>  Arrayusuario=new ArrayList<>();
                           //  URL_RECUPERAR_DATOS_SOCIO_EMAIL--------------------------------------
 
-                            String Ruta =URL_RECUPERAR_DATOS_SOCIO_EMAIL  + correo;
+                           /* String Ruta =URL_RECUPERAR_DATOS_SOCIO_EMAIL  + correo;
                             Arrayusuario=objUse.ListaUsuariosXEmail(Activity_Login.this,Ruta,requestQueue);
                             for(int i=0;i<=Arrayusuario.size()-1;i++){
                                 ClsUser.UsuarioPreferencesApp(correo,contraseña,Arrayusuario.get(i).usuarioId,getApplicationContext());
-                            }
+                            }*/
                             Intent intent = new Intent(getApplicationContext(), Activity_Navegador.class);
                             startActivity(intent);
 

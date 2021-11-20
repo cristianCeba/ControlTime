@@ -50,7 +50,7 @@ public class ClsTipoUsuario {
         return  Tipo ;
     }
 
-    public void GetTipoXId(DatabaseReference mDataBase, TextView Nombre, String Id){
+   /* public void GetTipoXId(DatabaseReference mDataBase, TextView Nombre, String Id){
         mDataBase.child("TipoUsuario").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull  DataSnapshot snapshot) {
@@ -91,5 +91,5 @@ public class ClsTipoUsuario {
 
             }
         });
-    }
+    }*/
 }

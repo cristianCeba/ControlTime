@@ -51,7 +51,7 @@ public class ClsTipoPermiso {
     }
 
 
-    public void CargarTipoPermisos(DatabaseReference mDataBase, Spinner spnTipoPermisos, Context context){
+   /* public void CargarTipoPermisos(DatabaseReference mDataBase, Spinner spnTipoPermisos, Context context){
      final   List<ClsTipoPermiso> tipoPermisos=new ArrayList<>();
      mDataBase.child("TipoPermisos").addListenerForSingleValueEvent(new ValueEventListener() {
          @Override
@@ -91,6 +91,6 @@ public class ClsTipoPermiso {
             public void onCancelled(@NonNull   DatabaseError error) {
             }
         });
-    }
+    }*/
 
 }

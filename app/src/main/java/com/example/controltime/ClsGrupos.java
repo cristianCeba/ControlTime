@@ -49,7 +49,7 @@ public class ClsGrupos {
     }
 
 
-    public void GetNombreGrupoXId(DatabaseReference mDataBase, TextView Nombre, String Id){
+    /*public void GetNombreGrupoXId(DatabaseReference mDataBase, TextView Nombre, String Id){
         mDataBase.child("Grupos").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull  DataSnapshot snapshot) {
@@ -89,5 +89,5 @@ public class ClsGrupos {
 
             }
         });
-    }
+    }*/
 }

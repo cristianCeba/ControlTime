@@ -73,7 +73,7 @@ public class ClsPermisos {
 
 
 
-    public ArrayList<ClsPermisos> ListaPermisosPorUsuario(Context context,String UsuarioApp){
+   /* public ArrayList<ClsPermisos> ListaPermisosPorUsuario(Context context,String UsuarioApp){
         List<ClsPermisos> ArrayPermisos= new ArrayList<>();
         DatabaseReference mDataBase;
         mDataBase=FirebaseDatabase.getInstance().getReference();
@@ -94,7 +94,7 @@ public class ClsPermisos {
         });
         return (ArrayList<ClsPermisos>) ArrayPermisos;
     }
-/* public int ComprobarFechas(String FechaIni,String FechaFin){
+ public int ComprobarFechas(String FechaIni,String FechaFin){
 
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         mDataBase = FirebaseDatabase.getInstance().getReference();
@@ -130,7 +130,7 @@ public class ClsPermisos {
             }
         });
         return suma;
-    }*/
+    }
     public ArrayList<ClsPermisos> ListaPermisosPorUsuarioYFechas(Context context,String UsuarioApp,String FechaIni,String FechaFin){
         List<ClsPermisos> ArrayPermisos= new ArrayList<>();
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
@@ -170,7 +170,7 @@ public class ClsPermisos {
         return (ArrayList<ClsPermisos>) ArrayPermisos;
     }
 
-   /* public ArrayList<ClsPermisos> ListaPermisosPorUsuario(Context context, Spinner spnPermisos, String UsuarioApp){
+  public ArrayList<ClsPermisos> ListaPermisosPorUsuario(Context context, Spinner spnPermisos, String UsuarioApp){
         List<ClsPermisos> ArrayPermisos= new ArrayList<>();
         DatabaseReference mDataBase;
         mDataBase=FirebaseDatabase.getInstance().getReference();

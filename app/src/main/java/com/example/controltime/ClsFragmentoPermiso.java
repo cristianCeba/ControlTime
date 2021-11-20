@@ -141,8 +141,8 @@ public class ClsFragmentoPermiso extends Fragment {
         ClsTipoUsuario objTipo = new ClsTipoUsuario();
         edtTipoUsuarioApp=(TextView)vista.findViewById(R.id.edtTipoUsuarioApp);
         edtGrupoApp=(TextView) vista.findViewById(R.id.edtGrupoApp);
-        objGrupo.GetNombreGrupoXId(mDataBase, edtGrupoApp,ClsUser.GruposuarioConectadoApp(getContext()));
-        objTipo.GetTipoXId(mDataBase,edtTipoUsuarioApp,ClsUser.TipoUsuarioConectadoApp(getContext()));
+       // objGrupo.GetNombreGrupoXId(mDataBase, edtGrupoApp,ClsUser.GruposuarioConectadoApp(getContext()));
+        //objTipo.GetTipoXId(mDataBase,edtTipoUsuarioApp,ClsUser.TipoUsuarioConectadoApp(getContext()));
         /**FIN MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
         // LLenarLista(Usuario,calendarView);
 /***  * Comprobamos el ultimo id metido para el usuario registrado*/
@@ -152,11 +152,11 @@ public class ClsFragmentoPermiso extends Fragment {
 
         objUser=new ClsUser();
         String[] nombreCompleto;
-        nombreCompleto=  objUser.GetNombreYApellido(mDataBase,Usuario);
+       // nombreCompleto=  objUser.GetNombreYApellido(mDataBase,Usuario);
 
         objPermisos=new ClsPermisos();
         ArrayPermisos=new ArrayList<>();
-        ArrayPermisos= objPermisos.ListaPermisosPorUsuario(getContext(),Usuario);
+      //  ArrayPermisos= objPermisos.ListaPermisosPorUsuario(getContext(),Usuario);
         // ClsUtils.MostrarMensajes(Activity_Permiso.this, "cantidad: " + ArrayPermisos.size(), "TOTAL PERMISOS POR USUARIO ");
 
 /*** *  FECHAS */
@@ -219,7 +219,7 @@ public class ClsFragmentoPermiso extends Fragment {
 /***Spinner Tipo Permisos*/
         spnTipoPermiso=(Spinner) vista.findViewById(R.id.spnTipoPermiso);
         objtipoPermiso=new ClsTipoPermiso();
-        objtipoPermiso.CargarTipoPermisos(mDataBase,spnTipoPermiso,getContext());
+       // objtipoPermiso.CargarTipoPermisos(mDataBase,spnTipoPermiso,getContext());
         spnTipoPermiso.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -267,26 +267,26 @@ public class ClsFragmentoPermiso extends Fragment {
                     }
                     Toast.makeText(getContext()," ID:" + Id,Toast.LENGTH_LONG).show();
                     //ClsPermisos per = new ClsPermisos(edtUsuarioApp.getText().toString()   ,Dias,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),objtipoPermiso.Tipo,0,RowId );
-                    ClsPermisos per = new ClsPermisos(nombreCompleto[0],Dias,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),objtipoPermiso.Tipo,0,RowId );
-                    per.TipoUsuario = ClsUser.TipoUsuarioConectadoApp(getContext());
-                    per.GrupoUsuario = ClsUser.GruposuarioConectadoApp(getContext());
+            //        ClsPermisos per = new ClsPermisos(nombreCompleto[0],Dias,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),objtipoPermiso.Tipo,0,RowId );
+                    //per.TipoUsuario = ClsUser.TipoUsuarioConectadoApp(getContext());
+                   // per.GrupoUsuario = ClsUser.GruposuarioConectadoApp(getContext());
 
-                    mDataBase = FirebaseDatabase.getInstance().getReference().child("Permisos").child (Usuario).child(Id);
+                  /*  mDataBase = FirebaseDatabase.getInstance().getReference().child("Permisos").child (Usuario).child(Id);
                     mDataBase.setValue(per).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task2) {
                             if (task2.isSuccessful()) {
                                 Toast.makeText(getContext(),"Permiso grabado correctamente , dias:" + Dias,Toast.LENGTH_LONG).show();
 
-                                /***  * Comprobamos el ultimo id metido para el usuario registrado*/
+                                // Comprobamos el ultimo id metido para el usuario registrado
                                 RowId=UltimoId() ;
                                 Id=String.valueOf(RowId);
-                                /***FIN Comprobamos el ultimo id metido para el usuario registrado*/
+                                //FIN Comprobamos el ultimo id metido para el usuario registrado
                             } else {
                                 ClsUtils.MostrarMensajes(getContext(), "NO SE HA PODIDO GRABAR EL PERMISO ", "GRABA USUARIO");
                             }
                         }
-                    });
+                    });*/
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }

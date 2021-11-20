@@ -154,7 +154,7 @@ public static void CerrarSesion(Context contex){
 }
 
     /**METODO QUE CARGA todos los USUARIOS */
-public ArrayList<ClsUser> ListaUsuarios(Context context ){
+/*public ArrayList<ClsUser> ListaUsuarios(Context context ){
     List<ClsUser>    Arrayusuario=new ArrayList<>();
     DatabaseReference mDataBase;
     mDataBase = FirebaseDatabase.getInstance().getReference();
@@ -168,13 +168,7 @@ public ArrayList<ClsUser> ListaUsuarios(Context context ){
                     }else{
                         ClsUser user = ds.getValue(ClsUser.class);
                         Arrayusuario.add(user);
-                       /* String correo=ds.getKey();
-                        String nombre=ds.child("Nombre").getValue().toString();
-                        String apellido=ds.child("Ape").getValue().toString();
-                        String grupoUsuario=ds.child("Grupo").getValue().toString();
-                        String tipoUsuario=ds.child("TipoUsuario").getValue().toString();
-                        Arrayusuario.add(new ClsUser(nombre,apellido,correo,tipoUsuario,grupoUsuario));
-                   */
+
                     }
                }
             }
@@ -185,10 +179,10 @@ public ArrayList<ClsUser> ListaUsuarios(Context context ){
         }
     });
     return (ArrayList<ClsUser>) Arrayusuario;
-}
+}*/
 
     /**METODO QUE CARGA LOS USUARIOS POR GRUPO AL QUE PERTENECE*/
-    public ArrayList<ClsUser> ListaUsuariosPorGrupoYTipo(    Context context,String grupoS,String Tipo){
+  /*  public ArrayList<ClsUser> ListaUsuariosPorGrupoYTipo(    Context context,String grupoS,String Tipo){
         List<ClsUser>    Arrayusuario=new ArrayList<>();
       //  usuario=new ArrayList<>();
         DatabaseReference mDataBase;
@@ -216,11 +210,11 @@ public ArrayList<ClsUser> ListaUsuarios(Context context ){
             }
         });
         return (ArrayList<ClsUser>) Arrayusuario;
-    }
+    }*/
 
 
     /**METODO QUE CARGA LOS USUARIOS POR GRUPO AL QUE PERTENECE en una SPINNER*/
-    public  void ListaUsuariosPorGrupoYTipo(    Context context,String grupoS,String Tipo,Spinner spnUsuarios){
+  /*  public  void ListaUsuariosPorGrupoYTipo(    Context context,String grupoS,String Tipo,Spinner spnUsuarios){
         List<ClsUser>    Arrayusuario=new ArrayList<>();
         //  usuario=new ArrayList<>();
         DatabaseReference mDataBase;
@@ -250,11 +244,11 @@ public ArrayList<ClsUser> ListaUsuarios(Context context ){
             }
         });
 
-    }
+    }*/
 
 
     /**METODO QUE CARGA el USUARIOS POR EMAIL*/
-    public  ArrayList<ClsUser> ListaUsuariosXEmail(    Context context,  String Ruta, RequestQueue requestQueue){
+  /*  public  ArrayList<ClsUser> ListaUsuariosXEmail(    Context context,  String Ruta, RequestQueue requestQueue){
         List<ClsUser>    Arrayusuario=new ArrayList<>();
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Ruta,
@@ -294,7 +288,7 @@ public ArrayList<ClsUser> ListaUsuarios(Context context ){
         requestQueue= Volley.newRequestQueue(context);
         requestQueue.add(jsonArrayRequest);
         return (ArrayList<ClsUser>) Arrayusuario;
-    }
+    }*/
 
 
 
@@ -303,7 +297,7 @@ public ArrayList<ClsUser> ListaUsuarios(Context context ){
 
 
     /**METODO QUE CARGA todos los USUARIOS  EN UN SPINNER*/
-    public void ListaUsuarios(Context context,Spinner spnUsuarios ){
+   /* public void ListaUsuarios(Context context,Spinner spnUsuarios ){
         List<ClsUser>    Arrayusuario=new ArrayList<>();
         DatabaseReference mDataBase;
         mDataBase = FirebaseDatabase.getInstance().getReference();
@@ -351,7 +345,7 @@ public ArrayList<ClsUser> ListaUsuarios(Context context ){
         });
         return  Nombre;
     }
-
+*/
 
 
 public static void guardarFichajeUsuario (ClsFichaje fichaje){
