@@ -11,24 +11,25 @@ public class DbConnection {
     static Connection connection;
     static Statement statement;
 
-    public static void conectarBaseDeDatos (){
+    public static boolean conectarBaseDeDatos (){
 
         String url = "jdbc:mysql://qxp181.pacopiesgato.es:3306/qxp181";
         String userName = "qxp181";
         String password = "Camaleon1973";
         connection=null;
-
+        boolean conecta=false;
         try {
             connection = DriverManager.getConnection(url, userName, password);
             System.out.println("Conéctese a la base de datos con éxito !!!");
             // 1, carga el controlador
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             System.out.println("Unidad cargada con éxito !!!");
+            conecta=true;
         }
         catch (Exception e){
             e.printStackTrace();
         }
-
+        return conecta;
     }
 
     public static void cerrarConexion (){
