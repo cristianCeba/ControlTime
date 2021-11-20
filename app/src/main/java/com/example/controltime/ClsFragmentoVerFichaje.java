@@ -30,6 +30,7 @@ public class ClsFragmentoVerFichaje extends Fragment {
     private DatabaseReference mDataBase;
     String usuarioAplicacion,dia;
     int mes;
+    ClsFichaje fichaje;
     boolean diaEncontrado;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -66,6 +67,7 @@ public class ClsFragmentoVerFichaje extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -91,53 +93,38 @@ public class ClsFragmentoVerFichaje extends Fragment {
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 limpiarPantalla();
                 diaEncontrado = false;
-                mes = month +1;
-                if (mes >= 10){
-                    dia = (dayOfMonth + ":" + mes + ":" + year);
+                mes = month + 1;
+                if (mes >= 10) {
+                    dia = (year + "-" + mes + "-" + dayOfMonth );
                 } else {
-                    dia = (dayOfMonth + ":" + "0" + mes + ":" + year);
+                    dia = (year + "-" + mes + "-" + dayOfMonth );
+                }
+                System.out.println("dia --> " + dia);
+
+                buscarDia();
+
+                if (fichaje.getEstadoFichaje() == 1){
+                    if (fichaje.horaIni != null) {
+                        diaEncontrado = true;
+                        mostrarInicio.setText(fichaje.horaIni);
+                    }
+                    if (fichaje.horaFin != null) {
+                        mostrarFin.setText(fichaje.horaFin);
+                    }
+                    if (fichaje.horaIniDescanso != null) {
+                        mostrarInicioDesc.setText(fichaje.horaIniDescanso);
+                    }
+                    if (fichaje.horaFinDescanso != null) {
+                        mostrarFinDesc.setText(fichaje.horaFinDescanso);
+                    }
                 }
 
-                Query query=mDataBase.child("fichaje").child(usuarioAplicacion);
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        //Buscamos todos los fichajes del usuario y si ya ha fichado hoy, dehsabilitamos el botón de iniciar fichaje
-                        for(DataSnapshot ds: snapshot.getChildren()){
-                            ClsFichaje fichajeUsuario = ds.getValue(ClsFichaje.class);
-
-
-                            //User.guardarFichajeUsuario(fichajeUsuario);
-                            if (ds.getKey().equals(dia)){
-                                diaEncontrado = true;
-                                if (!fichajeUsuario.horaIni.equals("0")){
-                                    mostrarInicio.setText(fichajeUsuario.horaIni);
-                                }
-                                if(!fichajeUsuario.horaFin.equals("0")){
-                                    mostrarFin.setText(fichajeUsuario.horaFin);
-                                }
-                                if(!fichajeUsuario.horaIniDescanso.equals("0")){
-                                    mostrarInicioDesc.setText(fichajeUsuario.horaIniDescanso);
-                                }
-                                if(!fichajeUsuario.horaFinDescanso.equals("0")){
-                                    mostrarFinDesc.setText(fichajeUsuario.horaFinDescanso);
-                                }
-
-                            }
-                        }
-
-                        if(!diaEncontrado){
-                            mostrarMensaje.setText("No se ha encontrado registro");
-                        }
-
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        System.out.println("4");
-                    }
-                });
+                if (!diaEncontrado) {
+                    mostrarMensaje.setText("No se ha encontrado registro");
+                }
             }
         });
+
         return vista;
     }
 
@@ -147,5 +134,24 @@ public class ClsFragmentoVerFichaje extends Fragment {
         mostrarInicioDesc.setText("");
         mostrarFinDesc.setText("");
         mostrarMensaje.setText("");
+    }
+
+    public void buscarDia (){
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                DbConnection.conectarBaseDeDatos();
+                fichaje = DbConnection.buscarHorario(dia,1);
+                DbConnection.cerrarConexion();
+            }
+        });
+        h1.start();
+        try {
+
+            h1.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

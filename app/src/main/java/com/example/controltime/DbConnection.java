@@ -71,14 +71,14 @@ public class DbConnection {
         return usuario;
     }
 
-    public static void insertarFichaje (String dia,int idUsuario,String horaEntrada,int id){
+    public static void insertarFichaje (String dia,int idUsuario,String horaEntrada,int id,int estadoFichaje){
         try {
             String sql;
             String fecha = dia.replace(":","-");
             int idFIchaje = DbConnection.getIdFIchaje(dia,idUsuario);
             if (id == 1){
                 //3.sql declaración
-                sql = "INSERT INTO ct_fichajes (usuarioID,dia,horaEntrada,estadoFichajeId) VALUES ( "+idUsuario+",'"+fecha+"','"+horaEntrada+"',1)";
+                sql = "INSERT INTO ct_fichajes (usuarioID,dia,horaEntrada,estadoFichajeId) VALUES ( "+idUsuario+",'"+fecha+"','"+horaEntrada+"'," +estadoFichaje+")";
             } else {
                 sql = "INSERT INTO ct_descansos (idFich,horaIni) VALUES ( "+idFIchaje+",'"+horaEntrada+"')";
             }
@@ -125,7 +125,7 @@ public class DbConnection {
 
         try {
             statement = connection.createStatement();
-            rs = statement.executeQuery("Select ct_fichajes.horaEntrada, ct_fichajes.horaSalida,ct_descansos.horaIni,ct_descansos.horaFin from ct_fichajes " +
+            rs = statement.executeQuery("Select ct_fichajes.horaEntrada, ct_fichajes.horaSalida,ct_descansos.horaIni,ct_descansos.horaFin,ct_fichajes.estadoFichajeId from ct_fichajes " +
                     "left JOIN ct_descansos ON ct_fichajes.fichajeId=ct_descansos.idFich WHERE usuarioId="+idUsuario+" AND  dia='"+fecha+"'");
 
             while (rs.next()) {
@@ -133,6 +133,7 @@ public class DbConnection {
                 fichaje.setHoraFin(rs.getString("ct_fichajes.horaSalida"));
                 fichaje.setHoraIniDescanso(rs.getString("ct_descansos.horaIni"));
                 fichaje.setHoraFinDescanso(rs.getString("ct_descansos.horaFin"));
+                fichaje.setEstadoFichaje(rs.getInt("ct_fichajes.estadoFichajeId"));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

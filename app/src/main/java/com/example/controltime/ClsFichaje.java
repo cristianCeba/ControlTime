@@ -24,6 +24,7 @@ public class ClsFichaje {
     public String horaFin;
     public String horaIniDescanso;
     public String horaFinDescanso;
+    public int estadoFichaje;
     public String nombre;
     public String tipoUsuario;
 
@@ -89,6 +90,14 @@ public class ClsFichaje {
 
     public void setTipoUsuario(String tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
+    }
+
+    public int getEstadoFichaje() {
+        return estadoFichaje;
+    }
+
+    public void setEstadoFichaje(int estadoFichaje) {
+        this.estadoFichaje = estadoFichaje;
     }
 
     public void insertarFichaje(String dia, String horaEntrada, Context context){

@@ -274,12 +274,13 @@ public class ClsFragmentoFichaje extends Fragment {
         Thread h1 = new Thread(new Runnable() {
             @Override
             public void run() {
+                int estadoFichaje = 1;
                 DbConnection.conectarBaseDeDatos();
                 if (id == 1){
-                    DbConnection.insertarFichaje(dia,1,fichaje.getHoraIni().toString(),id);
+                    DbConnection.insertarFichaje(dia,1,fichaje.getHoraIni().toString(),id,estadoFichaje);
 
                 }else {
-                    DbConnection.insertarFichaje(dia,1,fichaje.getHoraIniDescanso().toString(),id);
+                    DbConnection.insertarFichaje(dia,1,fichaje.getHoraIniDescanso().toString(),id,estadoFichaje);
                 }
                 DbConnection.cerrarConexion();
             }
