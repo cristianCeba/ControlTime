@@ -153,7 +153,7 @@ public static void CerrarSesion(Context contex){
 
     editor.commit();
 }
-
+/*metodo que devuelve todos los datos del usuario por el email*/
     public static ClsUser getUsuario (String correo){
         ClsUser usuario = new ClsUser();
 
@@ -169,6 +169,7 @@ public static void CerrarSesion(Context contex){
                 usuario.Grupo= Integer.parseInt((rs.getString("departamentoId")));
                 usuario.TipoUsuario= Integer.parseInt((rs.getString("tipoUsuarioId")));
                 usuario.idImagen = (rs.getString("imagenId"));
+                usuario.usuarioId= Integer.parseInt((rs.getString("usuarioId")));
             }
         }catch (Exception e) {
             e.printStackTrace();

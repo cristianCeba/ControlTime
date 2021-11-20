@@ -71,6 +71,7 @@ public class ClsPermisos {
 
 
     }
+   /*Metodo que inserta ppor usuario , fechas y tipode Permiso*/
     public static boolean insertarPermiso (int idUsuario,String fechaIni,String fechaFin,int tipoId){
         boolean insertado=false;
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
@@ -101,7 +102,7 @@ public class ClsPermisos {
         }
         return insertado;
     }
-
+    /*Comprueba que no esta pedidas las fechas seleccionadas*/
     public static boolean validaIntevalosFechas(int idUsuario,String fechaIni,String fechaFin) {
         boolean hayDatos = false;
         try {
@@ -126,6 +127,7 @@ public class ClsPermisos {
         }
         return (hayDatos);
     }
+   /*Devuelve todos los permisos que tiene un usuario por fechas*/
     public static ArrayList<ClsPermisos> getPermisos (int idUsuario, String fechaIni,String fechaFin ){
         List<ClsPermisos> objPermisos = new ArrayList<>() ;
 

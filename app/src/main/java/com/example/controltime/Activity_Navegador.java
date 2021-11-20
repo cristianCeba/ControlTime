@@ -36,7 +36,7 @@ public class Activity_Navegador extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
-        Toast.makeText(Activity_Navegador.this, "ID_USUARIO: " + ClsUser.UsuarioIdApp(Activity_Navegador.this).toString(), Toast.LENGTH_SHORT).show();
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -53,7 +53,7 @@ public class Activity_Navegador extends AppCompatActivity {
         correo = ClsUser.UsuarioConectadoApp(getApplicationContext()).replace("_",".");
         buscarUsuario(correo);
 
-
+        Toast.makeText(Activity_Navegador.this, "ID_USUARIO: " + usuario.usuarioId , Toast.LENGTH_SHORT).show();
         TextView tNombreUsuario = navigationView.getHeaderView(0).findViewById(R.id.textNombre);
         tNombreUsuario.setText(usuario.Nombre + " " + usuario.Ape);
         TextView tCorreoUsuario =  navigationView.getHeaderView(0).findViewById(R.id.textCorreo);
@@ -82,9 +82,11 @@ public class Activity_Navegador extends AppCompatActivity {
         Thread h1 = new Thread(new Runnable() {
             @Override
             public void run() {
-                DbConnection.conectarBaseDeDatos();
-                usuario = ClsUser.getUsuario(correo);
-                DbConnection.cerrarConexion();
+               if(DbConnection.conectarBaseDeDatos()){
+                   usuario = ClsUser.getUsuario(correo);
+                   DbConnection.cerrarConexion();
+               }
+
             }
         });
         h1.start();

@@ -288,12 +288,8 @@ public class ClsFragmentoPermiso extends Fragment {
                     }
                     //COMPROBAMOS QUE NO HAYA UN PERMISO EN ESE INTERVALO DE FECHAS
                     buscarUsuario (ClsUser.UsuarioConectadoApp(getContext()));
-                    if (!ClsPermisos.validaIntevalosFechas(objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString() )){
-                        insertar();
-                    }else{
-                        Toast.makeText(getContext(),"Ya tiene permisos solicitados en las fechas introducidas" ,Toast.LENGTH_LONG).show();
+                    insertar();
 
-                }
             }
         });
 
@@ -341,6 +337,9 @@ public class ClsFragmentoPermiso extends Fragment {
         }
     }
 
+
+
+
     public void buscarUsuario (String correo){
         Thread h1 = new Thread(new Runnable() {
             @Override
@@ -381,9 +380,14 @@ public class ClsFragmentoPermiso extends Fragment {
             public void run() {
 
                 if(DbConnection.conectarBaseDeDatos()){
-                    if(!ClsPermisos.insertarPermiso(objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),TipoPermiso)){
-                        Toast.makeText(getContext(),"No se ha podido insertar el permiso" ,Toast.LENGTH_LONG).show();
+                    if (!ClsPermisos.validaIntevalosFechas(objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString() )) {
+                        if(!ClsPermisos.insertarPermiso(objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),TipoPermiso)){
+                            Toast.makeText(getContext(),"No se ha podido insertar el permiso" ,Toast.LENGTH_LONG).show();
+                        }
+                    }else{
+                        Toast.makeText(getContext(),"hay un  permiso dentro del rango de fechas seleccionado" ,Toast.LENGTH_LONG).show();
                     }
+
                     DbConnection.cerrarConexion();
                 }
             }

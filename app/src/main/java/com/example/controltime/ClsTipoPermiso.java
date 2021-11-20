@@ -51,7 +51,7 @@ public class ClsTipoPermiso {
         return  Tipo ;
     }
 
-
+/*Metodo que devuelve todos los tipos de permisos*/
     public static ArrayList<ClsTipoPermiso> getPermisos ( ){
         List<ClsTipoPermiso> objPer = new ArrayList<>() ;
 
@@ -69,46 +69,22 @@ public class ClsTipoPermiso {
         return (ArrayList<ClsTipoPermiso>) objPer;
     }
 
-   /* public void CargarTipoPermisos(DatabaseReference mDataBase, Spinner spnTipoPermisos, Context context){
-     final   List<ClsTipoPermiso> tipoPermisos=new ArrayList<>();
-     mDataBase.child("TipoPermisos").addListenerForSingleValueEvent(new ValueEventListener() {
-         @Override
-         public void onDataChange(@NonNull   DataSnapshot snapshot) {
-             if (snapshot.exists()){
-                 for (DataSnapshot ds:snapshot.getChildren()){
-                     String id =ds.getKey();
-                     String tipoPer=ds.child("tipo").getValue().toString();
-                     tipoPermisos.add(new ClsTipoPermiso(id,tipoPer));
-                 }
-                 ArrayAdapter<ClsTipoPermiso> adapter=new ArrayAdapter<>(context, android.R.layout.simple_dropdown_item_1line,tipoPermisos);
-                 spnTipoPermisos.setAdapter(adapter);
-             }
-         }
+    /*Metodo que devuelve todos un tipo de permisos por Id*/
+    public static ArrayList<ClsTipoPermiso> getTipoPermisoXId ( int idTipoPermiso){
+        List<ClsTipoPermiso> objPer = new ArrayList<>() ;
 
-         @Override
-         public void onCancelled(@NonNull   DatabaseError error) {
-
-         }
-     });
-
+        try {
+            DbConnection.statement = DbConnection.connection.createStatement();
+            ResultSet rs = DbConnection.statement.executeQuery("Select * from ct_tipopermisos WHERE tipoPermisosId=" +idTipoPermiso+ "");
+            while (rs.next()) {
+                int id= Integer.parseInt(rs.getString("tipoPermisosId"));
+                String descripcion=rs.getString("descripcion");
+                objPer.add(new ClsTipoPermiso( id,descripcion));
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return (ArrayList<ClsTipoPermiso>) objPer;
     }
-
-    public static void GetNombrePermisoXId(DatabaseReference mDataBase, TextView Nombre, String Id){
-        mDataBase.child("TipoPermisos").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull  DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    for(DataSnapshot ds: snapshot.getChildren()){
-                        if(ds.getKey().equals(Id)){
-                            Nombre.setText(ds.child("Tipo").getValue().toString());
-                        }
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull   DatabaseError error) {
-            }
-        });
-    }*/
 
 }
