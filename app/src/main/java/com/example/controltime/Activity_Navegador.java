@@ -81,7 +81,7 @@ public class Activity_Navegador extends AppCompatActivity {
             @Override
             public void run() {
                 DbConnection.conectarBaseDeDatos();
-                usuario = DbConnection.getUsuario(correo);
+                usuario = ClsUser.getUsuario(correo);
                 DbConnection.cerrarConexion();
             }
         });

@@ -29,6 +29,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -152,6 +153,26 @@ public static void CerrarSesion(Context contex){
 
     editor.commit();
 }
+
+    public static ClsUser getUsuario (String correo){
+        ClsUser usuario = new ClsUser();
+        DbConnection objConexion;
+        try {
+            DbConnection.statement = DbConnection.connection.createStatement();
+            ResultSet rs = DbConnection.statement.executeQuery("Select nombre,apellido1,imagenId from ct_usuarios where email = '"+correo+"'");
+            while (rs.next()) {
+                usuario.Nombre = (rs.getString("nombre"));
+                usuario.Ape = (rs.getString("apellido1"));
+                usuario.idImagen = (rs.getString("imagenId"));
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return usuario;
+    }
+
+
+
 
     /**METODO QUE CARGA todos los USUARIOS */
 /*public ArrayList<ClsUser> ListaUsuarios(Context context ){

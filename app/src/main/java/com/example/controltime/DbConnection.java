@@ -11,6 +11,10 @@ public class DbConnection {
     static Connection connection;
     static Statement statement;
 
+    public static Statement getStatement() {
+        return statement;
+    }
+
     public static boolean conectarBaseDeDatos (){
 
         String url = "jdbc:mysql://qxp181.pacopiesgato.es:3306/qxp181";
@@ -56,7 +60,7 @@ public class DbConnection {
 
     }
 
-    public static ClsUser getUsuario (String correo){
+   /* public static ClsUser getUsuario (String correo){
         ClsUser usuario = new ClsUser();
         try {
             statement = connection.createStatement();
@@ -70,7 +74,7 @@ public class DbConnection {
             e.printStackTrace();
         }
         return usuario;
-    }
+    }*/
 
     public static void insertarFichaje (String dia,int idUsuario,String horaEntrada,int id,int estadoFichaje){
         try {
