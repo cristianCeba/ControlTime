@@ -54,6 +54,7 @@ public class ClsFragmentoFichaje extends Fragment {
     Date hora;
     Calendar cal;
     String dia,usuarioAplicacion, diaMostrar;
+    Boolean fichajeEncontrado;
     ClsFichaje fichaje;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -90,6 +91,28 @@ public class ClsFragmentoFichaje extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Fecha que usamos para guardar en la base de datos ejemplo --> 22:09:2021
+        //dia = new SimpleDateFormat("dd:MM:yyyy").format(new Date());
+        dia = new SimpleDateFormat("yyyy:MM:dd").format(new Date());
+        diaMostrar = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+        fichajeEncontrado = false;
+
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                DbConnection.conectarBaseDeDatos();
+                fichaje = DbConnection.buscarHorario(dia,1);
+                DbConnection.cerrarConexion();
+            }
+        });
+        h1.start();
+        try {
+
+            h1.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
