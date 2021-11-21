@@ -74,13 +74,7 @@ public class Activity_Login extends AppCompatActivity {
        mAuth = FirebaseAuth.getInstance();
         sesionGuardada();
 
-        btnInsertarUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-             // Intent intent = new Intent(getApplicationContext(), Activity_InsertUser.class);
-               // startActivity(intent);
-            }
-        });
+
 
         btnIniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override

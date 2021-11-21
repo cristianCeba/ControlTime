@@ -124,24 +124,33 @@
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"></Spinner>
 
-                <Button
-                    android:id="@+id/btnValidar"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:background="@android:drawable/ic_menu_save"
-                    android:text="V"
-                    app:backgroundTint="@null" />
 
-                <Button
-                    android:id="@+id/btnPermiso"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:background="@android:drawable/ic_menu_search"
-                    android:text="V"
-                    app:backgroundTint="@null" />
             </LinearLayout>
 
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+            >
+
+            <Button
+                android:id="@+id/btnValidar"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="@android:drawable/ic_menu_save"
+                android:text="V"
+                app:backgroundTint="@null" />
+
+            <Button
+                android:id="@+id/btnPermiso"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="@android:drawable/ic_menu_search"
+                android:text="V"
+                app:backgroundTint="@null" />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -185,7 +194,7 @@
                 android:backgroundTint="#F7DA38"></Button>
 
             <TextView
-                android:layout_width="105dp"
+                android:layout_width="77dp"
                 android:layout_height="30dp"
                 android:text="Vacaciones"
                 android:textSize="12dp"></TextView>
@@ -197,10 +206,10 @@
                 android:backgroundTint="#B027A9"></Button>
 
             <TextView
-                android:layout_width="80dp"
+                android:layout_width="35dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="0dp"
-                android:text="Enfermedad"
+                android:text="Baja"
                 android:textSize="12dp"></TextView>
 
             <Button
@@ -210,19 +219,11 @@
                 android:backgroundTint="#2759B0"></Button>
 
             <TextView
-                android:layout_width="98dp"
+                android:layout_width="55dp"
                 android:layout_height="35dp"
                 android:layout_marginTop="0dp"
-                android:text="Fallecimiento F."
+                android:text="Ingreso"
                 android:textSize="12dp"></TextView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="34dp"
-            android:layout_marginLeft="5dp"
-            android:orientation="horizontal">
-
             <Button
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -230,58 +231,15 @@
                 android:backgroundTint="#FF5722"></Button>
 
             <TextView
-                android:layout_width="105dp"
-                android:layout_height="30dp"
-                android:text="Hospitalización F."
-                android:textSize="12dp"></TextView>
-
-            <Button
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="5dp"
-                android:backgroundTint="#4CAF50"></Button>
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="0dp"
-                android:text="Boda"
-                android:textSize="12dp"></TextView>
-
-            <Button
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="5dp"
-                android:backgroundTint="#B07227"></Button>
-
-            <TextView
-                android:layout_width="49dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="0dp"
-                android:text="Boda F."
-                android:textSize="12dp"></TextView>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="34dp"
-            android:layout_marginLeft="5dp"
-            android:orientation="horizontal">
-            <Button
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="5dp"
-                android:backgroundTint="#7F817F"></Button>
-
-            <TextView
                 android:layout_width="55dp"
                 android:layout_height="30dp"
-                android:layout_marginTop="0dp"
-                android:text="Baja"
+                android:text="Otros"
                 android:textSize="12dp"></TextView>
         </LinearLayout>
+
+
+
+
 
         <sun.bob.mcalendarview.MCalendarView
 

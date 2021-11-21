@@ -163,8 +163,8 @@ public class ClsPermisos {
 
             DbConnection.statement = DbConnection.connection.createStatement();
             ResultSet rs = DbConnection.statement.executeQuery(sql = "SELECT * FROM ct_permisos " +
-                    " WHERE usuarioId =" + idUsuario + " AND (desdeFecha BETWEEN '" + diaIni + "' AND '" + diaFin + "')" +
-                    " OR (hastaFecha BETWEEN '" + diaIni + "' AND '" + diaFin + "')");
+                    " WHERE usuarioId =" + idUsuario + " AND ((desdeFecha BETWEEN '" + diaIni + "' AND '" + diaFin + "')" +
+                    " OR (hastaFecha BETWEEN '" + diaIni + "' AND '" + diaFin + "'))");
 
             while (rs.next()) {
                 hayDatos=true;
@@ -184,8 +184,8 @@ public class ClsPermisos {
             String diaFin = ClsUtils.formatearFecha(fechaFin);
             DbConnection.statement = DbConnection.connection.createStatement();
             ResultSet rs = DbConnection.statement.executeQuery("SELECT * FROM  ct_permisos " +
-                    " WHERE usuarioId ='" + idUsuario + "' AND (desdeFecha BETWEEN '" + diaIni + "' AND '" + diaFin + "')" +
-                    " OR (hastaFecha BETWEEN '" + diaIni + "' AND '" + diaFin + "')");
+                    " WHERE usuarioId ='" + idUsuario + "' AND ((desdeFecha BETWEEN '" + diaIni + "' AND '" + diaFin + "')" +
+                    " OR (hastaFecha BETWEEN '" + diaIni + "' AND '" + diaFin + "'))");
             while (rs.next()) {
                 int permisosId= Integer.parseInt(rs.getString("permisosId"));
                 String desdeFecha=rs.getString("desdeFecha");

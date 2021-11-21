@@ -147,7 +147,7 @@ public class ClsFragmentoPermiso extends Fragment {
             @Override
             public void onClick(View v) {
                 getFechaSeleccionada(edtFechaDesde);
-                edtFechaDesde.setText(edtFechaDesde.getText());
+              //  edtFechaDesde.setText(edtFechaDesde.getText());
                // Toast.makeText(getContext(),"onClick Fechadesde" + edtFechaDesde.getText() ,Toast.LENGTH_LONG).show();
             }
         });
@@ -159,7 +159,7 @@ public class ClsFragmentoPermiso extends Fragment {
             @Override
             public void onClick(View v) {
                 getFechaSeleccionada(edtFechaHasta);
-                edtFechaHasta.setText( edtFechaHasta.getText());
+               // edtFechaHasta.setText( edtFechaHasta.getText());
               //  Toast.makeText(getContext(),"onClick FechaHasta" + edtFechaHasta.getText() ,Toast.LENGTH_LONG).show();
             }
         });
@@ -219,30 +219,7 @@ public class ClsFragmentoPermiso extends Fragment {
                 cargaPermisos(objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
                   for(int i=0;i<=ArrayPermisos.size()-1;i++){
                     try {
-                      switch (ArrayPermisos.get(i).TipoPermiso){
-                          case 0://""0":
-                              colorDia=Color.rgb(247,218,56);
-                              break;
-                          case 1://""1":
-                              colorDia=Color.rgb(125,129,127);
-                              break;
-                          case 2://"2":
-                              colorDia=Color.rgb(176,39,169);
-                              break;
-                          case 3://"3":
-                              colorDia=Color.rgb(39,89,176);
-                              break;
-                          case 4://"4":
-                              colorDia=Color.rgb(255,87,34);
-                              break;
-                          case 5://"5":
-                              colorDia=Color.rgb(76,175,80);
-                              break;
-                          case 6://"6":
-                              colorDia=Color.rgb(176,114,39);
-
-                              break;
-                      }
+                        colorDia=-1;
 
                       String fechaIni= ArrayPermisos.get(i).FechaDesde.replace("-", "/") ;
                       String fechaFin= ArrayPermisos.get(i).FechaHasta.replace("-", "/") ;
@@ -250,9 +227,9 @@ public class ClsFragmentoPermiso extends Fragment {
                       fechaIni=ClsUtils.formatearFecha(fechaIni,true);
                       fechaFin=ClsUtils.formatearFecha(fechaFin,true);
                       fechaIni=fechaIni.replace("-", "/");
-                        fechaFin=fechaFin.replace("-", "/");
+                      fechaFin=fechaFin.replace("-", "/");
 
-                        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+                      SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
                       Calendar cal=Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));;
                       cal.setTime( formato.parse(fechaIni));
                       int year = cal.get(Calendar.YEAR);
@@ -265,7 +242,25 @@ public class ClsFragmentoPermiso extends Fragment {
                       for (int y =year;y<= yearF;y++){
                           for (int m =month;m<= monthF;m++){
                               for (int d =day;d<= dayF;d++){
-                                  calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
+                                  switch (ArrayPermisos.get(i).TipoPermiso){
+                                      case 0: //Vacacions
+                                          colorDia=Color.rgb(247,218,56);
+                                          calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
+                                          break;
+                                      case 1://Baja
+                                          colorDia=Color.rgb(176,39,169);
+                                          calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
+                                          break;
+                                      case 2://Hospitalizacion
+                                          colorDia=Color.rgb(39,89,176);
+                                          calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
+                                          break;
+                                      case 3://Otros
+                                          colorDia=Color.rgb(255,87,34);
+                                          calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
+                                          break;
+                                  }
+
                               }
                           }
                       }
@@ -296,6 +291,8 @@ public class ClsFragmentoPermiso extends Fragment {
                     insertar();
                     if(  mensaje!=""){
                         Toast.makeText(getContext(),mensaje,Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(getContext(),"Permiso guardado",Toast.LENGTH_LONG).show();
                     }
 
             }
