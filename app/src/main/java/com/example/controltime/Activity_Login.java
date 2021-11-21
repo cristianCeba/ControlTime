@@ -51,7 +51,6 @@ public class Activity_Login extends AppCompatActivity {
     public String correo;
     public String contraseña;
     public Button btnInsertarUser;
-    RequestQueue requestQueue;
     ClsUtils utils;
     ClsUser usuario=new ClsUser();
   //  private static  final String URL_RECUPERAR_DATOS_SOCIO_EMAIL="https://us-central1-controltime-b575f.cloudfunctions.net/GetUsuarioXEmail?email=";

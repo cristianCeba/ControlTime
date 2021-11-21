@@ -14,7 +14,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ClsAdaptadorHorarios extends BaseAdapter {
 
@@ -67,7 +69,7 @@ public class ClsAdaptadorHorarios extends BaseAdapter {
         ImageView imagen = view.findViewById(R.id.imagenUsuario);
 
 
-        nombre.setText(miArrayList.get(position).getNombre());
+        nombre.setText(miArrayList.get(position).getNombre() + "  ");
 
         horaInicio.setText((miArrayList.get(position).gethoraInicioJornada()));
 
@@ -77,7 +79,9 @@ public class ClsAdaptadorHorarios extends BaseAdapter {
 
         horaFinDescanso.setText((miArrayList.get(position).gethoraFinDescanso()));
 
-        fecha.setText((miArrayList.get(position).getFecha()));
+        String [] dia = miArrayList.get(position).getFecha().split("-");
+
+        fecha.setText(dia[2] + "/" + dia[1] + "/" + dia[0]);
 
         if (miArrayList.get(position).getIdImagen() != null){
             String correo = miArrayList.get(position).getCorreo();
@@ -86,7 +90,7 @@ public class ClsAdaptadorHorarios extends BaseAdapter {
             System.out.println("idImagen --> " + idImagen);
             storage = FirebaseStorage.getInstance().getReference();
 
-            StorageReference pathReference = storage.child("imagenes").child(correo.replace("_",".")).child(idImagen);
+            StorageReference pathReference = storage.child("imagenes").child(correo).child(idImagen);
 
             pathReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                 @Override

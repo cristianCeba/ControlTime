@@ -14,15 +14,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 
 /**
@@ -37,12 +28,10 @@ public class ClsFragmentoHorario extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     ArrayList<ClsUsuarioHorario> usuarios = new ArrayList<>();
-    ArrayList<ClsUser> grupoUsuarios = new ArrayList<>();
     ClsUser u = new ClsUser();
     private ClsAdaptadorHorarios adaptador;
-    String usuarioAplicacion,idGrupo,nombre;
     ListView listaDeUsuarios;
-    private DatabaseReference mDataBase;
+    ClsUser usuario;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -65,6 +54,8 @@ public class ClsFragmentoHorario extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        buscarUsuario();
+        buscarUsuarios();
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
@@ -77,9 +68,6 @@ public class ClsFragmentoHorario extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_fragmento_horario, container, false);
-        mDataBase = FirebaseDatabase.getInstance().getReference();
-        usuarioAplicacion = ClsUser.UsuarioConectadoApp(getActivity()).replace(".", "_").trim();
-        idGrupo = ClsUser.GruposuarioConectadoApp(getContext());
         //grupoUsuarios = u.ListaUsuariosPorGrupoYTipo(getContext(),ClsUser.GruposuarioConectadoApp(getContext()),ClsUser.TipoUsuarioConectadoApp(getContext()));
         listaDeUsuarios = view.findViewById(R.id.listusuariohorario);
         RellenarHorarios();
@@ -94,132 +82,111 @@ public class ClsFragmentoHorario extends Fragment {
     }
 
     public void RellenarHorarios (){
-        Query query = mDataBase.child("FichajesSolicitados").child(idGrupo);
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            /**
-             * Buscamos en base de datos los fichajes pendientes de aprobar por el administrador del grupo.
-             */
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                String fecha;
-                for (DataSnapshot ds : snapshot.getChildren()) {
-
-                    fecha = ds.getKey().toString();
-                    System.out.println("Fichajes solicitados 1");
-                    for (DataSnapshot ds1 : ds.getChildren()){
-                        String correo = ds1.getKey().toString();
-                        System.out.println(correo);
-                        ClsFichaje fichaje = ds1.getValue(ClsFichaje.class);
-                        System.out.println("Fichajes solicitados 2");
-                        if (ClsUser.TipoUsuarioConectadoApp(getContext()).equals("2") && !fichaje.tipoUsuario.equals("2")){
-                            crearUsuario(fichaje,correo,fecha);
-                        } else if (ClsUser.TipoUsuarioConectadoApp(getContext()).equals("0")){
-                            crearUsuario(fichaje,correo,fecha);
-                        }
-
-                    }
-
-                }
-                System.out.println("Empieza coger imagen");
-                cogerIdImagen();
-                System.out.println("Termina coger imagen");
-                adaptador = new ClsAdaptadorHorarios(getActivity(),usuarios);
-                listaDeUsuarios.setAdapter(adaptador);
+        adaptador = new ClsAdaptadorHorarios(getActivity(),usuarios);
+        listaDeUsuarios.setAdapter(adaptador);
 
                 /*
                     Cada vez que se pulsa un fichaje preguntamos si quiere validarlo y si acepta se valida el fichaje.
                  */
-                listaDeUsuarios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        AlertDialog.Builder opciones = new AlertDialog.Builder(view.getContext());
-                        opciones.setMessage("¿Quieres validar el fichaje? una vez validado el fichaje no podrá ser modificado")
-                                .setTitle("Advertencia")
-                                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        ClsFichaje fichaje = new ClsFichaje();
-                                        fichaje.horaIni = usuarios.get(position).horaInicioJornada;
-                                        fichaje.horaFin = usuarios.get(position).horaFinJornada;
-                                        fichaje.horaIniDescanso = usuarios.get(position).horaInicioDescanso;
-                                        fichaje.horaFinDescanso = usuarios.get(position).horaFinDescanso;
-                                        validarUsuario(fichaje, usuarios.get(position).getCorreo(),usuarios.get(position).getFecha().replace("/",":"));
-                                        usuarios.remove(position);
-                                    }
-                                }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+        listaDeUsuarios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AlertDialog.Builder opciones = new AlertDialog.Builder(view.getContext());
+                opciones.setMessage("¿Quieres validar el fichaje? una vez validado el fichaje no podrá ser modificado")
+                        .setTitle("Advertencia")
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
+                                System.out.println("Borramos usuario");
+                                validarHorario(usuarios.get(position).idFichaje);
+                                BorrarUsuariosHorario();
+                                buscarUsuarios();
+                                RellenarHorarios();
                             }
-                        });
-                        opciones.show();
+                        }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
                     }
                 });
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                System.out.println("4");
+                opciones.show();
             }
         });
-
-
 
     }
 
-    /*
-        Validamos el fichaje del usuario marcado.
-        el fichaje lo agregamos en la tabla de fichajes y lo borramos de la tabla FichajesSolicitados
-        Borramos todos los usuarios en el array list de usuarios para rellenarlo de nuevo quitando el fichaje que hemos validado ya.
-     */
-    public void validarUsuario (ClsFichaje fichaje, String correo, String dia){
+    public void buscarUsuario (){
 
-        mDataBase.child("FichajesSolicitados").child(idGrupo).child(dia.trim()).child(correo).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+        Thread h1 = new Thread(new Runnable() {
             @Override
-            public void onSuccess(Void aVoid) {
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                System.out.println("Error");
+            public void run() {
+                if(DbConnection.conectarBaseDeDatos()) {
+                    usuario = ClsUser.getUsuario(ClsUser.UsuarioConectadoApp(getContext()));
+                }
+                DbConnection.cerrarConexion();
             }
         });
-        mDataBase.child("fichaje").child(correo).child(dia).setValue(fichaje);
-        for (int i = 0; usuarios.size() > i ; i++){
+        h1.start();
+        try {
+
+            h1.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void BorrarUsuariosHorario (){
+        for(int i = 0; usuarios.size() > i ; i++){
             usuarios.remove(i);
         }
-        RellenarHorarios();
     }
 
-    public void crearUsuario (ClsFichaje fichaje, String correo, String fecha){
-        ClsUsuarioHorario usuario = new ClsUsuarioHorario();
-        usuario.setNombre(nombre);
-        usuario.sethoraInicioJornada(fichaje.horaIni);
-        usuario.sethoraFinJornada(fichaje.horaFin);
-        usuario.sethoraInicioDescanso(fichaje.horaIniDescanso);
-        usuario.sethoraFinDescanso(fichaje.horaFinDescanso);
-        usuario.setCorreo(correo);
-        usuario.setFecha("  " + fecha.replace(":","/"));
-        usuario.setNombre(fichaje.nombre);
+    public void buscarUsuarios (){
 
-        usuarios.add(usuario);
-    }
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(DbConnection.conectarBaseDeDatos()) {
+                    if (usuario.TipoUsuario == 1){
+                        usuarios = ClsUsuarioHorario.buscarHorarioPorUsuario(usuario.usuarioId,usuario.Grupo);
+                    } else {
+                        usuarios = ClsUsuarioHorario.buscarTodosLosUsuarios(usuario.usuarioId,usuario.Grupo);
+                    }
 
-    // Recorremos todos los usuarios guardados y si tienen imagen se lo agregamos
-    public void cogerIdImagen (){
-        System.out.println("Cogemos imagen");
-        for (int i = 0; grupoUsuarios.size() > i ; i++){
-            for (int j = 0; usuarios.size() > j ; j++){
-                if (grupoUsuarios.get(i).correoElectronico.equals(usuarios.get(j).correo.replace("_","."))){
-                    usuarios.get(j).idImagen = grupoUsuarios.get(i).idImagen;
-                    System.out.println("usuarios.get(j).idImagen --> " + usuarios.get(j).idImagen);
                 }
+                DbConnection.cerrarConexion();
             }
-        }
+        });
+        h1.start();
+        try {
 
-        System.out.println("Termina Cogemos imagen");
+            h1.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
+    public void validarHorario (int idFichaje){
+
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(DbConnection.conectarBaseDeDatos()) {
+                    ClsUsuarioHorario.validarHorario(idFichaje);
+                }
+                DbConnection.cerrarConexion();
+            }
+        });
+        h1.start();
+        try {
+
+            h1.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
