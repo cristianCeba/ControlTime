@@ -89,19 +89,25 @@ public class ClsUtils extends DialogFragment implements DatePickerDialog.OnDateS
         return dias;
     }*/
 
-    public static double calculaDiasHabiles(Date Fechadesde, Date FechaHasta) throws ParseException {
-        //SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+    public static double calculaDiasHabiles(String Fechadesde, String FechaHasta) throws ParseException {
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         double diffDays = 0.0;
         boolean diaHabil = false;
         List<Date>listaFechasNoLaborables=new ArrayList<>();
-       // Date dataDesde = formato.parse(String.valueOf(Fechadesde));
-        //Date dataHasta = formato.parse(String.valueOf(FechaHasta));
+
+
+    //    String diaIni =ClsUtils.formatearFecha(Fechadesde,true  );
+      //  String diaFin = ClsUtils.formatearFecha(FechaHasta,true);
+
+
+        Date dataDesde = formato.parse(Fechadesde);
+        Date dataHasta = formato.parse(FechaHasta);
 
         Calendar fechaInicial=Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
         Calendar fechaFinal=Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
-        fechaInicial.setTime(Fechadesde);
+        fechaInicial.setTime(dataDesde);
         listaFechasNoLaborables=listaFechasNoLaborables();
-        fechaFinal.setTime(FechaHasta);
+        fechaFinal.setTime(dataHasta);
         while(fechaInicial.before(fechaFinal) || fechaInicial.equals(fechaFinal)){
             if (!listaFechasNoLaborables.isEmpty()) {
                 for (Date date : listaFechasNoLaborables) {
@@ -161,6 +167,32 @@ public class ClsUtils extends DialogFragment implements DatePickerDialog.OnDateS
         nuevaFecha = sdf.format(d);
         nuevaFecha=nuevaFecha.replace("/", "-");
         return nuevaFecha;
+
+    }
+    public static String formatearFecha(String fecha,boolean mesPrimero) throws ParseException {
+
+        String formatoMes = "dd/MM/yyyy";
+        String formatoAnio = "yyyy/MM/dd";
+        if (mesPrimero){
+            String nuevaFecha="";
+            SimpleDateFormat sdf = new SimpleDateFormat(formatoAnio);
+            Date d = sdf.parse(fecha);
+            sdf.applyPattern(formatoMes);
+            nuevaFecha = sdf.format(d);
+            nuevaFecha=nuevaFecha.replace("/", "-");
+            return nuevaFecha;
+        }else{
+            String nuevaFecha="";
+            SimpleDateFormat sdf = new SimpleDateFormat(formatoMes);
+            Date d = sdf.parse(fecha);
+            sdf.applyPattern(formatoAnio);
+            nuevaFecha = sdf.format(d);
+            nuevaFecha=nuevaFecha.replace("/", "-");
+            return nuevaFecha;
+        }
+
+
+
 
     }
 

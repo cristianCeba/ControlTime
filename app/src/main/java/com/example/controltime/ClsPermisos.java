@@ -64,30 +64,86 @@ public class ClsPermisos {
                         int TipoPermiso,int Estado,int Id ) {
 
         this.UsuarioId = UsuarioId;
-        this.dias = 0.0;
-        this.FechaDesde ="";
-        this.FechaHasta = "";
+        this.dias = dias;
+        this.FechaDesde =FechaDesde;
+        this.FechaHasta = FechaHasta;
         this.TipoPermiso=TipoPermiso;
         this.Estado=Estado;
         this.RowId=Id;
 
 
     }
-   /*Metodo que inserta ppor usuario , fechas y tipode Permiso*/
-    public static boolean insertarPermiso (int idUsuario,String fechaIni,String fechaFin,int tipoId){
+
+    public void setRowId(int rowId) {
+        RowId = rowId;
+    }
+
+    public void setUsuarioId(int usuarioId) {
+        UsuarioId = usuarioId;
+    }
+
+    public void setDias(double dias) {
+        this.dias = dias;
+    }
+
+    public void setFechaDesde(String fechaDesde) {
+        FechaDesde = fechaDesde;
+    }
+
+    public void setFechaHasta(String fechaHasta) {
+        FechaHasta = fechaHasta;
+    }
+
+    public void setTipoPermiso(int tipoPermiso) {
+        TipoPermiso = tipoPermiso;
+    }
+
+    public void setEstado(int estado) {
+        Estado = estado;
+    }
+
+    public int getRowId() {
+        return RowId;
+    }
+
+    public int getUsuarioId() {
+        return UsuarioId;
+    }
+
+    public double getDias() {
+        return dias;
+    }
+
+    public String getFechaDesde() {
+        return FechaDesde;
+    }
+
+    public String getFechaHasta() {
+        return FechaHasta;
+    }
+
+    public int getTipoPermiso() {
+        return TipoPermiso;
+    }
+
+    public int getEstado() {
+        return Estado;
+    }
+
+    /*Metodo que inserta ppor usuario , fechas y tipode Permiso*/
+    public static boolean insertarPermiso (int idUsuario,String fechaIni,String fechaFin,int tipoId,double dias){
         boolean insertado=false;
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         try {
             String sql;
             String diaIni =ClsUtils.formatearFecha(fechaIni);
             String diaFin = ClsUtils.formatearFecha(fechaFin);
-
-            double dias=0;//ClsUtils.calculaDiasHabiles( diaIni,diaFin);
             sql = "INSERT INTO ct_permisos(usuarioId, desdeFecha,hastaFecha,diasHabiles,tipoPermiso,estadoPermisoId)" +
-                    "VALUES ( "+idUsuario+",'"+ diaIni  +"','"+  diaFin +"'," + dias + "," +tipoId+ ",0)";
+                      "VALUES ( "+idUsuario+",'"+ diaIni  +"','"+  diaFin +"'," + dias + "," +tipoId+ ",0)";
 
-            PreparedStatement ps=DbConnection.connection.prepareStatement(sql);
-            insertado=ps.execute(sql);
+              PreparedStatement ps=DbConnection.connection.prepareStatement(sql);
+              insertado=ps.execute(sql);
+
 
 
 
@@ -124,15 +180,12 @@ public class ClsPermisos {
         List<ClsPermisos> objPermisos = new ArrayList<>() ;
 
         try {
-            fechaIni=new SimpleDateFormat("yyyy:MM:dd").format(new Date());
-            fechaFin=new SimpleDateFormat("yyyy:MM:dd").format(new Date());
-
-            fechaIni= fechaIni.replace(":", "-") ;
-            fechaFin= fechaFin.replace(":", "-");
+            String diaIni =ClsUtils.formatearFecha(fechaIni);
+            String diaFin = ClsUtils.formatearFecha(fechaFin);
             DbConnection.statement = DbConnection.connection.createStatement();
             ResultSet rs = DbConnection.statement.executeQuery("SELECT * FROM  ct_permisos " +
-                    " WHERE usuarioId ='" + idUsuario + "' AND (desdeFecha BETWEEN '" + fechaIni + "' AND '" + fechaFin + "')" +
-                    " OR (hastaFecha BETWEEN '" + fechaIni + "' AND '" + fechaFin + "')");
+                    " WHERE usuarioId ='" + idUsuario + "' AND (desdeFecha BETWEEN '" + diaIni + "' AND '" + diaFin + "')" +
+                    " OR (hastaFecha BETWEEN '" + diaIni + "' AND '" + diaFin + "')");
             while (rs.next()) {
                 int permisosId= Integer.parseInt(rs.getString("permisosId"));
                 String desdeFecha=rs.getString("desdeFecha");

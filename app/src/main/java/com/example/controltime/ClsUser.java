@@ -178,7 +178,29 @@ public static void CerrarSesion(Context contex){
     }
 
 
+    /*metodo que devuelve todos los datos del usuario por el email*/
+    public static ClsUser getUsuario (int usuarioId){
+        ClsUser usuario = new ClsUser();
 
+        try {
+            DbConnection.statement = DbConnection.connection.createStatement();
+            ResultSet rs = DbConnection.statement.executeQuery("Select * from ct_usuarios where usuarioId = "+usuarioId+"");
+            while (rs.next()) {
+                usuario.Nombre = (rs.getString("nombre"));
+                usuario.Ape = (rs.getString("apellido1"));
+                usuario.Ape2= (rs.getString("apellido2"));
+                usuario.correoElectronico= (rs.getString("email"));
+                usuario.bloqueado= Boolean.parseBoolean((rs.getString("bloqueado")));
+                usuario.Grupo= Integer.parseInt((rs.getString("departamentoId")));
+                usuario.TipoUsuario= Integer.parseInt((rs.getString("tipoUsuarioId")));
+                usuario.idImagen = (rs.getString("imagenId"));
+                usuario.usuarioId= Integer.parseInt((rs.getString("usuarioId")));
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return usuario;
+    }
 
     /**METODO QUE CARGA todos los USUARIOS */
 /*public ArrayList<ClsUser> ListaUsuarios(Context context ){

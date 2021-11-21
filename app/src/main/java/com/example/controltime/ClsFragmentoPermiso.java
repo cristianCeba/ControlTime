@@ -134,7 +134,7 @@ public class ClsFragmentoPermiso extends Fragment {
         ArrayPermisos=new ArrayList<>();
         arrayTiposPer=new ArrayList<>();
 
-
+        buscarUsuario (ClsUser.UsuarioConectadoApp(getContext()));
 
 /*** *  FECHAS */
 
@@ -242,11 +242,17 @@ public class ClsFragmentoPermiso extends Fragment {
 
                               break;
                       }
+
                       String fechaIni= ArrayPermisos.get(i).FechaDesde.replace("-", "/") ;
                       String fechaFin= ArrayPermisos.get(i).FechaHasta.replace("-", "/") ;
-                      SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+
+                      fechaIni=ClsUtils.formatearFecha(fechaIni,true);
+                      fechaFin=ClsUtils.formatearFecha(fechaFin,true);
+                      fechaIni=fechaIni.replace("-", "/");
+                        fechaFin=fechaFin.replace("-", "/");
+                     /* SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
                       Calendar cal=Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));;
-                      cal.setTime(formato.parse( fechaIni));
+                      cal.setTime(  fechaIni);
                       int year = cal.get(Calendar.YEAR);
                       int month = cal.get(Calendar.MONTH)+1;
                       int day = cal.get(Calendar.DAY_OF_MONTH);
@@ -260,7 +266,7 @@ public class ClsFragmentoPermiso extends Fragment {
                                   calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
                               }
                           }
-                      }
+                      }*/
 
                     } catch (ParseException e) {
                         e.printStackTrace();
@@ -284,8 +290,7 @@ public class ClsFragmentoPermiso extends Fragment {
                         edtFechaHasta.setText(edtFechaDesde.getText().toString());
                     }
 
-                    buscarUsuario (ClsUser.UsuarioConectadoApp(getContext()));
-                    Toast.makeText(getContext(),"onClick Fechas" + edtFechaDesde.getText() +" - "+ edtFechaHasta.getText() ,Toast.LENGTH_LONG).show();
+
                     insertar();
 
             }
@@ -302,6 +307,8 @@ public class ClsFragmentoPermiso extends Fragment {
                if(DbConnection.conectarBaseDeDatos()){
                     arrayTiposPer=ClsTipoPermiso.getPermisos();
                     DbConnection.cerrarConexion();
+               }else{
+                   Toast.makeText(getContext(),"Ha ocurrido un error intentelo en unos minutos",Toast.LENGTH_SHORT).show();
                }
             }
         });
@@ -322,6 +329,8 @@ public class ClsFragmentoPermiso extends Fragment {
                 if(DbConnection.conectarBaseDeDatos()){
                     ArrayPermisos=ClsPermisos.getPermisos(usuarioId,fechaIni,fechaFin);
                     DbConnection.cerrarConexion();
+                }else{
+                    Toast.makeText(getContext(),"Ha ocurrido un error intentelo en unos minutos",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -345,6 +354,8 @@ public class ClsFragmentoPermiso extends Fragment {
                 if(DbConnection.conectarBaseDeDatos()){
                     objUser = ClsUser.getUsuario(correo);
                     DbConnection.cerrarConexion();
+                }else{
+                    Toast.makeText(getContext(),"Ha ocurrido un error intentelo en unos minutos",Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -380,18 +391,30 @@ public class ClsFragmentoPermiso extends Fragment {
 
                 if(DbConnection.conectarBaseDeDatos()){
 
-                    //COMPROBAMOS QUE NO HAYA UN PERMISO EN ESE INTERVALO DE FECHAS
-                    if (!ClsPermisos.validaIntevalosFechas(objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString() )) {
-                        if(!ClsPermisos.insertarPermiso(objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),TipoPermiso)){
-                            Toast.makeText(getContext(),"No se ha podido insertar el permiso" ,Toast.LENGTH_LONG).show();
+                    try {
+                        // comprobamos el total de dias
+                        double dias= ClsUtils.calculaDiasHabiles( edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
+                        if(dias>0){
+                            //COMPROBAMOS QUE NO HAYA UN PERMISO EN ESE INTERVALO DE FECHAS
+                            if (!ClsPermisos.validaIntevalosFechas(objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString() )) {
+                                if(!ClsPermisos.insertarPermiso(objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),TipoPermiso,dias)){
+                                    Toast.makeText(getContext(),"No se ha podido insertar el permiso" ,Toast.LENGTH_LONG).show();
+                                }
+                            }else{
+                                Toast.makeText(getContext(),"Hay un  permiso dentro del rango de fechas seleccionado" ,Toast.LENGTH_LONG).show();
+                            }
+
+                        }else{
+                            Toast.makeText(getContext(),"El/los dias seleccionados son festivos" ,Toast.LENGTH_LONG).show();
                         }
-                    }else{
-                        Toast.makeText(getContext(),"Hay un  permiso dentro del rango de fechas seleccionado" ,Toast.LENGTH_LONG).show();
+
+                        DbConnection.cerrarConexion();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
                     }
 
-                    DbConnection.cerrarConexion();
                 }else{
-                    Toast.makeText(getContext(),"Error en la bbdd." ,Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(),"Ha ocurrido un error intentelo en unos minutos",Toast.LENGTH_SHORT).show();
                 }
             }
         });
