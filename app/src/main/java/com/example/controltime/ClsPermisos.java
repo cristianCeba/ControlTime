@@ -202,4 +202,64 @@ public class ClsPermisos {
         }
         return (ArrayList<ClsPermisos>) objPermisos;
     }
+
+    /*Devuelve todos los permisos que tiene un usuario por fechas, tipo y estado*/
+    public static ArrayList<ClsPermisos> getPermisos (int idUsuario, String fechaIni,String fechaFin,int tipoPermisoId, int estadoId ){
+        List<ClsPermisos> objPermisos = new ArrayList<>() ;
+
+        try {
+            String diaIni =ClsUtils.formatearFecha(fechaIni);
+            String diaFin = ClsUtils.formatearFecha(fechaFin);
+            DbConnection.statement = DbConnection.connection.createStatement();
+            ResultSet rs = DbConnection.statement.executeQuery("SELECT * FROM  ct_permisos " +
+                    " WHERE estadoPermisoId="+estadoId+" AND tipoPermisoId ="+tipoPermisoId+" "  +
+                    " AND  usuarioId ='" + idUsuario + "' AND ((desdeFecha BETWEEN '" + diaIni + "' AND '" + diaFin + "')" +
+                    " OR (hastaFecha BETWEEN '" + diaIni + "' AND '" + diaFin + "'))");
+            while (rs.next()) {
+                int permisosId= Integer.parseInt(rs.getString("permisosId"));
+                String desdeFecha=rs.getString("desdeFecha");
+                String hastaFecha=rs.getString("hastaFecha");
+                double diasHabiles= Double.parseDouble(rs.getString("diasHabiles"));
+                int tipoPermiso= Integer.parseInt(rs.getString("tipoPermiso"));
+                int estadoPermisoId= Integer.parseInt(rs.getString("estadoPermisoId"));
+
+                objPermisos.add(new ClsPermisos( idUsuario, diasHabiles,desdeFecha,hastaFecha,
+                        tipoPermiso,estadoPermisoId,permisosId));
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return (ArrayList<ClsPermisos>) objPermisos;
+    }
+
+
+    /*Devuelve todos los permisos que tiene un usuario por fechas,   y estado*/
+    public static ArrayList<ClsPermisos> getPermisos (int idUsuario, String fechaIni,String fechaFin,  int estadoId ){
+        List<ClsPermisos> objPermisos = new ArrayList<>() ;
+
+        try {
+            String diaIni =ClsUtils.formatearFecha(fechaIni);
+            String diaFin = ClsUtils.formatearFecha(fechaFin);
+            DbConnection.statement = DbConnection.connection.createStatement();
+            ResultSet rs = DbConnection.statement.executeQuery("SELECT * FROM  ct_permisos " +
+                    " WHERE estadoPermisoId="+estadoId+"  "  +
+                    " AND  usuarioId ='" + idUsuario + "' AND ((desdeFecha BETWEEN '" + diaIni + "' AND '" + diaFin + "')" +
+                    " OR (hastaFecha BETWEEN '" + diaIni + "' AND '" + diaFin + "'))");
+            while (rs.next()) {
+                int permisosId= Integer.parseInt(rs.getString("permisosId"));
+                String desdeFecha=rs.getString("desdeFecha");
+                String hastaFecha=rs.getString("hastaFecha");
+                double diasHabiles= Double.parseDouble(rs.getString("diasHabiles"));
+                int tipoPermiso= Integer.parseInt(rs.getString("tipoPermiso"));
+                int estadoPermisoId= Integer.parseInt(rs.getString("estadoPermisoId"));
+
+                objPermisos.add(new ClsPermisos( idUsuario, diasHabiles,desdeFecha,hastaFecha,
+                        tipoPermiso,estadoPermisoId,permisosId));
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return (ArrayList<ClsPermisos>) objPermisos;
+    }
+
 }

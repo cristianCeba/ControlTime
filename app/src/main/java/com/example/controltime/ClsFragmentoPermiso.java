@@ -244,19 +244,35 @@ public class ClsFragmentoPermiso extends Fragment {
                               for (int d =day;d<= dayF;d++){
                                   switch (ArrayPermisos.get(i).TipoPermiso){
                                       case 0: //Vacacions
-                                          colorDia=Color.rgb(247,218,56);
-                                          calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
+                                          if (ArrayPermisos.get(i).Estado==0){
+                                              colorDia = Color.rgb(205,201,199);
+                                          }else{
+                                              colorDia=Color.rgb(247,218,56);
+                                          }
+                                         calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
                                           break;
                                       case 1://Baja
-                                          colorDia=Color.rgb(176,39,169);
+                                          if (ArrayPermisos.get(i).Estado==0){
+                                              colorDia = Color.rgb(205,201,199);
+                                          }else {
+                                              colorDia = Color.rgb(176, 39, 169);
+                                          }
                                           calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
                                           break;
                                       case 2://Hospitalizacion
-                                          colorDia=Color.rgb(39,89,176);
+                                          if (ArrayPermisos.get(i).Estado==0){
+                                              colorDia = Color.rgb(205,201,199);
+                                          }else {
+                                              colorDia = Color.rgb(39, 89, 176);
+                                          }
                                           calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
                                           break;
                                       case 3://Otros
-                                          colorDia=Color.rgb(255,87,34);
+                                          if (ArrayPermisos.get(i).Estado==0){
+                                              colorDia = Color.rgb(205,201,199);
+                                          }else {
+                                              colorDia = Color.rgb(255, 87, 34);
+                                          }
                                           calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
                                           break;
                                   }

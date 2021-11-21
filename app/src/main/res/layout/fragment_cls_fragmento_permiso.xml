@@ -157,28 +157,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="25dp"
+        android:paddingTop="2dp"
         android:layout_marginLeft="5dp"
         android:background="@drawable/bordeslayout"
         >
 
 
-        <LinearLayout
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="5dp">
-
-          <!--  <Button
-                android:id="@+id/btnPermiso"
-                android:layout_width="179dp"
-                android:layout_height="40dp"
-                android:background="@drawable/custonbutton"
-                android:text="VER PERMISOS"
-                app:backgroundTint="@null" />-->
-
-        </LinearLayout>
 
         <LinearLayout
 
@@ -237,7 +222,24 @@
                 android:textSize="12dp"></TextView>
         </LinearLayout>
 
+        <LinearLayout
 
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginLeft="5dp"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="#CDC9C7"></Button>
+
+            <TextView
+                android:layout_width="180dp"
+                android:layout_height="30dp"
+                android:text="permisos pendientes de aceptar"
+                android:textSize="12dp"></TextView>
+        </LinearLayout>
 
 
 
