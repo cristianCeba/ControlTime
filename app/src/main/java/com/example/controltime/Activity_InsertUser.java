@@ -94,7 +94,7 @@ public class Activity_InsertUser extends AppCompatActivity {
 
 
 
-       // cargaTipoUsuario();
+       /* cargaTipoUsuario();*/
         //ArrayAdapter<ClsTipoUsuario> adapter=new ArrayAdapter<>(getApplication(), android.R.layout.simple_dropdown_item_1line,arrayTipoUsuario);
         //spnTipoUsuario.setAdapter(adapter);
         spnTipoUsuario.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -169,7 +169,7 @@ public class Activity_InsertUser extends AppCompatActivity {
                     txtMensajePass.setText("la contraseña es diferente");
                     txtPass2.requestFocus();
                 }else {
-                    //comprobamos si existe en ct_usuarios
+                    //comprobamos si existe en ct_usuario
                     buscarUsuario(Email);
                     if(usuario.usuarioId==0) {
                         //INSERTO EL USUARIO EN AUTHENTICATION
@@ -186,7 +186,6 @@ public class Activity_InsertUser extends AppCompatActivity {
                             }
                         });
                     }
-
                 }
             }
         });
