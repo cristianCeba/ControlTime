@@ -172,7 +172,6 @@ public class Activity_InsertUser extends AppCompatActivity {
                     //comprobamos si existe en ct_usuarios
                     buscarUsuario(Email);
                     if(usuario.usuarioId==0) {
-
                         //INSERTO EL USUARIO EN AUTHENTICATION
                         mAuth.createUserWithEmailAndPassword(Email, Pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
