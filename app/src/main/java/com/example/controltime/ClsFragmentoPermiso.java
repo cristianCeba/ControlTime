@@ -69,6 +69,7 @@ public class ClsFragmentoPermiso extends Fragment {
     String FechaDesde;
     String FechaHasta;
     String Id;
+    String mensaje;
     // String valor="";
     //long RowId;
     //ArrayList<String> ArrayId= new ArrayList<String>();
@@ -133,7 +134,7 @@ public class ClsFragmentoPermiso extends Fragment {
         objPermisos=new ClsPermisos();
         ArrayPermisos=new ArrayList<>();
         arrayTiposPer=new ArrayList<>();
-
+        mensaje="";
         buscarUsuario (ClsUser.UsuarioConectadoApp(getContext()));
 
 /*** *  FECHAS */
@@ -250,9 +251,10 @@ public class ClsFragmentoPermiso extends Fragment {
                       fechaFin=ClsUtils.formatearFecha(fechaFin,true);
                       fechaIni=fechaIni.replace("-", "/");
                         fechaFin=fechaFin.replace("-", "/");
-                     /* SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+
+                        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
                       Calendar cal=Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));;
-                      cal.setTime(  fechaIni);
+                      cal.setTime( formato.parse(fechaIni));
                       int year = cal.get(Calendar.YEAR);
                       int month = cal.get(Calendar.MONTH)+1;
                       int day = cal.get(Calendar.DAY_OF_MONTH);
@@ -266,7 +268,7 @@ public class ClsFragmentoPermiso extends Fragment {
                                   calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
                               }
                           }
-                      }*/
+                      }
 
                     } catch (ParseException e) {
                         e.printStackTrace();
@@ -292,6 +294,9 @@ public class ClsFragmentoPermiso extends Fragment {
 
 
                     insertar();
+                    if(  mensaje!=""){
+                        Toast.makeText(getContext(),mensaje,Toast.LENGTH_LONG).show();
+                    }
 
             }
         });
@@ -301,6 +306,7 @@ public class ClsFragmentoPermiso extends Fragment {
     }
 
     public void cargaTiposDePermisos (){
+        mensaje="";
         Thread h1 = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -308,7 +314,8 @@ public class ClsFragmentoPermiso extends Fragment {
                     arrayTiposPer=ClsTipoPermiso.getPermisos();
                     DbConnection.cerrarConexion();
                }else{
-                   Toast.makeText(getContext(),"Ha ocurrido un error intentelo en unos minutos",Toast.LENGTH_SHORT).show();
+                   mensaje="Ha ocurrido un error intentelo en unos minutos";
+                   //Toast.makeText(getContext(),"Ha ocurrido un error intentelo en unos minutos",Toast.LENGTH_SHORT).show();
                }
             }
         });
@@ -323,6 +330,7 @@ public class ClsFragmentoPermiso extends Fragment {
     }
 
     public void cargaPermisos (int usuarioId,String fechaIni,String fechaFin){
+        mensaje="";
         Thread h1 = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -330,7 +338,8 @@ public class ClsFragmentoPermiso extends Fragment {
                     ArrayPermisos=ClsPermisos.getPermisos(usuarioId,fechaIni,fechaFin);
                     DbConnection.cerrarConexion();
                 }else{
-                    Toast.makeText(getContext(),"Ha ocurrido un error intentelo en unos minutos",Toast.LENGTH_SHORT).show();
+                    mensaje="Ha ocurrido un error intentelo en unos minutos";
+                    //Toast.makeText(getContext(),"Ha ocurrido un error intentelo en unos minutos",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -348,6 +357,7 @@ public class ClsFragmentoPermiso extends Fragment {
 
 
     public void buscarUsuario (String correo){
+        mensaje="";
         Thread h1 = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -355,7 +365,8 @@ public class ClsFragmentoPermiso extends Fragment {
                     objUser = ClsUser.getUsuario(correo);
                     DbConnection.cerrarConexion();
                 }else{
-                    Toast.makeText(getContext(),"Ha ocurrido un error intentelo en unos minutos",Toast.LENGTH_SHORT).show();
+                    mensaje="Ha ocurrido un error intentelo en unos minutos";
+                    //Toast.makeText(getContext(),"Ha ocurrido un error intentelo en unos minutos",Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -384,7 +395,7 @@ public class ClsFragmentoPermiso extends Fragment {
     }
 
     public void insertar (){
-
+        mensaje="";
         Thread h1 = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -398,23 +409,28 @@ public class ClsFragmentoPermiso extends Fragment {
                             //COMPROBAMOS QUE NO HAYA UN PERMISO EN ESE INTERVALO DE FECHAS
                             if (!ClsPermisos.validaIntevalosFechas(objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString() )) {
                                 if(!ClsPermisos.insertarPermiso(objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),TipoPermiso,dias)){
-                                    Toast.makeText(getContext(),"No se ha podido insertar el permiso" ,Toast.LENGTH_LONG).show();
+                                    mensaje="No se ha podido insertar el permiso";
+                                    //  Toast.makeText(getContext(),"No se ha podido insertar el permiso" ,Toast.LENGTH_LONG).show();
                                 }
                             }else{
-                                Toast.makeText(getContext(),"Hay un  permiso dentro del rango de fechas seleccionado" ,Toast.LENGTH_LONG).show();
+                                mensaje="Hay un  permiso dentro del rango de fechas seleccionado";
+                                //Toast.makeText(getContext(),"Hay un  permiso dentro del rango de fechas seleccionado" ,Toast.LENGTH_LONG).show();
                             }
 
                         }else{
-                            Toast.makeText(getContext(),"El/los dias seleccionados son festivos" ,Toast.LENGTH_LONG).show();
+                            mensaje="El/los dias seleccionados son festivos";
+                            //Toast.makeText(getContext(),"El/los dias seleccionados son festivos" ,Toast.LENGTH_LONG).show();
                         }
 
                         DbConnection.cerrarConexion();
                     } catch (ParseException e) {
                         e.printStackTrace();
+
                     }
 
                 }else{
-                    Toast.makeText(getContext(),"Ha ocurrido un error intentelo en unos minutos",Toast.LENGTH_SHORT).show();
+                    mensaje="Ha ocurrido un error intentelo en unos minutos";
+                    //Toast.makeText(getContext(),"Ha ocurrido un error intentelo en unos minutos",Toast.LENGTH_SHORT).show();
                 }
             }
         });
