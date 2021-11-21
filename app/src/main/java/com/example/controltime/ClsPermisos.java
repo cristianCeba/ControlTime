@@ -202,7 +202,6 @@ public class ClsPermisos {
         }
         return (ArrayList<ClsPermisos>) objPermisos;
     }
-
     /*Devuelve todos los permisos que tiene un usuario por fechas, tipo y estado*/
     public static ArrayList<ClsPermisos> getPermisos (int idUsuario, String fechaIni,String fechaFin,int tipoPermisoId, int estadoId ){
         List<ClsPermisos> objPermisos = new ArrayList<>() ;
@@ -231,8 +230,6 @@ public class ClsPermisos {
         }
         return (ArrayList<ClsPermisos>) objPermisos;
     }
-
-
     /*Devuelve todos los permisos que tiene un usuario por fechas,   y estado*/
     public static ArrayList<ClsPermisos> getPermisos (int idUsuario, String fechaIni,String fechaFin,  int estadoId ){
         List<ClsPermisos> objPermisos = new ArrayList<>() ;

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -25,7 +26,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Activity_InsertUser extends AppCompatActivity {
     EditText txtNombre;
@@ -48,10 +53,10 @@ public class Activity_InsertUser extends AppCompatActivity {
     String Email;
     String Pass;
     String Pass2;
-    String TipoUsuario;
-    String Grupo;
+    int TipoUsuario;
+    int Grupo;
     Button btnInsert;
-
+    String mensaje;
     ClsUtils utils;
     ClsTipoUsuario objTipoUsuario;
     ClsGrupos objGrupos;
@@ -61,7 +66,9 @@ public class Activity_InsertUser extends AppCompatActivity {
     String Id;
     long RowId;
     ArrayList<String> ArrayId= new ArrayList<String>();
-
+    List<ClsTipoUsuario> arrayTipoUsuario=new ArrayList<>();
+    List<ClsGrupos> arrayGrupo=new ArrayList<>();
+    ClsUser usuario=new ClsUser();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,28 +92,15 @@ public class Activity_InsertUser extends AppCompatActivity {
         txtPass2 = (EditText) findViewById(R.id.editTextPass2);
         btnInfo = findViewById(R.id.btnInfo);
 
-      /*  objGXU=new ClsGrupoXUsuarios();
-        objGXU.CargarGrupoXUsuario(mDataBase,spnIdGrupo, Activity_InsertUser.this);
 
-        spnIdGrupo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                RowId=Integer.valueOf(objGXU.getId())+1;
-                Id= String.valueOf(RowId);
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
 
-            }
-        });*/
-
-    //    objTipoUsuario=new ClsTipoUsuario();
-      //  objTipoUsuario.CargarTipoUsuario(mDataBase,spnTipoUsuario, Activity_InsertUser.this);
+       // cargaTipoUsuario();
+        //ArrayAdapter<ClsTipoUsuario> adapter=new ArrayAdapter<>(getApplication(), android.R.layout.simple_dropdown_item_1line,arrayTipoUsuario);
+        //spnTipoUsuario.setAdapter(adapter);
         spnTipoUsuario.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                TipoUsuario=parent.getItemAtPosition(position).toString();
-                //objTipoUsuario=new ClsTipoUsuario(Integer.valueOf(id),TipoUsuario);
+                TipoUsuario=(int) parent.getItemIdAtPosition(position);
             }
 
             @Override
@@ -114,15 +108,14 @@ public class Activity_InsertUser extends AppCompatActivity {
 
             }
         });
-        objGrupos= new ClsGrupos();
-       // objGrupos. CargarGrupo(mDataBase,spnGrupo, Activity_InsertUser.this);
+       // cargaGrupos();
+        //ArrayAdapter<ClsGrupos> adapterGrupo=new ArrayAdapter<>(getApplication(), android.R.layout.simple_dropdown_item_1line,arrayGrupo);
+        //spnGrupo.setAdapter(adapterGrupo);
         spnGrupo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-               Grupo= parent.getItemAtPosition(position).toString();
-               //objGrupos=new ClsGrupos(id,Grupo);
+               Grupo= (int) parent.getItemIdAtPosition(position);
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -176,15 +169,122 @@ public class Activity_InsertUser extends AppCompatActivity {
                     txtMensajePass.setText("la contraseña es diferente");
                     txtPass2.requestFocus();
                 }else {
-                //ENTRO EN LA TABLA USER
+                    //comprobamos si existe en ct_usuarios
+                    buscarUsuario(Email);
+                    if(usuario.usuarioId==0) {
 
+                        //INSERTO EL USUARIO EN AUTHENTICATION
+                        mAuth.createUserWithEmailAndPassword(Email, Pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    //insertamos en ct_usuarios
+                                    insertar();
+                                    if(mensaje!=""){
+                                        Toast.makeText(getApplicationContext(),mensaje ,Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            }
+                        });
+                    }
 
                 }
             }
         });
     }
 
+    public void cargaTipoUsuario (){
+        mensaje="";
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(DbConnection.conectarBaseDeDatos()){
+                    arrayTipoUsuario=ClsTipoUsuario.getTipoUsuario();
+                    DbConnection.cerrarConexion();
+                }else{
+                    mensaje="Ha ocurrido un error intentelo en unos minutos";
+                }
+            }
+        });
+        h1.start();
+        try {
 
+            h1.join();
 
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void cargaGrupos(){
+        mensaje="";
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(DbConnection.conectarBaseDeDatos()){
+                    arrayGrupo=ClsGrupos.getDepartamento();
+                    DbConnection.cerrarConexion();
+                }else{
+                    mensaje="Ha ocurrido un error intentelo en unos minutos";
+                }
+            }
+        });
+        h1.start();
+        try {
+
+            h1.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void buscarUsuario (String correo){
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(DbConnection.conectarBaseDeDatos()){
+                    usuario = ClsUser.getUsuario(correo);
+                    DbConnection.cerrarConexion();
+                }
+
+            }
+        });
+        h1.start();
+        try {
+
+            h1.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertar (){
+        mensaje="";
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                if(DbConnection.conectarBaseDeDatos()){
+                   if(!ClsUser.insertarUsuario(Nombre,Ape,Ape,Email,Grupo,TipoUsuario)){
+                       mensaje="Ha ocurrido un error al grabar el usuario";
+                   }
+                        DbConnection.cerrarConexion();
+
+                }else{
+                    mensaje="Ha ocurrido un error intentelo en unos minutos";
+                }
+            }
+        });
+        h1.start();
+        try {
+
+            h1.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

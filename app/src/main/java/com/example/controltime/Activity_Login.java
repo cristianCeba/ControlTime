@@ -74,7 +74,13 @@ public class Activity_Login extends AppCompatActivity {
        mAuth = FirebaseAuth.getInstance();
         sesionGuardada();
 
-
+        btnInsertarUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               Intent intent= new Intent(getApplicationContext(),Activity_InsertUser.class);
+               startActivity(intent);
+            }
+        });
 
         btnIniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,13 +142,6 @@ public class Activity_Login extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // cargar objusuario
                             List<ClsUser>  Arrayusuario=new ArrayList<>();
-                          //  URL_RECUPERAR_DATOS_SOCIO_EMAIL--------------------------------------
-
-                           /* String Ruta =URL_RECUPERAR_DATOS_SOCIO_EMAIL  + correo;
-                            Arrayusuario=objUse.ListaUsuariosXEmail(Activity_Login.this,Ruta,requestQueue);
-                            for(int i=0;i<=Arrayusuario.size()-1;i++){
-                                ClsUser.UsuarioPreferencesApp(correo,contraseña,Arrayusuario.get(i).usuarioId,getApplicationContext());
-                            }*/
 
                             buscarUsuario(correo);
                             ClsUser.UsuarioPreferencesApp(correo,contraseña,usuario.usuarioId,getApplicationContext());

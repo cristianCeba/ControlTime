@@ -423,16 +423,13 @@ public class ClsFragmentoPermiso extends Fragment {
                             if (!ClsPermisos.validaIntevalosFechas(objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString() )) {
                                 if(!ClsPermisos.insertarPermiso(objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),TipoPermiso,dias)){
                                     mensaje="No se ha podido insertar el permiso";
-                                    //  Toast.makeText(getContext(),"No se ha podido insertar el permiso" ,Toast.LENGTH_LONG).show();
                                 }
                             }else{
                                 mensaje="Hay un  permiso dentro del rango de fechas seleccionado";
-                                //Toast.makeText(getContext(),"Hay un  permiso dentro del rango de fechas seleccionado" ,Toast.LENGTH_LONG).show();
                             }
 
                         }else{
                             mensaje="El/los dias seleccionados son festivos";
-                            //Toast.makeText(getContext(),"El/los dias seleccionados son festivos" ,Toast.LENGTH_LONG).show();
                         }
 
                         DbConnection.cerrarConexion();
@@ -443,7 +440,6 @@ public class ClsFragmentoPermiso extends Fragment {
 
                 }else{
                     mensaje="Ha ocurrido un error intentelo en unos minutos";
-                    //Toast.makeText(getContext(),"Ha ocurrido un error intentelo en unos minutos",Toast.LENGTH_SHORT).show();
                 }
             }
         });

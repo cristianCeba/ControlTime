@@ -29,7 +29,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -177,7 +179,6 @@ public static void CerrarSesion(Context contex){
         return usuario;
     }
 
-
     /*metodo que devuelve todos los datos del usuario por el id*/
     public static ClsUser getUsuario (int usuarioId){
         ClsUser usuario = new ClsUser();
@@ -201,207 +202,52 @@ public static void CerrarSesion(Context contex){
         }
         return usuario;
     }
+    /*Metodo que inserta Usaurio*/
+    public static boolean insertarUsuario (String nombre,String apellido1,String  apellido2,String  email, int departamentoId,int tipoUsuarioId){
+        boolean insertado=false;
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            String sql;
 
-    /**METODO QUE CARGA todos los USUARIOS */
-/*public ArrayList<ClsUser> ListaUsuarios(Context context ){
-    List<ClsUser>    Arrayusuario=new ArrayList<>();
-    DatabaseReference mDataBase;
-    mDataBase = FirebaseDatabase.getInstance().getReference();
-    mDataBase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot snapshot) {
-            if(snapshot.exists()){
-                for(DataSnapshot ds: snapshot.getChildren()){
-                    if(ds.getKey().equals(ClsUser.UsuarioConectadoApp(context).replace(".", "_").trim())){
-                        //Toast.makeText(context,ds.getKey(),Toast.LENGTH_LONG).show();
-                    }else{
-                        ClsUser user = ds.getValue(ClsUser.class);
-                        Arrayusuario.add(user);
+            sql = "INSERT INTO ct_usuarios(nombre,apellido1, apellido2, email, bloqueado, departamentoId,tipoUsuarioId, imagenId)" +
+                    "VALUES ( '"+nombre+"','"+ apellido1  +"','"+  apellido2 +"','" + email + "',0," +departamentoId+ "," +tipoUsuarioId+ ",0)";
 
-                    }
-               }
-            }
+            PreparedStatement ps=DbConnection.connection.prepareStatement(sql);
+            insertado=ps.execute(sql);
+
+
+
+
+
+        }catch (Exception e) {
+            e.printStackTrace();
         }
-        @Override
-        public void onCancelled(@NonNull DatabaseError error) {
+        return !insertado;
+    }
 
+    /*Metodo que bloquea Usaurio*/
+    public static boolean bloqueaUsuario ( int usuarioId){
+        boolean insertado=false;
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            String sql;
+
+            sql = "UPDATE  ct_usuarios SET  bloqueado=1" +
+                    "WHERE usuarioId=" +usuarioId+ ",0)";
+
+            PreparedStatement ps=DbConnection.connection.prepareStatement(sql);
+            insertado=ps.execute(sql);
+
+        }catch (Exception e) {
+            e.printStackTrace();
         }
-    });
-    return (ArrayList<ClsUser>) Arrayusuario;
-}*/
-
-    /**METODO QUE CARGA LOS USUARIOS POR GRUPO AL QUE PERTENECE*/
-  /*  public ArrayList<ClsUser> ListaUsuariosPorGrupoYTipo(    Context context,String grupoS,String Tipo){
-        List<ClsUser>    Arrayusuario=new ArrayList<>();
-      //  usuario=new ArrayList<>();
-        DatabaseReference mDataBase;
-        mDataBase = FirebaseDatabase.getInstance().getReference();
-        mDataBase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    for(DataSnapshot ds: snapshot.getChildren()){
-                        if(ds.child("Grupo").getValue().toString().equals(grupoS) && ds.child("TipoUsuario").getValue().toString().equals(Tipo)){
-                            {
-                                ClsUser user = ds.getValue(ClsUser.class);
-                                Arrayusuario.add(user);
-                            }
-                        }
-
-                    }
-
-
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        return (ArrayList<ClsUser>) Arrayusuario;
-    }*/
-
-
-    /**METODO QUE CARGA LOS USUARIOS POR GRUPO AL QUE PERTENECE en una SPINNER*/
-  /*  public  void ListaUsuariosPorGrupoYTipo(    Context context,String grupoS,String Tipo,Spinner spnUsuarios){
-        List<ClsUser>    Arrayusuario=new ArrayList<>();
-        //  usuario=new ArrayList<>();
-        DatabaseReference mDataBase;
-        mDataBase = FirebaseDatabase.getInstance().getReference();
-        mDataBase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    for(DataSnapshot ds: snapshot.getChildren()){
-                        if(ds.child("Grupo").getValue().toString().equals(grupoS) && ds.child("TipoUsuario").getValue().toString().equals(Tipo)){
-                            {
-                                ClsUser user = ds.getValue(ClsUser.class);
-                                Arrayusuario.add(user);
-                            }
-                            ArrayAdapter<ClsUser> arrayAdapter= new ArrayAdapter<>(context, android.R.layout.simple_dropdown_item_1line,Arrayusuario);
-                            spnUsuarios.setAdapter(arrayAdapter);
-                        }
-
-                    }
-
-
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-    }*/
-
-
-    /**METODO QUE CARGA el USUARIOS POR EMAIL*/
-  /*  public  ArrayList<ClsUser> ListaUsuariosXEmail(    Context context,  String Ruta, RequestQueue requestQueue){
-        List<ClsUser>    Arrayusuario=new ArrayList<>();
-
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Ruta,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        JSONObject jsonObject = null;
-                        for (int i = 0 ;i< response.length(); i++) {
-                            try{
-                                //[{"0":"1","usuarioId":"1","1":"olga","nombre":"olga","2":"sa","apellido1":"sa","3":
-                                // //"her","apellido2":"her","4":"olgasanche@gmail.com","email":"olgasanche@gmail.com",
-                                // //"5":"0","bloqueado":"0","6":"0","departamentoId":"0","7":"0","tipoUsuarioId":"0","8":"","imagenId":""}]
-                                jsonObject=response.getJSONObject(i);
-                                int usuarioId= Integer.parseInt(jsonObject.getString("usuarioId"));
-                                String email=jsonObject.getString("email");
-                                String nombre=jsonObject.getString("usuarioId");
-                                String apellido1=jsonObject.getString("apellido1");
-                                String apellido2=jsonObject.getString("apellido2");
-                                int tipoUsuarioId= Integer.parseInt(jsonObject.getString("tipoUsuarioId"));
-                                int departamentoId= Integer.parseInt(jsonObject.getString("departamentoId"));
-                                boolean bloqueado= Boolean.parseBoolean(jsonObject.getString("bloqueado"));
-                                String imagenId=jsonObject.getString("imagenId");
-
-                                Arrayusuario.add(new ClsUser(usuarioId,nombre,apellido1,apellido2,email,tipoUsuarioId,departamentoId,imagenId,bloqueado));
-                            }catch (JSONException e){
-                                Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context,error.getMessage(),Toast.LENGTH_LONG).show();
-            }
-        });
-
-        requestQueue= Volley.newRequestQueue(context);
-        requestQueue.add(jsonArrayRequest);
-        return (ArrayList<ClsUser>) Arrayusuario;
-    }*/
-
-
-
-
-
-
-
-    /**METODO QUE CARGA todos los USUARIOS  EN UN SPINNER*/
-   /* public void ListaUsuarios(Context context,Spinner spnUsuarios ){
-        List<ClsUser>    Arrayusuario=new ArrayList<>();
-        DatabaseReference mDataBase;
-        mDataBase = FirebaseDatabase.getInstance().getReference();
-        mDataBase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    for(DataSnapshot ds: snapshot.getChildren()){
-                        if(ds.getKey().equals(ClsUser.UsuarioConectadoApp(context).replace(".", "_").trim())){
-                            //Toast.makeText(context,ds.getKey(),Toast.LENGTH_LONG).show();
-                        }else{
-                            ClsUser user = ds.getValue(ClsUser.class);
-                            Arrayusuario.add(user);
-
-                        }
-
-                    }
-                    ArrayAdapter<ClsUser> arrayAdapter= new ArrayAdapter<>(context, android.R.layout.simple_dropdown_item_1line,Arrayusuario);
-                    spnUsuarios.setAdapter(arrayAdapter);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
+        return !insertado;
     }
-    public String[] GetNombreYApellido(DatabaseReference mDataBase,   String UsuarioApp){
-        String[] Nombre = {null};
-        mDataBase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull  DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    for(DataSnapshot ds: snapshot.getChildren()){
-                        if(ds.getKey().equals(UsuarioApp)){
-                            Nombre[0] =ds.child("Nombre").getValue().toString() + " " + ds.child("Ape").getValue().toString();
-                        }
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull   DatabaseError error) {
-            }
-        });
-        return  Nombre;
-    }
-*/
-
-
-public static void guardarFichajeUsuario (ClsFichaje fichaje){
+    public static void guardarFichajeUsuario (ClsFichaje fichaje){
         fichajeUsuario = fichaje;
 }
 
-public static ClsFichaje DevolverFichajeUsuario (){
+    public static ClsFichaje DevolverFichajeUsuario (){
         return fichajeUsuario;
 }
 
