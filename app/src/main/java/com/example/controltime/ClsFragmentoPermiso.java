@@ -147,7 +147,7 @@ public class ClsFragmentoPermiso extends Fragment {
             public void onClick(View v) {
                 getFechaSeleccionada(edtFechaDesde);
                 edtFechaDesde.setText(edtFechaDesde.getText());
-
+               // Toast.makeText(getContext(),"onClick Fechadesde" + edtFechaDesde.getText() ,Toast.LENGTH_LONG).show();
             }
         });
 
@@ -159,20 +159,17 @@ public class ClsFragmentoPermiso extends Fragment {
             public void onClick(View v) {
                 getFechaSeleccionada(edtFechaHasta);
                 edtFechaHasta.setText( edtFechaHasta.getText());
-
-
+              //  Toast.makeText(getContext(),"onClick FechaHasta" + edtFechaHasta.getText() ,Toast.LENGTH_LONG).show();
             }
         });
         FechaDesde=edtFechaDesde.getText().toString();
         FechaHasta=edtFechaHasta.getText().toString();
 
-        int valor=0;//ComprobarFechas(edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
+
 /***FIN FECHAS */
 
 /*** * CALENDARIO */
         calendarView=(MCalendarView) vista.findViewById(R.id.calendar);
-
-
 
 /*** * FIN CALENDARIO     */
 
@@ -286,8 +283,9 @@ public class ClsFragmentoPermiso extends Fragment {
                     if (esMedioDia){
                         edtFechaHasta.setText(edtFechaDesde.getText().toString());
                     }
-                    //COMPROBAMOS QUE NO HAYA UN PERMISO EN ESE INTERVALO DE FECHAS
+
                     buscarUsuario (ClsUser.UsuarioConectadoApp(getContext()));
+                    Toast.makeText(getContext(),"onClick Fechas" + edtFechaDesde.getText() +" - "+ edtFechaHasta.getText() ,Toast.LENGTH_LONG).show();
                     insertar();
 
             }
@@ -368,6 +366,7 @@ public class ClsFragmentoPermiso extends Fragment {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 fecha.setText(dayOfMonth + "/" + (month+1) + "/" + year);
+               // Toast.makeText(getContext(),"Fecha seleccionada " + fecha.getText(),Toast.LENGTH_LONG).show();
             }
         });
         fragment.show(getChildFragmentManager(),"datePicker");
@@ -380,15 +379,19 @@ public class ClsFragmentoPermiso extends Fragment {
             public void run() {
 
                 if(DbConnection.conectarBaseDeDatos()){
+
+                    //COMPROBAMOS QUE NO HAYA UN PERMISO EN ESE INTERVALO DE FECHAS
                     if (!ClsPermisos.validaIntevalosFechas(objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString() )) {
                         if(!ClsPermisos.insertarPermiso(objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),TipoPermiso)){
                             Toast.makeText(getContext(),"No se ha podido insertar el permiso" ,Toast.LENGTH_LONG).show();
                         }
                     }else{
-                        Toast.makeText(getContext(),"hay un  permiso dentro del rango de fechas seleccionado" ,Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(),"Hay un  permiso dentro del rango de fechas seleccionado" ,Toast.LENGTH_LONG).show();
                     }
 
                     DbConnection.cerrarConexion();
+                }else{
+                    Toast.makeText(getContext(),"Error en la bbdd." ,Toast.LENGTH_LONG).show();
                 }
             }
         });

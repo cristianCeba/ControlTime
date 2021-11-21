@@ -151,4 +151,17 @@ public class ClsUtils extends DialogFragment implements DatePickerDialog.OnDateS
 
     }
 
+    public static String formatearFecha(String fecha) throws ParseException {
+        final String OLD_FORMAT = "dd/MM/yyyy";
+        final String NEW_FORMAT = "yyyy/MM/dd";
+        String nuevaFecha="";
+        SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
+        Date d = sdf.parse(fecha);
+        sdf.applyPattern(NEW_FORMAT);
+        nuevaFecha = sdf.format(d);
+        nuevaFecha=nuevaFecha.replace("/", "-");
+        return nuevaFecha;
+
+    }
+
 }

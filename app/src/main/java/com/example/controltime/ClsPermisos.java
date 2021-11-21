@@ -18,14 +18,16 @@ import org.jetbrains.annotations.NotNull;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-
+import java.util.Locale;
 public class ClsPermisos {
 
     public  int RowId;
@@ -77,19 +79,12 @@ public class ClsPermisos {
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         try {
             String sql;
+            String diaIni =ClsUtils.formatearFecha(fechaIni);
+            String diaFin = ClsUtils.formatearFecha(fechaFin);
 
-            String diaIni = fechaIni.replace("/", "-") ;
-            String diaFin = fechaFin.replace("/", "-");
-
-
-            double dias=ClsUtils.calculaDiasHabiles(formato.parse(diaIni),formato.parse(diaFin));
-            fechaIni=new SimpleDateFormat("yyyy:MM:dd").format(new Date());
-            fechaFin=new SimpleDateFormat("yyyy:MM:dd").format(new Date());
-
-            fechaIni= fechaIni.replace(":", "-") ;
-            fechaFin= fechaFin.replace(":", "-");
+            double dias=0;//ClsUtils.calculaDiasHabiles( diaIni,diaFin);
             sql = "INSERT INTO ct_permisos(usuarioId, desdeFecha,hastaFecha,diasHabiles,tipoPermiso,estadoPermisoId)" +
-                    "VALUES ( "+idUsuario+",'"+ fechaIni  +"','"+  fechaFin +"'," + dias + "," +tipoId+ ",0)";
+                    "VALUES ( "+idUsuario+",'"+ diaIni  +"','"+  diaFin +"'," + dias + "," +tipoId+ ",0)";
 
             PreparedStatement ps=DbConnection.connection.prepareStatement(sql);
             insertado=ps.execute(sql);
@@ -100,23 +95,20 @@ public class ClsPermisos {
         }catch (Exception e) {
             e.printStackTrace();
         }
-        return insertado;
+        return !insertado;
     }
     /*Comprueba que no esta pedidas las fechas seleccionadas*/
     public static boolean validaIntevalosFechas(int idUsuario,String fechaIni,String fechaFin) {
         boolean hayDatos = false;
         try {
             String sql;
-            fechaIni=new SimpleDateFormat("yyyy:MM:dd").format(new Date());
-            fechaFin=new SimpleDateFormat("yyyy:MM:dd").format(new Date());
-
-            fechaIni= fechaIni.replace(":", "-") ;
-            fechaFin= fechaFin.replace(":", "-");
+            String diaIni =ClsUtils.formatearFecha(fechaIni);
+            String diaFin = ClsUtils.formatearFecha(fechaFin);
 
             DbConnection.statement = DbConnection.connection.createStatement();
-            ResultSet rs = DbConnection.statement.executeQuery(sql = "SELECT * FROM ct_usuarios " +
-                    " WHERE usuarioId ='" + idUsuario + "' AND (desdeFecha BETWEEN '" + fechaIni + "' AND '" + fechaFin + "')" +
-                    " OR (hastaFecha BETWEEN '" + fechaIni + "' AND '" + fechaFin + "')");
+            ResultSet rs = DbConnection.statement.executeQuery(sql = "SELECT * FROM ct_permisos " +
+                    " WHERE usuarioId =" + idUsuario + " AND (desdeFecha BETWEEN '" + diaIni + "' AND '" + diaFin + "')" +
+                    " OR (hastaFecha BETWEEN '" + diaIni + "' AND '" + diaFin + "')");
 
             while (rs.next()) {
                 hayDatos=true;
