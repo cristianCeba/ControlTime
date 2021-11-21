@@ -69,6 +69,7 @@ public class ClsFragmentoPermiso extends Fragment {
     String FechaDesde;
     String FechaHasta;
     String Id;
+    String mensaje;
     // String valor="";
     //long RowId;
     //ArrayList<String> ArrayId= new ArrayList<String>();
@@ -133,8 +134,8 @@ public class ClsFragmentoPermiso extends Fragment {
         objPermisos=new ClsPermisos();
         ArrayPermisos=new ArrayList<>();
         arrayTiposPer=new ArrayList<>();
-
-
+        mensaje="";
+        buscarUsuario (ClsUser.UsuarioConectadoApp(getContext()));
 
 /*** *  FECHAS */
 
@@ -146,7 +147,7 @@ public class ClsFragmentoPermiso extends Fragment {
             @Override
             public void onClick(View v) {
                 getFechaSeleccionada(edtFechaDesde);
-                edtFechaDesde.setText(edtFechaDesde.getText());
+              //  edtFechaDesde.setText(edtFechaDesde.getText());
                // Toast.makeText(getContext(),"onClick Fechadesde" + edtFechaDesde.getText() ,Toast.LENGTH_LONG).show();
             }
         });
@@ -158,7 +159,7 @@ public class ClsFragmentoPermiso extends Fragment {
             @Override
             public void onClick(View v) {
                 getFechaSeleccionada(edtFechaHasta);
-                edtFechaHasta.setText( edtFechaHasta.getText());
+               // edtFechaHasta.setText( edtFechaHasta.getText());
               //  Toast.makeText(getContext(),"onClick FechaHasta" + edtFechaHasta.getText() ,Toast.LENGTH_LONG).show();
             }
         });
@@ -218,35 +219,19 @@ public class ClsFragmentoPermiso extends Fragment {
                 cargaPermisos(objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
                   for(int i=0;i<=ArrayPermisos.size()-1;i++){
                     try {
-                      switch (ArrayPermisos.get(i).TipoPermiso){
-                          case 0://""0":
-                              colorDia=Color.rgb(247,218,56);
-                              break;
-                          case 1://""1":
-                              colorDia=Color.rgb(125,129,127);
-                              break;
-                          case 2://"2":
-                              colorDia=Color.rgb(176,39,169);
-                              break;
-                          case 3://"3":
-                              colorDia=Color.rgb(39,89,176);
-                              break;
-                          case 4://"4":
-                              colorDia=Color.rgb(255,87,34);
-                              break;
-                          case 5://"5":
-                              colorDia=Color.rgb(76,175,80);
-                              break;
-                          case 6://"6":
-                              colorDia=Color.rgb(176,114,39);
+                        colorDia=-1;
 
-                              break;
-                      }
                       String fechaIni= ArrayPermisos.get(i).FechaDesde.replace("-", "/") ;
                       String fechaFin= ArrayPermisos.get(i).FechaHasta.replace("-", "/") ;
+
+                      fechaIni=ClsUtils.formatearFecha(fechaIni,true);
+                      fechaFin=ClsUtils.formatearFecha(fechaFin,true);
+                      fechaIni=fechaIni.replace("-", "/");
+                      fechaFin=fechaFin.replace("-", "/");
+
                       SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
                       Calendar cal=Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));;
-                      cal.setTime(formato.parse( fechaIni));
+                      cal.setTime( formato.parse(fechaIni));
                       int year = cal.get(Calendar.YEAR);
                       int month = cal.get(Calendar.MONTH)+1;
                       int day = cal.get(Calendar.DAY_OF_MONTH);
@@ -257,7 +242,41 @@ public class ClsFragmentoPermiso extends Fragment {
                       for (int y =year;y<= yearF;y++){
                           for (int m =month;m<= monthF;m++){
                               for (int d =day;d<= dayF;d++){
-                                  calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
+                                  switch (ArrayPermisos.get(i).TipoPermiso){
+                                      case 0: //Vacacions
+                                          if (ArrayPermisos.get(i).Estado==0){
+                                              colorDia = Color.rgb(205,201,199);
+                                          }else{
+                                              colorDia=Color.rgb(247,218,56);
+                                          }
+                                         calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
+                                          break;
+                                      case 1://Baja
+                                          if (ArrayPermisos.get(i).Estado==0){
+                                              colorDia = Color.rgb(205,201,199);
+                                          }else {
+                                              colorDia = Color.rgb(176, 39, 169);
+                                          }
+                                          calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
+                                          break;
+                                      case 2://Hospitalizacion
+                                          if (ArrayPermisos.get(i).Estado==0){
+                                              colorDia = Color.rgb(205,201,199);
+                                          }else {
+                                              colorDia = Color.rgb(39, 89, 176);
+                                          }
+                                          calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
+                                          break;
+                                      case 3://Otros
+                                          if (ArrayPermisos.get(i).Estado==0){
+                                              colorDia = Color.rgb(205,201,199);
+                                          }else {
+                                              colorDia = Color.rgb(255, 87, 34);
+                                          }
+                                          calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
+                                          break;
+                                  }
+
                               }
                           }
                       }
@@ -284,9 +303,13 @@ public class ClsFragmentoPermiso extends Fragment {
                         edtFechaHasta.setText(edtFechaDesde.getText().toString());
                     }
 
-                    buscarUsuario (ClsUser.UsuarioConectadoApp(getContext()));
-                    Toast.makeText(getContext(),"onClick Fechas" + edtFechaDesde.getText() +" - "+ edtFechaHasta.getText() ,Toast.LENGTH_LONG).show();
+
                     insertar();
+                    if(  mensaje!=""){
+                        Toast.makeText(getContext(),mensaje,Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(getContext(),"Permiso guardado",Toast.LENGTH_LONG).show();
+                    }
 
             }
         });
@@ -296,12 +319,16 @@ public class ClsFragmentoPermiso extends Fragment {
     }
 
     public void cargaTiposDePermisos (){
+        mensaje="";
         Thread h1 = new Thread(new Runnable() {
             @Override
             public void run() {
                if(DbConnection.conectarBaseDeDatos()){
                     arrayTiposPer=ClsTipoPermiso.getPermisos();
                     DbConnection.cerrarConexion();
+               }else{
+                   mensaje="Ha ocurrido un error intentelo en unos minutos";
+                   //Toast.makeText(getContext(),"Ha ocurrido un error intentelo en unos minutos",Toast.LENGTH_SHORT).show();
                }
             }
         });
@@ -316,12 +343,16 @@ public class ClsFragmentoPermiso extends Fragment {
     }
 
     public void cargaPermisos (int usuarioId,String fechaIni,String fechaFin){
+        mensaje="";
         Thread h1 = new Thread(new Runnable() {
             @Override
             public void run() {
                 if(DbConnection.conectarBaseDeDatos()){
                     ArrayPermisos=ClsPermisos.getPermisos(usuarioId,fechaIni,fechaFin);
                     DbConnection.cerrarConexion();
+                }else{
+                    mensaje="Ha ocurrido un error intentelo en unos minutos";
+                    //Toast.makeText(getContext(),"Ha ocurrido un error intentelo en unos minutos",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -339,12 +370,16 @@ public class ClsFragmentoPermiso extends Fragment {
 
 
     public void buscarUsuario (String correo){
+        mensaje="";
         Thread h1 = new Thread(new Runnable() {
             @Override
             public void run() {
                 if(DbConnection.conectarBaseDeDatos()){
                     objUser = ClsUser.getUsuario(correo);
                     DbConnection.cerrarConexion();
+                }else{
+                    mensaje="Ha ocurrido un error intentelo en unos minutos";
+                    //Toast.makeText(getContext(),"Ha ocurrido un error intentelo en unos minutos",Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -373,25 +408,42 @@ public class ClsFragmentoPermiso extends Fragment {
     }
 
     public void insertar (){
-
+        mensaje="";
         Thread h1 = new Thread(new Runnable() {
             @Override
             public void run() {
 
                 if(DbConnection.conectarBaseDeDatos()){
 
-                    //COMPROBAMOS QUE NO HAYA UN PERMISO EN ESE INTERVALO DE FECHAS
-                    if (!ClsPermisos.validaIntevalosFechas(objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString() )) {
-                        if(!ClsPermisos.insertarPermiso(objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),TipoPermiso)){
-                            Toast.makeText(getContext(),"No se ha podido insertar el permiso" ,Toast.LENGTH_LONG).show();
+                    try {
+                        // comprobamos el total de dias
+                        double dias= ClsUtils.calculaDiasHabiles( edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
+                        if(dias>0){
+                            //COMPROBAMOS QUE NO HAYA UN PERMISO EN ESE INTERVALO DE FECHAS
+                            if (!ClsPermisos.validaIntevalosFechas(objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString() )) {
+                                if(!ClsPermisos.insertarPermiso(objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString(),TipoPermiso,dias)){
+                                    mensaje="No se ha podido insertar el permiso";
+                                    //  Toast.makeText(getContext(),"No se ha podido insertar el permiso" ,Toast.LENGTH_LONG).show();
+                                }
+                            }else{
+                                mensaje="Hay un  permiso dentro del rango de fechas seleccionado";
+                                //Toast.makeText(getContext(),"Hay un  permiso dentro del rango de fechas seleccionado" ,Toast.LENGTH_LONG).show();
+                            }
+
+                        }else{
+                            mensaje="El/los dias seleccionados son festivos";
+                            //Toast.makeText(getContext(),"El/los dias seleccionados son festivos" ,Toast.LENGTH_LONG).show();
                         }
-                    }else{
-                        Toast.makeText(getContext(),"Hay un  permiso dentro del rango de fechas seleccionado" ,Toast.LENGTH_LONG).show();
+
+                        DbConnection.cerrarConexion();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+
                     }
 
-                    DbConnection.cerrarConexion();
                 }else{
-                    Toast.makeText(getContext(),"Error en la bbdd." ,Toast.LENGTH_LONG).show();
+                    mensaje="Ha ocurrido un error intentelo en unos minutos";
+                    //Toast.makeText(getContext(),"Ha ocurrido un error intentelo en unos minutos",Toast.LENGTH_SHORT).show();
                 }
             }
         });
