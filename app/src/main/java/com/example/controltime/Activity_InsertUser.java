@@ -106,7 +106,7 @@ public class Activity_InsertUser extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TipoUsuario=parent.getItemAtPosition(position).toString();
-                objTipoUsuario=new ClsTipoUsuario(String.valueOf(id),TipoUsuario);
+                //objTipoUsuario=new ClsTipoUsuario(Integer.valueOf(id),TipoUsuario);
             }
 
             @Override
@@ -120,7 +120,7 @@ public class Activity_InsertUser extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                Grupo= parent.getItemAtPosition(position).toString();
-               objGrupos=new ClsGrupos(String.valueOf(id),Grupo);
+               //objGrupos=new ClsGrupos(id,Grupo);
             }
 
             @Override
