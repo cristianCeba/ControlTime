@@ -33,12 +33,10 @@ public class ClsFragmentoPermisos extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    ArrayList<ClsUsuarioPermiso> listaUsuariosPermisos = new ArrayList<>();
-    ArrayList<ClsPermisos> usuariosPermisos = new ArrayList<>();
+    ArrayList<ClsUsuarioPermiso> usuarios = new ArrayList<>();
     private ClsAdaptadorPermisos adaptador;
-    private DatabaseReference mDataBase;
     ListView listaDeUsuariosPermisos;
-    String correoUsuarioPidePermiso;
+    ClsUser usuario;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -69,6 +67,8 @@ public class ClsFragmentoPermisos extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        buscarUsuario();
+        buscarUsuarios();
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -79,11 +79,9 @@ public class ClsFragmentoPermisos extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         View vista = inflater.inflate(R.layout.fragment_blank, container, false);
-        listaDeUsuariosPermisos = vista.findViewById(R.id.listusuariopermiso);
-        mDataBase = FirebaseDatabase.getInstance().getReference();
 
+        listaDeUsuariosPermisos = vista.findViewById(R.id.listusuariopermiso);
         RellenarPermisos();
 
         // Inflate the layout for this fragment
@@ -92,96 +90,112 @@ public class ClsFragmentoPermisos extends Fragment {
     }
 
     public void RellenarPermisos (){
-        System.out.println("Empieza rellenar permisos");
-        Query query = mDataBase.child("Permisos");
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            /**
-             * Buscamos en base de datos si el usuario ha registrado algún fichaje del día, y dependiendo de lo que el usuario ha registrado
-             * habilitamos y deshabilitamos los botones de fichajes.
-             */
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    System.out.println("ds.getKey() --> " + ds.getKey());
-                    correoUsuarioPidePermiso = ds.getKey().toString();
-                    for (DataSnapshot ds1 : ds.getChildren()){
 
-                        ClsPermisos permisoUsuario = ds1.getValue(ClsPermisos.class);
+        adaptador = new ClsAdaptadorPermisos(getContext(),usuarios);
+        listaDeUsuariosPermisos.setAdapter(adaptador);
 
-                      /*  if (permisoUsuario.Estado == 0){
-                            permisoUsuario.correo = correoUsuarioPidePermiso;
-                            if (ClsUser.TipoUsuarioConectadoApp(getContext()).equals("2") && permisoUsuario.TipoUsuario.equals("1")){
-                                crearPermiso(permisoUsuario);
-                            } else if (ClsUser.TipoUsuarioConectadoApp(getContext()).equals("0")){
-                                crearPermiso(permisoUsuario);
-                            }
-                        }*/
-                    }
-                }
-
-                        adaptador = new ClsAdaptadorPermisos(getActivity(), listaUsuariosPermisos);
-                        listaDeUsuariosPermisos.setAdapter(adaptador);
                 /*
                     Cada vez que se pulsa un fichaje preguntamos si quiere validarlo y si acepta se valida el fichaje.
                  */
-                        listaDeUsuariosPermisos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                AlertDialog.Builder opciones = new AlertDialog.Builder(view.getContext());
-                                opciones.setMessage("¿Quieres validar el fichaje? una vez validado el fichaje no podrá ser modificado")
-                                        .setTitle("Advertencia")
-                                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                int aprobar = 1;
-                                                String rowId = String.valueOf(usuariosPermisos.get(position).RowId);
-                                                String correo = listaUsuariosPermisos.get(position).correo;
-                                               // usuariosPermisos.get(position).correo = null;
-                                                usuariosPermisos.get(position).Estado = aprobar;
-                                                mDataBase.child("Permisos").child(correo).child(rowId).setValue(usuariosPermisos.get(position));
-                                                limpiarArrays();
-                                                RellenarPermisos();
-                                            }
-                                        }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                    }
-                                });
-                                opciones.show();
-                            }
-                        });
-
-                System.out.println("Termina Rellenar permisos");
-
-
-            }
-
+        listaDeUsuariosPermisos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AlertDialog.Builder opciones = new AlertDialog.Builder(view.getContext());
+                opciones.setMessage("¿Quieres validar el fichaje? una vez validado el fichaje no podrá ser modificado")
+                        .setTitle("Advertencia")
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                System.out.println("Borramos usuario");
+                                validarHorario(usuarios.get(position).idPermiso);
+                                BorrarUsuarios();
+                                buscarUsuarios();
+                                RellenarPermisos();
+                            }
+                        }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                opciones.show();
             }
         });
 
-
-
     }
 
-    public void crearPermiso (ClsPermisos permisoUsuario){
-        ClsUsuarioPermiso usuarioPermiso = new ClsUsuarioPermiso();
-        usuarioPermiso.setInicioPermiso(permisoUsuario.FechaDesde);
-        usuarioPermiso.setFinPermiso(permisoUsuario.FechaHasta);
-        usuarioPermiso.setTipoPemriso(" solicita permiso de " + permisoUsuario.TipoPermiso);
-        usuarioPermiso.setNombre(String.valueOf(permisoUsuario.UsuarioId));
-        //usuarioPermiso.setCorreo(permisoUsuario.correo);
-
-        usuariosPermisos.add(permisoUsuario);
-        listaUsuariosPermisos.add(usuarioPermiso);
+    public void BorrarUsuarios(){
+        for (int i = 0; usuarios.size() > i ; i++){
+            usuarios.remove(i);
+        }
     }
 
-    public void limpiarArrays(){
-        for (int i = 0; usuariosPermisos.size() > i ; i++){
-            usuariosPermisos.remove(i);
-            listaUsuariosPermisos.remove(i);
+    public void buscarUsuario (){
+
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(DbConnection.conectarBaseDeDatos()) {
+                    usuario = ClsUser.getUsuario(ClsUser.UsuarioConectadoApp(getContext()));
+                }
+                DbConnection.cerrarConexion();
+            }
+        });
+        h1.start();
+        try {
+
+            h1.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void buscarUsuarios (){
+
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(DbConnection.conectarBaseDeDatos()) {
+                    if (usuario.TipoUsuario == 1){
+                        usuarios = ClsUsuarioPermiso.BuscarPermisoPorUsuario(usuario.usuarioId,usuario.Grupo);
+                    } else {
+                        System.out.println("Buscamos todos los permisos");
+                        usuarios = ClsUsuarioPermiso.BuscarTodosLosUsuarios(usuario.usuarioId,usuario.Grupo);
+                    }
+
+                }
+                DbConnection.cerrarConexion();
+            }
+        });
+        h1.start();
+        try {
+
+            h1.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void validarHorario (String idFichaje){
+
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(DbConnection.conectarBaseDeDatos()) {
+                    ClsUsuarioPermiso.validarPermiso(idFichaje);
+                }
+                DbConnection.cerrarConexion();
+            }
+        });
+        h1.start();
+        try {
+
+            h1.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }

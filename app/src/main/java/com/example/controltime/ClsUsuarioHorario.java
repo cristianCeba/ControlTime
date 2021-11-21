@@ -1,22 +1,9 @@
 package com.example.controltime;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Switch;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class ClsUsuarioHorario implements Serializable {
@@ -29,7 +16,7 @@ public class ClsUsuarioHorario implements Serializable {
     String horaFinDescanso;
     String correo;
     String idImagen;
-    int codigo;
+    int idFichaje;
 
     public ClsUsuarioHorario(){
 
@@ -44,11 +31,11 @@ public class ClsUsuarioHorario implements Serializable {
     }
 
     public int getcodigo() {
-        return codigo;
+        return idFichaje;
     }
 
     public void setNombre(int codigo) {
-        this.codigo = codigo;
+        this.idFichaje = codigo;
     }
 
     public void sethoraInicioJornada(String horaInicioJornada) {
@@ -106,4 +93,95 @@ public class ClsUsuarioHorario implements Serializable {
     public void setIdImagen(String idImagen) {
         this.idImagen = idImagen;
     }
+
+    public int getIdFichaje() {
+        return idFichaje;
+    }
+
+    public void setIdFichaje(int idFichaje) {
+        this.idFichaje = idFichaje;
+    }
+
+    public static ArrayList<ClsUsuarioHorario> buscarHorarioPorUsuario(int idUsuarioJefe, int departamentoId){
+        ArrayList<ClsUsuarioHorario> usuarios = new ArrayList<ClsUsuarioHorario>();
+
+
+        try {
+            DbConnection.statement = DbConnection.connection.createStatement();
+            ResultSet rs = DbConnection.statement.executeQuery("select ct_usuarios.nombre,ct_usuarios.apellido1, ct_usuarios.imagenId,ct_usuarios.email,ct_fichajes.horaEntrada,ct_fichajes.horaSalida,ct_fichajes.fichajeId," +
+                    "ct_descansos.horaIni,ct_descansos.horaFin,ct_fichajes.dia" +
+                    "from ct_usuarios " +
+                    "inner join ct_fichajes on ct_usuarios.usuarioId = ct_fichajes.usuarioId " +
+                    "inner join ct_descansos on ct_descansos.idFich = ct_fichajes.fichajeId " +
+                    "where ct_usuarios.usuarioId not in ('"+idUsuarioJefe+"') and ct_usuarios.departamentoId = "+departamentoId+" and ct_fichajes.estadoFichajeId = 0");
+            while (rs.next()) {
+                ClsUsuarioHorario usuario = new ClsUsuarioHorario();
+
+                usuario.setNombre(rs.getString("ct_usuarios.nombre") + " " + rs.getString("ct_usuarios.apellido1"));
+                usuario.setIdImagen(rs.getString("ct_usuarios.imagenId"));
+                usuario.sethoraInicioJornada(rs.getString("ct_fichajes.horaEntrada"));
+                usuario.sethoraFinJornada(rs.getString("ct_fichajes.horaSalida"));
+                usuario.sethoraInicioDescanso(rs.getString("ct_descansos.horaIni"));
+                usuario.sethoraFinDescanso(rs.getString("ct_descansos.horaFin"));
+                usuario.setCorreo(rs.getString("ct_usuarios.email"));
+                usuario.setIdFichaje(rs.getInt("ct_fichajes.fichajeId"));
+                usuario.setFecha(rs.getString("ct_fichajes.dia"));
+                usuarios.add(usuario);
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return usuarios;
+    }
+
+    public static ArrayList<ClsUsuarioHorario> buscarTodosLosUsuarios (int idUsuarioJefe,int departamentoId){
+        ArrayList<ClsUsuarioHorario> usuarios = new ArrayList<ClsUsuarioHorario>();
+
+
+        try {
+            DbConnection.statement = DbConnection.connection.createStatement();
+            ResultSet rs = DbConnection.statement.executeQuery("select ct_usuarios.nombre,ct_usuarios.apellido1, ct_usuarios.imagenId,ct_usuarios.email,ct_fichajes.horaEntrada,ct_fichajes.horaSalida,ct_fichajes.fichajeId," +
+                    "ct_descansos.horaIni,ct_descansos.horaFin,ct_fichajes.dia " +
+                    "from ct_usuarios " +
+                    "inner join ct_fichajes on ct_usuarios.usuarioId = ct_fichajes.usuarioId " +
+                    "inner join ct_descansos on ct_descansos.idFich = ct_fichajes.fichajeId " +
+                    "where ct_usuarios.usuarioId not in ('"+idUsuarioJefe+"') and ct_fichajes.estadoFichajeId = 0");
+            while (rs.next()) {
+                ClsUsuarioHorario usuario = new ClsUsuarioHorario();
+
+                usuario.setNombre(rs.getString("ct_usuarios.nombre") + " " + rs.getString("ct_usuarios.apellido1"));
+                usuario.setIdImagen(rs.getString("ct_usuarios.imagenId"));
+                usuario.sethoraInicioJornada(rs.getString("ct_fichajes.horaEntrada"));
+                usuario.sethoraFinJornada(rs.getString("ct_fichajes.horaSalida"));
+                usuario.sethoraInicioDescanso(rs.getString("ct_descansos.horaIni"));
+                usuario.sethoraFinDescanso(rs.getString("ct_descansos.horaFin"));
+                usuario.setCorreo(rs.getString("ct_usuarios.email"));
+                usuario.setIdFichaje(rs.getInt("ct_fichajes.fichajeId"));
+                usuario.setFecha(rs.getString("ct_fichajes.dia"));
+                usuarios.add(usuario);
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return usuarios;
+    }
+
+    public static void validarHorario (int idFichaje){
+        try {
+
+            System.out.println("id Fichaje = " + idFichaje);
+             String sql= "Update ct_fichajes set estadoFichajeId = 1 WHERE fichajeId =" + idFichaje +"";
+
+
+            // 4. Obtenga el ps utilizado para enviar sentencias SQL a la base de datos
+            PreparedStatement ps= DbConnection.connection.prepareStatement(sql);
+
+            ps.execute(sql);
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
