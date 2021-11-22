@@ -42,10 +42,9 @@ public class Activity_Navegador extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_fichaje, R.id.nav_cerrarSesion,R.id.nav_configuracion,R.id.nav_solicitarFichaje2,R.id.nav_verFichaje,R.id.nav_permisos,R.id.nav_informe)
+                R.id.nav_fichaje,R.id.nav_configuracion,R.id.nav_CerrarSesion,R.id.nav_solicitarFichaje2,R.id.nav_verFichaje,R.id.nav_permisos,R.id.nav_informe)
                 .setDrawerLayout(drawer)
                 .build();
-
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
@@ -98,6 +97,8 @@ public class Activity_Navegador extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+
 
     public void recuperarImagen () {
         String idImagen = usuario.idImagen;

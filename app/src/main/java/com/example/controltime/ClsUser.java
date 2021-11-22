@@ -160,9 +160,11 @@ public static void CerrarSesion(Context contex){
         ClsUser usuario = new ClsUser();
 
         try {
+            System.out.println("Correo usuario --> " + correo);
             DbConnection.statement = DbConnection.connection.createStatement();
             ResultSet rs = DbConnection.statement.executeQuery("Select * from ct_usuarios where email = '"+correo+"'");
             while (rs.next()) {
+                System.out.println("Recuperamos el usuario");
                 usuario.Nombre = (rs.getString("nombre"));
                 usuario.Ape = (rs.getString("apellido1"));
                 usuario.Ape2= (rs.getString("apellido2"));
@@ -243,6 +245,24 @@ public static void CerrarSesion(Context contex){
         }
         return !insertado;
     }
+
+    /*Metodo que bloquea Usaurio*/
+    public static void modificarNombre ( String nuevoNombre, int usuarioId){
+        try {
+            String sql;
+
+            sql = "UPDATE  ct_usuarios SET  nombre = '" +nuevoNombre +
+                    "' WHERE usuarioId = " +usuarioId +"";
+
+            PreparedStatement ps=DbConnection.connection.prepareStatement(sql);
+            ps.execute(sql);
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public static void guardarFichajeUsuario (ClsFichaje fichaje){
         fichajeUsuario = fichaje;
 }
