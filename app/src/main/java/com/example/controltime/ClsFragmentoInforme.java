@@ -54,6 +54,7 @@ public class ClsFragmentoInforme extends Fragment {
     List<ClsPermisos> ArrayPermisos;
     List<ClsUser>arrayUsuarios;
     int idUsuario;
+    int idSeleccion;
     private final static String CARPETA_PDF_PERMISOS = "PDF_Permisos";
     private final static String CARPETA_PDF_fichajes = "PDF_Fichajes";
 
@@ -151,9 +152,8 @@ public class ClsFragmentoInforme extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 UsurioSeleccionado=parent.getItemAtPosition(position).toString();
-                //  ClsUtils.MostrarMensajes(Activity_Informe.this  , edtFechaDesde.getText().toString() + " _ " + edtFechaHasta.getText().toString(), "PERMISOS");
-              //  ArrayPermisos= objPermisos.ListaPermisosPorUsuario(getContext(),UsurioSeleccionado.replace(".","_"));
-                //ArrayPermisos=objPermisos.ListaPermisosPorUsuarioYFechas(Activity_Informe.this,UsurioSeleccionado.replace(".","_"),edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
+                String[] splitUsuario=UsurioSeleccionado.split("-");
+                  idSeleccion= Integer.parseInt(splitUsuario[0]);
             }
 
             @Override
@@ -174,16 +174,11 @@ public class ClsFragmentoInforme extends Fragment {
         GenerarPDFPermisos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //  ArrayPermisos= objPermisos.ListaPermisosPorUsuario(Activity_Informe.this,UsurioSeleccionado.replace(".","_"));
-                //ArrayPermisos=objPermisos.ListaPermisosPorUsuarioYFechas(Activity_Informe.this,UsurioSeleccionado.replace(".","_"),edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
-
-                //if(ArrayPermisos.size()>0){
+                cargaPermisos(idSeleccion,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
                 String Nombre= UsurioSeleccionado + edtFechaDesde.getText().toString().replace("/","") +"_" + edtFechaHasta.getText().toString().replace("/","") + ".pdf";
                 objPDF=new ClsFicheroPDF(CARPETA_PDF_PERMISOS,Nombre);
                 objPDF.generarPDF(getContext(),ArrayPermisos);
-                // }else{
-                //   ClsUtils.MostrarMensajes(Activity_Informe.this  , "No hay datos para las fechas y el usuario seleccionados" + edtFechaDesde.getText().toString() + " _ " + edtFechaHasta.getText().toString(), "PERMISOS  USUARIO ");
-                //  }
+
 
             }
         });
@@ -192,8 +187,6 @@ public class ClsFragmentoInforme extends Fragment {
             public void onClick(View v) {
 
                 String Nombre= UsurioSeleccionado + edtFechaDesde.getText().toString().replace("/","") +"_" + edtFechaHasta.getText().toString().replace("/","") + ".pdf";
-                //  objPDF=new ClsFicheroPDF(CARPETA_PDF_fichajes,Nombre);
-                //  objPDF.generarPDF(Activity_Informe.this,ArrayPermisos);
 
 
             }
@@ -248,6 +241,29 @@ public class ClsFragmentoInforme extends Fragment {
                 }else{
                     mensaje="Ha ocurrido un error intentelo en unos minutos";
                     //Toast.makeText(getContext(),"Ha ocurrido un error intentelo en unos minutos",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        h1.start();
+        try {
+
+            h1.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void cargaPermisos (int usuarioId,String fechaIni,String fechaFin){
+        mensaje="";
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(DbConnection.conectarBaseDeDatos()){
+                    ArrayPermisos=ClsPermisos.getPermisos(usuarioId,fechaIni,fechaFin);
+                    DbConnection.cerrarConexion();
+                }else{
+                    mensaje="Ha ocurrido un error intentelo en unos minutos";
                 }
             }
         });

@@ -155,7 +155,7 @@ public class ClsFragmentoConfiguracion extends Fragment {
                 @Override
                 public void run() {
                     if(DbConnection.conectarBaseDeDatos()) {
-                        ClsUser.modificarNombre(usuario.Nombre,usuario.usuarioId);
+                        //ClsUser.modificarNombre(usuario.Nombre,usuario.usuarioId);
                     }
                     DbConnection.cerrarConexion();
                 }

@@ -53,7 +53,7 @@ public class ClsUser {
 
     @Override
     public String toString() {
-        return   correoElectronico  ;
+        return  usuarioId + "-"+ Nombre +" "+ Ape;
     }
 
     /*CONSTRUCTOR , INICIALIZAMOS LA CLASE*/
@@ -243,7 +243,7 @@ public static void CerrarSesion(Context contex){
         return !insertado;
     }
 
-    /***metodo que devuelve todos   usuario por departamemto y tipo usuario y por bloqueado*/
+    /****metodo que devuelve todos   usuario por departamemto y tipo usuario y por bloqueado*/
     public static List<ClsUser> getUsuario (int departamentoId,int tipousuarioId,boolean bloqueado){
         List<ClsUser> array = new ArrayList<>();
 

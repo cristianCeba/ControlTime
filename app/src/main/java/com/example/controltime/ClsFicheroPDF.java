@@ -38,25 +38,26 @@ String Nombre;
 
         try{
             File fichero= crearFichero(this.Nombre,this.Ruta );
+            if(fichero!=null){
+                //salida
+                FileOutputStream ficheroPDF= new FileOutputStream(fichero.getAbsolutePath());
+                PdfWriter writer=PdfWriter.getInstance(doc,ficheroPDF);
+                // Abrimos el documento.
+                doc.open();
+                doc.add(new Paragraph("PERMISOS PEDIDOS\n\n"));
 
-            //salida
-            FileOutputStream ficheroPDF= new FileOutputStream(fichero.getAbsolutePath());
-            PdfWriter writer=PdfWriter.getInstance(doc,ficheroPDF);
-            // Abrimos el documento.
-            doc.open();
-            doc.add(new Paragraph("PERMISOS PEDIDOS\n\n"));
+                // Insertamos una tabla.
+                PdfPTable tabla = new PdfPTable(5);
+                for (int i = 0; i < ArrayPermisos.size(); i++) {
+                        tabla.addCell(String.valueOf(ArrayPermisos.get(i).UsuarioId));
+                        tabla.addCell( ArrayPermisos.get(i).FechaDesde);
+                        tabla.addCell( ArrayPermisos.get(i).FechaHasta);
+                        tabla.addCell(String.valueOf(ArrayPermisos.get(i).dias));
+                        tabla.addCell(String.valueOf(ArrayPermisos.get(i).TipoPermiso));
 
-            // Insertamos una tabla.
-            PdfPTable tabla = new PdfPTable(5);
-            for (int i = 0; i < ArrayPermisos.size(); i++) {
-                    tabla.addCell(String.valueOf(ArrayPermisos.get(i).UsuarioId));
-                    tabla.addCell( ArrayPermisos.get(i).FechaDesde);
-                    tabla.addCell( ArrayPermisos.get(i).FechaHasta);
-                    tabla.addCell(String.valueOf(ArrayPermisos.get(i).dias));
-                    tabla.addCell(String.valueOf(ArrayPermisos.get(i).TipoPermiso));
-
+                }
+                doc.add(tabla);
             }
-            doc.add(tabla);
         }catch (DocumentException e){
             ClsUtils.MostrarMensajes(context, e.getMessage(), "DocumentException");
         }catch (IOException e){
