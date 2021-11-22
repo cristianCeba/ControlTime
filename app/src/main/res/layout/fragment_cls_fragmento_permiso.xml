@@ -13,33 +13,11 @@
         android:orientation="vertical"
         tools:context=".PermisoActivity">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:orientation="vertical"
-
-            >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:orientation="horizontal"
-
-                />
-        </LinearLayout>
 
 
 
 
 
-        <!--  <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="PETICION"
-              android:textColor="@color/white"></TextView>
-     -->
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,6 +25,11 @@
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:background="@drawable/bordeslayout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"></LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -103,7 +86,7 @@
             <LinearLayout
 
                 android:layout_width="395dp"
-                android:layout_height="65dp"
+                android:layout_height="38dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
@@ -112,7 +95,7 @@
 
                 <TextView
                     android:id="@+id/textTipoPer"
-                    android:layout_width="80dp"
+                    android:layout_width="120dp"
                     android:layout_height="26dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginLeft="5dp"

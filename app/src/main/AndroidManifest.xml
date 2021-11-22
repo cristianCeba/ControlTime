@@ -15,6 +15,7 @@
         <activity
             android:name=".Activity_Navegador"
             android:label="@string/title_activity__navegador"
+
             android:theme="@style/Theme.ControlTime.NoActionBar"></activity>
         <activity android:name=".Activity_ResetPassword" />
         <activity android:name=".Activity_Login">
@@ -25,6 +26,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".Activity_InsertUser" />
         <service
             android:name=".MyFirebaseMessaging"
             android:exported="false">

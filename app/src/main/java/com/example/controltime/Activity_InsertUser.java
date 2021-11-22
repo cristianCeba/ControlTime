@@ -94,9 +94,9 @@ public class Activity_InsertUser extends AppCompatActivity {
 
 
 
-       /* cargaTipoUsuario();*/
-        //ArrayAdapter<ClsTipoUsuario> adapter=new ArrayAdapter<>(getApplication(), android.R.layout.simple_dropdown_item_1line,arrayTipoUsuario);
-        //spnTipoUsuario.setAdapter(adapter);
+        cargaTipoUsuario();
+        ArrayAdapter<ClsTipoUsuario> adapter=new ArrayAdapter<>(getApplication(), android.R.layout.simple_dropdown_item_1line,arrayTipoUsuario);
+        spnTipoUsuario.setAdapter(adapter);
         spnTipoUsuario.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -108,9 +108,9 @@ public class Activity_InsertUser extends AppCompatActivity {
 
             }
         });
-       // cargaGrupos();
-        //ArrayAdapter<ClsGrupos> adapterGrupo=new ArrayAdapter<>(getApplication(), android.R.layout.simple_dropdown_item_1line,arrayGrupo);
-        //spnGrupo.setAdapter(adapterGrupo);
+        cargaGrupos();
+        ArrayAdapter<ClsGrupos> adapterGrupo=new ArrayAdapter<>(getApplication(), android.R.layout.simple_dropdown_item_1line,arrayGrupo);
+        spnGrupo.setAdapter(adapterGrupo);
         spnGrupo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -181,6 +181,14 @@ public class Activity_InsertUser extends AppCompatActivity {
                                     insertar();
                                     if(mensaje!=""){
                                         Toast.makeText(getApplicationContext(),mensaje ,Toast.LENGTH_LONG).show();
+                                    }else {
+                                        //Intent intent = new Intent(getApplicationContext(), Activity_Login.class);
+                                        //startActivity(intent);
+                                        buscarUsuario(Email);
+                                        ClsUser.UsuarioPreferencesApp(Email,Pass,usuario.usuarioId,getApplicationContext());
+
+                                        Intent intent = new Intent(getApplicationContext(), Activity_Navegador.class);
+                                        startActivity(intent);
                                     }
                                 }
                             }

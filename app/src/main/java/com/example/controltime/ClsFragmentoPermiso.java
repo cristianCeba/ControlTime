@@ -219,7 +219,7 @@ public class ClsFragmentoPermiso extends Fragment {
                 cargaPermisos(objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
                   for(int i=0;i<=ArrayPermisos.size()-1;i++){
                     try {
-                        colorDia=-1;
+                       // colorDia=-1;
 
                       String fechaIni= ArrayPermisos.get(i).FechaDesde.replace("-", "/") ;
                       String fechaFin= ArrayPermisos.get(i).FechaHasta.replace("-", "/") ;
@@ -249,7 +249,7 @@ public class ClsFragmentoPermiso extends Fragment {
                                           }else{
                                               colorDia=Color.rgb(247,218,56);
                                           }
-                                         calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
+                                         calendarView.markDate(y,m,d).setMarkedStyle(2,colorDia);
                                           break;
                                       case 1://Baja
                                           if (ArrayPermisos.get(i).Estado==0){
@@ -257,7 +257,7 @@ public class ClsFragmentoPermiso extends Fragment {
                                           }else {
                                               colorDia = Color.rgb(176, 39, 169);
                                           }
-                                          calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
+                                          calendarView.markDate(y,m,d).setMarkedStyle(3,colorDia);
                                           break;
                                       case 2://Hospitalizacion
                                           if (ArrayPermisos.get(i).Estado==0){
