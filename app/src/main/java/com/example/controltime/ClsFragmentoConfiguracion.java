@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -46,7 +46,7 @@ public class ClsFragmentoConfiguracion extends Fragment {
     EditText nombre;
     Button cambiarContrasena;
     StorageReference storage;
-    String usuarioAplicacion, correo, idImagen;
+    String correoUsuarioAplicacion, idImagen;
     ClsUser usuario;
     ImageView imagen;
     private DatabaseReference mDataBase;
@@ -87,6 +87,8 @@ public class ClsFragmentoConfiguracion extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+        buscarUsuario();
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -101,10 +103,10 @@ public class ClsFragmentoConfiguracion extends Fragment {
         nombre = view.findViewById(R.id.EditTextNombre);
         cambiarContrasena = view.findViewById(R.id.BtnCambiarContrasena);
         imagen = view.findViewById(R.id.imagenUsuario);
-        usuarioAplicacion = ClsUser.UsuarioConectadoApp(getContext()).replace(".", "_").trim();
-        mDataBase = FirebaseDatabase.getInstance().getReference();
-        mAuth = FirebaseAuth.getInstance();
-        storage = FirebaseStorage.getInstance().getReference();
+
+        correoElectronico.setText(usuario.correoElectronico);
+        nombre.setText(usuario.Nombre);
+        recuperarImagen();
 
         imagen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,34 +116,6 @@ public class ClsFragmentoConfiguracion extends Fragment {
             }
         });
 
-        // Guardamos en la variable usuario el usuario de la aplicación
-        Query query = mDataBase.child("users");
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            /**
-             * Buscamos en base de datos al usuario.
-             */
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                for (DataSnapshot ds : snapshot.getChildren()) {
-
-                    ClsUser user = ds.getValue(ClsUser.class);
-                    if (ds.getKey().equals(usuarioAplicacion)) {
-                        usuario = user;
-                        recuperarImagen();
-                        nombre.setText(user.Nombre.toString());
-                        correoElectronico.setText(user.correoElectronico.toString());
-                    }
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                System.out.println("4");
-            }
-        });
         // Botón cambiar contraseña
         cambiarContrasena.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,6 +138,12 @@ public class ClsFragmentoConfiguracion extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_validar, menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         //Cambiamos el nombre del usuario
         if (nombre.getText().toString().isEmpty()) {
@@ -171,18 +151,33 @@ public class ClsFragmentoConfiguracion extends Fragment {
         } else {
             usuario.Nombre = nombre.getText().toString();
 
-            mDataBase.child("users").child(usuarioAplicacion).setValue(usuario);
+            Thread h1 = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if(DbConnection.conectarBaseDeDatos()) {
+                        ClsUser.modificarNombre(usuario.Nombre,usuario.usuarioId);
+                    }
+                    DbConnection.cerrarConexion();
+                }
+            });
+            h1.start();
+            try {
 
+                h1.join();
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
+
     // Abrimos el directorio de imagenes
     public void openDirectory() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         startActivityForResult(intent, PICK_PDF_FILE);
     }
-
 
 
     @Override // Subimos la imagen a firebase y guardamos el id de la imagen en la base de datos.
@@ -196,7 +191,7 @@ public class ClsFragmentoConfiguracion extends Fragment {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 usuario.idImagen = rui.getLastPathSegment();
-                mDataBase.child("users").child(usuarioAplicacion).setValue(usuario);
+                mDataBase.child("users").child(correoUsuarioAplicacion).setValue(usuario);
                 Toast.makeText(getContext(),"Imagen subida correctamente",Toast.LENGTH_SHORT).show();
             }
         });
@@ -208,7 +203,7 @@ public class ClsFragmentoConfiguracion extends Fragment {
     public void recuperarImagen () {
         idImagen = usuario.idImagen;
         if (idImagen != null){
-
+            storage = FirebaseStorage.getInstance().getReference();
             String usuario1 = ClsUser.UsuarioConectadoApp(getContext());
             StorageReference pathReference = storage.child("imagenes").child(usuario1).child(idImagen);
 
@@ -222,6 +217,27 @@ public class ClsFragmentoConfiguracion extends Fragment {
 
         }
 
+    }
+
+    public void buscarUsuario (){
+
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(DbConnection.conectarBaseDeDatos()) {
+                    usuario = ClsUser.getUsuario(ClsUser.UsuarioConectadoApp(getContext()));
+                }
+                DbConnection.cerrarConexion();
+            }
+        });
+        h1.start();
+        try {
+
+            h1.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }

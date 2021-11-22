@@ -28,17 +28,27 @@
             android:id="@+id/nav_empleado"
             android:icon="@drawable/empleado"
             android:title="@string/menu_empleado"/>
-        <item
-            android:id="@+id/nav_configuracion"
-            android:icon="@drawable/configuracion"
-            android:title="@string/menu_configuracion"/>
+
         <item
             android:id="@+id/nav_informe"
             android:icon="@drawable/informes"
             android:title="@string/menu_informe"/>
+
         <item
-            android:id="@+id/nav_cerrarSesion"
-            android:icon="@android:drawable/ic_lock_power_off"
-            android:title="@string/menu_cerrarSesion" />
+            android:id="@+id/configuration_section"
+            android:title="Configuración">
+            <menu>
+
+                <item
+                    android:id="@+id/nav_configuracion"
+                    android:icon="@drawable/configuracion"
+                    android:title="@string/menu_configuracion"/>
+
+                <item
+                    android:id="@+id/nav_CerrarSesion"
+                    android:icon="@android:drawable/ic_lock_power_off"
+                    android:title="Cerrar sesión" />
+            </menu>
+        </item>
     </group>
 </menu>
