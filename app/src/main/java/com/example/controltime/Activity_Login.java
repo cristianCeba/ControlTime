@@ -16,6 +16,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.an.biometric.BiometricCallback;
+import com.an.biometric.BiometricManager;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -40,7 +42,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Activity_Login extends AppCompatActivity {
+public class Activity_Login extends AppCompatActivity implements BiometricCallback {
 
     public Button btnIniciarSesion;
     public EditText editTextContraseña;
@@ -180,10 +182,8 @@ public class Activity_Login extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-
-
-                       //    Intent intent = new Intent(getApplicationContext(), Activity_Navegador.class);
-                         //  startActivity(intent);
+                            buscarUsuario(ClsUser.UsuarioConectadoApp(getApplicationContext()));
+                            pedirHuellaDactilar();
                         }
                     }
                 });
@@ -209,4 +209,65 @@ public class Activity_Login extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onSdkVersionNotSupported() {
+
+    }
+
+    @Override
+    public void onBiometricAuthenticationNotSupported() {
+
+    }
+
+    @Override
+    public void onBiometricAuthenticationNotAvailable() {
+
+    }
+
+    @Override
+    public void onBiometricAuthenticationPermissionNotGranted() {
+
+    }
+
+    @Override
+    public void onBiometricAuthenticationInternalError(String error) {
+
+    }
+
+    @Override
+    public void onAuthenticationFailed() {
+
+    }
+
+    @Override
+    public void onAuthenticationCancelled() {
+
+    }
+
+    @Override
+    public void onAuthenticationSuccessful() {
+        Toast.makeText(this,"Conexión realizada correctamente",Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getApplicationContext(), Activity_Navegador.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onAuthenticationHelp(int helpCode, CharSequence helpString) {
+
+    }
+
+    @Override
+    public void onAuthenticationError(int errorCode, CharSequence errString) {
+
+    }
+
+    public void pedirHuellaDactilar(){
+        new BiometricManager.BiometricBuilder(Activity_Login.this)
+                .setTitle("Acceso con huella")
+                .setSubtitle(usuario.Nombre + " ,coloca tu dedo en el lector de huella para acceder")
+                .setDescription("")
+                .setNegativeButtonText("Cancelar")
+                .build()
+                .authenticate(Activity_Login.this);
+    }
 }
