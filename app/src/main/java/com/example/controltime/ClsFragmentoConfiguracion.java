@@ -146,31 +146,39 @@ public class ClsFragmentoConfiguracion extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        //Cambiamos el nombre del usuario
-        if (nombre.getText().toString().isEmpty()) {
-            Toast.makeText(getContext(), "El nombre no puede estar vacío", Toast.LENGTH_SHORT).show();
-        } else {
-            usuario.Nombre = nombre.getText().toString();
 
-            Thread h1 = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    if(DbConnection.conectarBaseDeDatos()) {
-                        ClsUser.modificarNombre(usuario.Nombre,usuario.usuarioId);
-                        Toast.makeText(getContext(),"Cambio de nombre modificado correctamente",Toast.LENGTH_SHORT).show();
+        int idGuardarImagen = 2131230955;
+        if (item.getItemId() == idGuardarImagen){
+            //Cambiamos el nombre del usuario
+            if (nombre.getText().toString().isEmpty()) {
+                Toast.makeText(getContext(), "El nombre no puede estar vacío", Toast.LENGTH_SHORT).show();
+            } else {
+                usuario.Nombre = nombre.getText().toString();
+
+                Thread h1 = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(DbConnection.conectarBaseDeDatos()) {
+                            System.out.println("Entramos aaa");
+                            ClsUser.modificarNombre(usuario.Nombre,usuario.usuarioId);
+
+                        }
+                        DbConnection.cerrarConexion();
                     }
-                    DbConnection.cerrarConexion();
+                });
+                h1.start();
+                try {
+
+                    h1.join();
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            });
-            h1.start();
-            try {
-
-                h1.join();
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                Toast.makeText(getContext(), "Se ha modificado el nombre correctamente", Toast.LENGTH_SHORT).show();
             }
         }
+
+
         return super.onOptionsItemSelected(item);
     }
 

@@ -61,6 +61,7 @@ public class Activity_Navegador extends AppCompatActivity {
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -119,4 +120,8 @@ public class Activity_Navegador extends AppCompatActivity {
         }
 
     }
+
+    @Override
+    public void onBackPressed()
+    {  }
 }
