@@ -178,8 +178,7 @@ public static void CerrarSesion(Context contex){
         }
         return usuario;
     }
-
-    /***metodo que devuelve todos los datos del usuario por el id*/
+    /****metodo que devuelve todos los datos del usuario por el id*/
     public static ClsUser getUsuario (int usuarioId){
         ClsUser usuario = new ClsUser();
 
