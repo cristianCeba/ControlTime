@@ -265,6 +265,36 @@ public static void CerrarSesion(Context contex){
         return array;
     }
 
+    /***Metodo que bloquea Usaurio*/
+    public static void updatearIdImagenUsuario ( int usuarioId,String idImagenNuevo){
+        try {
+            String sql;
+
+            sql = "UPDATE  ct_usuarios SET  imagenId = '"+idImagenNuevo +
+                    "' WHERE usuarioId = '" +usuarioId+ "'";
+
+            PreparedStatement ps=DbConnection.connection.prepareStatement(sql);
+            ps.execute(sql);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void modificarNombre ( String nombreNuevo,int usuarioId){
+        try {
+            String sql;
+
+            sql = "UPDATE  ct_usuarios SET  nombre = '"+nombreNuevo +
+                    "' WHERE usuarioId = '" +usuarioId+ "'";
+
+            PreparedStatement ps=DbConnection.connection.prepareStatement(sql);
+            ps.execute(sql);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public static void guardarFichajeUsuario (ClsFichaje fichaje){
         fichajeUsuario = fichaje;

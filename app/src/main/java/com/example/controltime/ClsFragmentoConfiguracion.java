@@ -46,10 +46,9 @@ public class ClsFragmentoConfiguracion extends Fragment {
     EditText nombre;
     Button cambiarContrasena;
     StorageReference storage;
-    String correoUsuarioAplicacion, idImagen;
+    String idImagen;
     ClsUser usuario;
     ImageView imagen;
-    private DatabaseReference mDataBase;
     private FirebaseAuth mAuth;
     private static final int PICK_PDF_FILE = 1;
 
@@ -88,6 +87,8 @@ public class ClsFragmentoConfiguracion extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        storage = FirebaseStorage.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
         buscarUsuario();
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -155,7 +156,8 @@ public class ClsFragmentoConfiguracion extends Fragment {
                 @Override
                 public void run() {
                     if(DbConnection.conectarBaseDeDatos()) {
-                        //ClsUser.modificarNombre(usuario.Nombre,usuario.usuarioId);
+                        ClsUser.modificarNombre(usuario.Nombre,usuario.usuarioId);
+                        Toast.makeText(getContext(),"Cambio de nombre modificado correctamente",Toast.LENGTH_SHORT).show();
                     }
                     DbConnection.cerrarConexion();
                 }
@@ -183,16 +185,23 @@ public class ClsFragmentoConfiguracion extends Fragment {
     @Override // Subimos la imagen a firebase y guardamos el id de la imagen en la base de datos.
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        System.out.println("Subimos documento");
         Uri rui = data.getData();
-        StorageReference filePath = storage.child("imagenes").child(ClsUser.UsuarioConectadoApp(getContext())).child(rui.getLastPathSegment());
+        String correo = ClsUser.UsuarioConectadoApp(getContext());
+
+        String [] numeroImagen = rui.getLastPathSegment().split(":");
+
+
+        StorageReference filePath = storage.child("imagenes").child(correo).child(numeroImagen[1]);
 
         filePath.putFile(rui).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                usuario.idImagen = rui.getLastPathSegment();
-                mDataBase.child("users").child(correoUsuarioAplicacion).setValue(usuario);
-                Toast.makeText(getContext(),"Imagen subida correctamente",Toast.LENGTH_SHORT).show();
+                usuario.idImagen = numeroImagen[1];
+                guardarImagen();
+                Activity_Navegador.recuperarImagen(usuario);
+                recuperarImagen();
+                Toast.makeText(getContext(),"Se ha modificado la imagen de perfil",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -207,7 +216,7 @@ public class ClsFragmentoConfiguracion extends Fragment {
             String usuario1 = ClsUser.UsuarioConectadoApp(getContext());
             StorageReference pathReference = storage.child("imagenes").child(usuario1).child(idImagen);
 
-            pathReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            pathReference.getBytes(1024*1024*5).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                 @Override
                 public void onSuccess(byte[] bytes) {
                     Bitmap bitMap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
@@ -239,5 +248,27 @@ public class ClsFragmentoConfiguracion extends Fragment {
             e.printStackTrace();
         }
     }
+
+    public void guardarImagen (){
+
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(DbConnection.conectarBaseDeDatos()) {
+                    ClsUser.updatearIdImagenUsuario(usuario.usuarioId,usuario.idImagen);
+                }
+                DbConnection.cerrarConexion();
+            }
+        });
+        h1.start();
+        try {
+
+            h1.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

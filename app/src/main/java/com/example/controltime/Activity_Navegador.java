@@ -25,9 +25,8 @@ public class Activity_Navegador extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     ClsUser usuario;
-    ImageView imagenUsuario;
-    StorageReference storage;
     String correo;
+    static ImageView imagenUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +57,7 @@ public class Activity_Navegador extends AppCompatActivity {
         TextView tCorreoUsuario =  navigationView.getHeaderView(0).findViewById(R.id.textCorreo);
         tCorreoUsuario.setText(correo);
         imagenUsuario = navigationView.getHeaderView(0).findViewById(R.id.imageFondo);
-        storage = FirebaseStorage.getInstance().getReference();
-        recuperarImagen();
+        recuperarImagen(usuario);
 
     }
 
@@ -100,14 +98,17 @@ public class Activity_Navegador extends AppCompatActivity {
 
 
 
-    public void recuperarImagen () {
+    public static void recuperarImagen (ClsUser usuario) {
+
         String idImagen = usuario.idImagen;
+        StorageReference storage;
+        storage = FirebaseStorage.getInstance().getReference();
         System.out.println("IdImagen --> " + idImagen);
         if (idImagen != null){
 
-            StorageReference pathReference = storage.child("imagenes").child(correo).child(idImagen);
+            StorageReference pathReference = storage.child("imagenes").child(usuario.correoElectronico).child(idImagen);
 
-            pathReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            pathReference.getBytes(1024*1024*5).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                 @Override
                 public void onSuccess(byte[] bytes) {
                     Bitmap bitMap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
