@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -41,6 +42,7 @@ public class ClsFragmentoInforme extends Fragment {
 
     Spinner spnUsuarios;
     String Grupo;
+    String mensaje;
     EditText edtFechaDesde;
     EditText edtFechaHasta;
     String UsurioSeleccionado;
@@ -50,6 +52,8 @@ public class ClsFragmentoInforme extends Fragment {
     ClsFicheroPDF objPDF;
     ClsPermisos objPermisos;
     List<ClsPermisos> ArrayPermisos;
+    List<ClsUser>arrayUsuarios;
+    int idUsuario;
     private final static String CARPETA_PDF_PERMISOS = "PDF_Permisos";
     private final static String CARPETA_PDF_fichajes = "PDF_Fichajes";
 
@@ -98,8 +102,8 @@ public class ClsFragmentoInforme extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View vista = inflater.inflate(R.layout.fragment_cls_fragmento_informe, container, false);
-        mDataBase = FirebaseDatabase.getInstance().getReference();
-
+       // mDataBase = FirebaseDatabase.getInstance().getReference();
+        idUsuario= Integer.parseInt(ClsUser.UsuarioIdApp(getContext()));
 
         String date = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 
@@ -133,32 +137,16 @@ public class ClsFragmentoInforme extends Fragment {
         objUsuario=new ClsUser();
         objPermisos=new ClsPermisos();
         ArrayPermisos=new ArrayList<>();
+        arrayUsuarios=new ArrayList<>();
         List<ClsUser> Arrayusuario=new ArrayList<>();
 
-        /*** * MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
-        edtUsuarioApp=(TextView) vista.findViewById(R.id.edtUsuarioApp);
-        edtUsuarioApp.setText(ClsUser.UsuarioConectadoApp(getContext()) );
-        Usuario=edtUsuarioApp.getText().toString().replace(".", "_").trim();
-        ClsGrupos objGrupo= new ClsGrupos();
-        ClsTipoUsuario objTipo = new ClsTipoUsuario();
-        edtTipoUsuarioApp=(TextView)vista.findViewById(R.id.edtTipoUsuarioApp);
-        edtGrupoApp=(TextView) vista.findViewById(R.id.edtGrupoApp);
-       // objGrupo.GetNombreGrupoXId(mDataBase, edtGrupoApp,ClsUser.GruposuarioConectadoApp(getContext()));
-       // objTipo.GetTipoXId(mDataBase,edtTipoUsuarioApp,ClsUser.TipoUsuarioConectadoApp(getContext()));
-        /**FIN MOSTRAMOS EL USUARIO QUE ESTA CONECTADO*/
 
 
-        // cargar el spinner por usuario tipo y grupos**********************
-        if(ClsUser.TipoUsuarioConectadoApp(getContext()).equals("0") || ClsUser.TipoUsuarioConectadoApp(getContext()).equals("3")){
-            // administrador o director ,carga todos los usuarios
-           // objUsuario.ListaUsuarios(getContext() ,spnUsuarios);
-        }else{
-            // jefe , carga solo los de su grupo
-            if(ClsUser.TipoUsuarioConectadoApp(getContext()).equals("2")){
-                //carga por el grupo al que pertenece , con los usuarios de tipo 1
-              //  objUsuario.ListaUsuariosPorGrupoYTipo(getContext(),ClsUser.GruposuarioConectadoApp(getContext()),"1",spnUsuarios);
-            }
-        }
+
+        buscarUsuario(idUsuario);
+        cargaUsuarios(objUsuario.TipoUsuario,objUsuario.Grupo);
+        ArrayAdapter<ClsUser> adapter=new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line,arrayUsuarios);
+        spnUsuarios.setAdapter(adapter);
         spnUsuarios.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -224,5 +212,52 @@ public class ClsFragmentoInforme extends Fragment {
             }
         });
         fragment.show(getFragmentManager(),"datePicker");
+    }
+    public void buscarUsuario (int id){
+        mensaje="";
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(DbConnection.conectarBaseDeDatos()){
+                    objUsuario = ClsUser.getUsuario(id);
+                    DbConnection.cerrarConexion();
+                }else{
+                    mensaje="Ha ocurrido un error intentelo en unos minutos";
+
+                }
+
+            }
+        });
+        h1.start();
+        try {
+
+            h1.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    public void cargaUsuarios (int departamentoId,int tipoUsuaioId){
+        mensaje="";
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(DbConnection.conectarBaseDeDatos()){
+                    arrayUsuarios=ClsUser.getUsuario(departamentoId,tipoUsuaioId,false);
+                    DbConnection.cerrarConexion();
+                }else{
+                    mensaje="Ha ocurrido un error intentelo en unos minutos";
+                    //Toast.makeText(getContext(),"Ha ocurrido un error intentelo en unos minutos",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        h1.start();
+        try {
+
+            h1.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

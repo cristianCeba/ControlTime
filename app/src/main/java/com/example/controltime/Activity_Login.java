@@ -182,8 +182,8 @@ public class Activity_Login extends AppCompatActivity {
                         if (task.isSuccessful()) {
 
 
-                           Intent intent = new Intent(getApplicationContext(), Activity_Navegador.class);
-                           startActivity(intent);
+                       //    Intent intent = new Intent(getApplicationContext(), Activity_Navegador.class);
+                         //  startActivity(intent);
                         }
                     }
                 });

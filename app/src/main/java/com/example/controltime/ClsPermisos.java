@@ -59,7 +59,7 @@ public class ClsPermisos {
 
     }
 
-    /*CONSTRUCTOR DE LA CLASE*/
+    /***CONSTRUCTOR DE LA CLASE*/
     public ClsPermisos( int UsuarioId, double dias,String FechaDesde,String FechaHasta,
                         int TipoPermiso,int Estado,int Id ) {
 
@@ -130,7 +130,7 @@ public class ClsPermisos {
         return Estado;
     }
 
-    /*Metodo que inserta ppor usuario , fechas y tipode Permiso*/
+    /***Metodo que inserta ppor usuario , fechas y tipode Permiso*/
     public static boolean insertarPermiso (int idUsuario,String fechaIni,String fechaFin,int tipoId,double dias){
         boolean insertado=false;
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
@@ -153,7 +153,7 @@ public class ClsPermisos {
         }
         return !insertado;
     }
-    /*Comprueba que no esta pedidas las fechas seleccionadas*/
+    /***Comprueba que no esta pedidas las fechas seleccionadas*/
     public static boolean validaIntevalosFechas(int idUsuario,String fechaIni,String fechaFin) {
         boolean hayDatos = false;
         try {
@@ -175,7 +175,7 @@ public class ClsPermisos {
         }
         return (hayDatos);
     }
-   /*Devuelve todos los permisos que tiene un usuario por fechas*/
+   /***Devuelve todos los permisos que tiene un usuario por fechas*/
     public static ArrayList<ClsPermisos> getPermisos (int idUsuario, String fechaIni,String fechaFin ){
         List<ClsPermisos> objPermisos = new ArrayList<>() ;
 
@@ -202,7 +202,7 @@ public class ClsPermisos {
         }
         return (ArrayList<ClsPermisos>) objPermisos;
     }
-    /*Devuelve todos los permisos que tiene un usuario por fechas, tipo y estado*/
+    /***Devuelve todos los permisos que tiene un usuario por fechas, tipo y estado*/
     public static ArrayList<ClsPermisos> getPermisos (int idUsuario, String fechaIni,String fechaFin,int tipoPermisoId, int estadoId ){
         List<ClsPermisos> objPermisos = new ArrayList<>() ;
 
@@ -230,7 +230,7 @@ public class ClsPermisos {
         }
         return (ArrayList<ClsPermisos>) objPermisos;
     }
-    /*Devuelve todos los permisos que tiene un usuario por fechas,   y estado*/
+    /***Devuelve todos los permisos que tiene un usuario por fechas,   y estado*/
     public static ArrayList<ClsPermisos> getPermisos (int idUsuario, String fechaIni,String fechaFin,  int estadoId ){
         List<ClsPermisos> objPermisos = new ArrayList<>() ;
 

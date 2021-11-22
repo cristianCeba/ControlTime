@@ -51,7 +51,7 @@ public class ClsTipoPermiso {
         return  Tipo ;
     }
 
-/*Metodo que devuelve todos los tipos de permisos*/
+/***Metodo que devuelve todos los tipos de permisos*/
     public static ArrayList<ClsTipoPermiso> getPermisos ( ){
         List<ClsTipoPermiso> objPer = new ArrayList<>() ;
 
@@ -69,7 +69,7 @@ public class ClsTipoPermiso {
         return (ArrayList<ClsTipoPermiso>) objPer;
     }
 
-    /*Metodo que devuelve todos un tipo de permisos por Id*/
+    /***Metodo que devuelve todos un tipo de permisos por Id*/
     public static ArrayList<ClsTipoPermiso> getTipoPermisoXId ( int idTipoPermiso){
         List<ClsTipoPermiso> objPer = new ArrayList<>() ;
 

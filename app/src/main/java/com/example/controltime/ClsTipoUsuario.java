@@ -51,7 +51,7 @@ public class ClsTipoUsuario {
         return  Tipo ;
     }
 
-    /*Metodo que devuelve todos los tipos de Usuario*/
+    /***Metodo que devuelve todos los tipos de Usuario*/
     public static ArrayList<ClsTipoUsuario> getTipoUsuario ( ){
         List<ClsTipoUsuario> array = new ArrayList<>() ;
 
@@ -69,7 +69,7 @@ public class ClsTipoUsuario {
         return (ArrayList<ClsTipoUsuario>) array;
     }
 
-    /*Metodo que devuelve todos un tipo de usuario por Id*/
+    /***Metodo que devuelve todos un tipo de usuario por Id*/
     public static ArrayList<ClsTipoUsuario> getTipoUsuarioXId ( int idTipoUsuario){
         List<ClsTipoUsuario> array = new ArrayList<>() ;
 

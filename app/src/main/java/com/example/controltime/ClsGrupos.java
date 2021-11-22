@@ -50,7 +50,7 @@ public class ClsGrupos {
     }
 
 
-    /*Metodo que devuelve todos los departamento*/
+    /***Metodo que devuelve todos los departamento*/
     public static ArrayList<ClsGrupos> getDepartamento ( ){
         List<ClsGrupos> array = new ArrayList<>() ;
 
@@ -68,7 +68,7 @@ public class ClsGrupos {
         return (ArrayList<ClsGrupos>) array;
     }
 
-    /*Metodo que devuelve todos un tipo de usuario por Id*/
+    /***Metodo que devuelve todos un tipo de usuario por Id*/
     public static ArrayList<ClsGrupos> getDepartamentoXId ( int idDepartamento){
         List<ClsGrupos> array = new ArrayList<>() ;
 

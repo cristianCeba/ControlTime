@@ -95,7 +95,7 @@ public class ClsUser {
         this.TipoUsuario=TipoUsuario;
         this.Grupo =Grupo;
         this.usuarioId=usuarioId;
-    this.idImagen=idImagen;
+        this.idImagen=idImagen;
         this.bloqueado=bloqueado;
     }
 
@@ -155,7 +155,7 @@ public static void CerrarSesion(Context contex){
 
     editor.commit();
 }
-/*metodo que devuelve todos los datos del usuario por el email*/
+    /***metodo que devuelve todos los datos del usuario por el email*/
     public static ClsUser getUsuario (String correo){
         ClsUser usuario = new ClsUser();
 
@@ -179,7 +179,7 @@ public static void CerrarSesion(Context contex){
         return usuario;
     }
 
-    /*metodo que devuelve todos los datos del usuario por el id*/
+    /***metodo que devuelve todos los datos del usuario por el id*/
     public static ClsUser getUsuario (int usuarioId){
         ClsUser usuario = new ClsUser();
 
@@ -202,7 +202,7 @@ public static void CerrarSesion(Context contex){
         }
         return usuario;
     }
-    /*Metodo que inserta Usaurio*/
+    /***Metodo que inserta Usaurio*/
     public static boolean insertarUsuario (String nombre,String apellido1,String  apellido2,String  email, int departamentoId,int tipoUsuarioId){
         boolean insertado=false;
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
@@ -225,7 +225,7 @@ public static void CerrarSesion(Context contex){
         return !insertado;
     }
 
-    /*Metodo que bloquea Usaurio*/
+    /***Metodo que bloquea Usaurio*/
     public static boolean bloqueaUsuario ( int usuarioId){
         boolean insertado=false;
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
@@ -243,6 +243,30 @@ public static void CerrarSesion(Context contex){
         }
         return !insertado;
     }
+
+    /***metodo que devuelve todos   usuario por departamemto y tipo usuario y por bloqueado*/
+    public static List<ClsUser> getUsuario (int departamentoId,int tipousuarioId,boolean bloqueado){
+        List<ClsUser> array = new ArrayList<>();
+
+        try {
+            DbConnection.statement = DbConnection.connection.createStatement();
+            ResultSet rs = DbConnection.statement.executeQuery("SELECT * FROM  ct_usuarios WHERE bloqueado="+bloqueado+" AND  departamentoId="+departamentoId+" AND tipoUsuarioId>"+tipousuarioId+" ");
+            while (rs.next()) {
+                String Nombre = (rs.getString("nombre"));
+                String Ape = (rs.getString("apellido1"));
+                String Ape2= (rs.getString("apellido2"));
+                String correo= (rs.getString("email"));
+                String idImagen = (rs.getString("imagenId"));
+                int usuarioId= Integer.parseInt((rs.getString("usuarioId")));
+                array.add(new ClsUser( usuarioId,  Nombre,  Ape,  Ape2,  correo, tipousuarioId,departamentoId, idImagen, bloqueado));
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return array;
+    }
+
+
     public static void guardarFichajeUsuario (ClsFichaje fichaje){
         fichajeUsuario = fichaje;
 }
