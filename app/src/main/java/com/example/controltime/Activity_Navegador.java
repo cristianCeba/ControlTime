@@ -1,9 +1,13 @@
 package com.example.controltime;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +17,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -61,6 +66,11 @@ public class Activity_Navegador extends AppCompatActivity {
 
     }
 
+    public void cerrarSesion (MenuItem item){
+        ClsUser.CerrarSesion(getApplicationContext());
+        Intent intent = new Intent(this,Activity_Login.class);
+        startActivity(intent);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -123,5 +133,6 @@ public class Activity_Navegador extends AppCompatActivity {
 
     @Override
     public void onBackPressed()
-    {  }
+    {
+    }
 }
