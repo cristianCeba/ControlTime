@@ -163,7 +163,7 @@ public class ClsFragmentoIncluirUsuario extends Fragment {
         btnInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ClsUtils.MostrarMensajes(getContext(),"\n1. Un caracter en minúscula \n2. Un caracter en mayúscula \n3. Un caracter especial \n4. Un número \n5. Sin espacios entre los caracteres de la contraseña,\n6. Mínimo 8 caracteres","La contraseña debe de contener al menos : ");
+                ClsUtils.MostrarMensajes(getContext(),"\n1. Un caracter en minúscula \n2. Un caracter en mayúscula \n3. Un caracter especial\n4. Un número\n5. Sin espacios entre los caracteres de la contraseña\n6. Mínimo 8 caracteres","",false,ClsUtils.actividadEnum.INFORMATIVO);
             }
         });
 
@@ -218,9 +218,10 @@ public class ClsFragmentoIncluirUsuario extends Fragment {
                                     //insertamos en ct_usuarios
                                     insertar();
                                     if(mensaje!=""){
-                                        Toast.makeText(getContext(),mensaje ,Toast.LENGTH_LONG).show();
+                                        ClsUtils.MostrarMensajes(getContext(),"","",true,ClsUtils.actividadEnum.INSERTAR);
                                     }else {
-                                       Toast.makeText(getContext(),"Usuario creado correctamente",Toast.LENGTH_SHORT).show();
+                                        ClsUtils.MostrarMensajes(getContext(),"","",false,ClsUtils.actividadEnum.INSERTAR);
+
                                     }
                                 }
                             }
