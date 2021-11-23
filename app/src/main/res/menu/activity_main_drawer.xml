@@ -25,7 +25,7 @@
             android:icon="@drawable/validar"
             android:title="@string/menu_validar"/>
         <item
-            android:id="@+id/nav_empleado"
+            android:id="@+id/nav_incluirUsuario"
             android:icon="@drawable/empleado"
             android:title="@string/menu_empleado"/>
 
@@ -47,6 +47,7 @@
                 <item
                     android:id="@+id/nav_CerrarSesion"
                     android:icon="@android:drawable/ic_lock_power_off"
+                    android:onClick="cerrarSesion"
                     android:title="Cerrar sesión" />
             </menu>
         </item>

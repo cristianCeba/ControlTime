@@ -1,13 +1,14 @@
 package com.example.controltime;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,20 +22,21 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Activity_InsertUser extends AppCompatActivity {
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link ClsFragmentoIncluirUsuario#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class ClsFragmentoIncluirUsuario extends Fragment {
+
     EditText txtNombre;
     EditText txtApe1;
     EditText txtEmail;
@@ -44,7 +46,6 @@ public class Activity_InsertUser extends AppCompatActivity {
     TextView txtMensajeNombre;
     TextView txtMensajeApe;
     TextView txtMensajeEmail;
-    TextView txtIdGrupo;
     Spinner spnTipoUsuario;
     Spinner spnGrupo;
     Spinner spnIdGrupo;
@@ -60,44 +61,79 @@ public class Activity_InsertUser extends AppCompatActivity {
     Button btnInsert;
     String mensaje;
     ClsUtils utils;
-    ClsTipoUsuario objTipoUsuario;
-    ClsGrupos objGrupos;
-    ClsGrupoXUsuarios objGXU;
     private DatabaseReference mDataBase;
     private FirebaseAuth mAuth;
-    String Id;
-    long RowId;
-    ArrayList<String> ArrayId= new ArrayList<String>();
     List<ClsTipoUsuario> arrayTipoUsuario=new ArrayList<>();
     List<ClsGrupos> arrayGrupo=new ArrayList<>();
     ClsUser usuario=new ClsUser();
+
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
+    public ClsFragmentoIncluirUsuario() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment ClsFragmentoIncluirUsuario.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static ClsFragmentoIncluirUsuario newInstance(String param1, String param2) {
+        ClsFragmentoIncluirUsuario fragment = new ClsFragmentoIncluirUsuario();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_insert_user);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View vista = inflater.inflate(R.layout.fragment_cls_fragmento_incluir_usuario, container, false);
         mDataBase = FirebaseDatabase.getInstance().getReference();
         mAuth=FirebaseAuth.getInstance();
-        txtNombre = (EditText) findViewById(R.id.editTextName);
-        txtMensajeNombre=(TextView) findViewById(R.id.textMensajeNombre);
-        txtApe1 = (EditText) findViewById(R.id.editTextApe);
-        txtMensajeApe=(TextView) findViewById(R.id.textMensajeApe);
-        spnTipoUsuario=(Spinner)findViewById(R.id.spnTipo);
-        spnGrupo=(Spinner)findViewById(R.id.spnGrupo);
-        spnIdGrupo=(Spinner)findViewById(R.id.spnIdGrupo);
+        txtNombre = (EditText) vista.findViewById(R.id.editTextName);
+        txtMensajeNombre=(TextView) vista.findViewById(R.id.textMensajeNombre);
+        txtApe1 = (EditText) vista.findViewById(R.id.editTextApe);
+        txtMensajeApe=(TextView) vista.findViewById(R.id.textMensajeApe);
+        spnTipoUsuario=(Spinner)vista.findViewById(R.id.spnTipo);
+        spnGrupo=(Spinner)vista.findViewById(R.id.spnGrupo);
+        spnIdGrupo=(Spinner)vista.findViewById(R.id.spnIdGrupo);
 
 
-        txtEmail = (EditText) findViewById(R.id.editTextEmail);
-        txtMensajeEmail=(TextView) findViewById(R.id.textMensajeEmail);
-        txtPass = (EditText) findViewById(R.id.editTextPass);
-        txtMensajePass=(TextView) findViewById(R.id.textMensajePass);
-        btnInsert = (Button) findViewById(R.id.btnRegistro);
-        txtPass2 = (EditText) findViewById(R.id.editTextPass2);
-        btnInfo = findViewById(R.id.btnInfo);
+        txtEmail = (EditText) vista.findViewById(R.id.editTextEmail);
+        txtMensajeEmail=(TextView) vista.findViewById(R.id.textMensajeEmail);
+        txtPass = (EditText) vista.findViewById(R.id.editTextPass);
+        txtMensajePass=(TextView) vista.findViewById(R.id.textMensajePass);
+        btnInsert = (Button) vista.findViewById(R.id.btnRegistro);
+        txtPass2 = (EditText) vista.findViewById(R.id.editTextPass2);
+        btnInfo = vista.findViewById(R.id.btnInfo);
 
 
 
         cargaTipoUsuario();
-        ArrayAdapter<ClsTipoUsuario> adapter=new ArrayAdapter<>(getApplication(), android.R.layout.simple_dropdown_item_1line,arrayTipoUsuario);
+        ArrayAdapter<ClsTipoUsuario> adapter=new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line,arrayTipoUsuario);
         spnTipoUsuario.setAdapter(adapter);
         spnTipoUsuario.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -111,12 +147,12 @@ public class Activity_InsertUser extends AppCompatActivity {
             }
         });
         cargaGrupos();
-        ArrayAdapter<ClsGrupos> adapterGrupo=new ArrayAdapter<>(getApplication(), android.R.layout.simple_dropdown_item_1line,arrayGrupo);
+        ArrayAdapter<ClsGrupos> adapterGrupo=new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line,arrayGrupo);
         spnGrupo.setAdapter(adapterGrupo);
         spnGrupo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-               Grupo= (int) parent.getItemIdAtPosition(position);
+                Grupo= (int) parent.getItemIdAtPosition(position);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -127,8 +163,7 @@ public class Activity_InsertUser extends AppCompatActivity {
         btnInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ClsUtils.MostrarMensajes(Activity_InsertUser.this,"\n1. Un caracter en minúscula \n2. Un caracter en mayúscula \n3. Un caracter especial\n4. Un número\n5. Sin espacios entre los caracteres de la contraseña\n6. Mínimo 8 caracteres","",false,ClsUtils.actividadEnum.INFORMATIVO);
-
+                ClsUtils.MostrarMensajes(getContext(),"\n1. Un caracter en minúscula \n2. Un caracter en mayúscula \n3. Un caracter especial \n4. Un número \n5. Sin espacios entre los caracteres de la contraseña,\n6. Mínimo 8 caracteres","La contraseña debe de contener al menos : ");
             }
         });
 
@@ -183,16 +218,9 @@ public class Activity_InsertUser extends AppCompatActivity {
                                     //insertamos en ct_usuarios
                                     insertar();
                                     if(mensaje!=""){
-                                        ClsUtils.MostrarMensajes(Activity_InsertUser.this,"","",true,ClsUtils.actividadEnum.INSERTAR);
-                                     //   Toast.makeText(getApplicationContext(),mensaje ,Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getContext(),mensaje ,Toast.LENGTH_LONG).show();
                                     }else {
-                                        //Intent intent = new Intent(getApplicationContext(), Activity_Login.class);
-                                        //startActivity(intent);
-                                        buscarUsuario(Email);
-                                        ClsUser.UsuarioPreferencesApp(Email,Pass,usuario.usuarioId,getApplicationContext());
-                                        ClsUtils.MostrarMensajes(Activity_InsertUser.this,"","",false,ClsUtils.actividadEnum.INSERTAR);
-                                        Intent intent = new Intent(getApplicationContext(), Activity_Navegador.class);
-                                        startActivity(intent);
+                                       Toast.makeText(getContext(),"Usuario creado correctamente",Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             }
@@ -201,6 +229,7 @@ public class Activity_InsertUser extends AppCompatActivity {
                 }
             }
         });
+        return vista;
     }
 
     public void cargaTipoUsuario (){
@@ -222,20 +251,20 @@ public class Activity_InsertUser extends AppCompatActivity {
             h1.join();
 
         } catch (InterruptedException e) {
-            mensaje="Ha ocurrido un error intentelo en unos minutos";
+            e.printStackTrace();
         }
     }
 
-    public void cargaGrupos(){
-        mensaje="";
+    public void cargaGrupos() {
+        mensaje = "";
         Thread h1 = new Thread(new Runnable() {
             @Override
             public void run() {
-                if(DbConnection.conectarBaseDeDatos()){
-                    arrayGrupo=ClsGrupos.getDepartamento();
+                if (DbConnection.conectarBaseDeDatos()) {
+                    arrayGrupo = ClsGrupos.getDepartamento();
                     DbConnection.cerrarConexion();
-                }else{
-                    mensaje="Ha ocurrido un error intentelo en unos minutos";
+                } else {
+                    mensaje = "Ha ocurrido un error intentelo en unos minutos";
                 }
             }
         });
@@ -245,7 +274,7 @@ public class Activity_InsertUser extends AppCompatActivity {
             h1.join();
 
         } catch (InterruptedException e) {
-            mensaje="Ha ocurrido un error intentelo en unos minutos";
+            e.printStackTrace();
         }
     }
 
@@ -266,7 +295,7 @@ public class Activity_InsertUser extends AppCompatActivity {
             h1.join();
 
         } catch (InterruptedException e) {
-            mensaje="Ha ocurrido un error intentelo en unos minutos";
+            e.printStackTrace();
         }
     }
 
@@ -277,10 +306,10 @@ public class Activity_InsertUser extends AppCompatActivity {
             public void run() {
 
                 if(DbConnection.conectarBaseDeDatos()){
-                   if(!ClsUser.insertarUsuario(Nombre,Ape,Email,Grupo,TipoUsuario)){
-                       mensaje="Ha ocurrido un error al grabar el usuario";
-                   }
-                        DbConnection.cerrarConexion();
+                    if(!ClsUser.insertarUsuario(Nombre,Ape,Email,Grupo,TipoUsuario)){
+                        mensaje="Ha ocurrido un error al grabar el usuario";
+                    }
+                    DbConnection.cerrarConexion();
 
                 }else{
                     mensaje="Ha ocurrido un error intentelo en unos minutos";
@@ -293,8 +322,7 @@ public class Activity_InsertUser extends AppCompatActivity {
             h1.join();
 
         } catch (InterruptedException e) {
-            mensaje="Ha ocurrido un error intentelo en unos minutos";
+            e.printStackTrace();
         }
     }
-
 }
