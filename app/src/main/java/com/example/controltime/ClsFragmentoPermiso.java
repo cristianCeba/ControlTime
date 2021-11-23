@@ -159,8 +159,6 @@ public class ClsFragmentoPermiso extends Fragment {
             @Override
             public void onClick(View v) {
                 getFechaSeleccionada(edtFechaHasta);
-               // edtFechaHasta.setText( edtFechaHasta.getText());
-              //  Toast.makeText(getContext(),"onClick FechaHasta" + edtFechaHasta.getText() ,Toast.LENGTH_LONG).show();
             }
         });
         FechaDesde=edtFechaDesde.getText().toString();
@@ -282,7 +280,7 @@ public class ClsFragmentoPermiso extends Fragment {
                       }
 
                     } catch (ParseException e) {
-                        e.printStackTrace();
+                        ClsUtils.MostrarMensajes(getContext(),e.getMessage(),"",true,ClsUtils.actividadEnum.ERROR);
                     }
 
                   }
@@ -306,9 +304,11 @@ public class ClsFragmentoPermiso extends Fragment {
 
                     insertar();
                     if(  mensaje!=""){
-                        Toast.makeText(getContext(),mensaje,Toast.LENGTH_LONG).show();
-                    }else{
-                        Toast.makeText(getContext(),"Permiso guardado",Toast.LENGTH_LONG).show();
+                        ClsUtils.MostrarMensajes(getContext(),mensaje,"",true,ClsUtils.actividadEnum.PERMISO);
+                    }else
+                        {
+                            ClsUtils.MostrarMensajes(getContext(),mensaje,"",false,ClsUtils.actividadEnum.PERMISO);
+
                     }
 
             }
@@ -328,7 +328,6 @@ public class ClsFragmentoPermiso extends Fragment {
                     DbConnection.cerrarConexion();
                }else{
                    mensaje="Ha ocurrido un error intentelo en unos minutos";
-                   //Toast.makeText(getContext(),"Ha ocurrido un error intentelo en unos minutos",Toast.LENGTH_SHORT).show();
                }
             }
         });
@@ -338,7 +337,7 @@ public class ClsFragmentoPermiso extends Fragment {
             h1.join();
 
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            mensaje="Ha ocurrido un error intentelo en unos minutos";
         }
     }
 
@@ -352,7 +351,7 @@ public class ClsFragmentoPermiso extends Fragment {
                     DbConnection.cerrarConexion();
                 }else{
                     mensaje="Ha ocurrido un error intentelo en unos minutos";
-                    //Toast.makeText(getContext(),"Ha ocurrido un error intentelo en unos minutos",Toast.LENGTH_SHORT).show();
+
                 }
             }
         });
@@ -362,7 +361,7 @@ public class ClsFragmentoPermiso extends Fragment {
             h1.join();
 
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            mensaje="Ha ocurrido un error intentelo en unos minutos";
         }
     }
 
@@ -379,7 +378,6 @@ public class ClsFragmentoPermiso extends Fragment {
                     DbConnection.cerrarConexion();
                 }else{
                     mensaje="Ha ocurrido un error intentelo en unos minutos";
-                    //Toast.makeText(getContext(),"Ha ocurrido un error intentelo en unos minutos",Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -390,7 +388,7 @@ public class ClsFragmentoPermiso extends Fragment {
             h1.join();
 
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            mensaje="Ha ocurrido un error intentelo en unos minutos";
         }
     }
 
@@ -425,16 +423,18 @@ public class ClsFragmentoPermiso extends Fragment {
                                     mensaje="No se ha podido insertar el permiso";
                                 }
                             }else{
+
                                 mensaje="Hay un  permiso dentro del rango de fechas seleccionado";
                             }
 
-                        }else{
+                        }else
+                            {
                             mensaje="El/los dias seleccionados son festivos";
                         }
 
                         DbConnection.cerrarConexion();
                     } catch (ParseException e) {
-                        e.printStackTrace();
+                        mensaje="Ha ocurrido un error intentelo en unos minutos";
 
                     }
 
@@ -445,11 +445,9 @@ public class ClsFragmentoPermiso extends Fragment {
         });
         h1.start();
         try {
-
             h1.join();
-
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            mensaje="Ha ocurrido un error intentelo en unos minutos";
         }
     }
 }

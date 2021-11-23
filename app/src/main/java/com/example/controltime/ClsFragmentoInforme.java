@@ -177,18 +177,17 @@ public class ClsFragmentoInforme extends Fragment {
                 cargaPermisos(idSeleccion,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
                 String Nombre= UsurioSeleccionado + edtFechaDesde.getText().toString().replace("/","") +"_" + edtFechaHasta.getText().toString().replace("/","") + ".pdf";
                 objPDF=new ClsFicheroPDF(CARPETA_PDF_PERMISOS,Nombre);
-                objPDF.generarPDF(getContext(),ArrayPermisos);
-
-
+              if(!objPDF.generarPDF(getContext(),ArrayPermisos)){
+                  ClsUtils.MostrarMensajes(getContext(), "Ha habido un error al generar e pdf, intentelo mas tarde", "", true, ClsUtils.actividadEnum.ERROR);
+              }else {
+                  ClsUtils.MostrarMensajes(getContext(), "", "", false, ClsUtils.actividadEnum.PDF);
+              }
             }
         });
         GenerarPDFFichaje.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 String Nombre= UsurioSeleccionado + edtFechaDesde.getText().toString().replace("/","") +"_" + edtFechaHasta.getText().toString().replace("/","") + ".pdf";
-
-
             }
         });
         /***FIN GENERAR PDF*******/
@@ -227,7 +226,7 @@ public class ClsFragmentoInforme extends Fragment {
             h1.join();
 
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            mensaje="Ha ocurrido un error intentelo en unos minutos";
         }
     }
     public void cargaUsuarios (int departamentoId,int tipoUsuaioId){
@@ -250,7 +249,7 @@ public class ClsFragmentoInforme extends Fragment {
             h1.join();
 
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            mensaje="Ha ocurrido un error intentelo en unos minutos";
         }
     }
 
@@ -273,7 +272,7 @@ public class ClsFragmentoInforme extends Fragment {
             h1.join();
 
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            mensaje="Ha ocurrido un error intentelo en unos minutos";
         }
     }
 }

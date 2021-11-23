@@ -32,9 +32,10 @@ String Nombre;
         Ruta = "";
         Nombre = "";
     }
-    public void generarPDF(Context context, List<ClsPermisos>ArrayPermisos)  {
+    public boolean generarPDF(Context context, List<ClsPermisos>ArrayPermisos)  {
         Document doc = new Document();
-        ClsUtils.MostrarMensajes(context, "Generando pDF.....", "generarPDF");
+        boolean estaGenerado=false;
+      //  ClsUtils.MostrarMensajes(context, "Generando pDF.....", "generarPDF");
 
         try{
             File fichero= crearFichero(this.Nombre,this.Ruta );
@@ -56,17 +57,21 @@ String Nombre;
                         tabla.addCell(String.valueOf(ArrayPermisos.get(i).TipoPermiso));
 
                 }
+                estaGenerado=true;
                 doc.add(tabla);
             }
         }catch (DocumentException e){
-            ClsUtils.MostrarMensajes(context, e.getMessage(), "DocumentException");
+            estaGenerado=false;
+           // ClsUtils.MostrarMensajes(context, e.getMessage(), "DocumentException");
         }catch (IOException e){
-            ClsUtils.MostrarMensajes(context, e.getMessage(), "IOException");
+            estaGenerado=false;
+         //   ClsUtils.MostrarMensajes(context, e.getMessage(), "IOException");
         }finally {
-            ClsUtils.MostrarMensajes(context, "CREADO ", "generarPDF");
+
+            //ClsUtils.MostrarMensajes(Activity_Login.this,"","",true,ClsUtils.actividadEnum.LOGIN);
             doc.close();
         }
-
+return  estaGenerado;
     }
     public   File crearFichero(String nombreFichero,String Ruta) throws IOException {
         File ruta = getRuta(Ruta);

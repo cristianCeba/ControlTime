@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -98,9 +99,6 @@ public class Activity_Login extends AppCompatActivity implements BiometricCallba
                     textContraseña.setText("Por favor, introduce una contraseña");
                 }else{
                     RevisarLogin();
-
-
-
                 }
 
             }
@@ -109,18 +107,9 @@ public class Activity_Login extends AppCompatActivity implements BiometricCallba
         btnInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final CharSequence[] opciones = {"\n1. Un caracter en minúscula","\n2. Un caracter en mayúscula","\n3. Un caracter especial","\n4. Un número","\n5. Sin espacios entre los caracteres de la contraseña","\n6. Mínimo 8 caracteres"};
-                final AlertDialog.Builder alertInfo = new AlertDialog.Builder(Activity_Login.this);
 
-                alertInfo.setTitle("La contraseña debe de contener al menos : ");
+                ClsUtils.MostrarMensajes(Activity_Login.this,"\n1. Un caracter en minúscula \n2. Un caracter en mayúscula \n3. Un caracter especial\n4. Un número\n5. Sin espacios entre los caracteres de la contraseña\n6. Mínimo 8 caracteres","",false,ClsUtils.actividadEnum.INFORMATIVO);
 
-                alertInfo.setItems(opciones, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                alertInfo.show();
             }
         });
 
@@ -146,23 +135,13 @@ public class Activity_Login extends AppCompatActivity implements BiometricCallba
 
                             buscarUsuario(correo);
                             ClsUser.UsuarioPreferencesApp(correo,contraseña,usuario.usuarioId,getApplicationContext());
+                            ClsUtils.MostrarMensajes(Activity_Login.this,"","",false,ClsUtils.actividadEnum.LOGIN);
                             Intent intent = new Intent(getApplicationContext(), Activity_Navegador.class);
                             startActivity(intent);
 
                         } else {
-                            // If sign in fails, display a message to the user.
-                            final CharSequence[] opciones = {"Ususario o contraseña invalida"};
-                            final AlertDialog.Builder alertInfo = new AlertDialog.Builder(Activity_Login.this);
 
-                            alertInfo.setTitle("Advertencia");
-
-                            alertInfo.setItems(opciones, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                }
-                            });
-                            alertInfo.show();
+                            ClsUtils.MostrarMensajes(Activity_Login.this,"","",true,ClsUtils.actividadEnum.LOGIN);
                         }
                     }
                 });
@@ -195,6 +174,8 @@ public class Activity_Login extends AppCompatActivity implements BiometricCallba
                 if(DbConnection.conectarBaseDeDatos()){
                     usuario = ClsUser.getUsuario(correo);
                     DbConnection.cerrarConexion();
+                }else{
+
                 }
 
             }

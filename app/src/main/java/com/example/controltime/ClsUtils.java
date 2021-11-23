@@ -3,9 +3,10 @@ package com.example.controltime;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.DatePicker;
 
 import androidx.appcompat.app.AlertDialog;
@@ -19,9 +20,31 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.regex.Pattern;
+
+
 public class ClsUtils extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
+    public enum actividadEnum {
+        LOGIN("Login", 0),
+        INSERTAR("Insertar", 1),
+        FICHAR("Fichar",2),
+        PERMISO("permiso",3),
+        INFORMATIVO("Informacion",4),
+        ERROR("Error",5),
+        PDF("pdf",6);
 
+        private String stringValue;
+        private int intValue;
+        private actividadEnum(String toString, int value) {
+            stringValue = toString;
+            intValue = value;
+        }
+
+        @Override
+        public String toString() {
+            return stringValue;
+        }
+    }
     public static boolean validarEmail (String email){
         Pattern pattern = Patterns.EMAIL_ADDRESS;
         return pattern.matcher(email).matches();
@@ -32,17 +55,66 @@ public class ClsUtils extends DialogFragment implements DatePickerDialog.OnDateS
         return password.matches(pattern);
     }
 
-    public static void MostrarMensajes(Context context, String mensaje, String titulo){
-        final CharSequence[] opciones = {mensaje   };
-        final AlertDialog.Builder alertInfo = new AlertDialog.Builder(context );
-        alertInfo.setTitle(titulo);
-        alertInfo.setItems(opciones, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+    public static void MostrarMensajes(Context context, String mensaje, String titulo, boolean esError,actividadEnum actividad){
+        View view = null;
+        LayoutInflater  layoutInflater=LayoutInflater.from(context);
+        switch (actividad){
+            case PDF:
+                if(esError==true){
+                    view=layoutInflater.inflate(R.layout.activity_error,null);
+                }else {
+                    view = layoutInflater.inflate(R.layout.pdf, null);
+                }
+                break;
+            case ERROR:
+                view=layoutInflater.inflate(R.layout.activity_error,null);
+                break;
+            case INFORMATIVO:
+                view=layoutInflater.inflate(R.layout.informativo,null);
+                break;
+            case LOGIN:
+                if(esError==true){
+                    view=layoutInflater.inflate(R.layout.imagen_usuario_no_valido,null);
 
-            }
-        });
-        alertInfo.show();
+                }else{
+                    view=layoutInflater.inflate(R.layout.imagen_validar_usuario,null);
+
+                }
+                break;
+            case INSERTAR://inserta usuario
+                if(esError==true){
+                    view=layoutInflater.inflate(R.layout.imagen_usuario_error_registro_,null);
+
+                }else{
+                    view=layoutInflater.inflate(R.layout.imagen_usuario_registrado_ok,null);
+                }
+                break;
+            case FICHAR:
+                if(esError==true){
+                    view=layoutInflater.inflate(R.layout.activity_error,null);
+
+                }else{
+                // aqui no se muestra mensaje
+                }
+                break;
+            case PERMISO:
+                if(esError==true){
+                    view=layoutInflater.inflate(R.layout.activity_error,null);
+                }else{
+                    view=layoutInflater.inflate(R.layout.permiso_grabado_,null);
+
+                }
+                break;
+        }
+
+        // final CharSequence[] opciones = {mensaje   };
+        AlertDialog.Builder alertInfo = new AlertDialog.Builder(context );
+
+        AlertDialog tit=alertInfo.create();
+          //tit.setTitle(mensaje);
+          tit.setMessage(mensaje);
+        tit.setView(view);
+        tit.show();
     }
     /* TRABAJAR CON FECHAS DATEPicker*/
 

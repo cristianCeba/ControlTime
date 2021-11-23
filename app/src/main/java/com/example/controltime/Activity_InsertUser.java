@@ -1,8 +1,10 @@
 package com.example.controltime;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -125,7 +127,8 @@ public class Activity_InsertUser extends AppCompatActivity {
         btnInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ClsUtils.MostrarMensajes(Activity_InsertUser.this,"\n1. Un caracter en minúscula \n2. Un caracter en mayúscula \n3. Un caracter especial \n4. Un número \n5. Sin espacios entre los caracteres de la contraseña,\n6. Mínimo 8 caracteres","La contraseña debe de contener al menos : ");
+                ClsUtils.MostrarMensajes(Activity_InsertUser.this,"\n1. Un caracter en minúscula \n2. Un caracter en mayúscula \n3. Un caracter especial\n4. Un número\n5. Sin espacios entre los caracteres de la contraseña\n6. Mínimo 8 caracteres","",false,ClsUtils.actividadEnum.INFORMATIVO);
+
             }
         });
 
@@ -180,13 +183,14 @@ public class Activity_InsertUser extends AppCompatActivity {
                                     //insertamos en ct_usuarios
                                     insertar();
                                     if(mensaje!=""){
-                                        Toast.makeText(getApplicationContext(),mensaje ,Toast.LENGTH_LONG).show();
+                                        ClsUtils.MostrarMensajes(Activity_InsertUser.this,"","",true,ClsUtils.actividadEnum.INSERTAR);
+                                     //   Toast.makeText(getApplicationContext(),mensaje ,Toast.LENGTH_LONG).show();
                                     }else {
                                         //Intent intent = new Intent(getApplicationContext(), Activity_Login.class);
                                         //startActivity(intent);
                                         buscarUsuario(Email);
                                         ClsUser.UsuarioPreferencesApp(Email,Pass,usuario.usuarioId,getApplicationContext());
-
+                                        ClsUtils.MostrarMensajes(Activity_InsertUser.this,"","",false,ClsUtils.actividadEnum.INSERTAR);
                                         Intent intent = new Intent(getApplicationContext(), Activity_Navegador.class);
                                         startActivity(intent);
                                     }
@@ -218,7 +222,7 @@ public class Activity_InsertUser extends AppCompatActivity {
             h1.join();
 
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            mensaje="Ha ocurrido un error intentelo en unos minutos";
         }
     }
 
@@ -241,7 +245,7 @@ public class Activity_InsertUser extends AppCompatActivity {
             h1.join();
 
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            mensaje="Ha ocurrido un error intentelo en unos minutos";
         }
     }
 
@@ -262,7 +266,7 @@ public class Activity_InsertUser extends AppCompatActivity {
             h1.join();
 
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            mensaje="Ha ocurrido un error intentelo en unos minutos";
         }
     }
 
@@ -289,7 +293,7 @@ public class Activity_InsertUser extends AppCompatActivity {
             h1.join();
 
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            mensaje="Ha ocurrido un error intentelo en unos minutos";
         }
     }
 
