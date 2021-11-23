@@ -38,4 +38,8 @@
         android:id="@+id/nav_CerrarSesion"
         android:name="com.example.controltime.Activity_Login"
         android:label="Activity_Login" />
+    <fragment
+        android:id="@+id/nav_incluirUsuario"
+        android:name="com.example.controltime.ClsFragmentoIncluirUsuario"
+        android:label="ClsFragmentoIncluirUsuario" />
 </navigation>

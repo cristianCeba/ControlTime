@@ -202,14 +202,14 @@ public static void CerrarSesion(Context contex){
         return usuario;
     }
     /***Metodo que inserta Usaurio*/
-    public static boolean insertarUsuario (String nombre,String apellido1,String  apellido2,String  email, int departamentoId,int tipoUsuarioId){
+    public static boolean insertarUsuario (String nombre,String apellido1,String  email, int departamentoId,int tipoUsuarioId){
         boolean insertado=false;
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         try {
             String sql;
 
-            sql = "INSERT INTO ct_usuarios(nombre,apellido1, apellido2, email, bloqueado, departamentoId,tipoUsuarioId, imagenId)" +
-                    "VALUES ( '"+nombre+"','"+ apellido1  +"','"+  apellido2 +"','" + email + "',0," +departamentoId+ "," +tipoUsuarioId+ ",0)";
+            sql = "INSERT INTO ct_usuarios(nombre,apellido1, email, bloqueado, departamentoId,tipoUsuarioId, imagenId)" +
+                    "VALUES ( '"+nombre+"','"+ apellido1  +"','" + email + "',0," +departamentoId+ "," +tipoUsuarioId+ ",0)";
 
             PreparedStatement ps=DbConnection.connection.prepareStatement(sql);
             insertado=ps.execute(sql);
