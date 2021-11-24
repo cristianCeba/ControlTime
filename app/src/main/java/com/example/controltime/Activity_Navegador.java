@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,6 +57,17 @@ public class Activity_Navegador extends AppCompatActivity {
         correo = ClsUser.UsuarioConectadoApp(getApplicationContext()).replace("_",".");
         buscarUsuario(correo);
 
+        Menu M_Sie_Menu =navigationView.getMenu();
+        MenuItem permisos= M_Sie_Menu.findItem(R.id.nav_permisos);
+        MenuItem fichaje= M_Sie_Menu.findItem(R.id.nav_fichaje);
+        MenuItem verFichaje= M_Sie_Menu.findItem(R.id.nav_verFichaje);
+        MenuItem solicitarFichaje= M_Sie_Menu.findItem(R.id.nav_solicitarFichaje2);
+        MenuItem empleado= M_Sie_Menu.findItem(R.id.nav_incluirUsuario);
+        MenuItem validar= M_Sie_Menu.findItem(R.id.nav_validar);
+        MenuItem informe= M_Sie_Menu.findItem(R.id.nav_informe);
+
+
+
         Toast.makeText(Activity_Navegador.this, "ID_USUARIO: " + usuario.usuarioId , Toast.LENGTH_SHORT).show();
         TextView tNombreUsuario = navigationView.getHeaderView(0).findViewById(R.id.textNombre);
         tNombreUsuario.setText(usuario.Nombre + " " + usuario.Ape);
@@ -63,6 +75,22 @@ public class Activity_Navegador extends AppCompatActivity {
         tCorreoUsuario.setText(correo);
         imagenUsuario = navigationView.getHeaderView(0).findViewById(R.id.imageFondo);
         recuperarImagen(usuario);
+
+        /**
+         * Modificamos los items según el tipo de usuario ha accedido a la aplicación.
+         */
+        if (usuario.TipoUsuario == 0){
+            permisos.setVisible(false);
+            fichaje.setVisible(false);
+            verFichaje.setVisible(false);
+            solicitarFichaje.setVisible(false);
+        } else if (usuario.TipoUsuario == 1){
+            empleado.setVisible(false);
+        } else {
+            validar.setVisible(false);
+            informe.setVisible(false);
+            empleado.setVisible(false);
+        }
 
     }
 
