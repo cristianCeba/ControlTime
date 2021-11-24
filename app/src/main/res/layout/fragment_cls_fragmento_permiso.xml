@@ -7,42 +7,28 @@
     android:orientation="vertical"
     tools:context=".Activity_Permiso_NOOO">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:context=".PermisoActivity">
 
-
-
-
-
-
-    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:background="@drawable/bordeslayout">
+        >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"></LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+
             android:layout_marginTop="20dp"
-            android:gravity="center_horizontal"
+
+
             android:orientation="horizontal"
-            android:textAlignment="center">
+            >
 
             <EditText
                 android:id="@+id/edtFechaDesde"
-                android:layout_width="130dp"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:hint="01/01/2021"
@@ -53,7 +39,7 @@
 
             <EditText
                 android:id="@+id/edtFechaHasta"
-                android:layout_width="130dp"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:hint="31/12/2021"
@@ -64,7 +50,7 @@
 
             <CheckBox
                 android:id="@+id/chkMedioDia"
-                android:layout_width="90dp"
+                android:layout_width="87dp"
                 android:layout_height="20dp"
 
                 android:layout_marginLeft="5dp"
@@ -76,7 +62,7 @@
 
         <LinearLayout
             android:id="@+id/lySolicitar"
-            android:layout_marginTop="5dp"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
@@ -85,18 +71,17 @@
 
             <LinearLayout
 
-                android:layout_width="395dp"
-                android:layout_height="38dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginLeft="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
-                android:background="@color/white"
+
+
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/textTipoPer"
                     android:layout_width="120dp"
-                    android:layout_height="26dp"
+                    android:layout_height="24dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginLeft="5dp"
                     android:text="Tipo permiso"
@@ -104,8 +89,9 @@
 
                 <Spinner
                     android:id="@+id/spnTipoPermiso"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"></Spinner>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                   ></Spinner>
 
 
             </LinearLayout>
@@ -116,6 +102,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_horizontal"
+
             android:orientation="horizontal">
             >
 
@@ -123,16 +110,14 @@
                 android:id="@+id/btnValidar"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:background="@android:drawable/ic_menu_save"
-                android:text="V"
+                android:background="@drawable/guardara"
                 app:backgroundTint="@null" />
 
             <Button
                 android:id="@+id/btnPermiso"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:background="@android:drawable/ic_menu_search"
-                android:text="V"
+                android:background="@drawable/search_male_user"
                 app:backgroundTint="@null" />
         </LinearLayout>
     </LinearLayout>
@@ -142,7 +127,7 @@
         android:orientation="vertical"
         android:paddingTop="2dp"
         android:layout_marginLeft="5dp"
-        android:background="@drawable/bordeslayout"
+
         >
 
 
@@ -224,18 +209,24 @@
                 android:textSize="12dp"></TextView>
         </LinearLayout>
 
-
-
-        <sun.bob.mcalendarview.MCalendarView
-
-            android:id="@+id/calendar"
-            style="@style/CardView"
+        <LinearLayout
 
             android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:layout_marginBottom="20dp"
-            ></sun.bob.mcalendarview.MCalendarView>
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:orientation="horizontal">
 
+            <sun.bob.mcalendarview.MCalendarView
+
+                android:id="@+id/calendar"
+                style="@style/CardView"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"></sun.bob.mcalendarview.MCalendarView>
+        </LinearLayout>
 
         <!-- <CalendarView
              android:id="@+id/calendar2"

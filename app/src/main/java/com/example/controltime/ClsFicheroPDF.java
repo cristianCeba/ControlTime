@@ -35,10 +35,15 @@ String Nombre;
     public boolean generarPDF(Context context, List<ClsPermisos>ArrayPermisos)  {
         Document doc = new Document();
         boolean estaGenerado=false;
-      //  ClsUtils.MostrarMensajes(context, "Generando pDF.....", "generarPDF");
+        File f =context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+
+        File fichero = null;
+
 
         try{
-            File fichero= crearFichero(this.Nombre,this.Ruta );
+            //File fichero= crearFichero(this.Nombre,this.Ruta );
+            fichero= new File(f.getAbsolutePath() + "/" + this.Nombre);
+
             if(fichero!=null){
                 //salida
                 FileOutputStream ficheroPDF= new FileOutputStream(fichero.getAbsolutePath());
@@ -67,30 +72,33 @@ String Nombre;
             estaGenerado=false;
          //   ClsUtils.MostrarMensajes(context, e.getMessage(), "IOException");
         }finally {
-
-            //ClsUtils.MostrarMensajes(Activity_Login.this,"","",true,ClsUtils.actividadEnum.LOGIN);
+            if(estaGenerado==true) {
+                ClsUtils.MostrarMensajes(context, fichero.getAbsolutePath(), "", false, ClsUtils.actividadEnum.PDF);
+            }
             doc.close();
         }
 return  estaGenerado;
     }
-    public   File crearFichero(String nombreFichero,String Ruta) throws IOException {
+    /*public   File crearFichero(String nombreFichero,String Ruta) throws IOException {
         File ruta = getRuta(Ruta);
         File fichero = null;
         if (ruta != null) {
             fichero = new File(ruta, nombreFichero);
         }
         return fichero;
-    }
+    }*/
     /**
      * Obtenemos la ruta donde vamos a almacenar el fichero.
      *
      * @return
      */
-    public  File getRuta (String Ruta) {
+ /*   public  File getRuta (  String Ruta) {
         // El fichero sera almacenado en un directorio dentro del directorio Descargas
         File ruta = null;
-        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            ruta = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), Ruta);
+        ruta=new  File(String.valueOf(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)));
+
+      if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+            ruta = new File(String.valueOf(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)));
 
             if (ruta != null) {
                 if (!ruta.mkdirs()) {
@@ -102,5 +110,5 @@ return  estaGenerado;
         }
 
         return ruta;
-    }
+    }*/
 }

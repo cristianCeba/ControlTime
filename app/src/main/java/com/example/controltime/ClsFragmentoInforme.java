@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +23,32 @@ import android.widget.TextView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+
+
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+
+
+
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.HeaderFooter;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
+
+
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -101,9 +124,9 @@ public class ClsFragmentoInforme extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View vista = inflater.inflate(R.layout.fragment_cls_fragmento_informe, container, false);
-       // mDataBase = FirebaseDatabase.getInstance().getReference();
+
         idUsuario= Integer.parseInt(ClsUser.UsuarioIdApp(getContext()));
 
         String date = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
@@ -175,15 +198,18 @@ public class ClsFragmentoInforme extends Fragment {
             @Override
             public void onClick(View v) {
                 cargaPermisos(idSeleccion,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
-                String Nombre= UsurioSeleccionado + edtFechaDesde.getText().toString().replace("/","") +"_" + edtFechaHasta.getText().toString().replace("/","") + ".pdf";
+                String Nombre= idSeleccion+ "_" + edtFechaDesde.getText().toString().replace("/","") +"_" + edtFechaHasta.getText().toString().replace("/","") + ".pdf";
                 objPDF=new ClsFicheroPDF(CARPETA_PDF_PERMISOS,Nombre);
               if(!objPDF.generarPDF(getContext(),ArrayPermisos)){
                   ClsUtils.MostrarMensajes(getContext(), "Ha habido un error al generar e pdf, intentelo mas tarde", "", true, ClsUtils.actividadEnum.ERROR);
               }else {
-                  ClsUtils.MostrarMensajes(getContext(), "", "", false, ClsUtils.actividadEnum.PDF);
+                  //este mensaje lo meustro dentro del metodo para que me de la ruta
+                  //ClsUtils.MostrarMensajes(getContext(), "", "", false, ClsUtils.actividadEnum.PDF);
               }
             }
         });
+
+
         GenerarPDFFichaje.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -193,6 +219,8 @@ public class ClsFragmentoInforme extends Fragment {
         /***FIN GENERAR PDF*******/
         return vista;
     }
+
+
 
     /**** * Metodo que muestra el calendario y se le asigna el valor al editText  */
     private  void getFechaSeleccionada(EditText fecha){
