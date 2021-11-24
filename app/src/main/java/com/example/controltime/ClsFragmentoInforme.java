@@ -75,6 +75,8 @@ public class ClsFragmentoInforme extends Fragment {
     ClsFicheroPDF objPDF;
     ClsPermisos objPermisos;
     List<ClsPermisos> ArrayPermisos;
+
+    List<ClsFichaje> ArrayFichajes;
     List<ClsUser>arrayUsuarios;
     int idUsuario;
     int idSeleccion;
@@ -161,11 +163,9 @@ public class ClsFragmentoInforme extends Fragment {
         objUsuario=new ClsUser();
         objPermisos=new ClsPermisos();
         ArrayPermisos=new ArrayList<>();
+        ArrayFichajes=new ArrayList<>();
         arrayUsuarios=new ArrayList<>();
-        List<ClsUser> Arrayusuario=new ArrayList<>();
-
-
-
+       // List<ClsUser> Arrayusuario=new ArrayList<>();
 
         buscarUsuario(idUsuario);
         cargaUsuarios(objUsuario.TipoUsuario,objUsuario.Grupo);
@@ -198,9 +198,9 @@ public class ClsFragmentoInforme extends Fragment {
             @Override
             public void onClick(View v) {
                 cargaPermisos(idSeleccion,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
-                String Nombre= idSeleccion+ "_" + edtFechaDesde.getText().toString().replace("/","") +"_" + edtFechaHasta.getText().toString().replace("/","") + ".pdf";
+                String Nombre= idSeleccion+ "Permisos_" + edtFechaDesde.getText().toString().replace("/","") +"_" + edtFechaHasta.getText().toString().replace("/","") + ".pdf";
                 objPDF=new ClsFicheroPDF(CARPETA_PDF_PERMISOS,Nombre);
-              if(!objPDF.generarPDF(getContext(),ArrayPermisos)){
+              if(!objPDF.generarPDF(getContext(),ArrayPermisos,ArrayFichajes)){
                   ClsUtils.MostrarMensajes(getContext(), "Ha habido un error al generar e pdf, intentelo mas tarde", "", true, ClsUtils.actividadEnum.ERROR);
               }else {
                   //este mensaje lo meustro dentro del metodo para que me de la ruta
@@ -213,7 +213,15 @@ public class ClsFragmentoInforme extends Fragment {
         GenerarPDFFichaje.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String Nombre= UsurioSeleccionado + edtFechaDesde.getText().toString().replace("/","") +"_" + edtFechaHasta.getText().toString().replace("/","") + ".pdf";
+               cargaFichajes(idSeleccion,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString()  );
+                String Nombre= idSeleccion+ "Fichajes_" + edtFechaDesde.getText().toString().replace("/","") +"_" + edtFechaHasta.getText().toString().replace("/","") + ".pdf";
+                objPDF=new ClsFicheroPDF(CARPETA_PDF_PERMISOS,Nombre);
+                if(!objPDF.generarPDF(getContext(),ArrayPermisos,ArrayFichajes)){
+                    ClsUtils.MostrarMensajes(getContext(), "Ha habido un error al generar e pdf, intentelo mas tarde", "", true, ClsUtils.actividadEnum.ERROR);
+                }else {
+                    //este mensaje lo meustro dentro del metodo para que me de la ruta
+                    //ClsUtils.MostrarMensajes(getContext(), "", "", false, ClsUtils.actividadEnum.PDF);
+                }
             }
         });
         /***FIN GENERAR PDF*******/
@@ -288,6 +296,31 @@ public class ClsFragmentoInforme extends Fragment {
             public void run() {
                 if(DbConnection.conectarBaseDeDatos()){
                     ArrayPermisos=ClsPermisos.getPermisos(usuarioId,fechaIni,fechaFin);
+                    DbConnection.cerrarConexion();
+                }else{
+                    mensaje="Ha ocurrido un error intentelo en unos minutos";
+                }
+            }
+        });
+        h1.start();
+        try {
+
+            h1.join();
+
+        } catch (InterruptedException e) {
+            mensaje="Ha ocurrido un error intentelo en unos minutos";
+        }
+    }
+
+
+
+    public void cargaFichajes (int usuarioId,String fechaIni,String fechaFin){
+        mensaje="";
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(DbConnection.conectarBaseDeDatos()){
+                    ArrayFichajes=ClsFichaje.getFichajes (usuarioId,fechaIni,fechaFin);
                     DbConnection.cerrarConexion();
                 }else{
                     mensaje="Ha ocurrido un error intentelo en unos minutos";

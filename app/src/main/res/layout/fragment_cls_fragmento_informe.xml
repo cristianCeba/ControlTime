@@ -35,20 +35,14 @@
 
         <TextView
             android:id="@+id/textUsuarios"
-            android:layout_width="2dp"
-            android:layout_height="34dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginLeft="5dp"
             android:layout_weight="1"
-            android:text="Usuarios"
-            android:textAppearance="@style/CardView.Light"
-            android:textSize="12sp" />
+            android:text="Selecciona un usuario:" />
 
-        <Spinner
-            android:id="@+id/spnUsaurio"
-            android:layout_width="215dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"></Spinner>
+
 
     </LinearLayout>
 
@@ -63,13 +57,31 @@
 
     </LinearLayout>
 
-
     <LinearLayout
-        android:layout_width="411dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/bordeslayout"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="203dp"
+            android:layout_height="wrap_content"
+            android:text="Fecha desde:"></TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fecha hasta:"></TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
         <EditText

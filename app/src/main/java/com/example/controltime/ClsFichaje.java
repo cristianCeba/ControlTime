@@ -15,7 +15,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ClsFichaje {
@@ -24,10 +28,22 @@ public class ClsFichaje {
     public String horaFin;
     public String horaIniDescanso;
     public String horaFinDescanso;
+    public int fichajeId;
+    public int usuarioId;
+    public String dia;
     public int estadoFichaje;
-    public String nombre;
-    public String tipoUsuario;
+    //public String nombre;
+    //public String tipoUsuario;
 
+
+    public ClsFichaje(String horaIni, String horaFin, int fichajeId, int usuarioId, String dia, int estadoFichaje) {
+        this.horaIni = horaIni;
+        this.horaFin = horaFin;
+        this.fichajeId = fichajeId;
+        this.usuarioId = usuarioId;
+        this.dia = dia;
+        this.estadoFichaje = estadoFichaje;
+    }
 
     public ClsFichaje(String horaInicio, String horaFinal, String horaInicioDescanso, String horaFinalDescanso){
         this.horaIni = horaInicio;
@@ -76,7 +92,7 @@ public class ClsFichaje {
         this.horaFinDescanso = horaFinDescanso;
     }
 
-    public String getNombre() {
+   /* public String getNombre() {
         return nombre;
     }
 
@@ -90,7 +106,7 @@ public class ClsFichaje {
 
     public void setTipoUsuario(String tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
-    }
+    }*/
 
     public int getEstadoFichaje() {
         return estadoFichaje;
@@ -99,6 +115,41 @@ public class ClsFichaje {
     public void setEstadoFichaje(int estadoFichaje) {
         this.estadoFichaje = estadoFichaje;
     }
+
+    /***metodo que devuelve todos los datos del fichaje por usuario y rango de fechas*/
+    public static ArrayList<ClsFichaje> getFichajes (int usuarioId,String fechaIni,String fechaFin){
+        List<ClsFichaje> array = new ArrayList<>() ;
+
+        try {
+            String diaIni =ClsUtils.formatearFecha(fechaIni);
+            String diaFin = ClsUtils.formatearFecha(fechaFin);
+            DbConnection.statement = DbConnection.connection.createStatement();
+
+
+
+            ResultSet rs = DbConnection.statement.executeQuery("SELECT * FROM  ct_fichajes " +
+                    " WHERE usuarioId ='" + usuarioId + "' AND  dia BETWEEN '" + diaIni + "' AND '" + diaFin + "'") ;
+
+            while (rs.next()) {
+                int fichajeId= Integer.parseInt(rs.getString("fichajeId"));
+                String horaEntrada=rs.getString("horaEntrada");
+                String horaSalida=rs.getString("horaSalida");
+                String dia=rs.getString("dia");
+                int estadoFichajeId= Integer.parseInt(rs.getString("estadoFichajeId"));
+                array.add(new ClsFichaje(   horaEntrada,horaSalida,fichajeId,usuarioId,dia,estadoFichajeId));
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return (ArrayList<ClsFichaje>) array;
+    }
+
+
+
+
+
+
+/*
 
     public void insertarFichaje(String dia, String horaEntrada, Context context){
             String URL = "http://192.168.1.135/trabajo/insertarFichaje.php";
@@ -159,6 +210,6 @@ public class ClsFichaje {
         RequestQueue re = Volley.newRequestQueue(context);
         re.add(request);
         re.stop();
-    }
+    }*/
 
 }

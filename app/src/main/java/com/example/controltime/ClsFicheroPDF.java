@@ -32,7 +32,7 @@ String Nombre;
         Ruta = "";
         Nombre = "";
     }
-    public boolean generarPDF(Context context, List<ClsPermisos>ArrayPermisos)  {
+    public boolean generarPDF(Context context, List<ClsPermisos>ArrayPermisos,List<ClsFichaje>ArrayFichajes)  {
         Document doc = new Document();
         boolean estaGenerado=false;
         File f =context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);

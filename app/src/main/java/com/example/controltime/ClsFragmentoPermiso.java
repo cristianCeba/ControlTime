@@ -137,6 +137,7 @@ public class ClsFragmentoPermiso extends Fragment {
         mensaje="";
         buscarUsuario (ClsUser.UsuarioConectadoApp(getContext()));
 
+
 /*** *  FECHAS */
 
         String date = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
@@ -147,6 +148,7 @@ public class ClsFragmentoPermiso extends Fragment {
             @Override
             public void onClick(View v) {
                 getFechaSeleccionada(edtFechaDesde);
+
               //  edtFechaDesde.setText(edtFechaDesde.getText());
                // Toast.makeText(getContext(),"onClick Fechadesde" + edtFechaDesde.getText() ,Toast.LENGTH_LONG).show();
             }
@@ -159,17 +161,26 @@ public class ClsFragmentoPermiso extends Fragment {
             @Override
             public void onClick(View v) {
                 getFechaSeleccionada(edtFechaHasta);
+
             }
         });
         FechaDesde=edtFechaDesde.getText().toString();
         FechaHasta=edtFechaHasta.getText().toString();
 
 
+
+
+
+
+
 /***FIN FECHAS */
 
 /*** * CALENDARIO */
         calendarView=(MCalendarView) vista.findViewById(R.id.calendar);
-
+        Calendar cal=Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));;
+        cal.setTime( new Date());
+        int year = cal.get(Calendar.YEAR);
+        LlenaPermisos( objUser.usuarioId,"01/01/"+year ,edtFechaHasta.getText().toString() );
 /*** * FIN CALENDARIO     */
 
         /***SELECCION DE MEDIO DIA*/
@@ -214,79 +225,14 @@ public class ClsFragmentoPermiso extends Fragment {
         btnPermiso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cargaPermisos(objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
-                  for(int i=0;i<=ArrayPermisos.size()-1;i++){
-                    try {
-                       // colorDia=-1;
 
-                      String fechaIni= ArrayPermisos.get(i).FechaDesde.replace("-", "/") ;
-                      String fechaFin= ArrayPermisos.get(i).FechaHasta.replace("-", "/") ;
-
-                      fechaIni=ClsUtils.formatearFecha(fechaIni,true);
-                      fechaFin=ClsUtils.formatearFecha(fechaFin,true);
-                      fechaIni=fechaIni.replace("-", "/");
-                      fechaFin=fechaFin.replace("-", "/");
-
-                      SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-                      Calendar cal=Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));;
-                      cal.setTime( formato.parse(fechaIni));
-                      int year = cal.get(Calendar.YEAR);
-                      int month = cal.get(Calendar.MONTH)+1;
-                      int day = cal.get(Calendar.DAY_OF_MONTH);
-                      cal.setTime(formato.parse(fechaFin));
-                      int yearF = cal.get(Calendar.YEAR);
-                      int monthF = cal.get(Calendar.MONTH)+1;
-                      int dayF= cal.get(Calendar.DAY_OF_MONTH);
-                      for (int y =year;y<= yearF;y++){
-                          for (int m =month;m<= monthF;m++){
-                              for (int d =day;d<= dayF;d++){
-                                  switch (ArrayPermisos.get(i).TipoPermiso){
-                                      case 0: //Vacacions
-                                          if (ArrayPermisos.get(i).Estado==0){
-                                              colorDia = Color.rgb(205,201,199);
-                                          }else{
-                                              colorDia=Color.rgb(247,218,56);
-                                          }
-                                         calendarView.markDate(y,m,d).setMarkedStyle(2,colorDia);
-                                          break;
-                                      case 1://Baja
-                                          if (ArrayPermisos.get(i).Estado==0){
-                                              colorDia = Color.rgb(205,201,199);
-                                          }else {
-                                              colorDia = Color.rgb(176, 39, 169);
-                                          }
-                                          calendarView.markDate(y,m,d).setMarkedStyle(3,colorDia);
-                                          break;
-                                      case 2://Hospitalizacion
-                                          if (ArrayPermisos.get(i).Estado==0){
-                                              colorDia = Color.rgb(205,201,199);
-                                          }else {
-                                              colorDia = Color.rgb(39, 89, 176);
-                                          }
-                                          calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
-                                          break;
-                                      case 3://Otros
-                                          if (ArrayPermisos.get(i).Estado==0){
-                                              colorDia = Color.rgb(205,201,199);
-                                          }else {
-                                              colorDia = Color.rgb(255, 87, 34);
-                                          }
-                                          calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
-                                          break;
-                                  }
-
-                              }
-                          }
-                      }
-
-                    } catch (ParseException e) {
-                        ClsUtils.MostrarMensajes(getContext(),e.getMessage(),"",true,ClsUtils.actividadEnum.ERROR);
-                    }
-
-                  }
+              LlenaPermisos( objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString() );
 
             }
         });
+
+
+
         /** FIN BOTON VER PERMISOS*/
 
 /** *  *BOTON VALIDAR graba el permiso solicitado
@@ -300,22 +246,109 @@ public class ClsFragmentoPermiso extends Fragment {
                     if (esMedioDia){
                         edtFechaHasta.setText(edtFechaDesde.getText().toString());
                     }
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                try {
+                    if (sdf.parse(edtFechaDesde.getText().toString()).compareTo(sdf.parse(edtFechaHasta.getText().toString())) > 0) {
+//fecha hasta menos que desde
+                        ClsUtils.MostrarMensajes( getContext(),  "La fecha hasta no puede ser menor que la fecha desde","",false,ClsUtils.actividadEnum.INFORMATIVO );
 
-
-                    insertar();
-                    if(  mensaje!=""){
-                        ClsUtils.MostrarMensajes(getContext(),mensaje,"",true,ClsUtils.actividadEnum.PERMISO);
-                    }else
+                    }  else{
+                        insertar();
+                        if(  mensaje!=""){
+                            ClsUtils.MostrarMensajes(getContext(),mensaje,"",true,ClsUtils.actividadEnum.PERMISO);
+                        }else
                         {
                             ClsUtils.MostrarMensajes(getContext(),mensaje,"",false,ClsUtils.actividadEnum.PERMISO);
 
+                        }
                     }
+                    //
+                    //System.out.println(sdf.parse(edtFechaDesde.getText().toString()).before(sdf.parse(edtFechaHasta.getText().toString())));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+
 
             }
         });
 
         /***FIN BOTON VALIDAR*/
         return vista;
+    }
+
+
+    private void LlenaPermisos(int usuarioId,String desde , String hasta){
+        cargaPermisos(usuarioId,desde,hasta);
+        for(int i=0;i<=ArrayPermisos.size()-1;i++){
+            try {
+                // colorDia=-1;
+
+                String fechaIni= ArrayPermisos.get(i).FechaDesde.replace("-", "/") ;
+                String fechaFin= ArrayPermisos.get(i).FechaHasta.replace("-", "/") ;
+
+                fechaIni=ClsUtils.formatearFecha(fechaIni,true);
+                fechaFin=ClsUtils.formatearFecha(fechaFin,true);
+                fechaIni=fechaIni.replace("-", "/");
+                fechaFin=fechaFin.replace("-", "/");
+
+                SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+                Calendar cal=Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));;
+                cal.setTime( formato.parse(fechaIni));
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH)+1;
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+                cal.setTime(formato.parse(fechaFin));
+                int yearF = cal.get(Calendar.YEAR);
+                int monthF = cal.get(Calendar.MONTH)+1;
+                int dayF= cal.get(Calendar.DAY_OF_MONTH);
+                for (int y =year;y<= yearF;y++){
+                    for (int m =month;m<= monthF;m++){
+                        for (int d =day;d<= dayF;d++){
+                            switch (ArrayPermisos.get(i).TipoPermiso){
+                                case 0: //Vacacions
+                                    if (ArrayPermisos.get(i).Estado==0){
+                                        colorDia = Color.rgb(205,201,199);
+                                    }else{
+                                        colorDia=Color.rgb(247,218,56);
+                                    }
+                                    calendarView.markDate(y,m,d).setMarkedStyle(2,colorDia);
+                                    break;
+                                case 1://Baja
+                                    if (ArrayPermisos.get(i).Estado==0){
+                                        colorDia = Color.rgb(205,201,199);
+                                    }else {
+                                        colorDia = Color.rgb(176, 39, 169);
+                                    }
+                                    calendarView.markDate(y,m,d).setMarkedStyle(3,colorDia);
+                                    break;
+                                case 2://Hospitalizacion
+                                    if (ArrayPermisos.get(i).Estado==0){
+                                        colorDia = Color.rgb(205,201,199);
+                                    }else {
+                                        colorDia = Color.rgb(39, 89, 176);
+                                    }
+                                    calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
+                                    break;
+                                case 3://Otros
+                                    if (ArrayPermisos.get(i).Estado==0){
+                                        colorDia = Color.rgb(205,201,199);
+                                    }else {
+                                        colorDia = Color.rgb(255, 87, 34);
+                                    }
+                                    calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
+                                    break;
+                            }
+
+                        }
+                    }
+                }
+
+            } catch (ParseException e) {
+                ClsUtils.MostrarMensajes(getContext(),e.getMessage(),"",true,ClsUtils.actividadEnum.ERROR);
+            }
+
+        }
     }
 
     public void cargaTiposDePermisos (){
