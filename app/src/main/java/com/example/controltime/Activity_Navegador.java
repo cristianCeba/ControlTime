@@ -68,7 +68,7 @@ public class Activity_Navegador extends AppCompatActivity {
 
 
 
-        Toast.makeText(Activity_Navegador.this, "ID_USUARIO: " + usuario.usuarioId , Toast.LENGTH_SHORT).show();
+       // Toast.makeText(Activity_Navegador.this, "ID_USUARIO: " + usuario.usuarioId , Toast.LENGTH_SHORT).show();
         TextView tNombreUsuario = navigationView.getHeaderView(0).findViewById(R.id.textNombre);
         tNombreUsuario.setText(usuario.Nombre + " " + usuario.Ape);
         TextView tCorreoUsuario =  navigationView.getHeaderView(0).findViewById(R.id.textCorreo);

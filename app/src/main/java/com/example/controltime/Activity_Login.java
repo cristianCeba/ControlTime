@@ -227,7 +227,7 @@ public class Activity_Login extends AppCompatActivity implements BiometricCallba
 
     @Override
     public void onAuthenticationSuccessful() {
-        Toast.makeText(this,"Conexión realizada correctamente",Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(this,"Conexión realizada correctamente",Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getApplicationContext(), Activity_Navegador.class);
         startActivity(intent);
     }

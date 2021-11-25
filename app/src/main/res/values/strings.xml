@@ -25,7 +25,7 @@
     <string name="menu_gallery">Permisos</string>
     <string name="menu_cerrarSesion">Cerrar sesión</string>
     <string name="menu_slideshow">Cerrar sesión</string>
-    <string name="title_activity_splash">Splash</string>
+    <string name="title_activity_splash">Control Time</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
