@@ -130,7 +130,8 @@ public class ClsFragmentoSolicitarFichaje extends Fragment {
                 }
 
                 if (horasNoIndicadas){
-                    mostrarError("Se debe de indicar hora y minutos por ejemplo: 14:25","Se debe de indicar todas las horas");
+                    ClsUtils.MostrarMensajes(getContext(),"Se debe de indicar hora y minutos por ejemplo: 14:25 ","",true,ClsUtils.actividadEnum.ERROR);
+                  //  mostrarError("Se debe de indicar hora y minutos por ejemplo: 14:25","Se debe de indicar todas las horas");
                 } else {
                     if (validarHoras()) {
                         fichaje.setHoraIni(inicioJornada.getText().toString());
@@ -171,9 +172,11 @@ public class ClsFragmentoSolicitarFichaje extends Fragment {
             finJornada.setText("");
             inicioDescanso.setText("");
             finDescanso.setText("");
-            Toast.makeText(getContext(),"El fichaje ha sido enviado al supervisor",Toast.LENGTH_SHORT).show();
+            ClsUtils.MostrarMensajes(getContext(),"El fichaje ha sido enviado al supervisor","",false,ClsUtils.actividadEnum.FICHAR);
+           // Toast.makeText(getContext(),"El fichaje ha sido enviado al supervisor",Toast.LENGTH_SHORT).show();
         } else {
-            mostrarError("Indica el día:","Se debe de indicar el día que solicitas la modificación");
+            ClsUtils.MostrarMensajes(getContext(),"Se debe de indicar el día que solicitas la modificación","",true,ClsUtils.actividadEnum.ERROR);
+          //  mostrarError("Indica el día:","Se debe de indicar el día que solicitas la modificación");
         }
 
     }
@@ -188,7 +191,8 @@ public class ClsFragmentoSolicitarFichaje extends Fragment {
         System.out.println("minutos --> " + minutos);
 
         if (hora > 23 || minutos > 59) {
-            mostrarError("Hora mal indicada :" + horaEnviada, "Alguna hora no está indicada correctamente");
+            ClsUtils.MostrarMensajes(getContext(),"La hora final del descanso debe de ser la menor que el inicio del descansoHora mal indicada :" + horaEnviada+ " Alguna hora no está indicada correctamente","",true,ClsUtils.actividadEnum.ERROR);
+          //  mostrarError("Hora mal indicada :" + horaEnviada, "Alguna hora no está indicada correctamente");
         }
     }
 
@@ -211,22 +215,27 @@ public class ClsFragmentoSolicitarFichaje extends Fragment {
                 Integer.parseInt(horaInicioJornada[0]) > Integer.parseInt(horaFinalDescanso[0])||
                 Integer.parseInt(horaInicioJornada[0]) > Integer.parseInt(horaFinalJornada[0])){
             horasCorrectas = false;
-            mostrarError("","La hora de inicio de la jornada debe de ser la menor hora");
+            ClsUtils.MostrarMensajes(getContext(),"La hora de inicio de la jornada debe de ser la menor hora","",true,ClsUtils.actividadEnum.ERROR);
+           // mostrarError("","La hora de inicio de la jornada debe de ser la menor hora");
         } else if (Integer.parseInt(horaInicioDescanso[0]) == Integer.parseInt(horaFinalDescanso[0])){
             if (Integer.parseInt(horaInicioDescanso[1]) > Integer.parseInt(horaFinalDescanso[1])){
                 horasCorrectas = false;
-                mostrarError("","La hora final del descanso debe de ser la menor que el inicio del descanso");
+                ClsUtils.MostrarMensajes(getContext(),"La hora final del descanso debe de ser la menor que el inicio del descanso","",true,ClsUtils.actividadEnum.ERROR);
+                // mostrarError("","La hora final del descanso debe de ser la menor que el inicio del descanso");
             }
         }else if (Integer.parseInt(horaInicioDescanso[0]) > Integer.parseInt(horaFinalJornada[0]) ||
                 Integer.parseInt(horaInicioDescanso[0]) > Integer.parseInt(horaFinalDescanso[0])){
             horasCorrectas = false;
-            mostrarError("","La hora de inicio del descanso debe de ser la menor que el fin del descanso y de la jornada");
+            ClsUtils.MostrarMensajes(getContext(),"La hora de inicio del descanso debe de ser la menor que el fin del descanso y de la jornada","",true,ClsUtils.actividadEnum.ERROR);
+            //  mostrarError("","La hora de inicio del descanso debe de ser la menor que el fin del descanso y de la jornada");
         }else if (Integer.parseInt(horaFinalDescanso[0]) > Integer.parseInt(horaFinalJornada[0])){
             horasCorrectas = false;
-            mostrarError("","La hora final del descanso debe de ser la menor que el de la jornada");
+            ClsUtils.MostrarMensajes(getContext(),"La hora final del descanso debe de ser la menor que el de la jornada","",true,ClsUtils.actividadEnum.ERROR);
+            //mostrarError("","La hora final del descanso debe de ser la menor que el de la jornada");
         } else if (Integer.parseInt(horaInicioDescanso[0]) > Integer.parseInt(horaFinalDescanso[0])){
             horasCorrectas = false;
-            mostrarError("","La hora final del descanso debe de ser menor que el inicio del descanso");
+            ClsUtils.MostrarMensajes(getContext(),"La hora final del descanso debe de ser menor que el inicio del descanso","",true,ClsUtils.actividadEnum.ERROR);
+            // mostrarError("","La hora final del descanso debe de ser menor que el inicio del descanso");
         }
         return horasCorrectas;
     }
@@ -234,7 +243,7 @@ public class ClsFragmentoSolicitarFichaje extends Fragment {
     /*
         Método que muestra un error al usuario
      */
-    public void mostrarError (String secuencia, String titulo){
+   /* public void mostrarError (String secuencia, String titulo){
         final CharSequence[] opciones = {secuencia};
         final AlertDialog.Builder alertInfo = new AlertDialog.Builder(getContext());
 
@@ -247,7 +256,7 @@ public class ClsFragmentoSolicitarFichaje extends Fragment {
             }
         });
         alertInfo.show();
-    }
+    }*/
 
     public void insertar (int id){
         Thread h1 = new Thread(new Runnable() {
