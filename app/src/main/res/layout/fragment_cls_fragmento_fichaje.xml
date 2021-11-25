@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="Miercoles 20 Osctubre"
         android:textSize="35dp"
-        android:layout_gravity="center"
+
         android:padding="10dp"/>
 
     <TextView
@@ -32,16 +32,16 @@
 
         <TextView
             android:id="@+id/textInicioFichaje"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="Inicio fichaje: "
             android:layout_weight="1"
-            android:gravity="center"
-            android:padding="10dp"/>
+            android:gravity="center|left"
+            android:padding="10dp"
+            android:text="Inicio fichaje: " />
 
         <TextView
             android:id="@+id/textMostrarInicioFichaje"
-            android:layout_width="92dp"
+            android:layout_width="90dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="10dp"
@@ -57,16 +57,16 @@
 
         <TextView
             android:id="@+id/textFinFichaje"
-            android:layout_width="114dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="center|left"
             android:padding="10dp"
-            android:text="Fin fichaje: " />
+            android:text="Fin  fichaje: " />
 
         <TextView
             android:id="@+id/textMostrarFinFichaje"
-            android:layout_width="104dp"
+            android:layout_width="90dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="10dp"
@@ -82,16 +82,16 @@
 
         <TextView
             android:id="@+id/textInicioDescanso"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="Inicio descando: "
             android:layout_weight="1"
-            android:gravity="center"
-            android:padding="10dp"/>
+            android:gravity="center|left"
+            android:padding="10dp"
+            android:text="Inicio descanso: " />
 
         <TextView
             android:id="@+id/textMostrarInicioDescanso"
-            android:layout_width="113dp"
+            android:layout_width="90dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="10dp"
@@ -107,16 +107,16 @@
 
         <TextView
             android:id="@+id/textFinDescanso"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="center|left"
             android:padding="10dp"
             android:text="Fin descanso: " />
 
         <TextView
             android:id="@+id/textMostrarFinDescanso"
-            android:layout_width="105dp"
+            android:layout_width="90dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="10dp"

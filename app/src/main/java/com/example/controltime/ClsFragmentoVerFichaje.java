@@ -32,6 +32,7 @@ public class ClsFragmentoVerFichaje extends Fragment {
     int mes;
     ClsFichaje fichaje;
     boolean diaEncontrado;
+    int usuarioId;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -86,7 +87,7 @@ public class ClsFragmentoVerFichaje extends Fragment {
         mostrarFinDesc = vista.findViewById(R.id.textMostrarHoraFinDesc);
         mostrarMensaje = vista.findViewById(R.id.textMostrarError);
         usuarioAplicacion = ClsUser.UsuarioConectadoApp(getContext()).replace(".", "_").trim();
-
+        usuarioId= Integer.parseInt(ClsUser.UsuarioIdApp(getContext()));
 
         calendario.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -141,7 +142,7 @@ public class ClsFragmentoVerFichaje extends Fragment {
             @Override
             public void run() {
                 DbConnection.conectarBaseDeDatos();
-                fichaje = DbConnection.buscarHorario(dia,1);
+                fichaje = DbConnection.buscarHorario(dia,usuarioId);
                 DbConnection.cerrarConexion();
             }
         });

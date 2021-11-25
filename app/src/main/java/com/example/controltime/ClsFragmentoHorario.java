@@ -92,7 +92,7 @@ public class ClsFragmentoHorario extends Fragment {
         listaDeUsuarios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                AlertDialog.Builder opciones = new AlertDialog.Builder(view.getContext());
+              /*  AlertDialog.Builder opciones = new AlertDialog.Builder(view.getContext());
                 opciones.setMessage("¿Quieres validar el fichaje? una vez validado el fichaje no podrá ser modificado")
                         .setTitle("Advertencia")
                         .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
@@ -110,7 +110,15 @@ public class ClsFragmentoHorario extends Fragment {
 
                     }
                 });
-                opciones.show();
+                opciones.show();*/
+
+                if  (ClsUtils.MostrarMensajesConValidacion( getContext(),"¿Quieres validar el fichaje? una vez validado el fichaje no podrá ser modificado",""  ,ClsUtils.actividadEnum.VALIDAR)){
+                    System.out.println("Borramos usuario");
+                    validarHorario(usuarios.get(position).idFichaje);
+                    BorrarUsuariosHorario();
+                    buscarUsuarios();
+                    RellenarHorarios();
+                }
             }
         });
 

@@ -3,6 +3,7 @@ package com.example.controltime;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -23,7 +24,7 @@ import java.util.regex.Pattern;
 
 
 public class ClsUtils extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-
+    public static boolean estaAceptado;
     public enum actividadEnum {
         LOGIN("Login", 0),
         INSERTAR("Insertar", 1),
@@ -31,10 +32,12 @@ public class ClsUtils extends DialogFragment implements DatePickerDialog.OnDateS
         PERMISO("permiso",3),
         INFORMATIVO("Informacion",4),
         ERROR("Error",5),
-        PDF("pdf",6);
+        PDF("pdf",6),
+        VALIDAR("validar",7);
 
         private String stringValue;
         private int intValue;
+
         private actividadEnum(String toString, int value) {
             stringValue = toString;
             intValue = value;
@@ -105,6 +108,7 @@ public class ClsUtils extends DialogFragment implements DatePickerDialog.OnDateS
 
                 }
                 break;
+
         }
 
         // final CharSequence[] opciones = {mensaje   };
@@ -115,6 +119,49 @@ public class ClsUtils extends DialogFragment implements DatePickerDialog.OnDateS
           tit.setMessage(mensaje);
         tit.setView(view);
         tit.show();
+    }
+
+    public  static boolean   MostrarMensajesConValidacion(Context context, String mensaje, String titulo,  actividadEnum actividad){
+        View view = null;
+        estaAceptado=false;
+        LayoutInflater  layoutInflater=LayoutInflater.from(context);
+        switch (actividad){
+
+            case VALIDAR:
+                view=layoutInflater.inflate(R.layout.informativo,null);
+                break;
+
+        }
+
+        // final CharSequence[] opciones = {mensaje   };
+        AlertDialog.Builder alertInfo = new AlertDialog.Builder(context );
+
+        if (actividad==actividadEnum.VALIDAR) {
+            alertInfo.setMessage(mensaje)
+                    .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            estaAceptado=true;
+                        }
+                    })
+                    .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            estaAceptado=false;
+                        }
+                    });
+        }else{
+            alertInfo.setMessage(mensaje);
+        }
+        AlertDialog tit=alertInfo.create();
+
+        // tit.setMessage(mensaje);
+
+
+
+        tit.setView(view);
+        tit.show();
+        return estaAceptado;
     }
     /* TRABAJAR CON FECHAS DATEPicker*/
 
