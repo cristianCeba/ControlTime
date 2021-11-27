@@ -7,39 +7,39 @@
 
     <fragment
         android:id="@+id/nav_configuracion"
-        android:name="com.example.controltime.ClsFragmentoConfiguracion"
+        android:name="com.example.controltime.Fragmentos.ClsFragmentoConfiguracion"
         android:label="Configuración"
         tools:layout="@layout/fragment_cls_fragmento_configuracion" />
     <fragment
         android:id="@+id/nav_solicitarFichaje2"
-        android:name="com.example.controltime.ClsFragmentoSolicitarFichaje"
+        android:name="com.example.controltime.Fragmentos.ClsFragmentoSolicitarFichaje"
         android:label="Solicitar Fichaje" />
     <fragment
         android:id="@+id/nav_verFichaje"
-        android:name="com.example.controltime.ClsFragmentoVerFichaje"
+        android:name="com.example.controltime.Fragmentos.ClsFragmentoVerFichaje"
         android:label="Ver fichaje" />
     <fragment
         android:id="@+id/nav_fichaje"
-        android:name="com.example.controltime.ClsFragmentoFichaje"
+        android:name="com.example.controltime.Fragmentos.ClsFragmentoFichaje"
         android:label="Fichaje" />
     <fragment
         android:id="@+id/nav_permisos"
-        android:name="com.example.controltime.ClsFragmentoPermiso"
+        android:name="com.example.controltime.Fragmentos.ClsFragmentoPermiso"
         android:label="Permisos" />
     <fragment
         android:id="@+id/nav_informe"
-        android:name="com.example.controltime.ClsFragmentoInforme"
+        android:name="com.example.controltime.Fragmentos.ClsFragmentoInforme"
         android:label="Informe" />
     <fragment
         android:id="@+id/nav_validar"
-        android:name="com.example.controltime.ClsFragmentoValidar"
+        android:name="com.example.controltime.Fragmentos.ClsFragmentoValidar"
         android:label="Validar" />
     <activity
         android:id="@+id/nav_CerrarSesion"
-        android:name="com.example.controltime.Activity_Login"
+        android:name="com.example.controltime.Actividades.Activity_Login"
         android:label="Activity_Login" />
     <fragment
         android:id="@+id/nav_incluirUsuario"
-        android:name="com.example.controltime.ClsFragmentoIncluirUsuario"
+        android:name="com.example.controltime.Fragmentos.ClsFragmentoIncluirUsuario"
         android:label="ClsFragmentoIncluirUsuario" />
 </navigation>

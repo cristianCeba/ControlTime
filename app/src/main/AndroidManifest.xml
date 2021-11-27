@@ -14,14 +14,14 @@
         android:theme="@style/Theme.ControlTime"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".Activity_Login"
+            android:name=".Actividades.Activity_Login"
             android:label="@string/title_activity_splash"></activity>
         <activity
-            android:name=".Activity_Navegador"
+            android:name=".Actividades.Activity_Navegador"
             android:label="@string/title_activity__navegador"
             android:theme="@style/Theme.ControlTime.NoActionBar" />
-        <activity android:name=".Activity_ResetPassword" />
-        <activity android:name=".Splash"
+        <activity android:name=".Actividades.Activity_ResetPassword" />
+        <activity android:name=".Actividades.Splash"
             android:theme="@style/Theme.ControlTime.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,7 +29,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity_InsertUser" />
+        <activity android:name=".Actividades.Activity_InsertUser" />
     </application>
 
 </manifest>
