@@ -15,13 +15,14 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".Actividades.Activity_Login"
-            android:label="@string/title_activity_splash"></activity>
+            android:label="@string/title_activity_splash" />
         <activity
             android:name=".Actividades.Activity_Navegador"
             android:label="@string/title_activity__navegador"
             android:theme="@style/Theme.ControlTime.NoActionBar" />
         <activity android:name=".Actividades.Activity_ResetPassword" />
-        <activity android:name=".Actividades.Splash"
+        <activity
+            android:name=".Actividades.Splash"
             android:theme="@style/Theme.ControlTime.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -119,7 +119,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_horizontal"
-            android:background="@drawable/bordeslayout"
+
             android:orientation="horizontal">
             >
 
@@ -130,12 +130,12 @@
                 android:background="@drawable/guardara"
                 app:backgroundTint="@null" />
 
-            <Button
+           <!-- <Button
                 android:id="@+id/btnPermiso"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:background="@drawable/search_male_user"
-                app:backgroundTint="@null" />
+                app:backgroundTint="@null" />-->
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -229,8 +229,8 @@
 
         <LinearLayout
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
 
             android:orientation="horizontal">
 
@@ -239,8 +239,8 @@
                 android:id="@+id/calendar"
                 style="@style/CardView"
 
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginBottom="20dp"></sun.bob.mcalendarview.MCalendarView>
         </LinearLayout>
 

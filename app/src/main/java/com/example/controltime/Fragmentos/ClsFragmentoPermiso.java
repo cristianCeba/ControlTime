@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.controltime.Clases.ClsPermisos;
 import com.example.controltime.Clases.ClsTipoPermiso;
@@ -24,6 +26,7 @@ import com.example.controltime.Clases.ClsUser;
 import com.example.controltime.Clases.ClsUtils;
 import com.example.controltime.Clases.DbConnection;
 import com.example.controltime.R;
+import com.google.firebase.database.collection.LLRBNode;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -138,24 +141,27 @@ public class ClsFragmentoPermiso extends Fragment {
 
         edtFechaDesde=(EditText) vista.findViewById(R.id.edtFechaDesde);
         edtFechaDesde.setText(date);
-        edtFechaDesde.setOnClickListener(new View.OnClickListener() {
+        edtFechaDesde.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View v) {
-                getFechaSeleccionada(edtFechaDesde);
-
-              //  edtFechaDesde.setText(edtFechaDesde.getText());
-               // Toast.makeText(getContext(),"onClick Fechadesde" + edtFechaDesde.getText() ,Toast.LENGTH_LONG).show();
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) {
+                    edtFechaDesde.setInputType(InputType.TYPE_NULL);
+                    getFechaSeleccionada(edtFechaDesde);
+                }
             }
         });
 
 
+
         edtFechaHasta=(EditText) vista.findViewById(R.id.edtFechaHasta);
         edtFechaHasta.setText(date);
-        edtFechaHasta.setOnClickListener(new View.OnClickListener() {
+        edtFechaHasta.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View v) {
-                getFechaSeleccionada(edtFechaHasta);
-
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) {
+                    edtFechaHasta.setInputType(InputType.TYPE_NULL);
+                    getFechaSeleccionada(edtFechaHasta);
+                }
             }
         });
         FechaDesde=edtFechaDesde.getText().toString();
@@ -215,7 +221,7 @@ public class ClsFragmentoPermiso extends Fragment {
 
         /*** BOTON VER PERMISOS*
          * mostramos los dias que tienen permisos solicitados en el calendario         *         * */
-        btnPermiso=(Button) vista.findViewById(R.id.btnPermiso);
+       /* btnPermiso=(Button) vista.findViewById(R.id.btnPermiso);
         btnPermiso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -223,7 +229,7 @@ public class ClsFragmentoPermiso extends Fragment {
               LlenaPermisos( objUser.usuarioId,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString() );
 
             }
-        });
+        });*/
 
 
 
@@ -253,7 +259,10 @@ public class ClsFragmentoPermiso extends Fragment {
                         }else
                         {
                             ClsUtils.MostrarMensajes(getContext(),mensaje,"",false,ClsUtils.actividadEnum.PERMISO);
-
+                            Calendar cal=Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));;
+                            cal.setTime( new Date());
+                            int year = cal.get(Calendar.YEAR);
+                            LlenaPermisos( objUser.usuarioId,"01/01/"+year ,edtFechaHasta.getText().toString() );
                         }
                     }
                     //
@@ -274,6 +283,8 @@ public class ClsFragmentoPermiso extends Fragment {
 
     private void LlenaPermisos(int usuarioId,String desde , String hasta){
         cargaPermisos(usuarioId,desde,hasta);
+
+
         for(int i=0;i<=ArrayPermisos.size()-1;i++){
             try {
                 // colorDia=-1;
@@ -302,16 +313,20 @@ public class ClsFragmentoPermiso extends Fragment {
                             switch (ArrayPermisos.get(i).TipoPermiso){
                                 case 0: //Vacacions
                                     if (ArrayPermisos.get(i).Estado==0){
+                                      //  Toast.makeText(getContext(),"VACACIONES- COLOR GRIS  - ESTADO 0 Dia: " + d,Toast.LENGTH_LONG ).show();
                                         colorDia = Color.rgb(205,201,199);
                                     }else{
+                                      //  Toast.makeText(getContext(),"VACACIONES-  COLOR AMARILLO ,ESTADO 1 Dia: " + d,Toast.LENGTH_LONG ).show();
                                         colorDia=Color.rgb(247,218,56);
                                     }
                                     calendarView.markDate(y,m,d).setMarkedStyle(2,colorDia);
                                     break;
                                 case 1://Baja
                                     if (ArrayPermisos.get(i).Estado==0){
+                                     //   Toast.makeText(getContext(),"BAJA- COLOR GRIS  - ESTADO 0 Dia: " + d,Toast.LENGTH_LONG ).show();
                                         colorDia = Color.rgb(205,201,199);
                                     }else {
+                                    //    Toast.makeText(getContext(),"BAJA - COLOR MORADO  - ESTADO 1 Dia: " + d,Toast.LENGTH_LONG ).show();
                                         colorDia = Color.rgb(176, 39, 169);
                                     }
                                     calendarView.markDate(y,m,d).setMarkedStyle(3,colorDia);

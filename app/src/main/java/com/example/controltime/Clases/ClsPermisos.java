@@ -163,7 +163,7 @@ public class ClsPermisos {
             DbConnection.statement = DbConnection.connection.createStatement();
             ResultSet rs = DbConnection.statement.executeQuery("SELECT * FROM  ct_permisos " +
                     " WHERE usuarioId ='" + idUsuario + "' AND ((desdeFecha BETWEEN '" + diaIni + "' AND '" + diaFin + "')" +
-                    " OR (hastaFecha BETWEEN '" + diaIni + "' AND '" + diaFin + "'))");
+                    " OR (hastaFecha BETWEEN '" + diaIni + "' AND '" + diaFin + "')) ORDER BY desdeFecha");
             while (rs.next()) {
                 int permisosId= Integer.parseInt(rs.getString("permisosId"));
                 String desdeFecha=rs.getString("desdeFecha");

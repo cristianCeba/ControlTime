@@ -44,27 +44,32 @@ public class Activity_Navegador extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_fichaje,R.id.nav_configuracion,R.id.nav_CerrarSesion,R.id.nav_solicitarFichaje2,R.id.nav_verFichaje,R.id.nav_permisos,R.id.nav_informe)
-                .setDrawerLayout(drawer)
-                .build();
+        correo = ClsUser.UsuarioConectadoApp(getApplicationContext()).replace("_",".");
+        buscarUsuario(correo);
+
+            mAppBarConfiguration = new AppBarConfiguration.Builder(
+                  R.id.nav_inicio,  R.id.nav_fichaje,R.id.nav_configuracion,R.id.nav_CerrarSesion,R.id.nav_solicitarFichaje2,R.id.nav_verFichaje,R.id.nav_permisos,R.id.nav_informe)
+                    .setDrawerLayout(drawer)
+                    .build();
+
+
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-        correo = ClsUser.UsuarioConectadoApp(getApplicationContext()).replace("_",".");
-        buscarUsuario(correo);
+
 
         Menu M_Sie_Menu =navigationView.getMenu();
         MenuItem permisos= M_Sie_Menu.findItem(R.id.nav_permisos);
-        MenuItem fichaje= M_Sie_Menu.findItem(R.id.nav_fichaje);
+        MenuItem  fichaje= M_Sie_Menu.findItem(R.id.nav_fichaje);
+
         MenuItem verFichaje= M_Sie_Menu.findItem(R.id.nav_verFichaje);
         MenuItem solicitarFichaje= M_Sie_Menu.findItem(R.id.nav_solicitarFichaje2);
         MenuItem empleado= M_Sie_Menu.findItem(R.id.nav_incluirUsuario);
         MenuItem validar= M_Sie_Menu.findItem(R.id.nav_validar);
         MenuItem informe= M_Sie_Menu.findItem(R.id.nav_informe);
 
-
+        MenuItem inicio=M_Sie_Menu.findItem(R.id.nav_inicio);
 
        // Toast.makeText(Activity_Navegador.this, "ID_USUARIO: " + usuario.usuarioId , Toast.LENGTH_SHORT).show();
         TextView tNombreUsuario = navigationView.getHeaderView(0).findViewById(R.id.textNombre);
@@ -82,12 +87,15 @@ public class Activity_Navegador extends AppCompatActivity {
             fichaje.setVisible(false);
             verFichaje.setVisible(false);
             solicitarFichaje.setVisible(false);
+            inicio.setVisible(false);
         } else if (usuario.TipoUsuario == 1){
+            inicio.setVisible(false);
             empleado.setVisible(false);
         } else {
             validar.setVisible(false);
             informe.setVisible(false);
             empleado.setVisible(false);
+            inicio.setVisible(false);
         }
 
     }
