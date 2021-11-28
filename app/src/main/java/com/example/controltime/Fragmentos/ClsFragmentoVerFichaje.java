@@ -18,6 +18,10 @@ import com.example.controltime.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ClsFragmentoVerFichaje#newInstance} factory method to
@@ -89,44 +93,57 @@ public class ClsFragmentoVerFichaje extends Fragment {
         usuarioAplicacion = ClsUser.UsuarioConectadoApp(getContext()).replace(".", "_").trim();
         usuarioId= Integer.parseInt(ClsUser.UsuarioIdApp(getContext()));
 
+        Calendar cal=Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));;
+        cal.setTime( new Date());
+        int year = cal.get(Calendar.YEAR);
+        int mes= cal.get(Calendar.MONTH);
+        int dia= cal.get(Calendar.DAY_OF_MONTH);
+        mostrarFichajePorDia(mes,year,dia);
+
         calendario.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                limpiarPantalla();
-                diaEncontrado = false;
-                mes = month + 1;
-                if (mes >= 10) {
-                    dia = (year + "-" + mes + "-" + dayOfMonth );
-                } else {
-                    dia = (year + "-" + mes + "-" + dayOfMonth );
-                }
-                System.out.println("dia --> " + dia);
+                mostrarFichajePorDia(month,year,dayOfMonth);
 
-                buscarDia();
-
-                if (fichaje.getEstadoFichaje() == 1){
-                    if (fichaje.horaIni != null) {
-                        diaEncontrado = true;
-                        mostrarInicio.setText(fichaje.horaIni);
-                    }
-                    if (fichaje.horaFin != null) {
-                        mostrarFin.setText(fichaje.horaFin);
-                    }
-                    if (fichaje.horaIniDescanso != null) {
-                        mostrarInicioDesc.setText(fichaje.horaIniDescanso);
-                    }
-                    if (fichaje.horaFinDescanso != null) {
-                        mostrarFinDesc.setText(fichaje.horaFinDescanso);
-                    }
-                }
-
-                if (!diaEncontrado) {
-                    mostrarMensaje.setText("No se ha encontrado registro");
-                }
             }
         });
 
         return vista;
+    }
+
+
+    private void mostrarFichajePorDia(int month,int year,int dayOfMonth){
+        limpiarPantalla();
+        diaEncontrado = false;
+        mes = month + 1;
+        if (mes >= 10) {
+            dia = (year + "-" + mes + "-" + dayOfMonth );
+        } else {
+            dia = (year + "-" + mes + "-" + dayOfMonth );
+        }
+        System.out.println("dia --> " + dia);
+
+        buscarDia();
+
+        if (fichaje.getEstadoFichaje() == 1){
+            if (fichaje.horaIni != null) {
+                diaEncontrado = true;
+                mostrarInicio.setText(fichaje.horaIni);
+            }
+            if (fichaje.horaFin != null) {
+                mostrarFin.setText(fichaje.horaFin);
+            }
+            if (fichaje.horaIniDescanso != null) {
+                mostrarInicioDesc.setText(fichaje.horaIniDescanso);
+            }
+            if (fichaje.horaFinDescanso != null) {
+                mostrarFinDesc.setText(fichaje.horaFinDescanso);
+            }
+        }
+
+        if (!diaEncontrado) {
+            mostrarMensaje.setText("No se ha encontrado registro");
+        }
     }
 
     public void limpiarPantalla (){

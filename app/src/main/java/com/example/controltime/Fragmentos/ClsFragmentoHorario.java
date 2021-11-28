@@ -1,9 +1,11 @@
 package com.example.controltime.Fragmentos;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -97,7 +99,11 @@ public class ClsFragmentoHorario extends Fragment {
         listaDeUsuarios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-              /*  AlertDialog.Builder opciones = new AlertDialog.Builder(view.getContext());
+                LayoutInflater  layoutInflater=LayoutInflater.from(getContext());
+                view=layoutInflater.inflate(R.layout.informativo,null);
+
+
+               AlertDialog.Builder opciones = new AlertDialog.Builder(view.getContext());
                 opciones.setMessage("¿Quieres validar el fichaje? una vez validado el fichaje no podrá ser modificado")
                         .setTitle("Advertencia")
                         .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
@@ -115,15 +121,13 @@ public class ClsFragmentoHorario extends Fragment {
 
                     }
                 });
-                opciones.show();*/
 
-                if  (ClsUtils.MostrarMensajesConValidacion( getContext(),"¿Quieres validar el fichaje? una vez validado el fichaje no podrá ser modificado",""  ,ClsUtils.actividadEnum.VALIDAR)){
-                    System.out.println("Borramos usuario");
-                    validarHorario(usuarios.get(position).idFichaje);
-                    BorrarUsuariosHorario();
-                    buscarUsuarios();
-                    RellenarHorarios();
-                }
+
+                AlertDialog tit=opciones.create();
+                tit.setView(view);
+                tit.show();
+
+
             }
         });
 

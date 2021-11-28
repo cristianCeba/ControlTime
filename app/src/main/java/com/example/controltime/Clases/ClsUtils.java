@@ -123,48 +123,7 @@ public class ClsUtils extends DialogFragment implements DatePickerDialog.OnDateS
         tit.show();
     }
 
-    public  static boolean   MostrarMensajesConValidacion(Context context, String mensaje, String titulo,  actividadEnum actividad){
-        View view = null;
-        estaAceptado=false;
-        LayoutInflater  layoutInflater=LayoutInflater.from(context);
-        switch (actividad){
 
-            case VALIDAR:
-                view=layoutInflater.inflate(R.layout.informativo,null);
-                break;
-
-        }
-
-        // final CharSequence[] opciones = {mensaje   };
-        AlertDialog.Builder alertInfo = new AlertDialog.Builder(context );
-
-        if (actividad==actividadEnum.VALIDAR) {
-            alertInfo.setMessage(mensaje)
-                    .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            estaAceptado=true;
-                        }
-                    })
-                    .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            estaAceptado=false;
-                        }
-                    });
-        }else{
-            alertInfo.setMessage(mensaje);
-        }
-        AlertDialog tit=alertInfo.create();
-
-        // tit.setMessage(mensaje);
-
-
-
-        tit.setView(view);
-        tit.show();
-        return estaAceptado;
-    }
     /* TRABAJAR CON FECHAS DATEPicker*/
 
     private DatePickerDialog.OnDateSetListener listener;
@@ -200,16 +159,6 @@ public class ClsUtils extends DialogFragment implements DatePickerDialog.OnDateS
 
 
 
- /*   public static double getDiasSolicitados(String Fechadesde, String FechaHasta) throws ParseException {
-        double dias=0.0;
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        Date dataDesde = formato.parse(Fechadesde);
-        Date dataHasta = formato.parse(FechaHasta);
-        dias=( (dataHasta.getTime() - dataDesde.getTime()) / (1000 * 60 * 60 * 24));
-
-        return dias;
-    }*/
-
     public static double calculaDiasHabiles(String Fechadesde, String FechaHasta) throws ParseException {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         double diffDays = 0.0;
@@ -217,8 +166,6 @@ public class ClsUtils extends DialogFragment implements DatePickerDialog.OnDateS
         List<Date>listaFechasNoLaborables=new ArrayList<>();
 
 
-    //    String diaIni =ClsUtils.formatearFecha(Fechadesde,true  );
-      //  String diaFin = ClsUtils.formatearFecha(FechaHasta,true);
 
 
         Date dataDesde = formato.parse(Fechadesde);

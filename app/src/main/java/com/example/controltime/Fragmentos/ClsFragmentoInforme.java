@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,23 +121,31 @@ public class ClsFragmentoInforme extends Fragment {
 
         edtFechaHasta=(EditText) vista.findViewById(R.id.edtFechaHasta);
         edtFechaHasta.setText(date);
-        edtFechaHasta.setOnClickListener(new View.OnClickListener() {
+        edtFechaHasta.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View v) {
-                getFechaSeleccionada(edtFechaHasta);
-                edtFechaHasta.setText( edtFechaHasta.getText());
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) {
+                    edtFechaHasta.setInputType(InputType.TYPE_NULL);
+                    getFechaSeleccionada(edtFechaHasta);
+                    edtFechaHasta.clearFocus();
+                }
             }
         });
 
         edtFechaDesde=(EditText) vista.findViewById(R.id.edtFechaDesde);
         edtFechaDesde.setText(date);
-        edtFechaDesde.setOnClickListener(new View.OnClickListener() {
+        edtFechaDesde.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View v) {
-                getFechaSeleccionada(edtFechaDesde);
-                edtFechaDesde.setText(edtFechaDesde.getText());
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) {
+                    edtFechaDesde.setInputType(InputType.TYPE_NULL);
+                    getFechaSeleccionada(edtFechaDesde);
+                    edtFechaDesde.clearFocus();
+                }
             }
         });
+
+
 
 
 

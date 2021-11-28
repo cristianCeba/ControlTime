@@ -147,6 +147,7 @@ public class ClsFragmentoPermiso extends Fragment {
                 if(hasFocus) {
                     edtFechaDesde.setInputType(InputType.TYPE_NULL);
                     getFechaSeleccionada(edtFechaDesde);
+                    edtFechaDesde.clearFocus();
                 }
             }
         });
@@ -161,6 +162,7 @@ public class ClsFragmentoPermiso extends Fragment {
                 if(hasFocus) {
                     edtFechaHasta.setInputType(InputType.TYPE_NULL);
                     getFechaSeleccionada(edtFechaHasta);
+                    edtFechaHasta.clearFocus();
                 }
             }
         });

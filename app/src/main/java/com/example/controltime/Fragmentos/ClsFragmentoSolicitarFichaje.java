@@ -136,7 +136,7 @@ public class ClsFragmentoSolicitarFichaje extends Fragment {
                         fichaje.setHoraIni(inicioJornada.getText().toString());
                         fichaje.setHoraFin(finJornada.getText().toString());
                         fichaje.setHoraIniDescanso(inicioDescanso.getText().toString());
-                        fichaje.setHoraFinDescanso(finJornada.getText().toString());
+                        fichaje.setHoraFinDescanso(finDescanso.getText().toString());
                         incluirHorario(fichaje);
                     }
                 }
@@ -288,10 +288,10 @@ public class ClsFragmentoSolicitarFichaje extends Fragment {
             public void run() {
                 DbConnection.conectarBaseDeDatos();
                 if (id == 1){
-                    DbConnection.incluirHoranFin(dia,1,fichaje.getHoraFin().toString(),id);
+                    DbConnection.incluirHoranFin(dia,objUsuario.usuarioId,fichaje.getHoraFin().toString(),id);
 
                 }else {
-                    DbConnection.incluirHoranFin(dia,1,fichaje.getHoraFinDescanso().toString(),id);
+                    DbConnection.incluirHoranFin(dia,objUsuario.usuarioId,fichaje.getHoraFinDescanso().toString(),id);
                 }
                 DbConnection.cerrarConexion();
             }
