@@ -8,38 +8,45 @@ public class ClsTipoUsuario {
     int id;
     String Tipo;
 
+    /***
+     * Constructor de la clase
+     * @param id id del tipo de usuario
+     * @param tipo descripcion de tipo
+     */
     public ClsTipoUsuario(int id, String tipo) {
         this.id=id;
         this.Tipo=tipo;
-
     }
+    /***
+     * Constructor inicializado
+     */
     public ClsTipoUsuario() {
         this.id=0;
         this.Tipo="";
-
-    }
-    public int getId() {
-        return id;
     }
 
-    public String getTipo() {
-        return Tipo;
-    }
+    /***
+     * Propiedades de la clase
+     * @return
+     */
+    public int getId() {return id;}
+    public String getTipo() {return Tipo;}
+    public void setId(int id) {this.id = id;}
+    public void setTipo(String tipo) {Tipo = tipo;}
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setTipo(String tipo) {
-        Tipo = tipo;
-    }
-
+    /***
+     * Metodo toString sobrecargado
+     * @return
+     */
     @Override
     public String toString() {
         return  Tipo ;
     }
 
-    /***Metodo que devuelve todos los tipos de Usuario*/
+    /***
+     * Metodo que devuelve todos los tipos de Usuario
+     * @return devuelve un array del tipo ClsTipoUsuario
+     */
     public static ArrayList<ClsTipoUsuario> getTipoUsuario ( ){
         List<ClsTipoUsuario> array = new ArrayList<>() ;
 
@@ -57,7 +64,11 @@ public class ClsTipoUsuario {
         return (ArrayList<ClsTipoUsuario>) array;
     }
 
-    /***Metodo que devuelve todos un tipo de usuario por Id*/
+    /***
+     * Metodo que devuelve todos un tipo de usuario por Id
+     * @param idTipoUsuario id por el que se hacer la busqueda
+     * @return  devuelve un array del tipo ClsTipoUsuario
+     */
     public static ArrayList<ClsTipoUsuario> getTipoUsuarioXId ( int idTipoUsuario){
         List<ClsTipoUsuario> array = new ArrayList<>() ;
 

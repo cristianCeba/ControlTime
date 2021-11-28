@@ -20,6 +20,10 @@ public class ClsUsuarioPermiso implements Serializable {
 
     }
 
+    /***
+     * Propiedades de la clase
+     * @return
+     */
     public String getNombre() {
         return nombre;
     }
@@ -84,6 +88,12 @@ public class ClsUsuarioPermiso implements Serializable {
         this.idPermiso = idPermiso;
     }
 
+    /***
+     * Metodo que busca permisos por departamento descartamndo el usuario jefe
+     * @param idUsuarioJefe usuario jefe
+     * @param departamentoId id departamento
+     * @return
+     */
     public static ArrayList<ClsUsuarioPermiso> BuscarPermisoPorUsuario(int idUsuarioJefe, int departamentoId){
         ArrayList<ClsUsuarioPermiso> usuarios = new ArrayList<ClsUsuarioPermiso>();
 
@@ -114,6 +124,12 @@ public class ClsUsuarioPermiso implements Serializable {
         return usuarios;
     }
 
+    /***
+     * Metodo que busca todos los usuarios descartando el usuario jefe
+     * @param idUsuarioJefe usuario jefe
+     *
+     * @return
+     */
     public static ArrayList<ClsUsuarioPermiso> BuscarTodosLosUsuarios(int idUsuarioJefe, int departamentoId){
         ArrayList<ClsUsuarioPermiso> usuarios = new ArrayList<ClsUsuarioPermiso>();
 
@@ -145,6 +161,10 @@ public class ClsUsuarioPermiso implements Serializable {
         return usuarios;
     }
 
+    /***
+     * Metodo que modifica el estado del permiso
+     * @param idPermiso id permiso
+     */
     public static void validarPermiso (String idPermiso){
         try {
 

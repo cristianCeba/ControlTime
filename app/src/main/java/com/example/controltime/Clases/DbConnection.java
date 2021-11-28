@@ -15,6 +15,10 @@ public class DbConnection {
         return statement;
     }
 
+    /***
+     * Metodo que conecta con la base de datos
+     * @return
+     */
     public static boolean conectarBaseDeDatos (){
 
         String url = "jdbc:mysql://qxp181.pacopiesgato.es:3306/qxp181";
@@ -36,6 +40,9 @@ public class DbConnection {
         return conecta;
     }
 
+    /***
+     * Metodo que cierra la conexiom
+     */
     public static void cerrarConexion (){
         if(connection!=null){
             try {
@@ -45,7 +52,7 @@ public class DbConnection {
             }
         }
     }
-    public static void insertarUsuario (){
+    /*public static void insertarUsuario (){
         try {
 
             //3.sql declaración
@@ -58,7 +65,7 @@ public class DbConnection {
             e.printStackTrace();
         }
 
-    }
+    }*/
 
 
     public static void insertarFichaje (String dia,int idUsuario,String horaEntrada,int id,int estadoFichaje){

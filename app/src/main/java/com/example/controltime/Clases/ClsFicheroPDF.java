@@ -15,17 +15,29 @@ import java.io.IOException;
 import java.util.List;
 
 public class ClsFicheroPDF {
-String Ruta;
+
 String Nombre;
 
+    /***
+     * Constructor de la clase
+     * @param nombre nombre del fichero
+     */
     public ClsFicheroPDF(  String nombre) {
-
         Nombre = nombre;
     }
+    /***
+     * Constructor inicializado
+     */
     public ClsFicheroPDF() {
-        Ruta = "";
         Nombre = "";
     }
+    /***
+     * Metodo que genera un pdf y lo guarda el la ruta de las descargas
+     * @param context  Context de donde viene
+     * @param ArrayPermisos array de los permisos
+     * @param ArrayFichajes array de los fichajes
+     * @return devuelve un valor boolean (true - generado correctamente ; false - no se ha generado)
+     */
     public boolean generarPDF(Context context, List<ClsPermisos>ArrayPermisos, List<ClsFichaje>ArrayFichajes)  {
         Document doc = new Document();
         boolean estaGenerado=false;
@@ -91,36 +103,5 @@ String Nombre;
         }
 return  estaGenerado;
     }
-    /*public   File crearFichero(String nombreFichero,String Ruta) throws IOException {
-        File ruta = getRuta(Ruta);
-        File fichero = null;
-        if (ruta != null) {
-            fichero = new File(ruta, nombreFichero);
-        }
-        return fichero;
-    }*/
-    /**
-     * Obtenemos la ruta donde vamos a almacenar el fichero.
-     *
-     * @return
-     */
- /*   public  File getRuta (  String Ruta) {
-        // El fichero sera almacenado en un directorio dentro del directorio Descargas
-        File ruta = null;
-        ruta=new  File(String.valueOf(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)));
 
-      if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            ruta = new File(String.valueOf(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)));
-
-            if (ruta != null) {
-                if (!ruta.mkdirs()) {
-                    if (!ruta.exists()) {
-                         return null;
-                    }
-                }
-            }
-        }
-
-        return ruta;
-    }*/
 }

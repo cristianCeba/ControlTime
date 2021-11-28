@@ -21,6 +21,10 @@ public class ClsUsuarioHorario implements Serializable {
 
     }
 
+    /***
+     * Propiedades de la clase
+     * @return
+     */
     public String getNombre() {
         return nombre;
     }
@@ -101,6 +105,12 @@ public class ClsUsuarioHorario implements Serializable {
         this.idFichaje = idFichaje;
     }
 
+    /***
+     * Metodo que busca por departamento , descartando el usuario jefe
+     * @param idUsuarioJefe el jefe del departamento
+     * @param departamentoId id del departamento
+     * @return devuelve un array con todos los empleados del departamento
+     */
     public static ArrayList<ClsUsuarioHorario> buscarHorarioPorUsuario(int idUsuarioJefe, int departamentoId){
         ArrayList<ClsUsuarioHorario> usuarios = new ArrayList<ClsUsuarioHorario>();
 
@@ -133,6 +143,12 @@ public class ClsUsuarioHorario implements Serializable {
         return usuarios;
     }
 
+    /***
+     * Metodo qe carga todos los usuarios menos que usuario jefe
+     * @param idUsuarioJefe usuario jefe
+     * @param departamentoId
+     * @return
+     */
     public static ArrayList<ClsUsuarioHorario> buscarTodosLosUsuarios (int idUsuarioJefe,int departamentoId){
         ArrayList<ClsUsuarioHorario> usuarios = new ArrayList<ClsUsuarioHorario>();
 
@@ -165,6 +181,10 @@ public class ClsUsuarioHorario implements Serializable {
         return usuarios;
     }
 
+    /***
+     * Metodo que modifica el estado del fichaje
+     * @param idFichaje id del fichaje
+     */
     public static void validarHorario (int idFichaje){
         try {
 

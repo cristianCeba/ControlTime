@@ -27,6 +27,10 @@ import java.util.regex.Pattern;
 
 public class ClsUtils extends DialogFragment implements DatePickerDialog.OnDateSetListener {
     public static boolean estaAceptado;
+
+    /***
+     * enum para ver de que actividad viene
+     */
     public enum actividadEnum {
         LOGIN("Login", 0),
         INSERTAR("Insertar", 1),
@@ -50,16 +54,33 @@ public class ClsUtils extends DialogFragment implements DatePickerDialog.OnDateS
             return stringValue;
         }
     }
+
+    /***
+     * metodo que valida el email
+     * @param email email a validar
+     * @return
+     */
     public static boolean validarEmail (String email){
         Pattern pattern = Patterns.EMAIL_ADDRESS;
         return pattern.matcher(email).matches();
     }
-
+    /***
+     * Metodo que valida la contraseña
+     * @param password contraseña a validar
+     * @return
+     */
     public static boolean validarContraseña (String password) {
         String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
         return password.matches(pattern);
     }
-
+    /***
+     * metodo que muestra mensaje , por actividad y tipo de mensaje a mostrar
+     * @param context
+     * @param mensaje
+     * @param titulo
+     * @param esError
+     * @param actividad
+     */
     public static void MostrarMensajes(Context context, String mensaje, String titulo, boolean esError,actividadEnum actividad){
         View view = null;
         LayoutInflater  layoutInflater=LayoutInflater.from(context);
@@ -158,7 +179,13 @@ public class ClsUtils extends DialogFragment implements DatePickerDialog.OnDateS
     /*FIN  TRABAJAR CON FECHAS DATEPicker*/
 
 
-
+    /***
+     * Metodo que calcula los dias habiles entre dos fechas
+     * @param Fechadesde fecha inicial
+     * @param FechaHasta fecha final
+     * @return devuelve los dias
+     * @throws ParseException
+     */
     public static double calculaDiasHabiles(String Fechadesde, String FechaHasta) throws ParseException {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         double diffDays = 0.0;
@@ -204,6 +231,12 @@ public class ClsUtils extends DialogFragment implements DatePickerDialog.OnDateS
         return diffDays;
 
     }
+
+    /***
+     * Metodo que carga los festivos del año
+     * @return devuelve una lista con los dias
+     * @throws ParseException
+     */
     public static List<Date> listaFechasNoLaborables() throws ParseException {
         List<Date> arrayFechas=new ArrayList<>();
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
@@ -225,6 +258,12 @@ public class ClsUtils extends DialogFragment implements DatePickerDialog.OnDateS
 
     }
 
+    /***
+     * metodo que da formato a la fecha
+     * @param fecha fecha para dar el formato
+     * @return devuelve un string con la fecha formateada
+     * @throws ParseException
+     */
     public static String formatearFecha(String fecha) throws ParseException {
         final String OLD_FORMAT = "dd/MM/yyyy";
         final String NEW_FORMAT = "yyyy/MM/dd";

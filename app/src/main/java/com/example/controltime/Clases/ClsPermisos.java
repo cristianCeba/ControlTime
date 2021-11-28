@@ -16,7 +16,9 @@ public class ClsPermisos {
     public int TipoPermiso;
     public int Estado;
 
-    /*CONSTRUCTOR , INICIALIZAMOS LA CLASE*/
+    /***
+     * CONSTRUCTOR , INICIALIZAMOS LA CLASE
+     */
     public ClsPermisos() {
         this.UsuarioId = 0;
         this.dias = 0.0;
@@ -26,7 +28,10 @@ public class ClsPermisos {
         this.Estado=0;
         this.RowId=0;
     }
-
+    /***
+     * Metodo toString sobrecargado
+     * @return
+     */
     @Override
     public String  toString() {
         return "FechaDesde='" + FechaDesde + '\'' +
@@ -37,10 +42,18 @@ public class ClsPermisos {
 
     }
 
-    /***CONSTRUCTOR DE LA CLASE*/
+    /***
+     * CONSTRUCTOR DE LA CLASE
+     * @param UsuarioId id del usuario
+     * @param dias dias de permiso
+     * @param FechaDesde fecha inicia permiso
+     * @param FechaHasta fecha fin permiso
+     * @param TipoPermiso tipo de permiso
+     * @param Estado el estado del permiso
+     * @param Id el id del permiso
+     */
     public ClsPermisos( int UsuarioId, double dias,String FechaDesde,String FechaHasta,
                         int TipoPermiso,int Estado,int Id ) {
-
         this.UsuarioId = UsuarioId;
         this.dias = dias;
         this.FechaDesde =FechaDesde;
@@ -48,67 +61,35 @@ public class ClsPermisos {
         this.TipoPermiso=TipoPermiso;
         this.Estado=Estado;
         this.RowId=Id;
-
-
     }
+    /***
+     * Propiedades de la clase
+     * @param rowId
+     */
+    public void setRowId(int rowId) {RowId = rowId;}
+    public void setUsuarioId(int usuarioId) {UsuarioId = usuarioId;}
+    public void setDias(double dias) {this.dias = dias;}
+    public void setFechaDesde(String fechaDesde) {FechaDesde = fechaDesde;}
+    public void setFechaHasta(String fechaHasta) {FechaHasta = fechaHasta;}
+    public void setTipoPermiso(int tipoPermiso) {TipoPermiso = tipoPermiso;}
+    public void setEstado(int estado) {Estado = estado;}
+    public int getRowId() {return RowId;}
+    public int getUsuarioId() {return UsuarioId;}
+    public double getDias() {return dias;}
+    public String getFechaDesde() {return FechaDesde;}
+    public String getFechaHasta() {return FechaHasta;}
+    public int getTipoPermiso() {return TipoPermiso;}
+    public int getEstado() {return Estado;}
 
-    public void setRowId(int rowId) {
-        RowId = rowId;
-    }
-
-    public void setUsuarioId(int usuarioId) {
-        UsuarioId = usuarioId;
-    }
-
-    public void setDias(double dias) {
-        this.dias = dias;
-    }
-
-    public void setFechaDesde(String fechaDesde) {
-        FechaDesde = fechaDesde;
-    }
-
-    public void setFechaHasta(String fechaHasta) {
-        FechaHasta = fechaHasta;
-    }
-
-    public void setTipoPermiso(int tipoPermiso) {
-        TipoPermiso = tipoPermiso;
-    }
-
-    public void setEstado(int estado) {
-        Estado = estado;
-    }
-
-    public int getRowId() {
-        return RowId;
-    }
-
-    public int getUsuarioId() {
-        return UsuarioId;
-    }
-
-    public double getDias() {
-        return dias;
-    }
-
-    public String getFechaDesde() {
-        return FechaDesde;
-    }
-
-    public String getFechaHasta() {
-        return FechaHasta;
-    }
-
-    public int getTipoPermiso() {
-        return TipoPermiso;
-    }
-
-    public int getEstado() {
-        return Estado;
-    }
-
-    /***Metodo que inserta ppor usuario , fechas y tipode Permiso*/
+    /***
+     * Metodo que inserta ppor usuario , fechas y tipode Permiso
+     * @param idUsuario id del usuario
+     * @param fechaIni  fecha inicio del permiso
+     * @param fechaFin fecha fin del permiso
+     * @param tipoId tipo del permiso
+     * @param dias total dias de permiso
+     * @return
+     */
     public static boolean insertarPermiso (int idUsuario,String fechaIni,String fechaFin,int tipoId,double dias){
         boolean insertado=false;
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
@@ -131,7 +112,14 @@ public class ClsPermisos {
         }
         return !insertado;
     }
-    /***Comprueba que no esta pedidas las fechas seleccionadas*/
+
+    /***
+     * Comprueba que no esta pedidas las fechas seleccionadas por usuaio
+     * @param idUsuario id del usuario a buscar
+     * @param fechaIni fecha inicio del permiso
+     * @param fechaFin fecha fin del permiso
+     * @return devuelve un valor boolean  (true - estan pedidas ; false -no hay fecha pedidas)
+     */
     public static boolean validaIntevalosFechas(int idUsuario,String fechaIni,String fechaFin) {
         boolean hayDatos = false;
         try {
@@ -153,7 +141,14 @@ public class ClsPermisos {
         }
         return (hayDatos);
     }
-   /***Devuelve todos los permisos que tiene un usuario por fechas*/
+
+    /***
+     * Devuelve todos los permisos que tiene un usuario por fechas
+     * @param idUsuario id del usuario
+     * @param fechaIni fecha inicio
+     * @param fechaFin fecha fin
+     * @return devuelve un array de tipo ClsPermisos
+     */
     public static ArrayList<ClsPermisos> getPermisos (int idUsuario, String fechaIni,String fechaFin ){
         List<ClsPermisos> objPermisos = new ArrayList<>() ;
 
@@ -180,7 +175,16 @@ public class ClsPermisos {
         }
         return (ArrayList<ClsPermisos>) objPermisos;
     }
-    /***Devuelve todos los permisos que tiene un usuario por fechas, tipo y estado*/
+
+    /***
+     * Devuelve todos los permisos que tiene un usuario por fechas, tipo y estado
+     * @param idUsuario id usuario
+     * @param fechaIni fecha inicio
+     * @param fechaFin fecha fin
+     * @param tipoPermisoId tipo de permiso
+     * @param estadoId estado
+     * @return devuelve un array de tipo Clspermiso
+     */
     public static ArrayList<ClsPermisos> getPermisos (int idUsuario, String fechaIni,String fechaFin,int tipoPermisoId, int estadoId ){
         List<ClsPermisos> objPermisos = new ArrayList<>() ;
 
@@ -208,7 +212,15 @@ public class ClsPermisos {
         }
         return (ArrayList<ClsPermisos>) objPermisos;
     }
-    /***Devuelve todos los permisos que tiene un usuario por fechas,   y estado*/
+
+    /***
+     * Devuelve todos los permisos que tiene un usuario por fechas,   y estado
+     @param idUsuario id usuario
+      * @param fechaIni fecha inicio
+     * @param fechaFin fecha fin
+     * @param estadoId estado
+     * @return devuelve un array de tipo Clspermiso
+     */
     public static ArrayList<ClsPermisos> getPermisos (int idUsuario, String fechaIni,String fechaFin,  int estadoId ){
         List<ClsPermisos> objPermisos = new ArrayList<>() ;
 

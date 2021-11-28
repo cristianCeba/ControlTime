@@ -8,38 +8,42 @@ public class ClsTipoPermiso {
     int id;
     String Tipo;
 
+    /***
+     * Constructor de la clase
+     * @param id id del tipo de permiso
+     * @param tipoPermisos descripcion permiso
+     */
     public ClsTipoPermiso(int id, String tipoPermisos) {
         this.id=id;
         this.Tipo=tipoPermisos;
     }
-
+    /***
+     * Clase inicializada
+     */
     public ClsTipoPermiso() {
         this.id=0;
         this.Tipo="tipoPermisos";
     }
 
-    public int getId() {
-        return id;
+    public int getId() {return id;}
+    public String getTipo() {return Tipo;}
+    public void setId(int id) {this.id = id;}
+    public void setTipo(String tipo) {Tipo = tipo;
     }
 
-    public String getTipo() {
-        return Tipo;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setTipo(String tipo) {
-        Tipo = tipo;
-    }
-
+    /***
+     * Metodo toString sobrecargado
+     * @return devuelve la descripcion del tipo de permiso
+     */
     @Override
     public String toString() {
         return  Tipo ;
     }
 
-/***Metodo que devuelve todos los tipos de permisos*/
+    /***
+     * Metodo que devuelve todos los tipos de permisos
+     * @return devuelve un array del tipo ClsTipoPermiso
+     */
     public static ArrayList<ClsTipoPermiso> getPermisos ( ){
         List<ClsTipoPermiso> objPer = new ArrayList<>() ;
 
@@ -56,8 +60,11 @@ public class ClsTipoPermiso {
         }
         return (ArrayList<ClsTipoPermiso>) objPer;
     }
-
-    /***Metodo que devuelve todos un tipo de permisos por Id*/
+    /***
+     * Metodo que devuelve todos un tipo de permisos por Id
+     * @param idTipoPermiso id por el que se va a hacer la busqueda
+     * @return   devuelve un array del tipo ClsTipoPermiso
+     */
     public static ArrayList<ClsTipoPermiso> getTipoPermisoXId ( int idTipoPermiso){
         List<ClsTipoPermiso> objPer = new ArrayList<>() ;
 

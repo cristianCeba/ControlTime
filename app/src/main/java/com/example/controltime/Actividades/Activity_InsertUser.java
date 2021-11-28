@@ -14,7 +14,6 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.controltime.Clases.ClsGrupoXUsuarios;
 import com.example.controltime.Clases.ClsGrupos;
 import com.example.controltime.Clases.ClsTipoUsuario;
 import com.example.controltime.Clases.ClsUser;
@@ -43,7 +42,7 @@ public class Activity_InsertUser extends AppCompatActivity {
     TextView txtMensajeNombre;
     TextView txtMensajeApe;
     TextView txtMensajeEmail;
-    TextView txtIdGrupo;
+
     Spinner spnTipoUsuario;
     Spinner spnGrupo;
     Spinner spnIdGrupo;
@@ -61,7 +60,7 @@ public class Activity_InsertUser extends AppCompatActivity {
     ClsUtils utils;
     ClsTipoUsuario objTipoUsuario;
     ClsGrupos objGrupos;
-    ClsGrupoXUsuarios objGXU;
+
     private DatabaseReference mDataBase;
     private FirebaseAuth mAuth;
     String Id;
