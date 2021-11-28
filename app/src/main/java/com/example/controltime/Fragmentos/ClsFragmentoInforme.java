@@ -184,7 +184,7 @@ public class ClsFragmentoInforme extends Fragment {
             public void onClick(View v) {
                 cargaPermisos(idSeleccion,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
                 String Nombre= idSeleccion+ "Permisos_" + edtFechaDesde.getText().toString().replace("/","") +"_" + edtFechaHasta.getText().toString().replace("/","") + ".pdf";
-                objPDF=new ClsFicheroPDF(CARPETA_PDF_PERMISOS,Nombre);
+                objPDF=new ClsFicheroPDF(Nombre);
               if(!objPDF.generarPDF(getContext(),ArrayPermisos,ArrayFichajes)){
                   ClsUtils.MostrarMensajes(getContext(), "Ha habido un error al generar e pdf, intentelo mas tarde", "", true, ClsUtils.actividadEnum.ERROR);
               }else {
@@ -200,7 +200,7 @@ public class ClsFragmentoInforme extends Fragment {
             public void onClick(View v) {
                cargaFichajes(idSeleccion,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString()  );
                 String Nombre= idSeleccion+ "Fichajes_" + edtFechaDesde.getText().toString().replace("/","") +"_" + edtFechaHasta.getText().toString().replace("/","") + ".pdf";
-                objPDF=new ClsFicheroPDF(CARPETA_PDF_PERMISOS,Nombre);
+                objPDF=new ClsFicheroPDF(Nombre);
                 if(!objPDF.generarPDF(getContext(),ArrayPermisos,ArrayFichajes)){
                     ClsUtils.MostrarMensajes(getContext(), "Ha habido un error al generar e pdf, intentelo mas tarde", "", true, ClsUtils.actividadEnum.ERROR);
                 }else {

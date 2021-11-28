@@ -187,20 +187,14 @@ public class ClsFragmentoConfiguracion extends Fragment {
         intent.setType("image/*");
         startActivityForResult(intent, PICK_PDF_FILE);
     }
-
-
     @Override // Subimos la imagen a firebase y guardamos el id de la imagen en la base de datos.
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         System.out.println("Subimos documento");
         Uri rui = data.getData();
         String correo = ClsUser.UsuarioConectadoApp(getContext());
-
         String [] numeroImagen = rui.getLastPathSegment().split(":");
-
-
         StorageReference filePath = storage.child("imagenes").child(correo).child(numeroImagen[1]);
-
         filePath.putFile(rui).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -222,7 +216,6 @@ public class ClsFragmentoConfiguracion extends Fragment {
             storage = FirebaseStorage.getInstance().getReference();
             String usuario1 = ClsUser.UsuarioConectadoApp(getContext());
             StorageReference pathReference = storage.child("imagenes").child(usuario1).child(idImagen);
-
             pathReference.getBytes(1024*1024*5).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                 @Override
                 public void onSuccess(byte[] bytes) {
@@ -230,9 +223,7 @@ public class ClsFragmentoConfiguracion extends Fragment {
                     imagen.setImageBitmap(bitMap);
                 }
             });
-
         }
-
     }
 
     public void buscarUsuario (){

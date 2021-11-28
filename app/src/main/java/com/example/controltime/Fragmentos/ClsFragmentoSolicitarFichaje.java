@@ -37,6 +37,8 @@ public class ClsFragmentoSolicitarFichaje extends Fragment {
     ClsFichaje fichaje = new ClsFichaje();
     String usuarioAplicacion,dia;
     int mes;
+    ClsUser objUsuario;
+    String mensaje;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -90,7 +92,7 @@ public class ClsFragmentoSolicitarFichaje extends Fragment {
         calendario = vista.findViewById(R.id.calendarView2);
         pat = Pattern.compile("[0-9]{2}:[0-9]{2}");
         usuarioAplicacion = ClsUser.UsuarioConectadoApp(getContext()).replace(".", "_").trim();
-
+        buscarUsuario(Integer.parseInt(ClsUser.UsuarioIdApp(getContext())));
         diaMarcado = false;
         dia = "";
         //Guardamos el día que selecciona el usuario
@@ -262,10 +264,10 @@ public class ClsFragmentoSolicitarFichaje extends Fragment {
                 int estadoFichaje = 0;
                 DbConnection.conectarBaseDeDatos();
                 if (id == 1){
-                    DbConnection.insertarFichaje(dia,1,fichaje.getHoraIni().toString(),id,estadoFichaje);
+                    DbConnection.insertarFichaje(dia,objUsuario.usuarioId,fichaje.getHoraIni().toString(),id,estadoFichaje);
 
                 }else {
-                    DbConnection.insertarFichaje(dia,1,fichaje.getHoraIniDescanso().toString(),id,estadoFichaje);
+                    DbConnection.insertarFichaje(dia,objUsuario.usuarioId,fichaje.getHoraIniDescanso().toString(),id,estadoFichaje);
                 }
                 DbConnection.cerrarConexion();
             }
@@ -301,6 +303,30 @@ public class ClsFragmentoSolicitarFichaje extends Fragment {
 
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+    public void buscarUsuario (int id){
+        mensaje="";
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(DbConnection.conectarBaseDeDatos()){
+                    objUsuario = ClsUser.getUsuario(id);
+                    DbConnection.cerrarConexion();
+                }else{
+                    mensaje="Ha ocurrido un error intentelo en unos minutos";
+
+                }
+
+            }
+        });
+        h1.start();
+        try {
+
+            h1.join();
+
+        } catch (InterruptedException e) {
+            mensaje="Ha ocurrido un error intentelo en unos minutos";
         }
     }
 

@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.controltime.Clases.ClsUser;
+import com.example.controltime.Clases.DbConnection;
 import com.example.controltime.R;
 
 /**
@@ -16,7 +18,7 @@ import com.example.controltime.R;
  * create an instance of this fragment.
  */
 public class ClsFragmentInicio extends Fragment {
-
+    ClsUser usuario;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -54,13 +56,48 @@ public class ClsFragmentInicio extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
+
         }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cls_inicio, container, false);
+        int id= Integer.parseInt(ClsUser.UsuarioIdApp(getContext()));
+
+        buscarUsuario(id);
+        if(usuario.TipoUsuario==0){
+            return inflater.inflate(R.layout.fragment_cls_fragmento_validar, container, false);
+        }else{
+            return inflater.inflate(R.layout.fragment_cls_fragmento_fichaje, container, false);
+        }
+        //return inflater.inflate(R.layout.fragment_cls_inicio, container, false);
+
+    }
+
+
+    public void buscarUsuario (int id){
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(DbConnection.conectarBaseDeDatos()){
+                    usuario = ClsUser.getUsuario(id);
+                    DbConnection.cerrarConexion();
+                }
+
+            }
+        });
+        h1.start();
+        try {
+
+            h1.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
