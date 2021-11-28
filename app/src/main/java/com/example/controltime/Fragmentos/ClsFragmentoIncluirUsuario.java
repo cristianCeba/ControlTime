@@ -1,5 +1,6 @@
 package com.example.controltime.Fragmentos;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,8 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.controltime.Actividades.Activity_InsertUser;
+import com.example.controltime.Actividades.Activity_Navegador;
 import com.example.controltime.Clases.ClsGrupos;
 import com.example.controltime.Clases.ClsTipoUsuario;
 import com.example.controltime.Clases.ClsUser;
@@ -223,10 +226,14 @@ public class ClsFragmentoIncluirUsuario extends Fragment {
                                     insertar();
                                     if(mensaje!=""){
                                         ClsUtils.MostrarMensajes(getContext(),"","",true,ClsUtils.actividadEnum.INSERTAR);
+                                        //   Toast.makeText(getApplicationContext(),mensaje ,Toast.LENGTH_LONG).show();
                                     }else {
+
                                         ClsUtils.MostrarMensajes(getContext(),"","",false,ClsUtils.actividadEnum.INSERTAR);
 
                                     }
+                                }else{
+                                    ClsUtils.MostrarMensajes(getContext(),"El usuario ya existe ","",false,ClsUtils.actividadEnum.INFORMATIVO);
                                 }
                             }
                         });
