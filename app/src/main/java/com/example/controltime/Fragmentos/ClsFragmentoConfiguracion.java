@@ -146,8 +146,7 @@ public class ClsFragmentoConfiguracion extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        int idGuardarImagen = 2131230955;
-        if (item.getItemId() == idGuardarImagen){
+        if (item.getItemId() == R.id.guardar){
             //Cambiamos el nombre del usuario
             if (nombre.getText().toString().isEmpty()) {
                 Toast.makeText(getContext(), "El nombre no puede estar vacío", Toast.LENGTH_SHORT).show();
