@@ -68,6 +68,7 @@ public class Activity_Navegador extends AppCompatActivity {
         MenuItem empleado= M_Sie_Menu.findItem(R.id.nav_incluirUsuario);
         MenuItem validar= M_Sie_Menu.findItem(R.id.nav_validar);
         MenuItem informe= M_Sie_Menu.findItem(R.id.nav_informe);
+        MenuItem conf= M_Sie_Menu.findItem(R.id.nav_configuracion);
 
         MenuItem inicio=M_Sie_Menu.findItem(R.id.nav_inicio);
 

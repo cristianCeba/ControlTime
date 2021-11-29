@@ -62,7 +62,7 @@ android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Inicio Permiso: "
+            android:text="Inicio : "
             android:textColor="@color/cardview_dark_background"/>
 
         <TextView
@@ -75,7 +75,7 @@ android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" Fin Permiso: "
+            android:text=" Fin : "
             android:textColor="@color/cardview_dark_background"/>
 
         <TextView

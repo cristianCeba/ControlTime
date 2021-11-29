@@ -125,19 +125,21 @@ public class ClsFragmentoVerFichaje extends Fragment {
 
         buscarDia();
 
-        if (fichaje.getEstadoFichaje() == 1){
-            if (fichaje.horaIni != null) {
-                diaEncontrado = true;
-                mostrarInicio.setText(fichaje.horaIni);
-            }
-            if (fichaje.horaFin != null) {
-                mostrarFin.setText(fichaje.horaFin);
-            }
-            if (fichaje.horaIniDescanso != null) {
-                mostrarInicioDesc.setText(fichaje.horaIniDescanso);
-            }
-            if (fichaje.horaFinDescanso != null) {
-                mostrarFinDesc.setText(fichaje.horaFinDescanso);
+        if (fichaje != null){
+            if (fichaje.getEstadoFichaje() == 1){
+                if (fichaje.horaIni != null) {
+                    diaEncontrado = true;
+                    mostrarInicio.setText(fichaje.horaIni);
+                }
+                if (fichaje.horaFin != null) {
+                    mostrarFin.setText(fichaje.horaFin);
+                }
+                if (fichaje.horaIniDescanso != null) {
+                    mostrarInicioDesc.setText(fichaje.horaIniDescanso);
+                }
+                if (fichaje.horaFinDescanso != null) {
+                    mostrarFinDesc.setText(fichaje.horaFinDescanso);
+                }
             }
         }
 

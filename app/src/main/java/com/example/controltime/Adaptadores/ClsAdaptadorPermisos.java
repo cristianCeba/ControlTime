@@ -76,7 +76,7 @@ public class ClsAdaptadorPermisos extends BaseAdapter {
 
         fechaFinPermiso.setText(fechaFin[2] + "/" + fechaFin[1] + "/" + fechaFin[0]);
 
-        permiso.setText((miArrayList.get(position).getTipoPemriso()));
+        permiso.setText("permiso solicitado: " + (miArrayList.get(position).getTipoPemriso()));
         String idImagen = String.valueOf(miArrayList.get(position).getidImage());
         if (miArrayList.get(position).getidImage() != 0){
             String correo = miArrayList.get(position).getCorreo();
