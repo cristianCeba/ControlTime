@@ -118,7 +118,7 @@ public class ClsUsuarioHorario implements Serializable {
         try {
             DbConnection.statement = DbConnection.connection.createStatement();
             ResultSet rs = DbConnection.statement.executeQuery("select ct_usuarios.nombre,ct_usuarios.apellido1, ct_usuarios.imagenId,ct_usuarios.email,ct_fichajes.horaEntrada,ct_fichajes.horaSalida,ct_fichajes.fichajeId," +
-                    "ct_descansos.horaIni,ct_descansos.horaFin,ct_fichajes.dia" +
+                    "ct_descansos.horaIni,ct_descansos.horaFin,ct_fichajes.dia " +
                     "from ct_usuarios " +
                     "inner join ct_fichajes on ct_usuarios.usuarioId = ct_fichajes.usuarioId " +
                     "inner join ct_descansos on ct_descansos.idFich = ct_fichajes.fichajeId " +

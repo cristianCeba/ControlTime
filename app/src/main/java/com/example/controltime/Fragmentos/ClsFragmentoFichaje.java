@@ -123,16 +123,15 @@ public class ClsFragmentoFichaje extends Fragment {
 
         btnIniFichaje.setVisibility(View.VISIBLE);
 
-        System.out.println("fichaje " + fichaje);
-
         if (fichaje != null){
             System.out.println("entramos en el if");
             habilitarBotones(fichaje);
         } else {
+            fichaje = new ClsFichaje();
             System.out.println("entramos en el else");
-            btnIniDescanso.setVisibility(View.INVISIBLE);
-            btnFinDescanso.setVisibility(View.INVISIBLE);
-            btnFinFichaje.setVisibility(View.INVISIBLE);
+            btnIniDescanso.setVisibility(View.GONE);
+            btnFinDescanso.setVisibility(View.GONE);
+            btnFinFichaje.setVisibility(View.GONE);
         }
         //Mostramos la hora por pantalla
         textMostDia.setText(diaMostrar);
@@ -147,7 +146,7 @@ public class ClsFragmentoFichaje extends Fragment {
                 //Fecha que usamos para guardar en la base de datos ejemplo --> 22:09:2021
                 fichaje.setHoraIni(sacarHora());
                 insertar(1);
-                btnIniFichaje.setVisibility(View.INVISIBLE);
+                btnIniFichaje.setVisibility(View.GONE);
                 textMostrarInicioHora.setText(fichaje.horaIni.toString());
 
                 btnIniDescanso.setVisibility(View.VISIBLE);
@@ -163,8 +162,8 @@ public class ClsFragmentoFichaje extends Fragment {
                 fichaje.horaFin = sacarHora();
                 updatear(1);
                 textMostrarFinHora.setText(fichaje.horaFin.toString());
-                btnFinFichaje.setVisibility(View.INVISIBLE);
-                btnIniDescanso.setVisibility(View.INVISIBLE);
+                btnFinFichaje.setVisibility(View.GONE);
+                btnIniDescanso.setVisibility(View.GONE);
             }
         });
         //Botón inicio de descanso, ponemos el botón deshabilitado y habilitamos el botón de fin de descanso.
@@ -175,9 +174,10 @@ public class ClsFragmentoFichaje extends Fragment {
                 fichaje.horaIniDescanso = sacarHora();
                 insertar(2);
                 textMostrarInicioDescanso.setText(fichaje.horaIniDescanso.toString());
-                btnIniDescanso.setVisibility(View.INVISIBLE);
+                btnIniDescanso.setVisibility(View.GONE);
+                btnFinFichaje.setVisibility(View.GONE);
                 btnFinDescanso.setVisibility(View.VISIBLE);
-                btnFinFichaje.setVisibility(View.INVISIBLE);
+
             }
         });
         //Botón fin de descanso, ponemos el botón deshabilitado y habilitamos el botón de fin de fichaje.
@@ -188,7 +188,7 @@ public class ClsFragmentoFichaje extends Fragment {
                 fichaje.horaFinDescanso = sacarHora();
                 textMostrarFinDescanso.setText(fichaje.horaFinDescanso.toString());
                 updatear(2);
-                btnFinDescanso.setVisibility(View.INVISIBLE);
+                btnFinDescanso.setVisibility(View.GONE);
                 btnFinFichaje.setVisibility(View.VISIBLE);
             }
         });
@@ -208,7 +208,7 @@ public class ClsFragmentoFichaje extends Fragment {
 
 
         //Le cambiamos la hora y minutos
-        cal.set(Calendar.HOUR, cal.get(Calendar.HOUR)+ 1);
+        cal.set(Calendar.HOUR, cal.get(Calendar.HOUR));
 
         hora = cal.getTime();
 
@@ -219,19 +219,19 @@ public class ClsFragmentoFichaje extends Fragment {
 
         if (fichajeUsuario.horaIni != null && fichajeUsuario.horaFinDescanso == null && fichajeUsuario.horaIniDescanso == null && fichajeUsuario.horaFin == null) {
 
-            btnIniFichaje.setVisibility(View.INVISIBLE);
+            btnIniFichaje.setVisibility(View.GONE);
             btnFinFichaje.setVisibility(View.VISIBLE);
             btnIniDescanso.setVisibility(View.VISIBLE);
-            btnFinDescanso.setVisibility(View.INVISIBLE);
+            btnFinDescanso.setVisibility(View.GONE);
             textMostMensaje.setText("TRABAJANDO");
             textMostrarInicioHora.setText(fichajeUsuario.horaIni.toString());
             /**
              * Revisamos si ha registrado el inicio del fichaje y el inicio del descanso
              */
         } else if (fichajeUsuario.horaIni != null && fichajeUsuario.horaIniDescanso != null && fichajeUsuario.horaFinDescanso == null) {
-            btnIniFichaje.setVisibility(View.INVISIBLE);
-            btnFinFichaje.setVisibility(View.INVISIBLE);
-            btnIniDescanso.setVisibility(View.INVISIBLE);
+            btnIniFichaje.setVisibility(View.GONE);
+            btnFinFichaje.setVisibility(View.GONE);
+            btnIniDescanso.setVisibility(View.GONE);
             btnFinDescanso.setVisibility(View.VISIBLE);
             textMostMensaje.setText("DESCANSANDO");
             textMostrarInicioHora.setText(fichajeUsuario.horaIni.toString());
@@ -240,10 +240,10 @@ public class ClsFragmentoFichaje extends Fragment {
              * Revisamos si ha registrado el inicio del fichaje el inicio del descanso y el fin del descanso
              */
         } else if (fichajeUsuario.horaIni != null && fichajeUsuario.horaIniDescanso != null && fichajeUsuario.horaFinDescanso != null && fichajeUsuario.horaFin == null) {
-            btnIniFichaje.setVisibility(View.INVISIBLE);
+            btnIniFichaje.setVisibility(View.GONE);
             btnFinFichaje.setVisibility(View.VISIBLE);
-            btnIniDescanso.setVisibility(View.INVISIBLE);
-            btnFinDescanso.setVisibility(View.INVISIBLE);
+            btnIniDescanso.setVisibility(View.GONE);
+            btnFinDescanso.setVisibility(View.GONE);
             textMostMensaje.setText("TRABAJANDO");
             textMostrarInicioHora.setText(fichajeUsuario.horaIni.toString());
             textMostrarInicioDescanso.setText(fichajeUsuario.horaIniDescanso);
@@ -252,18 +252,18 @@ public class ClsFragmentoFichaje extends Fragment {
              * Solo quedaría finalizar el fichaje
              */
         } else if (fichajeUsuario.horaIni != null &&  fichajeUsuario.horaFin != null && fichajeUsuario.horaIni == null && fichajeUsuario.horaIniDescanso == null){
-            btnIniFichaje.setVisibility(View.INVISIBLE);
-            btnFinFichaje.setVisibility(View.INVISIBLE);
-            btnIniDescanso.setVisibility(View.INVISIBLE);
-            btnFinDescanso.setVisibility(View.INVISIBLE);
+            btnIniFichaje.setVisibility(View.GONE);
+            btnFinFichaje.setVisibility(View.GONE);
+            btnIniDescanso.setVisibility(View.GONE);
+            btnFinDescanso.setVisibility(View.GONE);
             textMostMensaje.setText("TRABAJANDO");
             textMostrarInicioHora.setText(fichajeUsuario.horaIni.toString());
             textMostrarFinHora.setText(fichajeUsuario.horaFin);
         }else{
-                btnIniFichaje.setVisibility(View.INVISIBLE);
-                btnFinFichaje.setVisibility(View.INVISIBLE);
-                btnIniDescanso.setVisibility(View.INVISIBLE);
-                btnFinDescanso.setVisibility(View.INVISIBLE);
+                btnIniFichaje.setVisibility(View.GONE);
+                btnFinFichaje.setVisibility(View.GONE);
+                btnIniDescanso.setVisibility(View.GONE);
+                btnFinDescanso.setVisibility(View.GONE);
                 textMostMensaje.setText("JORNADA FINALIZADA");
                 textMostrarInicioHora.setText(fichajeUsuario.horaIni.toString());
                 textMostrarFinHora.setText(fichajeUsuario.horaFin);

@@ -126,6 +126,7 @@ public class DbConnection {
                     "left JOIN ct_descansos ON ct_fichajes.fichajeId=ct_descansos.idFich WHERE usuarioId="+idUsuario+" AND  dia='"+fecha+"'");
 
             while (rs.next()) {
+                fichaje = new ClsFichaje();
                 fichaje.setHoraIni(rs.getString("ct_fichajes.horaEntrada"));
                 fichaje.setHoraFin(rs.getString("ct_fichajes.horaSalida"));
                 fichaje.setHoraIniDescanso(rs.getString("ct_descansos.horaIni"));
