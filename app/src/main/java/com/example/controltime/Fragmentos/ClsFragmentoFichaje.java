@@ -123,9 +123,13 @@ public class ClsFragmentoFichaje extends Fragment {
 
         btnIniFichaje.setVisibility(View.VISIBLE);
 
-        if (fichaje.getHoraIni() != null){
+        System.out.println("fichaje " + fichaje);
+
+        if (fichaje != null){
+            System.out.println("entramos en el if");
             habilitarBotones(fichaje);
         } else {
+            System.out.println("entramos en el else");
             btnIniDescanso.setVisibility(View.INVISIBLE);
             btnFinDescanso.setVisibility(View.INVISIBLE);
             btnFinFichaje.setVisibility(View.INVISIBLE);

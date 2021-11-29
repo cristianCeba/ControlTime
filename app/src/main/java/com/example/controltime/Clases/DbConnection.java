@@ -116,7 +116,7 @@ public class DbConnection {
 
     public static ClsFichaje buscarHorario (String dia, int idUsuario)  {
 
-        ClsFichaje fichaje = new ClsFichaje();
+        ClsFichaje fichaje = null;
         String fecha = dia.replace(":","-");
         ResultSet rs = null;
 
