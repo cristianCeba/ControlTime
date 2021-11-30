@@ -1,6 +1,6 @@
-include ':biometric-auth'
 include ':app'
 rootProject.name = "ControlTime"
+include ':biometric-auth'
 include ':biometric-auth'
 include ':biometric-auth'
 include ':biometric-auth'

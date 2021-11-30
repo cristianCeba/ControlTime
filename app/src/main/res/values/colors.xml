@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorEditTextNormal">#B29A9999</color>
     <color  name="colorLineaEditText">#F7DA38</color>
+    <color name="azulApp">#11688E</color>
 </resources>

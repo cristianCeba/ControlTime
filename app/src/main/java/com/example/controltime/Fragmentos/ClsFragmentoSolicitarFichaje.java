@@ -1,5 +1,7 @@
 package com.example.controltime.Fragmentos;
 
+import android.app.TimePickerDialog;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.TimePicker;
 
 import com.example.controltime.Clases.ClsFichaje;
 import com.example.controltime.Clases.ClsUser;
@@ -18,8 +21,11 @@ import com.example.controltime.Clases.ClsUtils;
 import com.example.controltime.Clases.DbConnection;
 import com.example.controltime.R;
 
+import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import harmony.java.awt.Color;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -108,6 +114,97 @@ public class ClsFragmentoSolicitarFichaje extends Fragment {
                 }
             }
         });
+
+        inicioJornada.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) {//No muestra el teclado
+                    Calendar reloj = Calendar.getInstance();
+                    int hora=reloj.get(Calendar.HOUR_OF_DAY);
+                    int min=reloj.get(Calendar.MINUTE);
+
+                    TimePickerDialog timePickerDialog= new TimePickerDialog(getContext(),
+                            R.style.DialogTheme,new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        if( minute==0){
+                            inicioJornada.setText(hourOfDay + ":"+ minute +"0");
+                        } else{inicioJornada.setText(hourOfDay + ":"+ minute);}
+
+                        }
+                    },hora,min,false);timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(2));
+                    timePickerDialog.show();
+                    inicioJornada.clearFocus();
+                }
+            }
+        });
+
+        finJornada.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) {//No muestra el teclado
+                    Calendar reloj = Calendar.getInstance();
+                    int hora=reloj.get(Calendar.HOUR_OF_DAY);
+                    int min=reloj.get(Calendar.MINUTE);
+
+                    TimePickerDialog timePickerDialog= new TimePickerDialog(getContext(),
+                            R.style.DialogTheme,new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                            if( minute==0){
+                                finJornada.setText(hourOfDay + ":"+ minute+"0");
+                            }else{finJornada.setText(hourOfDay + ":"+ minute);}
+
+                        }
+                    },hora,min,false);timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(2));
+                    timePickerDialog.show();
+                    finJornada.clearFocus();
+                }
+            }
+        });
+    inicioDescanso.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            if(hasFocus) {//No muestra el teclado
+                Calendar reloj = Calendar.getInstance();
+                int hora=reloj.get(Calendar.HOUR_OF_DAY);
+                int min=reloj.get(Calendar.MINUTE);
+
+                TimePickerDialog timePickerDialog= new TimePickerDialog(getContext(),
+                        R.style.DialogTheme,new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        if( minute==0){inicioDescanso.setText(hourOfDay + ":"+ minute+"0");
+                        }else{inicioDescanso.setText(hourOfDay + ":"+ minute);
+                        }
+                    }
+                },hora,min,false);timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(2));
+                timePickerDialog.show();
+                inicioDescanso.clearFocus();
+                timePickerDialog.show();
+            }
+        }
+    });
+    finDescanso.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            if(hasFocus) {//No muestra el teclado
+                Calendar reloj = Calendar.getInstance();
+                int hora=reloj.get(Calendar.HOUR_OF_DAY);
+                int min=reloj.get(Calendar.MINUTE);
+
+                TimePickerDialog timePickerDialog= new TimePickerDialog(getContext(),
+                        R.style.DialogTheme, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        finDescanso.setText(hourOfDay + ":"+ minute);
+                    }
+                },hora,min,false);timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(2));
+                timePickerDialog.show();
+                finDescanso.clearFocus();
+            }
+        }
+    });
 
         //Se guarda en base de datos la modificación de horas que solicita el usuario.
         btnEnviarJornada.setOnClickListener(new View.OnClickListener() {
