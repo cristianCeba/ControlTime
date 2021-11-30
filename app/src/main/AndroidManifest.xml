@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ControlTime"
         android:usesCleartextTraffic="true">
+        <activity android:name=".ui.main.PageAdapter"></activity>
         <activity
             android:name=".Actividades.Activity_Login"
             android:label="@string/title_activity_splash" />

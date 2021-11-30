@@ -8,12 +8,9 @@
     tools:context=".Fragmentos.ClsFragmentInicio">
 
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="480dp"
-        android:layout_height="571dp"
-        android:rotation="29"
-        android:rotationX="-31"
-        android:rotationY="-124"
-        android:src="@drawable/img" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/contenedor"></RelativeLayout>
+
 </FrameLayout>

@@ -1,5 +1,6 @@
 package com.example.controltime.Fragmentos;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.controltime.Actividades.Activity_InsertUser;
 import com.example.controltime.Clases.ClsUser;
 import com.example.controltime.Clases.DbConnection;
 import com.example.controltime.R;
@@ -19,6 +21,8 @@ import com.example.controltime.R;
  */
 public class ClsFragmentInicio extends Fragment {
     ClsUser usuario;
+    int id;
+    View view;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -56,10 +60,11 @@ public class ClsFragmentInicio extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-
-
         }
 
+       id= Integer.parseInt(ClsUser.UsuarioIdApp(getContext()));
+
+        buscarUsuario(id);
 
     }
 
@@ -67,16 +72,15 @@ public class ClsFragmentInicio extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        int id= Integer.parseInt(ClsUser.UsuarioIdApp(getContext()));
 
-        buscarUsuario(id);
         if(usuario.TipoUsuario==0){
-            return inflater.inflate(R.layout.fragment_cls_fragmento_validar, container, false);
+              view=inflater.inflate(R.layout.fragment_cls_fragmento_validar, container, false);
+           //return inflater.inflate(R.layout.fragment_cls_fragmento_validar, container, false);
         }else{
-            return inflater.inflate(R.layout.fragment_cls_fragmento_fichaje, container, false);
+            view= inflater.inflate(R.layout.fragment_cls_fragmento_fichaje, container, false);
         }
         //return inflater.inflate(R.layout.fragment_cls_inicio, container, false);
-
+return view;
     }
 
 

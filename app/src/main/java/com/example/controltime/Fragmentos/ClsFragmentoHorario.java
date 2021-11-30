@@ -62,7 +62,7 @@ public class ClsFragmentoHorario extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         buscarUsuario();
-        buscarUsuarios();
+
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);

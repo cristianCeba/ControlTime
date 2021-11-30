@@ -127,9 +127,21 @@ public class ClsFragmentoSolicitarFichaje extends Fragment {
                             R.style.DialogTheme,new TimePickerDialog.OnTimeSetListener() {
                         @Override
                         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        if( minute==0){
-                            inicioJornada.setText(hourOfDay + ":"+ minute +"0");
-                        } else{inicioJornada.setText(hourOfDay + ":"+ minute);}
+
+                            if(String.valueOf(minute).length()==1){
+                                if(String.valueOf(hourOfDay).length()==1){
+                                    inicioJornada.setText("0"+hourOfDay + ":0"+ minute);
+                                }else{
+                                    inicioJornada.setText(hourOfDay + ":0"+ minute);
+                                }
+
+                            }else{
+                                if(String.valueOf(hourOfDay).length()==1){
+                                    inicioJornada.setText("0"+hourOfDay + ":0"+ minute);
+                                }else {
+                                    inicioJornada.setText(hourOfDay + ":" + minute);
+                                }
+                            }
 
                         }
                     },hora,min,false);timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(2));
@@ -151,10 +163,20 @@ public class ClsFragmentoSolicitarFichaje extends Fragment {
                             R.style.DialogTheme,new TimePickerDialog.OnTimeSetListener() {
                         @Override
                         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                            if( minute==0){
-                                finJornada.setText(hourOfDay + ":"+ minute+"0");
-                            }else{finJornada.setText(hourOfDay + ":"+ minute);}
+                            if(String.valueOf(minute).length()==1){
+                                if(String.valueOf(hourOfDay).length()==1){
+                                    finJornada.setText("0"+hourOfDay + ":0"+ minute);
+                                }else{
+                                    finJornada.setText(hourOfDay + ":0"+ minute);
+                                }
 
+                            }else{
+                                if(String.valueOf(hourOfDay).length()==1){
+                                    finJornada.setText("0"+hourOfDay + ":"+ minute);
+                                }else {
+                                    finJornada.setText(hourOfDay + ":" + minute);
+                                }
+                            }
                         }
                     },hora,min,false);timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(2));
                     timePickerDialog.show();
@@ -174,8 +196,19 @@ public class ClsFragmentoSolicitarFichaje extends Fragment {
                         R.style.DialogTheme,new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        if( minute==0){inicioDescanso.setText(hourOfDay + ":"+ minute+"0");
-                        }else{inicioDescanso.setText(hourOfDay + ":"+ minute);
+                        if(String.valueOf(minute).length()==1){
+                            if(String.valueOf(hourOfDay).length()==1){
+                                inicioDescanso.setText("0"+hourOfDay + ":0"+ minute);
+                            }else{
+                                inicioDescanso.setText(hourOfDay + ":0"+ minute);
+                            }
+
+                        }else{
+                            if(String.valueOf(hourOfDay).length()==1){
+                                inicioDescanso.setText("0"+hourOfDay + ":"+ minute);
+                            }else {
+                                inicioDescanso.setText(hourOfDay + ":" + minute);
+                            }
                         }
                     }
                 },hora,min,false);timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(2));
@@ -197,7 +230,21 @@ public class ClsFragmentoSolicitarFichaje extends Fragment {
                         R.style.DialogTheme, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        finDescanso.setText(hourOfDay + ":"+ minute);
+                        if(String.valueOf(minute).length()==1){
+                            if(String.valueOf(hourOfDay).length()==1){
+                                finDescanso.setText("0"+hourOfDay + ":0"+ minute);
+                                }else{
+                                finDescanso.setText(hourOfDay + ":0"+ minute);
+                            }
+
+                        }else{
+                            if(String.valueOf(hourOfDay).length()==1){
+                                finDescanso.setText("0"+hourOfDay + ":"+ minute);
+                            }else {
+                                finDescanso.setText(hourOfDay + ":" + minute);
+                            }
+                        }
+
                     }
                 },hora,min,false);timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(2));
                 timePickerDialog.show();
