@@ -36,8 +36,7 @@
             android:title="@string/menu_informe"/>
 <item
     android:id="@+id/nav_inicio"
-    android:title=""
-    />
+    android:title=""/>
         <item
             android:id="@+id/configuration_section"
             android:title="Configuración">

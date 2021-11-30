@@ -17,13 +17,19 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
+import androidx.navigation.NavGraph;
+import androidx.navigation.NavHost;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import java.util.zip.Inflater;
 
 public class Activity_Navegador extends AppCompatActivity {
 
@@ -53,8 +59,14 @@ public class Activity_Navegador extends AppCompatActivity {
                     .build();
 
 
-
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavGraph navGraph = navController.getNavInflater().inflate(R.navigation.mobile_navigation);
+
+        if (usuario.TipoUsuario == 0){
+            navGraph.setStartDestination(R.id.nav_informe);
+        }
+
+        navController.setGraph(navGraph);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 

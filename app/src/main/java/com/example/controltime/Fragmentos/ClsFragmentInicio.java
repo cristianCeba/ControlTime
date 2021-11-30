@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,23 +64,37 @@ public class ClsFragmentInicio extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+
+
+
+
+
+
        id= Integer.parseInt(ClsUser.UsuarioIdApp(getContext()));
 
         buscarUsuario(id);
 
+        FragmentManager fragmentManager= getActivity().getSupportFragmentManager();
+
+        FragmentTransaction transaction=fragmentManager.beginTransaction();
+
+        if(usuario.TipoUsuario==0){
+            ClsFragmentoFichaje fragmentInicial=new ClsFragmentoFichaje();
+            transaction.add(R.id.nav_host_fragment, fragmentInicial);
+        }else{
+            ClsFragmentoValidar fragmentInicial=new ClsFragmentoValidar();
+            transaction.add(R.id.nav_host_fragment, fragmentInicial);
+        }
+
+
+        transaction.commit();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-        if(usuario.TipoUsuario==0){
-              view=inflater.inflate(R.layout.fragment_cls_fragmento_validar, container, false);
-           //return inflater.inflate(R.layout.fragment_cls_fragmento_validar, container, false);
-        }else{
-            view= inflater.inflate(R.layout.fragment_cls_fragmento_fichaje, container, false);
-        }
+        view=inflater.inflate(R.layout.fragment_cls_inicio, container, false);
         //return inflater.inflate(R.layout.fragment_cls_inicio, container, false);
 return view;
     }
