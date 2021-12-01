@@ -62,7 +62,7 @@ public class ClsFragmentoHorario extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         buscarUsuario();
-
+        buscarUsuarios();
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
@@ -74,7 +74,7 @@ public class ClsFragmentoHorario extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_fragmento_horario, container, false);
+       View view = inflater.inflate(R.layout.fragment_fragmento_horario, container, false);
         //grupoUsuarios = u.ListaUsuariosPorGrupoYTipo(getContext(),ClsUser.GruposuarioConectadoApp(getContext()),ClsUser.TipoUsuarioConectadoApp(getContext()));
         listaDeUsuarios = view.findViewById(R.id.listusuariohorario);
         RellenarHorarios();
