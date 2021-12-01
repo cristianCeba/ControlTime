@@ -53,8 +53,8 @@ public class Activity_Navegador extends AppCompatActivity {
         correo = ClsUser.UsuarioConectadoApp(getApplicationContext()).replace("_",".");
         buscarUsuario(correo);
 
-            mAppBarConfiguration = new AppBarConfiguration.Builder(
-                  R.id.nav_inicio,  R.id.nav_fichaje,R.id.nav_configuracion,R.id.nav_CerrarSesion,R.id.nav_solicitarFichaje2,R.id.nav_verFichaje,R.id.nav_permisos,R.id.nav_informe)
+            mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_todos_permiso,
+                    R.id.nav_horario, R.id.nav_fichaje,R.id.nav_configuracion,R.id.nav_CerrarSesion,R.id.nav_solicitarFichaje2,R.id.nav_verFichaje,R.id.nav_permisos,R.id.nav_informe)
                     .setDrawerLayout(drawer)
                     .build();
 
@@ -81,8 +81,9 @@ public class Activity_Navegador extends AppCompatActivity {
         MenuItem validar= M_Sie_Menu.findItem(R.id.nav_validar);
         MenuItem informe= M_Sie_Menu.findItem(R.id.nav_informe);
         MenuItem conf= M_Sie_Menu.findItem(R.id.nav_configuracion);
-
-        MenuItem inicio=M_Sie_Menu.findItem(R.id.nav_inicio);
+        MenuItem horario=M_Sie_Menu.findItem(R.id.nav_horario);
+        MenuItem todosPermisos=M_Sie_Menu.findItem(R.id.nav_todos_permiso);
+      //  MenuItem inicio=M_Sie_Menu.findItem(R.id.nav_inicio);
 
        // Toast.makeText(Activity_Navegador.this, "ID_USUARIO: " + usuario.usuarioId , Toast.LENGTH_SHORT).show();
         TextView tNombreUsuario = navigationView.getHeaderView(0).findViewById(R.id.textNombre);
@@ -100,15 +101,20 @@ public class Activity_Navegador extends AppCompatActivity {
             fichaje.setVisible(false);
             verFichaje.setVisible(false);
             solicitarFichaje.setVisible(false);
-            inicio.setVisible(false);
+            horario.setVisible(true);
+            todosPermisos.setVisible(true);
+
         } else if (usuario.TipoUsuario == 1){
-            inicio.setVisible(false);
+            horario.setVisible(true);
+            todosPermisos.setVisible(true);
             empleado.setVisible(false);
         } else {
             validar.setVisible(false);
+            todosPermisos.setVisible(false);
+            horario.setVisible(false);
             informe.setVisible(false);
             empleado.setVisible(false);
-            inicio.setVisible(false);
+
         }
 
     }

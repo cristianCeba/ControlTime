@@ -24,7 +24,18 @@
         <item
             android:id="@+id/nav_validar"
             android:icon="@drawable/validar"
-            android:title="@string/menu_validar"/>
+            android:title="@string/menu_validar" >
+            <menu>
+                <item
+                    android:id="@+id/nav_horario"
+                    android:icon="@drawable/icono"
+                    android:title="Horarios"/>
+                <item
+                    android:id="@+id/nav_todos_permiso"
+                    android:icon="@drawable/permiso"
+                    android:title="Permisos"/>
+            </menu>
+        </item>
         <item
             android:id="@+id/nav_incluirUsuario"
             android:icon="@drawable/empleado"

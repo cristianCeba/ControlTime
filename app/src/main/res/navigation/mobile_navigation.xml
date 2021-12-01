@@ -30,10 +30,18 @@
         android:id="@+id/nav_informe"
         android:name="com.example.controltime.Fragmentos.ClsFragmentoInforme"
         android:label="Informe" />
-    <fragment
+  <!--  <fragment
         android:id="@+id/nav_validar"
-        android:name="com.example.controltime.Fragmentos.ClsFragmentoValidar"
-        android:label="Validar" />
+        android:name="com.example.controltime.Fragmentos.ClsFragmentoValidarNOO"
+        android:label="Validar" />-->
+    <fragment
+        android:id="@+id/nav_horario"
+        android:name="com.example.controltime.Fragmentos.ClsFragmentoHorario"
+        android:label="Horarios" />
+    <fragment
+        android:id="@+id/nav_todos_permiso"
+        android:name="com.example.controltime.Fragmentos.ClsFragmentoPermisos"
+        android:label="Permisos" />
     <activity
         android:id="@+id/nav_CerrarSesion"
         android:name="com.example.controltime.Actividades.Activity_Login"
@@ -45,7 +53,7 @@
 
     <fragment
         android:id="@+id/nav_inicio"
-        android:name="com.example.controltime.Fragmentos.ClsFragmentInicio"
+        android:name="com.example.controltime.Fragmentos.ClsFragmentInicioNOO"
         android:label="" />
     <action
         android:id="@+id/action_global_nav_fichaje"

@@ -1,6 +1,5 @@
 package com.example.controltime.Fragmentos;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,17 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.controltime.Actividades.Activity_InsertUser;
 import com.example.controltime.Clases.ClsUser;
 import com.example.controltime.Clases.DbConnection;
 import com.example.controltime.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ClsFragmentInicio#newInstance} factory method to
+ * Use the {@link ClsFragmentInicioNOO#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ClsFragmentInicio extends Fragment {
+public class ClsFragmentInicioNOO extends Fragment {
     ClsUser usuario;
     int id;
     View view;
@@ -34,7 +32,7 @@ public class ClsFragmentInicio extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ClsFragmentInicio() {
+    public ClsFragmentInicioNOO() {
         // Required empty public constructor
     }
 
@@ -47,8 +45,8 @@ public class ClsFragmentInicio extends Fragment {
      * @return A new instance of fragment ClsFragmentInicio.
      */
     // TODO: Rename and change types and number of parameters
-    public static ClsFragmentInicio newInstance(String param1, String param2) {
-        ClsFragmentInicio fragment = new ClsFragmentInicio();
+    public static ClsFragmentInicioNOO newInstance(String param1, String param2) {
+        ClsFragmentInicioNOO fragment = new ClsFragmentInicioNOO();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -82,8 +80,8 @@ public class ClsFragmentInicio extends Fragment {
             ClsFragmentoFichaje fragmentInicial=new ClsFragmentoFichaje();
             transaction.add(R.id.nav_host_fragment, fragmentInicial);
         }else{
-            ClsFragmentoValidar fragmentInicial=new ClsFragmentoValidar();
-            transaction.add(R.id.nav_host_fragment, fragmentInicial);
+            /*ClsFragmentoValidarNOO fragmentInicial=new ClsFragmentoValidarNOO();
+            transaction.add(R.id.nav_host_fragment, fragmentInicial);*/
         }
 
 
