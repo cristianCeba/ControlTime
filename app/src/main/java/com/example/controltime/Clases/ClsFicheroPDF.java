@@ -58,12 +58,19 @@ String Nombre;
 
                     // Insertamos una tabla.
                     PdfPTable tabla = new PdfPTable(5);
+                    tabla.addCell("USUARIO ID");
+                    tabla.addCell("FECHA DESDE");
+                    tabla.addCell("FECHA HASTA");
+                    tabla.addCell("TOTAL DIAS");
+                    tabla.addCell("PERMISO");
                     for (int i = 0; i < ArrayPermisos.size(); i++) {
                         tabla.addCell(String.valueOf(ArrayPermisos.get(i).UsuarioId));
                         tabla.addCell( ArrayPermisos.get(i).FechaDesde);
                         tabla.addCell( ArrayPermisos.get(i).FechaHasta);
                         tabla.addCell(String.valueOf(ArrayPermisos.get(i).dias));
-                        tabla.addCell(String.valueOf(ArrayPermisos.get(i).TipoPermiso));
+                        int idPer=ArrayPermisos.get(i).TipoPermiso;
+                        String nomPer=ClsTipoPermiso.NombrePermiso(idPer);
+                        tabla.addCell( nomPer);
 
                     }
                     estaGenerado=true;
@@ -74,6 +81,12 @@ String Nombre;
 
                     // Insertamos una tabla.
                     PdfPTable tabla = new PdfPTable(6);
+                    tabla.addCell("USUARIO ID");
+                    tabla.addCell("DIA");
+                    tabla.addCell("HORA INI");
+                    tabla.addCell("HORA FIN");
+                    tabla.addCell("INI DESCANSO");
+                    tabla.addCell("FIN DESCANSO");
                     for (int i = 0; i < ArrayFichajes.size(); i++) {
                         tabla.addCell(String.valueOf(ArrayFichajes.get(i).usuarioId));
                         tabla.addCell( ArrayFichajes.get(i).dia);

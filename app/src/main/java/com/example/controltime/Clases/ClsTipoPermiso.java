@@ -82,4 +82,25 @@ public class ClsTipoPermiso {
         return (ArrayList<ClsTipoPermiso>) objPer;
     }
 
+    /***
+     *
+     * @param idTipoPermiso
+     * @return
+     */
+    public static String NombrePermiso ( int idTipoPermiso){
+
+        String descripcion="";
+        try {
+            DbConnection.statement = DbConnection.connection.createStatement();
+            ResultSet rs = DbConnection.statement.executeQuery("Select * from ct_tipopermisos WHERE tipoPermisosId=" +idTipoPermiso+ "");
+            while (rs.next()) {
+
+                  descripcion=rs.getString("descripcion");
+
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return descripcion;
+    }
 }
