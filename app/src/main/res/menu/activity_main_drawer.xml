@@ -6,25 +6,40 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/nav_permisos"
+            android:id="@+id/nav_permi"
             android:icon="@drawable/permiso"
-            android:title="@string/menu_gallery"/>
+            android:title="PERMISOS" >
+             <menu>
+                 <item
+                     android:id="@+id/nav_permisos"
+                     android:icon="@drawable/permiso"
+                     android:title="Solicitar/Ver permisos" />
+
+             </menu>
+        </item>
         <item
-            android:id="@+id/nav_fichaje"
+            android:id="@+id/nav_fich"
             android:icon="@android:drawable/ic_lock_idle_alarm"
-            android:title="@string/menu_home"/>
-        <item
-            android:id="@+id/nav_verFichaje"
-            android:icon="@drawable/verfichaje"
-            android:title="@string/menu_verFichaje"/>
-        <item
-            android:id="@+id/nav_solicitarFichaje2"
-            android:icon="@drawable/solicitarfichaje"
-            android:title="@string/menu_solicitarFichaje"/>
+            android:title="FICHAJES" >
+                <menu>
+                <item
+                    android:id="@+id/nav_fichaje"
+                    android:icon="@android:drawable/ic_lock_idle_alarm"
+                    android:title="Fichar"/>
+                <item
+                    android:id="@+id/nav_verFichaje"
+                    android:icon="@drawable/verfichaje"
+                    android:title="@string/menu_verFichaje"/>
+                <item
+                    android:id="@+id/nav_solicitarFichaje2"
+                    android:icon="@drawable/solicitarfichaje"
+                    android:title="@string/menu_solicitarFichaje"/>
+                </menu>
+        </item>
         <item
             android:id="@+id/nav_validar"
             android:icon="@drawable/validar"
-            android:title="@string/menu_validar" >
+            android:title="VALIDACIONES" >
             <menu>
                 <item
                     android:id="@+id/nav_horario"
@@ -36,23 +51,30 @@
                     android:title="Permisos"/>
             </menu>
         </item>
-        <item
-            android:id="@+id/nav_incluirUsuario"
-            android:icon="@drawable/empleado"
-            android:title="@string/menu_empleado"/>
+
 
         <item
-            android:id="@+id/nav_informe"
+            android:id="@+id/nav_inf"
             android:icon="@drawable/informes"
-            android:title="@string/menu_informe"/>
-<item
-    android:id="@+id/nav_inicio"
-    android:title=""/>
+            android:title="INFORMES" >
+                <menu>
+
+                    <item
+                        android:id="@+id/nav_informe"
+                        android:icon="@drawable/informes"
+                        android:title="Generar PDF"/>
+                </menu>
+        </item>
+
+
         <item
             android:id="@+id/configuration_section"
-            android:title="Configuración">
+            android:title="CONFIGURACION">
             <menu>
-
+                <item
+                    android:id="@+id/nav_incluirUsuario"
+                    android:icon="@drawable/empleado"
+                    android:title="@string/menu_empleado"/>
                 <item
                     android:id="@+id/nav_configuracion"
                     android:icon="@drawable/configuracion"
