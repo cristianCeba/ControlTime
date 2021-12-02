@@ -237,10 +237,14 @@ public static String UsuarioContrasenaConectadoApp(Context contex){
      */
     public static List<ClsUser> getUsuario (int departamentoId,int tipousuarioId,boolean bloqueado){
         List<ClsUser> array = new ArrayList<>();
-
+        ResultSet rs;
         try {
             DbConnection.statement = DbConnection.connection.createStatement();
-            ResultSet rs = DbConnection.statement.executeQuery("SELECT * FROM  ct_usuarios WHERE bloqueado="+bloqueado+" AND  departamentoId="+departamentoId+" AND tipoUsuarioId>"+tipousuarioId+" ");
+            if(tipousuarioId==0){
+                  rs = DbConnection.statement.executeQuery("SELECT * FROM  ct_usuarios WHERE bloqueado="+bloqueado+"   AND tipoUsuarioId>"+tipousuarioId+" ");
+            }else {
+                  rs = DbConnection.statement.executeQuery("SELECT * FROM  ct_usuarios WHERE bloqueado=" + bloqueado + " AND  departamentoId=" + departamentoId + " AND tipoUsuarioId>" + tipousuarioId + " ");
+            }
             while (rs.next()) {
                 String Nombre = (rs.getString("nombre"));
                 String Ape = (rs.getString("apellido1"));

@@ -137,7 +137,7 @@ public class ClsFragmentoSolicitarFichaje extends Fragment {
 
                             }else{
                                 if(String.valueOf(hourOfDay).length()==1){
-                                    inicioJornada.setText("0"+hourOfDay + ":0"+ minute);
+                                    inicioJornada.setText("0"+hourOfDay + ":"+ minute);
                                 }else {
                                     inicioJornada.setText(hourOfDay + ":" + minute);
                                 }
