@@ -126,7 +126,7 @@ public class ClsFragmentoIncluirUsuario extends Fragment {
         txtMensajeApe=(TextView) vista.findViewById(R.id.textMensajeApe);
         spnTipoUsuario=(Spinner)vista.findViewById(R.id.spnTipo);
         spnGrupo=(Spinner)vista.findViewById(R.id.spnGrupo);
-        spnIdGrupo=(Spinner)vista.findViewById(R.id.spnIdGrupo);
+       // spnIdGrupo=(Spinner)vista.findViewById(R.id.spnIdGrupo);
 
 
         txtEmail = (EditText) vista.findViewById(R.id.editTextEmail);

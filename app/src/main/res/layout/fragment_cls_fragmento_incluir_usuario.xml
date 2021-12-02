@@ -9,15 +9,25 @@
     tools:context=".Actividades.Activity_InsertUser"
     android:paddingTop="35dp">
 
-    <EditText
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/bordeslayout"
+        android:orientation="vertical">
+        <EditText
         android:id="@+id/editTextName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
+            android:ems="10"
         android:inputType="textPersonName"
         android:hint="Nombre"
         android:textColorHint="@color/colorEditTextNormal"
-        android:backgroundTint="@color/colorLineaEditText"
+        android:backgroundTint="@color/bg_fingerprint"
         android:layout_marginLeft="35dp"/>
 
     <TextView
@@ -34,10 +44,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:ems="10"
-        android:hint="primer Apellido"
+        android:hint="Apellidos"
         android:inputType="textPersonName"
         android:textColorHint="@color/colorEditTextNormal"
-        android:backgroundTint="@color/colorLineaEditText"
+        android:backgroundTint="@color/bg_fingerprint"
         android:layout_marginLeft="35dp"/>
 
     <TextView
@@ -57,7 +67,7 @@
         android:hint="Correo"
         android:inputType="textPersonName"
         android:textColorHint="@color/colorEditTextNormal"
-        android:backgroundTint="@color/colorLineaEditText"
+        android:backgroundTint="@color/bg_fingerprint"
 
         />
 
@@ -86,25 +96,24 @@
 
             <EditText
                 android:id="@+id/editTextPass"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textColor=" @color/colorEditTextNormal"
+                android:textColorHint="@color/colorEditTextNormal"
 
-                android:background="@color/white"
-                android:ems="10"
+                android:background="@drawable/fondo_pass"
                 android:hint="Contraseña"
+                android:ems="13"
 
                 android:inputType="textPassword"
-                android:textSize="18sp" />
+                 />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <ImageButton
             android:id="@+id/btnInfo"
-            android:layout_width="75dp"
-            android:layout_height="71dp"
-            android:layout_gravity="center"
-            android:background="@color/white"
+            android:layout_width="29dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/fondo_pass"
             android:scaleType="centerInside"
             android:src="@drawable/info" />
     </LinearLayout>
@@ -118,17 +127,16 @@
 
         <EditText
             android:id="@+id/editTextPass2"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="35dp"
 
-            android:background="@color/white"
-            android:ems="10"
+            android:background="@drawable/fondo_pass"
+            android:ems="13"
             android:hint="Repetir contraseña "
             android:inputType="textPassword"
 
-            android:textColor=" @color/colorEditTextNormal"
-            android:textSize="18sp" />
+             />
 
 
 
@@ -140,12 +148,24 @@
         android:id="@+id/textMensajePass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp
+"
         android:textColor="#F70C0C"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/bordeslayout"
+        android:orientation="vertical">
     <TextView
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Tipo usuario"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="35dp"/>
     <Spinner
         android:id="@+id/spnTipo"
@@ -165,12 +185,8 @@
         android:layout_marginLeft="35dp"/>
 
 
-    <Spinner
-        android:id="@+id/spnIdGrupo"
-        android:layout_width="7dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="35dp" />
-
+    />
+    </LinearLayout>
     <Button
         android:id="@+id/btnRegistro"
         android:layout_width="match_parent"

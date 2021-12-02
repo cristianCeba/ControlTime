@@ -13,6 +13,10 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/bordeslayout"
         >
 
         <LinearLayout
@@ -20,17 +24,20 @@
             android:layout_height="match_parent"
 
             android:layout_marginTop="5dp"
-            android:background="@drawable/bordeslayout"
+
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="112dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
                 android:text="Fecha desde:"></TextView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:text="Fecha hasta:"></TextView>
 
         </LinearLayout>
@@ -46,6 +53,7 @@
                 android:id="@+id/edtFechaDesde"
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:clickable="true"
                 android:hint="01/01/2021"
                 android:inputType="date"
@@ -68,7 +76,7 @@
                 android:id="@+id/chkMedioDia"
                 android:layout_width="103dp"
                 android:layout_height="20dp"
-
+                android:visibility="invisible"
                 android:layout_marginLeft="35dp"
                 android:background="@color/white"
                 android:text="Medio día"
@@ -98,17 +106,19 @@
                     android:id="@+id/textTipoPer"
                     android:layout_width="wrap_content"
                     android:layout_height="24dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
 
-                    android:text="Selecciona un  permiso:"
-                    />
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="Selecciona un  permiso:" />
 
                 <Spinner
                     android:id="@+id/spnTipoPermiso"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    ></Spinner>
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"></Spinner>
 
 
             </LinearLayout>
@@ -118,8 +128,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
             android:orientation="horizontal">
             >
 
@@ -127,6 +137,7 @@
                 android:id="@+id/btnValidar"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/guardara"
                 app:backgroundTint="@null" />
 
@@ -138,25 +149,24 @@
                 app:backgroundTint="@null" />-->
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="2dp"
         android:layout_marginLeft="5dp"
 
-        >
-
-
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/bordeslayout"
+        android:orientation="vertical">
 
 
         <LinearLayout
 
             android:layout_width="match_parent"
             android:layout_height="36dp"
-            android:layout_marginLeft="5dp"
-            android:orientation="horizontal"
-            android:background="@drawable/bordeslayout">
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal">
 
             <Button
                 android:layout_width="30dp"
@@ -195,6 +205,7 @@
                 android:layout_marginTop="0dp"
                 android:text="Ingreso"
                 android:textSize="12dp"></TextView>
+
             <Button
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -212,8 +223,9 @@
 
             android:layout_width="match_parent"
             android:layout_height="36dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
             android:orientation="horizontal">
+
             <Button
                 android:layout_width="30dp"
                 android:layout_height="30dp"

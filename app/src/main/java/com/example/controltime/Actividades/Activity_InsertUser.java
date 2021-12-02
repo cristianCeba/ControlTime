@@ -81,7 +81,7 @@ public class Activity_InsertUser extends AppCompatActivity {
         txtMensajeApe=(TextView) findViewById(R.id.textMensajeApe);
         spnTipoUsuario=(Spinner)findViewById(R.id.spnTipo);
         spnGrupo=(Spinner)findViewById(R.id.spnGrupo);
-        spnIdGrupo=(Spinner)findViewById(R.id.spnIdGrupo);
+      //  spnIdGrupo=(Spinner)findViewById(R.id.spnIdGrupo);
 
 
         txtEmail = (EditText) findViewById(R.id.editTextEmail);

@@ -14,7 +14,7 @@
         android:text=""
         android:gravity="center"
         android:textSize="35dp"
-
+        android:layout_marginBottom="20dp"
         android:padding="10dp"/>
 
     <TextView
@@ -23,9 +23,17 @@
         android:layout_height="wrap_content"
         android:text="INICIA LA JORNADA"
         android:textSize="25dp"
+        android:layout_marginBottom="20dp"
         android:layout_gravity="center"
         />
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/bordeslayout"
+        android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -123,13 +131,14 @@
             android:padding="10dp"
             android:text="" />
     </LinearLayout>
-
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
+        android:layout_marginTop="20dp"
         >
 
         <Button

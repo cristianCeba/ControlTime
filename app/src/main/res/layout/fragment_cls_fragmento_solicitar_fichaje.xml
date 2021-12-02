@@ -19,94 +19,111 @@
         app:layout_constraintVertical_bias="0.04" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="297dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="25dp">
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/bordeslayout"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textModInicioFichaje"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Inicio fichaje: "
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="10dp"/>
+            android:orientation="horizontal"
+            android:paddingTop="25dp">
 
-        <EditText
-            android:id="@+id/editTextInicioFichaje"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/textModInicioFichaje"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:padding="10dp"
+                android:text="Inicio fichaje: " />
+
+            <EditText
+                android:id="@+id/editTextInicioFichaje"
+                android:layout_width="115dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:ems="10"
+                android:inputType="time" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="time"/>
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textModFinFichaje"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:padding="10dp"
+                android:text="Fin fichaje: " />
+
+            <EditText
+                android:id="@+id/editTextFinFichaje"
+                android:layout_width="115dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:ems="10"
+                android:inputType="time" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textModIniciodescanso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:padding="10dp"
+                android:text="Inicio descanso: " />
+
+            <EditText
+                android:id="@+id/editTextInicioDescanso"
+                android:layout_width="115dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:ems="10"
+                android:inputType="time" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textModFindescanso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:padding="10dp"
+                android:text="Fin descanso: " />
+
+            <EditText
+                android:id="@+id/editTextFinDescanso"
+                android:layout_width="115dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:ems="10"
+                android:inputType="time" />
+        </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textModFinFichaje"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Fin fichaje: "
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="10dp"/>
-
-        <EditText
-            android:id="@+id/editTextFinFichaje"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="time"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textModIniciodescanso"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Inicio descanso: "
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="10dp"/>
-
-        <EditText
-            android:id="@+id/editTextInicioDescanso"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="time"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textModFindescanso"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Fin descanso: "
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="10dp"/>
-
-        <EditText
-            android:id="@+id/editTextFinDescanso"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="time"/>
-    </LinearLayout>
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
