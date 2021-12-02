@@ -2,6 +2,7 @@ package com.example.controltime.Fragmentos;
 
 import android.app.DatePickerDialog;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -179,6 +180,8 @@ public class ClsFragmentoPermiso extends Fragment {
 
 /*** * CALENDARIO */
         calendarView=(MCalendarView) vista.findViewById(R.id.calendar);
+
+
         Calendar cal=Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));;
         cal.setTime( new Date());
         int year = cal.get(Calendar.YEAR);
@@ -285,8 +288,7 @@ public class ClsFragmentoPermiso extends Fragment {
 
     private void LlenaPermisos(int usuarioId,String desde , String hasta){
         cargaPermisos(usuarioId,desde,hasta);
-
-
+        calendarView.getMarkedDates().removeAdd();
         for(int i=0;i<=ArrayPermisos.size()-1;i++){
             try {
                 // colorDia=-1;

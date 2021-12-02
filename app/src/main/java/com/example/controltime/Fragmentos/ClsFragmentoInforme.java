@@ -194,12 +194,16 @@ public class ClsFragmentoInforme extends Fragment {
                 cargaPermisos(idSeleccion,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString());
                 String Nombre= idSeleccion+ "Permisos_" + edtFechaDesde.getText().toString().replace("/","") +"_" + edtFechaHasta.getText().toString().replace("/","") + ".pdf";
                 objPDF=new ClsFicheroPDF(Nombre);
-              if(!objPDF.generarPDF(getContext(),ArrayPermisos,ArrayFichajes)){
-                  ClsUtils.MostrarMensajes(getContext(), "Ha habido un error al generar e pdf, intentelo mas tarde", "", true, ClsUtils.actividadEnum.ERROR);
-              }else {
-                  //este mensaje lo meustro dentro del metodo para que me de la ruta
-                  //ClsUtils.MostrarMensajes(getContext(), "", "", false, ClsUtils.actividadEnum.PDF);
-              }
+                if(ArrayPermisos.size()==0 ){
+                    ClsUtils.MostrarMensajes(getContext(), "El empleado " +  UsurioSeleccionado + " no tiene ningún datos para generar el fichero", "", true, ClsUtils.actividadEnum.ERROR);
+                }else {
+                    if (!objPDF.generarPDF(getContext(), ArrayPermisos, ArrayFichajes)) {
+                        ClsUtils.MostrarMensajes(getContext(), "Ha habido un error al generar e pdf, intentelo mas tarde", "", true, ClsUtils.actividadEnum.ERROR);
+                    } else {
+                        //este mensaje lo meustro dentro del metodo para que me de la ruta
+                        //ClsUtils.MostrarMensajes(getContext(), "", "", false, ClsUtils.actividadEnum.PDF);
+                    }
+                }
             }
         });
 
@@ -210,11 +214,15 @@ public class ClsFragmentoInforme extends Fragment {
                cargaFichajes(idSeleccion,edtFechaDesde.getText().toString(),edtFechaHasta.getText().toString()  );
                 String Nombre= idSeleccion+ "Fichajes_" + edtFechaDesde.getText().toString().replace("/","") +"_" + edtFechaHasta.getText().toString().replace("/","") + ".pdf";
                 objPDF=new ClsFicheroPDF(Nombre);
-                if(!objPDF.generarPDF(getContext(),ArrayPermisos,ArrayFichajes)){
-                    ClsUtils.MostrarMensajes(getContext(), "Ha habido un error al generar e pdf, intentelo mas tarde", "", true, ClsUtils.actividadEnum.ERROR);
+                if(ArrayFichajes.size()==0){
+                    ClsUtils.MostrarMensajes(getContext(), "El empleado " +  UsurioSeleccionado + " no tiene ningún datos para generar el fichero", "", true, ClsUtils.actividadEnum.ERROR);
                 }else {
-                    //este mensaje lo meustro dentro del metodo para que me de la ruta
-                    //ClsUtils.MostrarMensajes(getContext(), "", "", false, ClsUtils.actividadEnum.PDF);
+                    if (!objPDF.generarPDF(getContext(), ArrayPermisos, ArrayFichajes)) {
+                        ClsUtils.MostrarMensajes(getContext(), "Ha habido un error al generar e pdf, intentelo mas tarde", "", true, ClsUtils.actividadEnum.ERROR);
+                    } else {
+                        //este mensaje lo meustro dentro del metodo para que me de la ruta
+                        //ClsUtils.MostrarMensajes(getContext(), "", "", false, ClsUtils.actividadEnum.PDF);
+                    }
                 }
             }
         });

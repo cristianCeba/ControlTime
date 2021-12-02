@@ -44,64 +44,66 @@ String Nombre;
         File f =context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
         File fichero = null;
         try{
-            //File fichero= crearFichero(this.Nombre,this.Ruta );
-            fichero= new File(f.getAbsolutePath() + "/" + this.Nombre);
-            if(fichero!=null){
-                //salida
-                FileOutputStream ficheroPDF= new FileOutputStream(fichero.getAbsolutePath());
-                PdfWriter writer=PdfWriter.getInstance(doc,ficheroPDF);
-                // Abrimos el documento.
-                doc.open();
 
-                if(ArrayPermisos.size()>0){
-                    doc.add(new Paragraph("PERMISOS PEDIDOS\n\n"));
+                //File fichero= crearFichero(this.Nombre,this.Ruta );
+                fichero = new File(f.getAbsolutePath() + "/" + this.Nombre);
+                if (fichero != null) {
+                    //salida
+                    FileOutputStream ficheroPDF = new FileOutputStream(fichero.getAbsolutePath());
+                    PdfWriter writer = PdfWriter.getInstance(doc, ficheroPDF);
+                    // Abrimos el documento.
+                    doc.open();
 
-                    // Insertamos una tabla.
-                    PdfPTable tabla = new PdfPTable(5);
-                    tabla.addCell("USUARIO ID");
-                    tabla.addCell("FECHA DESDE");
-                    tabla.addCell("FECHA HASTA");
-                    tabla.addCell("TOTAL DIAS");
-                    tabla.addCell("PERMISO");
-                    for (int i = 0; i < ArrayPermisos.size(); i++) {
-                        tabla.addCell(String.valueOf(ArrayPermisos.get(i).UsuarioId));
-                        tabla.addCell( ArrayPermisos.get(i).FechaDesde);
-                        tabla.addCell( ArrayPermisos.get(i).FechaHasta);
-                        tabla.addCell(String.valueOf(ArrayPermisos.get(i).dias));
-                        int idPer=ArrayPermisos.get(i).TipoPermiso;
-                        String nomPer=ClsTipoPermiso.NombrePermiso(idPer);
-                        tabla.addCell( nomPer);
+                    if (ArrayPermisos.size() > 0) {
+                        doc.add(new Paragraph("PERMISOS PEDIDOS\n\n"));
 
+                        // Insertamos una tabla.
+                        PdfPTable tabla = new PdfPTable(5);
+                        tabla.addCell("USUARIO ID");
+                        tabla.addCell("FECHA DESDE");
+                        tabla.addCell("FECHA HASTA");
+                        tabla.addCell("TOTAL DIAS");
+                        tabla.addCell("PERMISO");
+                        for (int i = 0; i < ArrayPermisos.size(); i++) {
+                            tabla.addCell(String.valueOf(ArrayPermisos.get(i).UsuarioId));
+                            tabla.addCell(ArrayPermisos.get(i).FechaDesde);
+                            tabla.addCell(ArrayPermisos.get(i).FechaHasta);
+                            tabla.addCell(String.valueOf(ArrayPermisos.get(i).dias));
+                            int idPer = ArrayPermisos.get(i).TipoPermiso;
+                            String nomPer = ClsTipoPermiso.NombrePermiso(idPer);
+                            tabla.addCell(nomPer);
+
+                        }
+                        estaGenerado = true;
+                        doc.add(tabla);
                     }
-                    estaGenerado=true;
-                    doc.add(tabla);
-                }
-                if(ArrayFichajes.size()>0){
-                    doc.add(new Paragraph("FICHAJES SOLICITADOS\n\n"));
+                    if (ArrayFichajes.size() > 0) {
+                        doc.add(new Paragraph("FICHAJES SOLICITADOS\n\n"));
 
-                    // Insertamos una tabla.
-                    PdfPTable tabla = new PdfPTable(6);
-                    tabla.addCell("USUARIO ID");
-                    tabla.addCell("DIA");
-                    tabla.addCell("HORA INI");
-                    tabla.addCell("HORA FIN");
-                    tabla.addCell("INI DESCANSO");
-                    tabla.addCell("FIN DESCANSO");
-                    for (int i = 0; i < ArrayFichajes.size(); i++) {
-                        tabla.addCell(String.valueOf(ArrayFichajes.get(i).usuarioId));
-                        tabla.addCell( ArrayFichajes.get(i).dia);
-                        tabla.addCell( ArrayFichajes.get(i).horaIni);
-                        tabla.addCell(ArrayFichajes.get(i).horaFin);
-                        tabla.addCell( ArrayFichajes.get(i).horaIniDescanso );
-                        tabla.addCell( ArrayFichajes.get(i).horaFinDescanso );
+                        // Insertamos una tabla.
+                        PdfPTable tabla = new PdfPTable(6);
+                        tabla.addCell("USUARIO ID");
+                        tabla.addCell("DIA");
+                        tabla.addCell("HORA INI");
+                        tabla.addCell("HORA FIN");
+                        tabla.addCell("INI DESCANSO");
+                        tabla.addCell("FIN DESCANSO");
+                        for (int i = 0; i < ArrayFichajes.size(); i++) {
+                            tabla.addCell(String.valueOf(ArrayFichajes.get(i).usuarioId));
+                            tabla.addCell(ArrayFichajes.get(i).dia);
+                            tabla.addCell(ArrayFichajes.get(i).horaIni);
+                            tabla.addCell(ArrayFichajes.get(i).horaFin);
+                            tabla.addCell(ArrayFichajes.get(i).horaIniDescanso);
+                            tabla.addCell(ArrayFichajes.get(i).horaFinDescanso);
 
+                        }
+                        estaGenerado = true;
+                        doc.add(tabla);
                     }
-                    estaGenerado=true;
-                    doc.add(tabla);
+
+
                 }
 
-
-            }
         }catch (DocumentException e){
             estaGenerado=false;
            // ClsUtils.MostrarMensajes(context, e.getMessage(), "DocumentException");

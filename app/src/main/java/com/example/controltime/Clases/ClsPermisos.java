@@ -156,9 +156,12 @@ public class ClsPermisos {
             String diaIni =ClsUtils.formatearFecha(fechaIni);
             String diaFin = ClsUtils.formatearFecha(fechaFin);
             DbConnection.statement = DbConnection.connection.createStatement();
+
             ResultSet rs = DbConnection.statement.executeQuery("SELECT * FROM  ct_permisos " +
+                    " WHERE usuarioId ='" + idUsuario + "' ORDER BY desdeFecha");
+            /*ResultSet rs = DbConnection.statement.executeQuery("SELECT * FROM  ct_permisos " +
                     " WHERE usuarioId ='" + idUsuario + "' AND ((desdeFecha BETWEEN '" + diaIni + "' AND '" + diaFin + "')" +
-                    " OR (hastaFecha BETWEEN '" + diaIni + "' AND '" + diaFin + "')) ORDER BY desdeFecha");
+                    " OR (hastaFecha BETWEEN '" + diaIni + "' AND '" + diaFin + "')) ORDER BY desdeFecha");*/
             while (rs.next()) {
                 int permisosId= Integer.parseInt(rs.getString("permisosId"));
                 String desdeFecha=rs.getString("desdeFecha");
