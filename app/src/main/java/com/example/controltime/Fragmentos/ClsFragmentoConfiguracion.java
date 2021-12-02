@@ -190,20 +190,22 @@ public class ClsFragmentoConfiguracion extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         System.out.println("Subimos documento");
-        Uri rui = data.getData();
-        String correo = ClsUser.UsuarioConectadoApp(getContext());
-        String [] numeroImagen = rui.getLastPathSegment().split(":");
-        StorageReference filePath = storage.child("imagenes").child(correo).child(numeroImagen[1]);
-        filePath.putFile(rui).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                usuario.idImagen = numeroImagen[1];
-                guardarImagen();
-                Activity_Navegador.recuperarImagen(usuario);
-                recuperarImagen();
-                Toast.makeText(getContext(),"Se ha modificado la imagen de perfil",Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (data != null) {
+            Uri rui = data.getData();
+            String correo = ClsUser.UsuarioConectadoApp(getContext());
+            String[] numeroImagen = rui.getLastPathSegment().split(":");
+            StorageReference filePath = storage.child("imagenes").child(correo).child(numeroImagen[1]);
+            filePath.putFile(rui).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    usuario.idImagen = numeroImagen[1];
+                    guardarImagen();
+                    Activity_Navegador.recuperarImagen(usuario);
+                    recuperarImagen();
+                    Toast.makeText(getContext(), "Se ha modificado la imagen de perfil", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     /**
