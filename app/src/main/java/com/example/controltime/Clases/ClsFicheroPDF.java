@@ -17,7 +17,9 @@ import java.util.List;
 public class ClsFicheroPDF {
 
 String Nombre;
-
+String mensaje;
+String nomEstado;
+    String nomPer;
     /***
      * Constructor de la clase
      * @param nombre nombre del fichero
@@ -58,20 +60,25 @@ String Nombre;
                         doc.add(new Paragraph("PERMISOS PEDIDOS\n\n"));
 
                         // Insertamos una tabla.
-                        PdfPTable tabla = new PdfPTable(5);
+                        PdfPTable tabla = new PdfPTable(6);
                         tabla.addCell("USUARIO ID");
                         tabla.addCell("FECHA DESDE");
                         tabla.addCell("FECHA HASTA");
                         tabla.addCell("TOTAL DIAS");
                         tabla.addCell("PERMISO");
+                        tabla.addCell("ESTADO");
                         for (int i = 0; i < ArrayPermisos.size(); i++) {
                             tabla.addCell(String.valueOf(ArrayPermisos.get(i).UsuarioId));
                             tabla.addCell(ArrayPermisos.get(i).FechaDesde);
                             tabla.addCell(ArrayPermisos.get(i).FechaHasta);
                             tabla.addCell(String.valueOf(ArrayPermisos.get(i).dias));
                             int idPer = ArrayPermisos.get(i).TipoPermiso;
-                            String nomPer = ClsTipoPermiso.NombrePermiso(idPer);
+
+                            String nomPer = getNombrePermiso(idPer);
+                            int idEstado =ArrayPermisos.get(i).Estado;
+                            String nomEstado=getNombreEstado(idEstado);
                             tabla.addCell(nomPer);
+                            tabla.addCell(nomEstado);
 
                         }
                         estaGenerado = true;
@@ -81,13 +88,14 @@ String Nombre;
                         doc.add(new Paragraph("FICHAJES SOLICITADOS\n\n"));
 
                         // Insertamos una tabla.
-                        PdfPTable tabla = new PdfPTable(6);
+                        PdfPTable tabla = new PdfPTable(7);
                         tabla.addCell("USUARIO ID");
                         tabla.addCell("DIA");
                         tabla.addCell("HORA INI");
                         tabla.addCell("HORA FIN");
                         tabla.addCell("INI DESCANSO");
                         tabla.addCell("FIN DESCANSO");
+                        tabla.addCell("ESTADO");
                         for (int i = 0; i < ArrayFichajes.size(); i++) {
                             tabla.addCell(String.valueOf(ArrayFichajes.get(i).usuarioId));
                             tabla.addCell(ArrayFichajes.get(i).dia);
@@ -95,13 +103,13 @@ String Nombre;
                             tabla.addCell(ArrayFichajes.get(i).horaFin);
                             tabla.addCell(ArrayFichajes.get(i).horaIniDescanso);
                             tabla.addCell(ArrayFichajes.get(i).horaFinDescanso);
-
+                            int idEstado =ArrayFichajes.get(i).estadoFichaje;
+                            String nomEstado=getNombreEstado(idEstado);
+                            tabla.addCell(nomEstado);
                         }
                         estaGenerado = true;
                         doc.add(tabla);
                     }
-
-
                 }
 
         }catch (DocumentException e){
@@ -117,6 +125,59 @@ String Nombre;
             doc.close();
         }
 return  estaGenerado;
+    }
+
+
+    public String getNombrePermiso (int idPer){
+        mensaje=""  ;
+        nomPer="";
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(DbConnection.conectarBaseDeDatos()){
+                      nomPer = ClsTipoPermiso.NombrePermiso(idPer);
+
+                    DbConnection.cerrarConexion();
+                }else{
+                    mensaje="Ha ocurrido un error intentelo en unos minutos";
+                }
+            }
+        });
+        h1.start();
+        try {
+
+            h1.join();
+
+        } catch (InterruptedException e) {
+            mensaje="Ha ocurrido un error intentelo en unos minutos";
+        }
+        return nomPer;
+    }
+
+    public String getNombreEstado (int idEstado){
+        mensaje=""  ;
+        nomEstado="";
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(DbConnection.conectarBaseDeDatos()){
+                    nomEstado = ClsEstadosFichajes.NombrePermiso(idEstado);
+
+                    DbConnection.cerrarConexion();
+                }else{
+                    mensaje="Ha ocurrido un error intentelo en unos minutos";
+                }
+            }
+        });
+        h1.start();
+        try {
+
+            h1.join();
+
+        } catch (InterruptedException e) {
+            mensaje="Ha ocurrido un error intentelo en unos minutos";
+        }
+        return nomEstado;
     }
 
 }

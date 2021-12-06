@@ -65,4 +65,21 @@ public class ClsEstadosFichajes {
         }
         return (ArrayList<ClsEstadosFichajes>) array;
     }
+
+    public static String NombrePermiso ( int idTipoEstado){
+
+        String descripcion="";
+        try {
+            DbConnection.statement = DbConnection.connection.createStatement();
+            ResultSet rs = DbConnection.statement.executeQuery("Select * from ct_estadosfichajes WHERE estadoFichajeId=" +idTipoEstado+ "");
+            while (rs.next()) {
+
+                descripcion=rs.getString("descripcion");
+
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return descripcion;
+    }
 }
