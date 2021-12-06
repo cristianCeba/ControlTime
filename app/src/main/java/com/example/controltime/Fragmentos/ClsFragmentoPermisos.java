@@ -103,8 +103,18 @@ public class ClsFragmentoPermisos extends Fragment {
                 LayoutInflater  layoutInflater=LayoutInflater.from(getContext());
                 view=layoutInflater.inflate(R.layout.informativo,null);
                AlertDialog.Builder opciones = new AlertDialog.Builder(view.getContext());
-                opciones.setMessage("¿Quieres validar el fichaje? una vez validado el fichaje no podrá ser modificado")
+                opciones.setMessage("¿Quieres validar el permiso? una vez validado el fichaje no podrá ser modificado")
                         .setTitle("Advertencia")
+                        .setNeutralButton("Rechaza", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //estado 2 = Rechazado
+                                RechazaPermisoEstado (usuarios.get(position).idPermiso,2);
+                                BorrarUsuarios();
+                                buscarUsuarios();
+                                RellenarPermisos();
+                            }
+                        })
                         .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -191,6 +201,27 @@ public class ClsFragmentoPermisos extends Fragment {
             public void run() {
                 if(DbConnection.conectarBaseDeDatos()) {
                     ClsUsuarioPermiso.validarPermiso(idFichaje);
+                }
+                DbConnection.cerrarConexion();
+            }
+        });
+        h1.start();
+        try {
+
+            h1.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void RechazaPermisoEstado (String idFichaje,int idEstado){
+
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(DbConnection.conectarBaseDeDatos()) {
+                    ClsUsuarioPermiso.validarPermiso(idFichaje,2);
                 }
                 DbConnection.cerrarConexion();
             }

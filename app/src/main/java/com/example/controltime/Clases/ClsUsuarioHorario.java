@@ -201,6 +201,21 @@ public class ClsUsuarioHorario implements Serializable {
             e.printStackTrace();
         }
     }
+    public static void validarHorario (int idFichaje,int idEstado){
+        try {
 
+            System.out.println("id Fichaje = " + idFichaje);
+            String sql= "Update ct_fichajes set estadoFichajeId = "+idEstado+" WHERE fichajeId =" + idFichaje +"";
+
+
+            // 4. Obtenga el ps utilizado para enviar sentencias SQL a la base de datos
+            PreparedStatement ps= DbConnection.connection.prepareStatement(sql);
+
+            ps.execute(sql);
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

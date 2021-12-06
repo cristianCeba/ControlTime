@@ -182,4 +182,22 @@ public class ClsUsuarioPermiso implements Serializable {
         }
     }
 
+    public static void validarPermiso (String idPermiso, int idEstado){
+        try {
+
+            System.out.println("id Fichaje = " + idPermiso);
+            String sql= "Update ct_permisos set estadoPermisoId = " + idEstado + " WHERE permisosID ='" + idPermiso +"'";
+
+
+            // 4. Obtenga el ps utilizado para enviar sentencias SQL a la base de datos
+            PreparedStatement ps= DbConnection.connection.prepareStatement(sql);
+
+            ps.execute(sql);
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

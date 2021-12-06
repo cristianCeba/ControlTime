@@ -17,6 +17,7 @@ import android.widget.ListView;
 import com.example.controltime.Adaptadores.ClsAdaptadorHorarios;
 import com.example.controltime.Clases.ClsUser;
 import com.example.controltime.Clases.ClsUsuarioHorario;
+import com.example.controltime.Clases.ClsUsuarioPermiso;
 import com.example.controltime.Clases.ClsUtils;
 import com.example.controltime.Clases.DbConnection;
 import com.example.controltime.R;
@@ -106,6 +107,17 @@ public class ClsFragmentoHorario extends Fragment {
                AlertDialog.Builder opciones = new AlertDialog.Builder(view.getContext());
                 opciones.setMessage("¿Quieres validar el fichaje? una vez validado el fichaje no podrá ser modificado")
                         .setTitle("Advertencia")
+
+                        .setNeutralButton("Rechaza", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //estado 2 = Rechazado
+                                RechazaHorarioEstado (usuarios.get(position).idFichaje,2);
+                                BorrarUsuariosHorario();
+                                buscarUsuarios();
+                                RellenarHorarios();
+                            }
+                        })
                         .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -193,6 +205,27 @@ public class ClsFragmentoHorario extends Fragment {
             public void run() {
                 if(DbConnection.conectarBaseDeDatos()) {
                     ClsUsuarioHorario.validarHorario(idFichaje);
+                }
+                DbConnection.cerrarConexion();
+            }
+        });
+        h1.start();
+        try {
+
+            h1.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void RechazaHorarioEstado (int idFichaje,int idEstado){
+
+        Thread h1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(DbConnection.conectarBaseDeDatos()) {
+                    ClsUsuarioHorario.validarHorario(idFichaje,idEstado);
                 }
                 DbConnection.cerrarConexion();
             }
