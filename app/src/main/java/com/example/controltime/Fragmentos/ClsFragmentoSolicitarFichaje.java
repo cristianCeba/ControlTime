@@ -354,28 +354,28 @@ public class ClsFragmentoSolicitarFichaje extends Fragment {
         String[] horaInicioDescanso = inicioDescanso.getText().toString().split(":");
         String[] horaFinalDescanso = finDescanso.getText().toString().split(":");
 
-        if (Integer.parseInt(horaInicioJornada[0]) > Integer.parseInt(horaInicioDescanso[0]) ||
-                Integer.parseInt(horaInicioJornada[0]) > Integer.parseInt(horaFinalDescanso[0])||
-                Integer.parseInt(horaInicioJornada[0]) > Integer.parseInt(horaFinalJornada[0])){
+        if (Integer.parseInt(horaInicioJornada[0]) >= Integer.parseInt(horaInicioDescanso[0]) ||
+                Integer.parseInt(horaInicioJornada[0]) >= Integer.parseInt(horaFinalDescanso[0])||
+                Integer.parseInt(horaInicioJornada[0]) >= Integer.parseInt(horaFinalJornada[0])){
             horasCorrectas = false;
             ClsUtils.MostrarMensajes(getContext(),"La hora de inicio de la jornada debe de ser la menor hora","",true,ClsUtils.actividadEnum.ERROR);
            // mostrarError("","La hora de inicio de la jornada debe de ser la menor hora");
         } else if (Integer.parseInt(horaInicioDescanso[0]) == Integer.parseInt(horaFinalDescanso[0])){
             if (Integer.parseInt(horaInicioDescanso[1]) > Integer.parseInt(horaFinalDescanso[1])){
                 horasCorrectas = false;
-                ClsUtils.MostrarMensajes(getContext(),"La hora final del descanso debe de ser la menor que el inicio del descanso","",true,ClsUtils.actividadEnum.ERROR);
+                ClsUtils.MostrarMensajes(getContext(),"La hora final del descanso debe de ser menor que el inicio del descanso","",true,ClsUtils.actividadEnum.ERROR);
                 // mostrarError("","La hora final del descanso debe de ser la menor que el inicio del descanso");
             }
-        }else if (Integer.parseInt(horaInicioDescanso[0]) > Integer.parseInt(horaFinalJornada[0]) ||
-                Integer.parseInt(horaInicioDescanso[0]) > Integer.parseInt(horaFinalDescanso[0])){
+        }else if (Integer.parseInt(horaInicioDescanso[0]) >= Integer.parseInt(horaFinalJornada[0]) ||
+                Integer.parseInt(horaInicioDescanso[0]) >= Integer.parseInt(horaFinalDescanso[0])){
             horasCorrectas = false;
-            ClsUtils.MostrarMensajes(getContext(),"La hora de inicio del descanso debe de ser la menor que el fin del descanso y de la jornada","",true,ClsUtils.actividadEnum.ERROR);
+            ClsUtils.MostrarMensajes(getContext(),"La hora de inicio del descanso debe de ser menor que el fin del descanso y de la jornada","",true,ClsUtils.actividadEnum.ERROR);
             //  mostrarError("","La hora de inicio del descanso debe de ser la menor que el fin del descanso y de la jornada");
-        }else if (Integer.parseInt(horaFinalDescanso[0]) > Integer.parseInt(horaFinalJornada[0])){
+        }else if (Integer.parseInt(horaFinalDescanso[0]) >= Integer.parseInt(horaFinalJornada[0])){
             horasCorrectas = false;
-            ClsUtils.MostrarMensajes(getContext(),"La hora final del descanso debe de ser la menor que el de la jornada","",true,ClsUtils.actividadEnum.ERROR);
+            ClsUtils.MostrarMensajes(getContext(),"La hora final del descanso debe de ser menor que la jornada","",true,ClsUtils.actividadEnum.ERROR);
             //mostrarError("","La hora final del descanso debe de ser la menor que el de la jornada");
-        } else if (Integer.parseInt(horaInicioDescanso[0]) > Integer.parseInt(horaFinalDescanso[0])){
+        } else if (Integer.parseInt(horaInicioDescanso[0]) >= Integer.parseInt(horaFinalDescanso[0])){
             horasCorrectas = false;
             ClsUtils.MostrarMensajes(getContext(),"La hora final del descanso debe de ser menor que el inicio del descanso","",true,ClsUtils.actividadEnum.ERROR);
             // mostrarError("","La hora final del descanso debe de ser menor que el inicio del descanso");
