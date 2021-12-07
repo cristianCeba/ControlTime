@@ -156,9 +156,9 @@ public class ClsPermisos {
             String diaIni =ClsUtils.formatearFecha(fechaIni);
             String diaFin = ClsUtils.formatearFecha(fechaFin);
             DbConnection.statement = DbConnection.connection.createStatement();
-
+        //MOSTARMOS TODOS LOS PERMISOS , EXCEPTO EL ESTADO 2, RECHAZADO
             ResultSet rs = DbConnection.statement.executeQuery("SELECT * FROM  ct_permisos " +
-                    " WHERE usuarioId ='" + idUsuario + "' ORDER BY desdeFecha");
+                    " WHERE usuarioId ='" + idUsuario + "' AND estadoPermisoId<>2 ORDER BY desdeFecha");
             /*ResultSet rs = DbConnection.statement.executeQuery("SELECT * FROM  ct_permisos " +
                     " WHERE usuarioId ='" + idUsuario + "' AND ((desdeFecha BETWEEN '" + diaIni + "' AND '" + diaFin + "')" +
                     " OR (hastaFecha BETWEEN '" + diaIni + "' AND '" + diaFin + "')) ORDER BY desdeFecha");*/
@@ -196,7 +196,7 @@ public class ClsPermisos {
             String diaFin = ClsUtils.formatearFecha(fechaFin);
             DbConnection.statement = DbConnection.connection.createStatement();
             ResultSet rs = DbConnection.statement.executeQuery("SELECT * FROM  ct_permisos " +
-                    " WHERE estadoPermisoId="+estadoId+" AND tipoPermisoId ="+tipoPermisoId+" "  +
+                    " WHERE   estadoPermisoId="+estadoId+" AND tipoPermisoId ="+tipoPermisoId+" "  +
                     " AND  usuarioId ='" + idUsuario + "' AND ((desdeFecha BETWEEN '" + diaIni + "' AND '" + diaFin + "')" +
                     " OR (hastaFecha BETWEEN '" + diaIni + "' AND '" + diaFin + "'))");
             while (rs.next()) {
