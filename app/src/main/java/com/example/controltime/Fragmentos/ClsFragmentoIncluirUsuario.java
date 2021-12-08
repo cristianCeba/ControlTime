@@ -49,7 +49,7 @@ public class ClsFragmentoIncluirUsuario extends Fragment {
     EditText txtEmail;
     EditText txtPass;
     EditText txtPass2;
-    TextView txtMensajePass;
+    TextView txtMensajePass,textGrupo;
     TextView txtMensajeNombre;
     TextView txtMensajeApe;
     TextView txtMensajeEmail;
@@ -126,7 +126,7 @@ public class ClsFragmentoIncluirUsuario extends Fragment {
         txtMensajeApe=(TextView) vista.findViewById(R.id.textMensajeApe);
         spnTipoUsuario=(Spinner)vista.findViewById(R.id.spnTipo);
         spnGrupo=(Spinner)vista.findViewById(R.id.spnGrupo);
-       // spnIdGrupo=(Spinner)vista.findViewById(R.id.spnIdGrupo);
+        textGrupo=vista.findViewById(R.id.textGrupo);
 
 
         txtEmail = (EditText) vista.findViewById(R.id.editTextEmail);
@@ -146,6 +146,14 @@ public class ClsFragmentoIncluirUsuario extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TipoUsuario=(int) parent.getItemIdAtPosition(position);
+                if(TipoUsuario==0){
+                    spnGrupo.setVisibility(View.INVISIBLE);
+                    textGrupo.setVisibility(View.INVISIBLE);
+                    Grupo=-1;
+                }else{
+                    spnGrupo.setVisibility(View.VISIBLE);
+                    textGrupo.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -160,6 +168,7 @@ public class ClsFragmentoIncluirUsuario extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Grupo= (int) parent.getItemIdAtPosition(position);
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {

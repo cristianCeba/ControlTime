@@ -41,11 +41,11 @@ public class Activity_InsertUser extends AppCompatActivity {
     TextView txtMensajePass;
     TextView txtMensajeNombre;
     TextView txtMensajeApe;
-    TextView txtMensajeEmail;
+    TextView txtMensajeEmail,textGrupo;
 
     Spinner spnTipoUsuario;
     Spinner spnGrupo;
-    Spinner spnIdGrupo;
+
     ImageButton btnInfo;
 
     String Nombre;
@@ -58,13 +58,11 @@ public class Activity_InsertUser extends AppCompatActivity {
     Button btnInsert;
     String mensaje;
     ClsUtils utils;
-    ClsTipoUsuario objTipoUsuario;
-    ClsGrupos objGrupos;
+
 
     private DatabaseReference mDataBase;
     private FirebaseAuth mAuth;
-    String Id;
-    long RowId;
+
     ArrayList<String> ArrayId= new ArrayList<String>();
     List<ClsTipoUsuario> arrayTipoUsuario=new ArrayList<>();
     List<ClsGrupos> arrayGrupo=new ArrayList<>();
@@ -81,7 +79,7 @@ public class Activity_InsertUser extends AppCompatActivity {
         txtMensajeApe=(TextView) findViewById(R.id.textMensajeApe);
         spnTipoUsuario=(Spinner)findViewById(R.id.spnTipo);
         spnGrupo=(Spinner)findViewById(R.id.spnGrupo);
-      //  spnIdGrupo=(Spinner)findViewById(R.id.spnIdGrupo);
+        textGrupo=findViewById(R.id.textGrupo);
 
 
         txtEmail = (EditText) findViewById(R.id.editTextEmail);
@@ -101,6 +99,14 @@ public class Activity_InsertUser extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TipoUsuario=(int) parent.getItemIdAtPosition(position);
+                if(TipoUsuario==0){
+                    spnGrupo.setVisibility(View.INVISIBLE);
+                    textGrupo.setVisibility(View.INVISIBLE);
+
+                }else{
+                    spnGrupo.setVisibility(View.VISIBLE);
+                    textGrupo.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -115,6 +121,7 @@ public class Activity_InsertUser extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                Grupo= (int) parent.getItemIdAtPosition(position);
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
