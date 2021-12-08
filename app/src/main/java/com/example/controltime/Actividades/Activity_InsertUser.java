@@ -207,7 +207,7 @@ public class Activity_InsertUser extends AppCompatActivity {
             @Override
             public void run() {
                 if(DbConnection.conectarBaseDeDatos()){
-                    arrayTipoUsuario=ClsTipoUsuario.getTipoUsuario();
+                    arrayTipoUsuario=ClsTipoUsuario.getTipoUsuario(0);
                     DbConnection.cerrarConexion();
                 }else{
                     mensaje="Ha ocurrido un error intentelo en unos minutos";

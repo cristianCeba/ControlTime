@@ -65,6 +65,27 @@ public class ClsTipoUsuario {
     }
 
     /***
+     * Metodo que devuelve todos los tipos de Usuario excepto el administrador
+     * @param tipo
+     * @return
+     */
+    public static ArrayList<ClsTipoUsuario> getTipoUsuario (int tipo){
+        List<ClsTipoUsuario> array = new ArrayList<>() ;
+        try {
+            DbConnection.statement = DbConnection.connection.createStatement();
+            ResultSet rs = DbConnection.statement.executeQuery("Select * from ct_tipousuario WHERE tipoId<>"+tipo+"");
+            while (rs.next()) {
+                int id= Integer.parseInt(rs.getString("tipoId"));
+                String descripcion=rs.getString("descripcion");
+                array.add(new ClsTipoUsuario( id,descripcion));
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return (ArrayList<ClsTipoUsuario>) array;
+    }
+
+    /***
      * Metodo que devuelve todos un tipo de usuario por Id
      * @param idTipoUsuario id por el que se hacer la busqueda
      * @return  devuelve un array del tipo ClsTipoUsuario
