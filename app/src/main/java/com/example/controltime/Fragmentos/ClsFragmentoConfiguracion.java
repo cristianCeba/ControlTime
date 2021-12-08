@@ -159,7 +159,7 @@ public class ClsFragmentoConfiguracion extends Fragment {
                         if(DbConnection.conectarBaseDeDatos()) {
                             System.out.println("Entramos aaa");
                             ClsUser.modificarNombre(usuario.Nombre,usuario.usuarioId);
-
+                            Activity_Navegador.cambiarNombre(usuario);
                         }
                         DbConnection.cerrarConexion();
                     }

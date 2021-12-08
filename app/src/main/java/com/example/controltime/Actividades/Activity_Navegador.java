@@ -37,6 +37,8 @@ public class Activity_Navegador extends AppCompatActivity {
     ClsUser usuario;
     String correo;
     static ImageView imagenUsuario;
+    static TextView nombreUsuario;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +93,7 @@ public class Activity_Navegador extends AppCompatActivity {
         TextView tCorreoUsuario =  navigationView.getHeaderView(0).findViewById(R.id.textCorreo);
         tCorreoUsuario.setText(correo);
         imagenUsuario = navigationView.getHeaderView(0).findViewById(R.id.imageFondo);
+        nombreUsuario = navigationView.getHeaderView(0).findViewById(R.id.textNombre);
         recuperarImagen(usuario);
 
         /**
@@ -184,6 +187,9 @@ public class Activity_Navegador extends AppCompatActivity {
 
     }
 
+    public static void cambiarNombre (ClsUser usuario) {
+        nombreUsuario.setText(usuario.Nombre + " " + usuario.Ape);
+    }
     @Override
     public void onBackPressed()
     {
