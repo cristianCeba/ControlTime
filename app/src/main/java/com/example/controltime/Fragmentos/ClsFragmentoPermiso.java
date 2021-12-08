@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -38,6 +39,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import sun.bob.mcalendarview.MCalendarView;
+import sun.bob.mcalendarview.vo.DateData;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -288,6 +290,7 @@ public class ClsFragmentoPermiso extends Fragment {
 
     private void LlenaPermisos(int usuarioId,String desde , String hasta){
         cargaPermisos(usuarioId,desde,hasta);
+        boolean repetido = false;
         calendarView.getMarkedDates().removeAdd();
         for(int i=0;i<=ArrayPermisos.size()-1;i++){
             try {
@@ -311,37 +314,58 @@ public class ClsFragmentoPermiso extends Fragment {
                 int yearF = cal.get(Calendar.YEAR);
                 int monthF = cal.get(Calendar.MONTH)+1;
                 int dayF= cal.get(Calendar.DAY_OF_MONTH);
+                repetido = false;
                 for (int y =year;y<= yearF;y++){
                     for (int m =month;m<= monthF;m++){
                         for (int d =day;d<= dayF;d++){
                             switch (ArrayPermisos.get(i).TipoPermiso){
                                 case 0: //Vacacions
+
                                     if (ArrayPermisos.get(i).Estado==0){
+                                        System.out.println("ponemos color gris el dia --> " + day);
                                       //  Toast.makeText(getContext(),"VACACIONES- COLOR GRIS  - ESTADO 0 Dia: " + d,Toast.LENGTH_LONG ).show();
                                         colorDia = Color.rgb(205,201,199);
                                     }else{
+                                        System.out.println("ponemos color de vacaciones el dia --> " + day);
                                       //  Toast.makeText(getContext(),"VACACIONES-  COLOR AMARILLO ,ESTADO 1 Dia: " + d,Toast.LENGTH_LONG ).show();
                                         colorDia=Color.rgb(247,218,56);
                                     }
-                                    calendarView.markDate(y,m,d).setMarkedStyle(2,colorDia);
+                                    calendarView.markDate(y,m,d).setMarkedStyle(4,colorDia);
+                                    if(!repetido){
+                                        calendarView.markDate(y,m,d).unMarkDate(y,m,d);
+                                        repetido = true;
+                                    }
+                                    //calendarView.markDate(y,m,d).setMarkedStyle(2,colorDia);
                                     break;
                                 case 1://Baja
                                     if (ArrayPermisos.get(i).Estado==0){
+                                        System.out.println("ponemos color gris el dia --> " + day);
                                      //   Toast.makeText(getContext(),"BAJA- COLOR GRIS  - ESTADO 0 Dia: " + d,Toast.LENGTH_LONG ).show();
                                         colorDia = Color.rgb(205,201,199);
                                     }else {
+                                        System.out.println("ponemos color de baja el dia --> " + day);
                                     //    Toast.makeText(getContext(),"BAJA - COLOR MORADO  - ESTADO 1 Dia: " + d,Toast.LENGTH_LONG ).show();
                                         colorDia = Color.rgb(176, 39, 169);
                                     }
-                                    calendarView.markDate(y,m,d).setMarkedStyle(3,colorDia);
+                                    calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
+                                    if(!repetido){
+                                        calendarView.markDate(y,m,d).unMarkDate(y,m,d);
+                                        repetido = true;
+                                    }
                                     break;
                                 case 2://Hospitalizacion
                                     if (ArrayPermisos.get(i).Estado==0){
+                                        System.out.println("ponemos color gris el dia --> " + day);
                                         colorDia = Color.rgb(205,201,199);
                                     }else {
+                                        System.out.println("ponemos color de Hospitalizacion el dia --> " + day);
                                         colorDia = Color.rgb(39, 89, 176);
                                     }
                                     calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
+                                    if(!repetido){
+                                        calendarView.markDate(y,m,d).unMarkDate(y,m,d);
+                                        repetido = true;
+                                    }
                                     break;
                                 case 3://Otros
                                     if (ArrayPermisos.get(i).Estado==0){
@@ -350,6 +374,10 @@ public class ClsFragmentoPermiso extends Fragment {
                                         colorDia = Color.rgb(255, 87, 34);
                                     }
                                     calendarView.markDate(y,m,d).setMarkedStyle(1,colorDia);
+                                    if(!repetido){
+                                        calendarView.markDate(y,m,d).unMarkDate(y,m,d);
+                                        repetido = true;
+                                    }
                                     break;
                             }
 
