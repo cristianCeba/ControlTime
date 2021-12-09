@@ -162,7 +162,7 @@ public class ClsFragmentoInforme extends Fragment {
        // List<ClsUser> Arrayusuario=new ArrayList<>();
 
         buscarUsuario(idUsuario);
-        cargaUsuarios(objUsuario.TipoUsuario,objUsuario.Grupo);
+        cargaUsuarios(objUsuario.Grupo,objUsuario.TipoUsuario);
         ArrayAdapter<ClsUser> adapter=new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line,arrayUsuarios);
         spnUsuarios.setAdapter(adapter);
         spnUsuarios.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

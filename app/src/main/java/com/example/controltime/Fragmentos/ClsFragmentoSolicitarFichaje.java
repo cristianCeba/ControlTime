@@ -265,6 +265,7 @@ public class ClsFragmentoSolicitarFichaje extends Fragment {
                 if (!validarHora(finJornada.getText().toString())){
                     horasNoIndicadas = true;
                 }
+
                 if (!validarHora(inicioDescanso.getText().toString())){
                     horasNoIndicadas = true;
                 }
