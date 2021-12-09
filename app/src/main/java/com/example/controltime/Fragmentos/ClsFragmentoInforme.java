@@ -197,6 +197,7 @@ public class ClsFragmentoInforme extends Fragment {
                 if(ArrayPermisos.size()==0 ){
                     ClsUtils.MostrarMensajes(getContext(), "El empleado " +  UsurioSeleccionado + " no tiene ningún datos para generar el fichero", "", true, ClsUtils.actividadEnum.ERROR);
                 }else {
+                    ArrayFichajes.clear();
                     if (!objPDF.generarPDF(getContext(), ArrayPermisos, ArrayFichajes)) {
                         ClsUtils.MostrarMensajes(getContext(), "Ha habido un error al generar e pdf, intentelo mas tarde", "", true, ClsUtils.actividadEnum.ERROR);
                     } else {
@@ -217,6 +218,7 @@ public class ClsFragmentoInforme extends Fragment {
                 if(ArrayFichajes.size()==0){
                     ClsUtils.MostrarMensajes(getContext(), "El empleado " +  UsurioSeleccionado + " no tiene ningún datos para generar el fichero", "", true, ClsUtils.actividadEnum.ERROR);
                 }else {
+                    ArrayPermisos.clear();
                     if (!objPDF.generarPDF(getContext(), ArrayPermisos, ArrayFichajes)) {
                         ClsUtils.MostrarMensajes(getContext(), "Ha habido un error al generar e pdf, intentelo mas tarde", "", true, ClsUtils.actividadEnum.ERROR);
                     } else {

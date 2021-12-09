@@ -33,6 +33,19 @@ public class ClsFichaje {
         this.estadoFichaje = estadoFichaje;
     }
 
+    public ClsFichaje(String horaIni, String horaFin, int fichajeId,
+                      int usuarioId, String dia, int estadoFichaje,
+                      String descansoIni, String descansoFin) {
+        this.horaIni = horaIni;
+        this.horaFin = horaFin;
+        this.fichajeId = fichajeId;
+        this.usuarioId = usuarioId;
+        this.dia = dia;
+        this.estadoFichaje = estadoFichaje;
+        this.horaIniDescanso=descansoIni;
+        this.horaFinDescanso=descansoFin;
+    }
+
     /***
      * Constructor inicializado
       */
@@ -71,15 +84,18 @@ public class ClsFichaje {
             String diaIni = ClsUtils.formatearFecha(fechaIni);
             String diaFin = ClsUtils.formatearFecha(fechaFin);
             DbConnection.statement = DbConnection.connection.createStatement();
-            ResultSet rs = DbConnection.statement.executeQuery("SELECT * FROM  ct_fichajes " +
-                    " WHERE usuarioId ='" + usuarioId + "' AND  dia BETWEEN '" + diaIni + "' AND '" + diaFin + "'") ;
+            ResultSet rs = DbConnection.statement.executeQuery("SELECT * FROM  ct_fichajes as A " +
+                    " INNER JOIN  ct_descansos as B on B.idFich =A.fichajeId "+
+                    " WHERE A.usuarioId ='" + usuarioId + "' AND  A.dia BETWEEN '" + diaIni + "' AND '" + diaFin + "'") ;
             while (rs.next()) {
-                int fichajeId= Integer.parseInt(rs.getString("fichajeId"));
-                String horaEntrada=rs.getString("horaEntrada");
-                String horaSalida=rs.getString("horaSalida");
-                String dia=rs.getString("dia");
+                int fichajeId= Integer.parseInt(rs.getString("A.fichajeId"));
+                String horaEntrada=rs.getString("A.horaEntrada");
+                String horaSalida=rs.getString("A.horaSalida");
+                String dia=rs.getString("A.dia");
+                String horaDescansoIni=rs.getString("B.horaIni");
+                String horaDescansoFIn=rs.getString("B.horaFin");
                 int estadoFichajeId= Integer.parseInt(rs.getString("estadoFichajeId"));
-                array.add(new ClsFichaje(   horaEntrada,horaSalida,fichajeId,usuarioId,dia,estadoFichajeId));
+                array.add(new ClsFichaje(   horaEntrada,horaSalida,fichajeId,usuarioId,dia,estadoFichajeId,horaDescansoIni,horaDescansoFIn));
             }
         }catch (Exception e) {
             e.printStackTrace();
